@@ -46,6 +46,10 @@ following minimal requirements apply:
    `autodiscover.example.com` DNS entry, otherwise AutoDiscover will not be
    able to determine the server.
 
+.. important::
+   IPv6 is mandatory to be active, since many preconfigurations rely on it.
+   A "real" IPv6 is not required, the availability of ``::1`` is sufficient.
+
 Optional requirements:
 
 - MX DNS records, for incoming mail delivery.
