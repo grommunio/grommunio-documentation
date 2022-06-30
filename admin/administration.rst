@@ -338,8 +338,8 @@ To edit these properties, click on a row in the table.
 To delete an entry, click the trash icon of a table row.
 
 .. important::
-    Any changes will only be saved after clicking the click `Save` on
-    the bottom of the page.
+   Any changes will only be saved after clicking the click `Save` on
+   the bottom of the page.
 
 Mobile Devices
 ^^^^^^^^^^^^^^
@@ -735,6 +735,18 @@ LDAP
 It it possible to synchronise users from external user directories using LDAP.
 To configure LDAP, click on `LDAP` in the drawer, which will redirect you to
 the LDAP configuration form.
+
+.. important::
+   Please note that configuration changes are not automatically applied to the
+   services already running. Make sure to restart the services to be able to
+   pick up the LDAP authentication first.
+
+After applying a new LDAP configuration, the services are intentionally not automatically
+restarted as this would result into possibly inconvenient downtime if existing internal users
+are already used by the authentication manager (authmgr). Services can either be restarted
+through admin UI in the dashboard section or via systemd directly:
+
+``systemctl restart gromox-{http,zcore,pop3,delivery,delivery-queue,midb,imap}``
 
 
 Availability
