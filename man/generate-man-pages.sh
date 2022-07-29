@@ -1,8 +1,21 @@
 #!/bin/bash
 
-rm -Rf .aapi .gromox
-git clone --depth=2 https://github.com/grommunio/admin-api.git .aapi
-git clone --depth=1 https://github.com/grommunio/gromox.git .gromox
+if [ -d .aapi ]; then
+	pushd .aapi
+	git remote update -p
+	git checkout origin/HEAD
+	popd
+else
+	git clone --depth=2 https://github.com/grommunio/admin-api.git .aapi
+fi
+if [ -d .gromox ]; then
+	pushd .gromox
+	git remote update -p
+	git checkout origin/HEAD
+	popd
+else
+	git clone --depth=1 https://github.com/grommunio/gromox.git .gromox
+fi
 
 rm -f gromox.7.rst gromox-pffimport.8.rst *gx*.rst grommunio-admin-*.rst
 pushd .gromox/doc/
