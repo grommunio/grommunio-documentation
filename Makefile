@@ -13,4 +13,6 @@ help:
 # (-M is not documented by sphinx-build's internal help; see external
 # document https://www.sphinx-doc.org/en/master/man/sphinx-build.html )
 %: Makefile
-	$(SPHINXBUILD) -M $@ $(DOCDIR) $(BUILDDIR) $(SPHINXOPTS) $(O)
+	@if test -z "${DOCDIR}"; then echo "You must specify the book to compile, e.g. make DOCDIR=admin"; exit 1; fi
+	@if test -z "${BUILDDIR}"; then echo "You must specify an output dir, e.g. make BUILDDIR=xyz"; exit 1; fi
+	${SPHINXBUILD} -M $@ "${DOCDIR}" "${BUILDDIR}" ${SPHINXOPTS} ${O}
