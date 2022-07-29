@@ -4,7 +4,7 @@ SPHINXBUILD   = sphinx-build
 
 # Default target so it is run when `make is executed without arguments
 help:
-	$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+	${SPHINXBUILD} -M help . .
 
 .PHONY: help Makefile
 
