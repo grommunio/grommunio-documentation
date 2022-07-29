@@ -2,7 +2,6 @@
 #set -x # debug
 set -e # fail deployment if something goes wrong
 
-REPO_URL=$(git config --local remote.origin.url)
 DOCU_ROOT="/srv/www/vhosts/docs.grommunio.com/htdocs"
 
 DOC_RELEASE="`date +%y.%m`"
