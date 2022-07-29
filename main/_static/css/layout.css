@@ -1,0 +1,63 @@
+a {
+	color: #003060;
+}
+a:hover {
+	color: #ff8d00;
+}
+.wy-side-nav-search>a img.logo, .wy-side-nav-search .wy-dropdown>a img.logo {
+	width: 75%;
+}
+.wy-side-nav-search {
+	padding: .809em 0 0 0;
+	background: #2d323b;
+}
+.wy-menu-vertical p.caption {
+	color: #6cc5fe;
+}
+form {
+	display: none;
+}
+@media screen and (min-width: 1400px) {
+	.wy-nav-content {
+		background-color: transparent;
+	}
+}
+.wy-nav-top {
+	background-color: black;
+	background-image: url('../img/logolight.png');
+	background-position: 50% 50%; 
+	background-repeat: no-repeat;
+	background-size: auto 30px;
+}
+.wy-nav-top a {
+	font-size: 0px;
+}
+.wy-nav-content-wrap {
+	background-color: white;
+	background-image: url('../img/back_web.png');
+	background-position: right top; 
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+.wy-nav-content {
+	background-color: transparent;
+	max-width: 100%;
+}
+* {
+	scrollbar-width: thin;
+	scrollbar-color: #3f3f3f #2dcaff;
+}
+*::-webkit-scrollbar {
+	width: 12px;
+}
+*::-webkit-scrollbar-track {
+	background: #3f3f3f;
+}
+*::-webkit-scrollbar-thumb {
+	background-color: #2dcaff;
+	border-radius: 20px;
+	border: 3px solid #3f3f3f;
+}
+.wy-table-responsive table td, .wy-table-responsive table th {
+	white-space: normal;
+}

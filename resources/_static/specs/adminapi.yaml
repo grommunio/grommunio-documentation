@@ -1,0 +1,5234 @@
+openapi: 3.0.0
+info:
+  title: grommunio Admin API
+  version: 1.7.0
+servers:
+  - url: '/api/v1'
+    description: Default deployment path
+
+paths:
+  /status:
+    summary: API state check
+    get:
+      summary: Check API connectivity and status
+      tags:
+        - Misc
+      responses:
+        '200':
+          description: API status message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  database:
+                    type: boolean
+                    description: Whether the database connection is initialized
+                  ldap:
+                    type: boolean
+                    description: Whether the LDAP connection is initialized
+                  tasq:
+                    type: boolean
+                    description: Whether the TasQ server is running
+
+  /about:
+    get:
+      summary: Get general information about the backend
+      tags:
+        - Misc
+      responses:
+        '200':
+          description: Return information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  API:
+                    description: Version of the API (according to the specification)
+                    type: string
+                  backend:
+                    description: Version of the implementation
+                    type: string
+                  schema:
+                    description: Database schema version
+                    type: integer
+                    nullable: true
+
+  /login:
+    post:
+      summary: Login user
+      tags:
+        - Misc
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                user:
+                  type: string
+                  description: Username
+                pass:
+                  type: string
+                  description: User password
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  grommunioAuthJwt:
+                    type: string
+                    description: API access token
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '401':
+          description: Login failed
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /profile:
+    get:
+      summary: Get information about currently logged in user
+      tags:
+        - Misc
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: Profile data returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      username:
+                        type: string
+                      realName:
+                        type: string
+                  capabilities:
+                    type: array
+                    description: List of capabilities the current user has
+                    items:
+                      type: string
+
+  /passwd:
+    put:
+      summary: Change current users password
+      tags:
+        - Misc
+        - Service
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [new, old]
+              properties:
+                new:
+                  type: string
+                  description: The new password
+                old:
+                  type: string
+                  description: The old password
+                user:
+                  type: string
+                  description: Set password for a specific user (use inline authentication)
+      responses:
+        '200':
+          description: Password updated
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '401':
+          description: Authentication failed
+        '403':
+          description: Incorrect old password
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /service/syncPolicy/{username}:
+    get:
+      summary: Get sync policy for specific user
+      tags:
+        - Service
+      security:
+        - JWTCookie: []
+        - {}
+      parameters:
+        - $ref: '#/components/parameters/username'
+      responses:
+        '200':
+          description: Policy returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/syncPolicy'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /service/wipe/{username}:
+    get:
+      summary: Get device wipe status for user
+      tags:
+        - Service
+      security:
+        - JWTCookie: []
+        - {}
+      parameters:
+        - $ref: '#/components/parameters/username'
+        - $ref: '#/components/parameters/devices'
+      responses:
+        '200':
+          description: List of devices returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    description: Associative array of devices
+                    additionalProperties:
+                      type: object
+                      properties:
+                        status:
+                          type: integer
+                          description: Device status
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    post:
+      summary: Set device wipe status for user
+      tags:
+        - Service
+      security:
+        - JWTCookie: []
+        - {}
+      parameters:
+        - $ref: '#/components/parameters/username'
+        - $ref: '#/components/parameters/devices'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [status]
+              properties:
+                password:
+                  type: string
+                  description: Password of the logged in user (with login) or the device owner (without login). Required when initiating wipe.
+                remoteIP:
+                  type: string
+                  description: Source IP of the status update (default is the request origin).
+                status:
+                  type: integer
+                  enum: [0, 1, 2, 4, 8]
+                time:
+                  type: integer
+                  description: UNIX timestamp of the status update (default is time of the request)
+
+
+
+      responses:
+        '201':
+          description: States changed
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /system/dashboard:
+    get:
+      summary: Get System dashboard data
+      tags:
+        - System Admin/Dashboard
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: Data returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  disks:
+                    description: List of disks
+                    type: array
+                    items:
+                      type: object
+                      description: Disk statistics.
+                      properties:
+                        percent:
+                          type: number
+                          description: Percentage of used memory
+                        total:
+                          description: Total disk space (bytes)
+                          type: integer
+                        used:
+                          description: Used disk space (bytes)
+                          type: integer
+                        free:
+                          description: Free disk space (bytes)
+                          type: integer
+                        device:
+                          type: string
+                        mountpoint:
+                          type: string
+                        filesystem:
+                          type: string
+                  load:
+                    type: array
+                    description: Load averages (1 / 5 / 15 minutes)
+                    items:
+                      type: number
+                  cpuPercent:
+                    description: Current CPU usage in percent
+                    type: object
+                    properties:
+                      user:
+                        type: number
+                        description: Percentage of user CPU time
+                      system:
+                        type: number
+                        description: Percentage of system CPU time
+                      io:
+                        type: number
+                        description: Percentage of CPU time used for IO operations
+                      interrupt:
+                        type: number
+                        description: Percentage of CPU time used by interrupts
+                      steal:
+                        type: number
+                        description: Percentage of CPU time spent waiting for the hypervisor
+                      idle:
+                        type: number
+                        description: Idle CPU time
+                  memory:
+                    description: RAM statistics
+                    type: object
+                    properties:
+                      percent:
+                        description: Percent of used memory
+                        type: number
+                      total:
+                        description: Total memory (bytes)
+                        type: integer
+                      free:
+                        description: Unused memory (bytes)
+                        type: integer
+                      used:
+                        description: Memory used by applications (bytes)
+                        type: integer
+                      buffer:
+                        description: Memory used for buffers (bytes)
+                        type: integer
+                      cache:
+                        description: Memory used for cached data (bytes)
+                        type: integer
+                      available:
+                        description: Memory that is available for applications (bytes)
+                  swap:
+                    description: Swap statistics
+                    type: object
+                    properties:
+                      percent:
+                        description: Percentage of used swap memory
+                        type: number
+                      total:
+                        description: Total swap memory (bytes)
+                        type: integer
+                      free:
+                        description: Available swap memory (bytes)
+                        type: integer
+                      used:
+                        description: Used swap memory (bytes)
+                        type: integer
+                  booted:
+                    allOf:
+                      - $ref: '#/components/schemas/dateTime'
+                      - description: Time the machine was booted
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /system/dashboard/services:
+    get:
+      summary: Get list of services
+      tags:
+        - System Admin/Dashboard
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: List of services returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  services:
+                    description: List of systemd services
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/service'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /system/dashboard/services/{unit}:
+    get:
+      summary: Get information about a specific service
+      tags:
+        - System Admin/Dashboard
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/systemdUnit'
+      responses:
+        '200':
+          description: Inforamtion about service returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/service'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /system/dashboard/services/{unit}/{action}:
+    post:
+      summary: Send signal to a service
+      tags:
+        - System Admin/Dashboard
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/systemdUnit'
+        - name: action
+          description: Signal to send
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [start, stop, restart, reload, enable, disable]
+      responses:
+        '201':
+          description: Signal was sent
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /system/dbconf/:
+    get:
+      summary: Get list of services
+      tags:
+        - System Admin/DBConf
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: List of services returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: string
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /system/dbconf/commands:
+    get:
+      summary: Get lists of allowed commit commands
+      tags:
+        - System Admin/DBConf
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: Commands returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  key:
+                    type: array
+                    description: List of commands allowed for key commits
+                    items:
+                      type: string
+                  file:
+                    type: array
+                    description: List of commands allowed for file commits
+                    items:
+                      type: string
+                  service:
+                    type: array
+                    description: List of commands allowed for service commits
+                    items:
+                      type: string
+
+
+  /system/dbconf/{service}/:
+    get:
+      summary: Get list of configuration files for service
+      tags:
+        - System Admin/DBConf
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/dbConfService'
+      responses:
+        '200':
+          description: List of files returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: string
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    patch:
+      summary: Rename or merge service
+      tags:
+        - System Admin/DBConf
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/dbConfService'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: New service name. If a service with this name exists, configurations are merged
+      responses:
+        '200':
+          description: Service renamed
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    delete:
+      summary: Delete service configurations
+      tags:
+        - System Admin/DBConf
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/dbConfService'
+      responses:
+        '200':
+          description: Service removed
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /system/dbconf/{service}/{file}/:
+    get:
+      summary: Get configuration file
+      tags:
+        - System Admin/DBConf
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/dbConfService'
+        - $ref: '#/components/parameters/dbConfFile'
+      responses:
+        '200':
+          description: Configuration file returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/dbConfFile'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    put:
+      summary: Upload configuration file. If the file exists it is overwritten
+      tags:
+        - System Admin/DBConf
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/dbConfService'
+        - $ref: '#/components/parameters/dbConfFile'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/dbConfFile'
+      responses:
+        '200':
+          description: File created/updated
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    patch:
+      summary: Update or rename configuration file
+      tags:
+        - System Admin/DBConf
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/dbConfService'
+        - $ref: '#/components/parameters/dbConfFile'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: New file name
+                data:
+                  $ref: '#/components/schemas/dbConfFile'
+      responses:
+        '200':
+          description: File created/updated
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    delete:
+      summary: Delete configuration file
+      tags:
+        - System Admin/DBConf
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/dbConfService'
+        - $ref: '#/components/parameters/dbConfFile'
+      responses:
+        '200':
+          description: File deleted
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /system/domains:
+    get:
+      summary: Get lists of domains
+      tags:
+        - System Admin/Domains
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/verbosity'
+        - $ref: '#/components/parameters/queryLimit'
+        - $ref: '#/components/parameters/queryOffset'
+        - $ref: '#/components/parameters/match'
+        - $ref: '#/components/parameters/matchFields'
+        - name: sort
+          description: Sort by attribute. Can be given multiple times.
+          in: query
+          schema:
+            type: string
+            pattern: '^(ID|domainname|orgID|maxUser|title|address|adminName|tel|domainStatus)(,(a|de)sc)?$'
+        - $ref: '#/components/parameters/filterID'
+        - name: orgID
+          description: Filter by one or more organization IDs
+          in: query
+          explode: false
+          schema:
+            $ref: '#/components/schemas/intList'
+        - name: domainname
+          description: Filter by domainname
+          in: query
+          schema:
+            type: string
+        - name: maxUser
+          description: Filter by number of maximum users
+          in: query
+          explode: false
+          schema:
+            $ref: '#/components/schemas/intRange'
+        - name: title
+          description: Filter by domain title
+          in: query
+          schema:
+            type: string
+        - name: address
+          description: Filter by domain address property
+          in: query
+          schema:
+            type: string
+        - name: adminName
+          description: Filter by admin name
+          in: query
+          schema:
+            type: string
+        - name: tel
+          description: Filter by telephone number
+          in: query
+          schema:
+            type: string
+        - name: domainStatus
+          description: Filter by one or more domain status values
+          in: query
+          explode: false
+          schema:
+            $ref: '#/components/schemas/intList'
+      responses:
+        '200':
+          description: Data returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/domain'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    post:
+      summary: Create new domain
+      tags:
+        - System Admin/Domains
+      security:
+        - JWTCookie: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/domainWrite'
+      parameters:
+        - name: createRole
+          description: Whether to automatically create a domain admin role for the new domain
+          in: query
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '201':
+          description: Domain created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/domain'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /system/domains/{domainID}:
+    get:
+      summary: Get detailed info about domain
+      tags:
+        - System Admin/Domains
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/verbosity'
+      responses:
+        '200':
+          description: Domain returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/domain'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    patch:
+      summary: Update domain
+      tags:
+        - System Admin/Domains
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/domainWrite'
+      responses:
+        '200':
+          description: Domain updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/domain'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    delete:
+      summary: Delete domain
+      description: Removes domain (purge=true) or marks it as deleted (purge=false)
+      tags:
+        - System Admin/Domains
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - name: purge
+          in: query
+          required: false
+          description: Permanently delete the domain
+          schema:
+            type: boolean
+            default: false
+        - name: deleteFiles
+          in: query
+          required: false
+          description: Delete files from disk when purging
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Domain deleted
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /system/users:
+    get:
+      summary: Get list of all users
+      tags:
+        - System Admin/Domains
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: User list returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/user'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /system/roles/permissions:
+    get:
+      summary: Get list of available permissions
+      tags:
+        - System Admin/Roles
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: List with permissions returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: string
+                      description: Name of the permission
+
+  /system/roles:
+    get:
+      summary: Get list of available roles
+      tags:
+        - System Admin/Roles
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/verbosity'
+        - $ref: '#/components/parameters/match'
+        - $ref: '#/components/parameters/matchFields'
+        - name: sort
+          in: query
+          description: Sort by attribute. Can be given multiple times.
+          schema:
+            type: string
+            pattern: '^(ID|name|description)(,(a|de)sc)?$'
+        - $ref: '#/components/parameters/filterID'
+        - name: name
+          description: Filter by name
+          in: query
+          schema:
+            type: string
+        - name: description
+          description: Filter by description
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of roles returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/adminRole'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    post:
+      summary: Create a new role
+      tags:
+        - System Admin/Roles
+      security:
+        - JWTCookie: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/adminRoleWrite'
+      responses:
+        '201':
+          description: Role created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminRole'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /system/roles/{ID}:
+    get:
+      summary: Get role
+      tags:
+        - System Admin/Roles
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/ID'
+        - $ref: '#/components/parameters/verbosity'
+      responses:
+        '200':
+          description: List of roles returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminRole'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    patch:
+      summary: Update a role
+      tags:
+        - System Admin/Roles
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/ID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/adminRoleWrite'
+      responses:
+        '200':
+          description: Role updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminRole'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    delete:
+      summary: Delete role
+      tags:
+        - System Admin/Roles
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/ID'
+      responses:
+        '200':
+          description: Role deleted
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /system/license:
+    get:
+      summary: Get information about the currently installed License
+      tags:
+        - System Admin/License
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: License information returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/license'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    put:
+      summary: Upload new license file
+      tags:
+        - System Admin/License
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: License updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/license'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /system/license/certificate.pem:
+    get:
+      description: Download the certificate file
+      tags:
+        - System Admin/License
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: License data returned
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /system/logs:
+    get:
+      summary: Get available log files
+      tags:
+        - System Admin/Logs
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: List of log files returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: string
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /system/logs/{file}:
+    get:
+      summary: Get log file content
+      description: Returns the n last lines of the log file, similar to the `tail` command line tool
+      tags:
+        - System Admin/Logs
+      security:
+        - JWTCookie: []
+      parameters:
+        - name: file
+          in: path
+          required: true
+          description: Name of the log file
+          schema:
+            type: string
+        - name: n
+          in: query
+          description: Number of lines to return
+          schema:
+            type: integer
+            default: 10
+            minimum: 1
+        - name: skip
+          in: query
+          description: Number of lines to skip
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+        - name: after
+          in: query
+          description: Return all lines after given time. Overrides `n` and `skip`.
+          schema:
+            $ref: '#/components/schemas/precTime'
+      responses:
+        '200':
+          description: List of log files returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      description: Log file entry
+                      properties:
+                        level:
+                          type: integer
+                          description: Priority level number as described in journalctl (1)
+                        message:
+                          type: string
+                          description: Log message
+                        time:
+                          $ref: '#/components/schemas/precTime'
+                        runtime:
+                          type: number
+                          description: Time since last reboot
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /system/antispam/{path}:
+    get:
+      summary: Make call to grommunio-antispam
+      description: Proxies any request including query parameters to the grommunio-antispam backend
+      tags:
+        - System Admin/Proxies
+      security:
+        - JWTCookie: []
+      parameters:
+        - name: path
+          in: path
+          description: grommunio-antispam endpoint to query
+          required: true
+          schema:
+            type: string
+      responses:
+        '403':
+          description: Insufficient privileges or endpoint not allowed
+        '503':
+          description: Connection to grommunio-antispam failed
+        default:
+          description: Response returned by the grommunio-antispam backend
+
+  /system/vhostStatus:
+    get:
+      summary: Get list of vhosts
+      tags:
+        - System Admin/Proxies
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: List returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: string
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /system/vhostStatus/{host}:
+    get:
+      summary: Make call nginx vhost status endpoint
+      tags:
+        - System Admin/Proxies
+      security:
+        - JWTCookie: []
+      parameters:
+        - name: host
+          in: path
+          description: Host to query
+          required: true
+          schema:
+            type: string
+      responses:
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '503':
+          description: Connection to vhost failed
+        default:
+          description: Response returned by the vhost status endpoint
+
+  /system/mailq:
+    get:
+      summary: Retrieve mailq output
+      tags:
+        - Misc
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: Output returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  postfixMailq:
+                    description: Output of the postfix mailq command
+                    type: string
+                  gromoxMailq:
+                    description: Output of the gromox-mailq command
+                    type: string
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /chkFormat:
+    get:
+      summary: Check format of input
+      tags:
+        - Misc
+      parameters:
+        - name: domain
+          description: Check format of domain name
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: email
+          description: Check format of e-mail address
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Validaty information returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  domain:
+                    type: string
+                    nullable: true
+                    description: Error message or `null` if valid
+                  email:
+                    type: string
+                    nullable: true
+                    description: Error message or `null` if valid
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /system/cli:
+    post:
+      summary: Remote CLI invocation
+      tags:
+        - Misc
+      security:
+        - JWTCookie: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [command]
+              properties:
+                command:
+                  type: string
+                  description: CLI command to execute
+                mode:
+                  type: string
+                  description: CLI mode (execute or complete)
+                  enum: [exec, complete]
+                  default: exec
+                color:
+                  type: boolean
+                  description: Enable terminal colors
+                  default: false
+                fs:
+                  type: object
+                  nullable: true
+                  description: If not null, enable filesystem redirection. Each property is a file path
+                  additionalProperties:
+                    type: string
+                    description: Content of the file
+      responses:
+        '200':
+          description: Execution successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: Command exit code (`exec` mode only)
+                  stdout:
+                    type: string
+                    description: Command output (`exec` mode only)
+                  fs:
+                    type: object
+                    nullable: true
+                    additionalProperties:
+                      type: object
+                      properties:
+                        mode:
+                          type: string
+                          description: Mode the file was opened with
+                        conf:
+                          type: string
+                          nullable: true
+                          description: Configuration key the file path was derived from
+                        content:
+                          type: string
+                          description: Content of the file
+                  completions:
+                    type: array
+                    description: Possible command completions (`complete` mode only)
+                    items:
+                      type: string
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /system/sync/top:
+    get:
+      summary: Get grommunio-sync usage information
+      description: Get current usage. Should be called at least twice to provide useful information.
+      tags:
+        -  Misc
+      security:
+        - JWTCookie: []
+      parameters:
+        - name: filterUpdated
+          in: query
+          description: Maximum number of seconds since the last update
+          schema:
+            type: integer
+        - name: filterEnded
+          in: query
+          description: Maximum number of seconds since the process ended
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Data returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  maxUpdated:
+                    type: integer
+                    description: Maximum effective value for `filterUpdated`
+                  maxEnded:
+                    type: integer
+                    description: Maximum effective value for `filterEnded`
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        pid:
+                          type: integer
+                          description: Process ID
+                        ip:
+                          type: string
+                          description: IP address of the device
+                        user:
+                          type: string
+                        start:
+                          type: integer
+                          description: UNIX timestamp of process start
+                        devtype:
+                          type: string
+                        devid:
+                          type: string
+                        devagent:
+                          type: string
+                        command:
+                          type: integer
+                        ended:
+                          type: integer
+                          description: UNIX timestamp of process end or 0 if still running
+                        push:
+                          type: boolean
+                        addinfo:
+                          type: string
+                          description: Additional information about the process
+                        update:
+                          type: integer
+                          description: UNIX timestamp of last update
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
+  /domains:
+    get:
+      summary: Get list of domains the user has access to
+      tags:
+        -  Misc
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: List of domains
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/domain'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+
+  /domains/{domainID}/users:
+    get:
+      summary: Get lists of users
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/verbosity'
+        - $ref: '#/components/parameters/queryLimit'
+        - $ref: '#/components/parameters/queryOffset'
+        - $ref: '#/components/parameters/match'
+        - $ref: '#/components/parameters/matchFields'
+        - name: sort
+          description: Sort by attribute. Can be given multiple times.
+          in: query
+          schema:
+            type: string
+            pattern: '^(ID|username|domainID|pop3_imap|smtp|changePassword|publicAddress|privChat|privVideo|privFiles|privArchive)(,(a|de)sc)?$'
+        - $ref: '#/components/parameters/filterID'
+        - name: username
+          description: Filter by username
+          in: query
+          schema:
+            $ref: '#/components/schemas/intList'
+        - $ref: '#/components/parameters/propnames'
+      responses:
+        '200':
+          description: Data returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/user'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    post:
+      summary: Create new user
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userInit'
+      responses:
+        '201':
+          description: Domain created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /domains/{domainID}/users/{userID}:
+    get:
+      summary: Get information about a specific user
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/userID'
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/verbosity'
+      responses:
+        '200':
+          description: User data returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    patch:
+      summary: Update user
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/userID'
+        - $ref: '#/components/parameters/domainID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userUpdate'
+      responses:
+        '200':
+          description: User updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    delete:
+      summary: Delete user
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/userID'
+        - $ref: '#/components/parameters/domainID'
+        - name: deleteFiles
+          description: Delete user files on disk
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: User deleted
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /domains/{domainID}/users/{userID}/delegates:
+    get:
+      summary: Get list of users that can send mails on the users behalf
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/userID'
+        - $ref: '#/components/parameters/domainID'
+      responses:
+        '200':
+          description: List of users returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: string
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    put:
+      summary: Set list of users that can send mails on the users behalf
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/userID'
+        - $ref: '#/components/parameters/domainID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+      responses:
+        '200':
+          description: List updated
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /domains/{domainID}/users/{userID}/storeProps:
+    get:
+      summary: Get user store properties
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/userID'
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/propnames'
+      responses:
+        '200':
+          description: Property values returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/propvals'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    patch:
+      summary: Update store properties
+      tags:
+       - Domain Admin/Users
+      parameters:
+        - $ref: '#/components/parameters/userID'
+        - $ref: '#/components/parameters/domainID'
+      requestBody:
+        content:
+          application/json:
+           schema:
+            type: object
+            description: Tag name / value mapping of proptags to modify
+            additionalProperties:
+              oneOf:
+                - type: integer
+                - type: string
+      responses:
+        '200':
+          description: Modification request successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  errors:
+                    type: object
+                    description: Tag name / error message for tags that failed to update
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    delete:
+      summary: Delete user store props
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/userID'
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/propnames'
+      responses:
+        '200':
+          description: Properties removed
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /domains/{domainID}/users/{userID}/sync:
+    get:
+      summary: Get status of synced devices
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/userID'
+        - $ref: '#/components/parameters/domainID'
+      responses:
+        '200':
+          description: Devices returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    description: List of devices with their sync entries
+                    items:
+                      type: object
+                      properties:
+                        devicetype:
+                          type: string
+                        useragent:
+                          type: string
+                        firstsynctime:
+                          type: integer
+                          description: UNIX timestamp of first sync
+                        lastupdatetime:
+                          type: integer
+                          description: UNIX timestamp of last update
+                        asversion:
+                          type: string
+                          description: Sync version
+                        foldersSyncable:
+                          type: integer
+                          description: Number of folders that can be synced
+                        foldersSynced:
+                          type: integer
+                          description: Number of folders that were actually synced
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /domains/{domainID}/users/{userID}/sync/{deviceID}:
+    delete:
+      summary: Remove device (issue a resync)
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/userID'
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/deviceID'
+      responses:
+        '200':
+          description: Device resync queued
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /domains/{domainID}/users/{userID}/sync/{deviceID}/resync:
+    put:
+      summary: Request a device resync
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/userID'
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/deviceID'
+      responses:
+        '200':
+          description: Resync requested
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /domains/{domainID}/users/{userID}/sync/{deviceID}/wipe:
+    post:
+      summary: Request a device wipe
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/userID'
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/deviceID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  description: Password of the user requesting the wipe
+      responses:
+        '200':
+          description: Wipe requested
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '403':
+          description: Password missing or wrong
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    delete:
+      summary: Cancel wipe request
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/userID'
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/deviceID'
+      responses:
+        '200':
+          description: Wipe request cancelled
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+
+  /domains/{domainID}/users/{userID}/storeAccess:
+    get:
+      summary: Get list of users that can access the users store
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/userID'
+        - $ref: '#/components/parameters/domainID'
+      responses:
+        '200':
+          description: List of users with store access returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/folderMemberList'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    post:
+      summary: Grant store access to another user
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/userID'
+        - $ref: '#/components/parameters/domainID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Mail address of the user to grant access to
+      responses:
+        '201':
+          description: User added
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    put:
+      summary: Overwrite the list of users with store access
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/userID'
+        - $ref: '#/components/parameters/domainID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usernames:
+                  type: array
+                  items:
+                    type: string
+                    description: Mail address of the user to grant access to
+      responses:
+        '200':
+          description: User list updated
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /domains/{domainID}/users/{userID}/storeAccess/{username}:
+    delete:
+      summary: Remove user from store access list
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/userID'
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/username'
+      responses:
+        '200':
+          description: User removed
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+
+  /domains/{domainID}/users/{userID}/password:
+    put:
+      summary: Set user password
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/userID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                new:
+                  type: string
+                  description: New password
+      responses:
+        '200':
+          description: User password updated
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /domains/{domainID}/users/{userID}/downsync:
+    put:
+      summary: Update user from LDAP
+      tags:
+        - Domain Admin/Users
+        - LDAP
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/userID'
+        - name: ID
+          in: query
+          required: false
+          description: Optional LDAP object ID
+          schema:
+            type: string
+        - $ref: '#/components/parameters/defaultLang'
+      responses:
+        '200':
+          description: Synchronization successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
+  /domains/{domainID}/syncPolicy:
+    get:
+      summary: Get effective domain sync policy
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+      responses:
+        '200':
+          description: Domain sync policy returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/syncPolicy'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
+  /domains/{domainID}/users/{userID}/roles:
+    patch:
+      summary: Update user roles
+      tags:
+        - System Admin/Roles
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/userID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                roles:
+                  type: array
+                  description: List of role IDs the user is associated with
+                  items:
+                    type: integer
+      responses:
+        '200':
+          description: Role association updated
+          content:
+            application/json:
+             schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  description: List of role references
+                  items:
+                    type: object
+                    properties:
+                      ID:
+                        type: integer
+                        description: ID of the role
+                      name:
+                        type: string
+                        description: Name of the role
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /domains/{domainID}/mlists:
+    get:
+      summary: Get list of mailing lists
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/verbosity'
+        - $ref: '#/components/parameters/queryLimit'
+        - $ref: '#/components/parameters/queryOffset'
+        - $ref: '#/components/parameters/match'
+        - $ref: '#/components/parameters/matchFields'
+        - name: sort
+          description: Sort by attribute. Can be given multiple times.
+          in: query
+          schema:
+            type: string
+            pattern: '^(ID|listname|listType|domainID|listPrivilege)(,(a|de)sc)?$'
+        - $ref: '#/components/parameters/filterID'
+        - name: listname
+          description: Filter by list name
+          in: query
+          schema:
+            type: string
+        - name: listType
+          description: Filter by one or more list types
+          in: query
+          schema:
+            $ref: '#/components/schemas/intList'
+        - name: listPrivilege
+          description: Filter by one or more list privilege types
+          in: query
+          schema:
+            $ref: '#/components/schemas/intList'
+      tags:
+        - Domain Admin/MLists
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: List of MLists returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/mlistRead'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    post:
+      summary: Create new mailing list
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+      tags:
+       - Domain Admin/MLists
+      security:
+        - JWTCookie: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mlistWrite'
+      responses:
+        '201':
+          description: Mailing list created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mlistRead'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /domains/{domainID}/mlists/{ID}:
+    get:
+      summary: Get information about a mailing list
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/ID'
+        - $ref: '#/components/parameters/verbosity'
+      tags:
+        - Domain Admin/MLists
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: Mailing list returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mlistRead'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    patch:
+      summary: Update mailing list
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/ID'
+      tags:
+        - Domain Admin/MLists
+      security:
+        - JWTCookie: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/mlistWrite'
+      responses:
+        '200':
+          description: Mailing list updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/mlistRead'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    delete:
+      summary: Delete mailing list
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/ID'
+      tags:
+        - Domain Admin/MLists
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: Mailing list deleted
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /domains/{domainID}/classes:
+    get:
+      summary: Get list of classes
+      tags:
+        -  Domain Admin/Classes
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/verbosity'
+        - $ref: '#/components/parameters/queryLimit'
+        - $ref: '#/components/parameters/queryOffset'
+        - $ref: '#/components/parameters/match'
+        - $ref: '#/components/parameters/matchFields'
+        - name: sort
+          description: Sort by attribute. Can be given multiple times.
+          in: query
+          schema:
+            type: string
+            pattern: '^(ID|classname|listname)(,(a|de)sc)?$'
+        - $ref: '#/components/parameters/filterID'
+        - name: classname
+          description: Filter by classname
+          in: query
+          schema:
+            type: string
+        - name: listname
+          description: Filter by listname
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of classes returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/classRead'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    post:
+      summary: Create new class
+      tags:
+        - Domain Admin/Classes
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/classWrite'
+      responses:
+        '201':
+          description: Class created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/classRead'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /domains/{domainID}/classes/testFilter:
+    post:
+      summary: Test class filter specification
+      tags:
+        - Domain Admin/Classes
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/classFilters'
+      responses:
+        '200':
+          description: List of users matching the filter returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ID:
+                          $ref: '#/components/schemas/ID'
+                        username:
+                          type: string
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /domains/{domainID}/classes/tree:
+    get:
+      summary: Generate class hierarchy tree
+      tags:
+        - Domain Admin/Classes
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+      responses:
+        '200':
+          description: Class tree returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/classTreeElement'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /domains/{domainID}/classes/{ID}:
+    get:
+      summary: Get information about class
+      tags:
+        - Domain Admin/Classes
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/ID'
+        - $ref: '#/components/parameters/verbosity'
+      responses:
+        '200':
+          description: Class returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/classRead'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    patch:
+      summary: Modify class
+      tags:
+        - Domain Admin/Classes
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/ID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/classWrite'
+      responses:
+        '200':
+          description: Class updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/classRead'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    delete:
+      summary: Delete class
+      tags:
+        - Domain Admin/Classes
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/ID'
+      responses:
+        '200':
+          description: Class deleted
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /domains/{domainID}/folders:
+    get:
+      summary: Get list of public folders
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+      tags:
+        - Domain Admin/Folders
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: List of public folders returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/publicFolder'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    post:
+      summary: Create a new public folder
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+      tags:
+        - Domain Admin/Folders
+      security:
+        - JWTCookie: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [displayname, container, comment]
+              properties:
+                displayname:
+                  type: string
+                  description: Name of the folder
+                container:
+                  type: string
+                  description: Container class
+                  enum: [IPF.Note, IPF.Contact, IPF.Appointment, IPF.Stickynote, IPF.Task]
+                comment:
+                  type: string
+      responses:
+        '201':
+          description: Folder creation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/publicFolder'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /domains/{domainID}/folders/{folderID}:
+    get:
+      summary: Get public folder
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/folderID'
+      tags:
+        - Domain Admin/Folders
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: Public folder returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/publicFolder'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    patch:
+      summary: Update public folder
+      tags:
+        - Domain Admin/Folders
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/folderID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                displayname:
+                  type: string
+                  description: Name of the folder
+                container:
+                  type: string
+                  description: Container class
+                  enum: [IPF.Note, IPF.Contact, IPF.Appointment, IPF.Stickynote, IPF.Task]
+                comment:
+                  type: string
+      responses:
+        '200':
+            description: Folder update successful
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    delete:
+      summary: Delete public folder
+      tags:
+        - Domain Admin/Folders
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/folderID'
+        - name: clear
+          in: query
+          required: false
+          description: Clear folder before deleting it
+          schema:
+            type: boolean
+            default: false
+        - $ref: '#/components/parameters/timeout'
+      responses:
+        '200':
+          description: Deletion successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '202':
+          $ref: '#/components/responses/Queued'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /domains/{domainID}/folders/{folderID}/owners:
+    get:
+      summary: Get list of folder owners
+      tags:
+        - Domain Admin/Folders
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/folderID'
+      responses:
+        '200':
+          description: List of owners returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/folderMemberList'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    post:
+      summary: Add a user to the owner list
+      tags:
+        - Domain Admin/Folders
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/folderID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username]
+              properties:
+                username:
+                  type: string
+                  description: Username (e-mail address) to add to member list
+      responses:
+        '201':
+          description: Creation successful
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /domains/{domainID}/folders/{folderID}/owners/{memberID}:
+    delete:
+      summary: Remove a user from the owner list
+      tags:
+        - Domain Admin/Folders
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/folderID'
+        - name: memberID
+          description: Member ID of the owner list
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Member removed
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /domains/ldap/search:
+    get:
+      summary: Perform LDAP user search
+      tags:
+        - LDAP
+      security:
+        - JWTCookie: []
+      parameters:
+        - name: query
+          in: query
+          description: Search term
+          required: true
+          schema:
+            type: string
+            minLength: 3
+        - name: domain
+          description: Restrict search to specific domain IDs
+          in: query
+          required: false
+          explode: false
+          schema:
+            $ref: '#/components/schemas/intList'
+      responses:
+        '200':
+          description: List of users returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ID:
+                          type: string
+                          description: LDAP object ID of the person
+                        name:
+                          type: string
+                          description: Display name of the person
+                        email:
+                          type: string
+                          description: E-mail address of the person
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
+  /domains/ldap/importUser:
+    post:
+      summary: Import user from ldap
+      tags:
+        - LDAP
+      security:
+        - JWTCookie: []
+      parameters:
+        - name: ID
+          in: query
+          required: true
+          description: LDAP object ID of the person to import
+          schema:
+            type: string
+        - name: force
+          in: query
+          required: false
+          description: Force update existing users that are not associated with the LDAP object
+          schema:
+            type: boolean
+            default: false
+        - $ref: '#/components/parameters/defaultLang'
+      responses:
+        '200':
+          description: An existing user was updated with LDAP data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '201':
+          description: A new user was created from LDAP data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: The user already exists but is not associated with the LDAP object
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
+  /domains/ldap/check:
+    get:
+      summary: Check status of ldap imported users
+      tags:
+        - LDAP
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: A list of orphaned users is returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orphaned:
+                    description: List of users whose externID could not be found in LDAP
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ID:
+                          $ref: '#/components/schemas/ID'
+                        username:
+                          type: string
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+    delete:
+      summary: Check status of ldap import users and delete orphaned
+      tags:
+        - LDAP
+      security:
+        - JWTCookie: []
+      parameters:
+        - name: deleteFiles
+          description: Delete user files on disk
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Orphaned users were deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    description: List of users that were deleted
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ID:
+                          $ref: '#/components/schemas/ID'
+                        username:
+                          type: string
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
+  /domains/ldap/downsync:
+    post:
+      summary: Update all LDAP imported users
+      tags:
+        - LDAP
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/completeSync'
+        - $ref: '#/components/parameters/defaultLang'
+        - $ref: '#/components/parameters/timeout'
+      responses:
+        '200':
+          description: Update process successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/syncStatus'
+        '202':
+          $ref: '#/components/responses/Queued'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
+  /domains/{domainID}/ldap/downsync:
+    post:
+      summary: Update all LDAP imported users in this domain
+      tags:
+        - LDAP
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/completeSync'
+        - $ref: '#/components/parameters/defaultLang'
+        - $ref: '#/components/parameters/timeout'
+      responses:
+        '200':
+          description: Update process successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/syncStatus'
+        '202':
+          $ref: '#/components/responses/Queued'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
+  /domains/ldap/dump:
+    get:
+      summary: Dump LDAP object
+      tags:
+       - LDAP
+      security:
+        - JWTCookie: []
+      parameters:
+        - name: ID
+          in: query
+          required: true
+          description: LDAP object ID of the person to import
+          schema:
+            type: string
+      responses:
+        '200':
+          description: LDAP object description returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
+  /system/mconf/ldap:
+    get:
+      summary: Get the current LDAP configuration
+      tags:
+        - LDAP
+        - System Admin/MConf
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: LDAP configuration returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ldapAvailable:
+                    type: boolean
+                    description: Whether ldap is currently active
+                  data:
+                    $ref: '#/components/schemas/ldapConfig'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+    put:
+      summary: Set new LDAP configuration
+      tags:
+        - LDAP
+        - System Admin/MConf
+      security:
+        - JWTCookie: []
+      parameters:
+        - name: force
+          description: Update configutation even if validation failed
+          in: query
+          schema:
+            type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ldapConfig'
+      responses:
+        '200':
+          description: LDAP configuration updated
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+    delete:
+      summary: Remove LDAP configuration and disable service
+      tags:
+        - LDAP
+        - System Admin/MConf
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: LDAP deactivated
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
+  /system/mconf/authmgr:
+    get:
+      summary: Get the current authmgr configuration
+      tags:
+        - System Admin/MConf
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: authmgr configuration returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  authBackendSelection:
+                    type: string
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+    put:
+      summary: Set new authmgr configuration
+      tags:
+        - System Admin/MConf
+      security:
+        - JWTCookie: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                authBackendSelection:
+                  type: string
+                  enum: [always_mysql, always_ldap, externid]
+      responses:
+        '200':
+          description: authmgr configuration updated
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+    delete:
+      summary: Reset authmgr configuration to default
+      tags:
+        - System Admin/MConf
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: authmgr configuration reset
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
+  /system/orgs:
+    get:
+      summary: Get a list of organizations
+      tags:
+        - System Admin/Organizations
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/verbosity'
+        - $ref: '#/components/parameters/queryLimit'
+        - $ref: '#/components/parameters/queryOffset'
+        - $ref: '#/components/parameters/match'
+        - $ref: '#/components/parameters/matchFields'
+        - name: sort
+          description: Sort by attribute. Can be given multiple times.
+          in: query
+          schema:
+            type: string
+            pattern: '^(ID|name|description)(,(a|de)sc)?$'
+        - name: name
+          description: Filter by name
+          in: query
+          schema:
+            type: string
+        - name: description
+          description: Filter by description
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of organizations returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/org'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    post:
+      summary: Create new organization
+      tags:
+        - System Admin/Organizations
+      security:
+        - JWTCookie: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgWrite'
+      responses:
+        '201':
+          description: Organization created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/org'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /system/orgs/{ID}:
+    get:
+      summary: Get detailed information about an organization
+      tags:
+        - System Admin/Organizations
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/ID'
+        - $ref: '#/components/parameters/verbosity'
+      responses:
+        '200':
+          description: Organization returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/org'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    patch:
+      summary: Update organization
+      tags:
+        - System Admin/Organizations
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/ID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgWrite'
+      responses:
+        '200':
+          description: Organization updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/org'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    delete:
+      summary: Delete organization
+      description: Delete the organization. Associated domains are made organizationless (orgID=0)
+      tags:
+        - System Admin/Organizations
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/ID'
+      responses:
+        '200':
+          description: Organization deleted
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /system/servers:
+    get:
+      summary: Get a list of servers
+      tags:
+        - System Admin/Servers
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/verbosity'
+        - $ref: '#/components/parameters/queryLimit'
+        - $ref: '#/components/parameters/queryOffset'
+        - $ref: '#/components/parameters/match'
+        - $ref: '#/components/parameters/matchFields'
+        - name: sort
+          description: Sort by attribute. Can be given multiple times.
+          in: query
+          schema:
+            type: string
+            pattern: '^(ID|hostname|extname|users)(,(a|de)sc)?$'
+        - name: hostname
+          description: Filter by hostname
+          in: query
+          schema:
+            type: string
+        - name: description
+          description: Filter by extname
+          in: query
+          schema:
+            type: string
+        - name: users
+          description: Filter by users
+          in: query
+          schema:
+            $ref: '#/components/schemas/intRange'
+      responses:
+        '200':
+          description: List of servers returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/homeserver'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    post:
+      summary: Register a new server
+      tags:
+        - System Admin/Servers
+      security:
+        - JWTCookie: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/homeserver'
+      responses:
+        '201':
+          description: Server registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/homeserver'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /system/servers/{ID}:
+    get:
+      summary: Get detailed information about a server
+      tags:
+        - System Admin/Servers
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/ID'
+        - $ref: '#/components/parameters/verbosity'
+      responses:
+        '200':
+          description: Server returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/homeserver'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    patch:
+      summary: Update server
+      tags:
+        - System Admin/Servers
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/ID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/homeserver'
+      responses:
+        '200':
+          description: Server updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/homeserver'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    delete:
+      summary: Delete server
+      tags:
+        - System Admin/Servers
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/ID'
+      responses:
+        '200':
+          description: Server deleted
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /tasq/notify:
+    post:
+      summary: Notify the TasQ server of externally added tasks
+      description: Load any waiting tasks from the database
+      tags:
+        - TasQ
+      responses:
+        '200':
+          description: Tasks loaded
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /tasq/status:
+    get:
+      summary: Get current status of the TasQ system
+      tags:
+        - TasQ
+      responses:
+        '200':
+          description: TasQ status returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  running:
+                    type: boolean
+                    description: Whether the TasQ server is running
+                  queued:
+                    type: integer
+                    description: Number of tasks waiting for processing
+                  workers:
+                    type: integer
+                    description: Number of active worker processes
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /tasq/start:
+    post:
+      summary: Start the builtin TasQ server
+      tags:
+        - TasQ
+      security:
+        - JWTCookie: []
+      parameters:
+        - name: procs
+          in: query
+          description: Override number of worker processes
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: TasQ server started
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /tasq/stop:
+    post:
+      summary: Stop the builtin TasQ server
+      tags:
+        - TasQ
+      security:
+        - JWTCookie: []
+      parameters:
+        - name: timeout
+          in: query
+          description: Duration in seconds to wait for worker processes to quit
+          schema:
+            type: number
+      responses:
+        '200':
+          description: TasQ server stopped
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /tasq/tasks:
+    get:
+      summary: Get list of currently running tasks
+      tags:
+        - TasQ
+      security:
+        - JWTCookie: []
+      parameters:
+        - name: sort
+          description: Sort by attribute. Can be given multiple times.
+          in: query
+          schema:
+            type: string
+            pattern: '^(ID|command|state|created|updated|message)(,(a|de)sc)?$'
+        - $ref: '#/components/parameters/filterID'
+        - $ref: '#/components/parameters/verbosity'
+        - $ref: '#/components/parameters/queryLimit'
+        - $ref: '#/components/parameters/match'
+        - $ref: '#/components/parameters/matchFields'
+        - name: command
+          description: Filter by command
+          in: query
+          schema:
+            type: string
+        - name: message
+          description: Filter by message
+          in: query
+          schema:
+            type: string
+        - name: updated
+          description: Filter by last update time
+          in: query
+          schema:
+            type: string
+        - name: created
+          description: Filter by create date
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of tasks returned
+          content:
+            application/json:
+             schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/tasqTask'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /tasq/tasks/{ID}:
+    get:
+      summary: Get information about a specific task
+      tags:
+        - TasQ
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/ID'
+      responses:
+        '200':
+          description: Tasks returned
+          content:
+            application/json:
+             schema:
+              $ref: '#/components/schemas/tasqTask'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /defaults/createParams:
+    get:
+      summary: Get default create parameters
+      tags:
+        - Defaults
+      security:
+        - JWTCookie: []
+      parameters:
+        - name: domain
+          in: query
+          required: false
+          description: Get the effective defaults for specific domain
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Default values returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/createDefaults'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    patch:
+      summary: Update create default parameters
+      tags:
+        - Defaults
+      security:
+        - JWTCookie: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createDefaults'
+      responses:
+        '200':
+          description: Default values updated
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    put:
+      summary: Replace create default parameters
+      tags:
+        - Defaults
+      security:
+        - JWTCookie: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createDefaults'
+      responses:
+        '200':
+          description: Default values updated
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /defaults/createParams/{domainID}:
+    get:
+      summary: Get default create parameter overrides for domain
+      tags:
+        - Defaults
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+      responses:
+        '200':
+          description: Default values returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/createDefaults'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    patch:
+      summary: Update create default parameter overrides for domain
+      tags:
+        - Defaults
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createDefaults'
+      responses:
+        '200':
+          description: Default values updated
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    put:
+      summary: Replace create default parameter overrides for domain
+      tags:
+        - Defaults
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createDefaults'
+      responses:
+        '200':
+          description: Default values updated
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /defaults/storeLangs:
+    get:
+      summary: Get list of available user store languages
+      tags:
+        - Defaults
+      responses:
+        '200':
+          description: List of available languages returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          description: Language code
+                        name:
+                          type: string
+                          description: Language name
+
+components:
+  securitySchemes:
+    JWTCookie:
+      type: apiKey
+      in: cookie
+      name: grommunioAuthJwt
+  parameters:
+    ID:
+      name: ID
+      description: ID of the object
+      in: path
+      required: true
+      schema:
+        type: integer
+    domainID:
+      name: domainID
+      description: ID of the domain
+      in: path
+      required: true
+      schema:
+        type: integer
+    userID:
+      name: userID
+      description: ID of the user
+      in: path
+      required: true
+      schema:
+        type: integer
+    folderID:
+      name: folderID
+      description: ID of the folder
+      in: path
+      required: true
+      schema:
+        type: integer
+    filterID:
+      name: ID
+      description: Filter one or more IDs
+      in: query
+      required: false
+      style: form
+      explode: false
+      schema:
+        $ref: '#/components/schemas/intList'
+    completeSync:
+      name: import
+      in: query
+      required: false
+      description: Import new users from LDAP
+      schema:
+        type: boolean
+    systemdUnit:
+      name: unit
+      description: Name of the unit to signal
+      in: path
+      required: true
+      schema:
+        type: string
+    dbConfService:
+      name: service
+      description: Name of the service to configure
+      in: path
+      required: true
+      schema:
+        type: string
+    dbConfFile:
+      name: file
+      description: Name of the configuration file
+      in: path
+      required: true
+      schema:
+        type: string
+    defaultLang:
+      name: lang
+      description: Default language for imported users
+      in: query
+      required: false
+      schema:
+        type: string
+        default: ""
+    devices:
+      name: devices
+      description: Restrict request to these device IDs
+      in: query
+      required: false
+      explode: false
+      schema:
+        type: array
+        items:
+          type: string
+    deviceID:
+      name: deviceID
+      in: path
+      required: true
+      description: Device ID
+      schema:
+        type: string
+    match:
+      name: match
+      description: Match by substring
+      in: query
+      schema:
+        type: string
+    matchFields:
+      name: matchFields
+      description: Comma separated list of attributes to restrict matching to.
+      in: query
+      schema:
+        type: string
+    verbosity:
+      name: level
+      in: query
+      description: Set detail level of return value. Usually ranges from 0 to 2.
+      schema:
+        type: integer
+    queryLimit:
+      name: limit
+      in: query
+      description: Maximum number of results to return
+      schema:
+        type: integer
+        default: 50
+    queryOffset:
+      name: offset
+      in: query
+      description: Index of the first element to return
+      schema:
+        type: integer
+        default: 0
+    propnames:
+      name: properties
+      description: Comma separated list of properties to return
+      in: query
+      schema:
+        type: string
+    timeout:
+      name: timeout
+      in: query
+      description: Time in seconds to wait for completion
+      schema:
+        type: number
+        default: 1.0
+    username:
+      name: username
+      in: path
+      required: true
+      description: E-mail address of the user
+      schema:
+        type: string
+  schemas:
+    ID:
+      description: Unique ID of the object
+      type: integer
+      readOnly: true
+    intList:
+      type: array
+      items:
+        type: integer
+    intRange:
+      type: array
+      maxItems: 2
+      items:
+        type: integer
+    date:
+      type: string
+      description: Date string
+      pattern: '^\d{4}-\d{2}-\d{2}$'
+    dateTime:
+      type: string
+      description: Date string with time
+      pattern: '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$'
+      nullable: True
+    precTime:
+      type: string
+      description: Precise date/time string including fractional seconds
+      pattern: '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{1,6}$'
+    domainCommon:
+      type: object
+      properties:
+        ID:
+          $ref: '#/components/schemas/ID'
+        orgID:
+          type: integer
+          default: 0
+        domainname:
+          type: string
+          description: Name of the domain, automatically converted to IDNA format
+          maxLength: 64
+        displayname:
+          type: string
+          readOnly: true
+          description: Decoded unicode domain name
+        homedir:
+          type: string
+          maxLength: 128
+          readOnly: True
+          default: ""
+        maxUser:
+          type: integer
+        title:
+          type: string
+          maxLength: 128
+          default: ""
+        address:
+          type: string
+          maxLength: 128
+          default: ""
+        adminName:
+          type: string
+          maxLength: 32
+          default: ""
+        tel:
+          type: string
+          maxLength: 64
+          default: ""
+        endDay:
+          $ref: '#/components/schemas/date'
+        domainStatus:
+          type: integer
+          description: Domain status (0=Normal, 1=Suspended, 2=Out Of Date, 3=Deleted)
+          default: 0
+        activeUsers:
+          type: integer
+          readOnly: true
+        inactiveUsers:
+          type: integer
+          readOnly: true
+        syncPolicy:
+          $ref: '#/components/schemas/syncPolicy'
+        chat:
+          type: boolean
+          description: Whether chat is enabled for this domain
+    domain:
+      allOf:
+        - $ref: '#/components/schemas/domainCommon'
+        - type: object
+          properties:
+            homeserver:
+              $ref: '#/components/schemas/homeserverRef'
+    domainWrite:
+      allOf:
+        - $ref: '#/components/schemas/domainCommon'
+        - type: object
+          properties:
+            homeserver:
+              $ref: '#/components/schemas/homeserverID'
+    homeserverID:
+      type: integer
+      description: ID of the homeserver
+      nullable: true
+    homeserverRef:
+      type: object
+      nullable: true
+      properties:
+        ID:
+          $ref: '#/components/schemas/ID'
+        hostname:
+          type: string
+          description: Internal hostname of the server
+    org:
+      type: object
+      properties:
+        ID:
+          $ref: '#/components/schemas/ID'
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        domains:
+          type: array
+          description: List of domains belonging to the organization
+          items:
+            type: object
+            properties:
+              ID:
+                $ref: '#/components/schemas/ID'
+              domainname:
+                type: string
+              displayname:
+                type: string
+    orgWrite:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        domains:
+          type: array
+          description: List of domain IDs belonging to the organization
+          items:
+            type: integer
+    propvals:
+      type: object
+      description: User properties as name/value pairs
+      additionalProperties: true
+    userStatus:
+      type: integer
+      description: User status (0=Normal, 1=Suspended, 2=Out-of-date, 3=Deleted, 4=Shared Mailbox)
+      enum: [0, 1, 2, 3, 4]
+    forward:
+      type: object
+      nullable: true
+      properties:
+        forwardType:
+          type: integer
+          description: Forward type (0=CC, 1=Redirect)
+          enum: [0, 1]
+        destination:
+          type: string
+          description: Destination mail address
+    user:
+      type: object
+      properties:
+        ID:
+          $ref: '#/components/schemas/ID'
+        username:
+          type: string
+          maxLength: 320
+        domainID:
+          type: integer
+          readOnly: true
+        roles:
+          type: array
+          description: List of role associated with the user
+          items:
+            type: object
+            readOnly: true
+            properties:
+              ID:
+                $ref: '#/components/schemas/ID'
+              name:
+                type: string
+        properties:
+          $ref: '#/components/schemas/propvals'
+        aliases:
+          type: array
+          description: List of aliases for this user
+          items:
+            type: string
+        status:
+          $ref: '#/components/schemas/userStatus'
+        pop3_imap:
+          type: boolean
+          description: POP3/IMAP privilege
+        smtp:
+          type: boolean
+          description: SMTP privilege
+        changePassword:
+          type: boolean
+          description: Password changing privilege
+        publicAddress:
+          type: boolean
+          description: Public address privilege
+        privChat:
+          type: boolean
+          description: Chat privilege
+        privVideo:
+          type: boolean
+          description: Meet privilege
+        privFiles:
+          type: boolean
+          description: Files privilege
+        privArchive:
+          type: boolean
+          description: Archive privilege
+        ldapID:
+          type: string
+          nullable: true
+          description: Base64 encoded LDAP object ID
+        fetchmail:
+          type: array
+          description: List of fetchmail entries for this user
+          items:
+            $ref: '#/components/schemas/fetchmailEntry'
+        syncPolicy:
+          $ref: '#/components/schemas/syncPolicy'
+        chat:
+          type: boolean
+          description: Whether chat is enabled for this user
+        chatAdmin:
+          type: boolean
+          description: Whether this user has grommunio-chat admin permissions
+        lang:
+          type: string
+          description: User language
+        forward:
+          $ref: '#/components/schemas/forward'
+        homeserver:
+          $ref: '#/components/schemas/homeserverRef'
+    userInit:
+      type: object
+      properties:
+        username:
+          type: string
+          maxLength: 320
+        password:
+          type: string
+          description: Initial password
+        domainID:
+          type: integer
+          readOnly: true
+        properties:
+          $ref: '#/components/schemas/propvals'
+        aliases:
+          type: array
+          description: List of aliases for this user
+          items:
+            type: string
+        status:
+          $ref: '#/components/schemas/userStatus'
+        pop3_imap:
+          type: boolean
+          description: POP3/IMAP privilege
+        smtp:
+          type: boolean
+          description: SMTP privilege
+        changePassword:
+          type: boolean
+          description: Password changing privilege
+        publicAddress:
+          type: boolean
+          description: Public address privilege
+        privChat:
+          type: boolean
+          description: Chat privilege
+        privVideo:
+          type: boolean
+          description: Meet privilege
+        privFiles:
+          type: boolean
+          description: Files privilege
+        privArchive:
+          type: boolean
+          description: Archive privilege
+        fetchmail:
+          type: array
+          description: List of fetchmail entries for this user
+          items:
+            $ref: '#/components/schemas/fetchmailEntry'
+        syncPolicy:
+          $ref: '#/components/schemas/syncPolicy'
+        chat:
+          type: boolean
+          description: Whether chat is enabled for this user
+        chatAdmin:
+          type: boolean
+          description: Whether this user has grommunio-chat admin permissions
+        lang:
+          type: string
+          description: User language
+        forward:
+          $ref: '#/components/schemas/forward'
+        homeserver:
+          $ref: '#/components/schemas/homeserverID'
+    userUpdate:
+      type: object
+      properties:
+        username:
+          type: string
+          maxLength: 320
+        properties:
+          $ref: '#/components/schemas/propvals'
+        aliases:
+          type: array
+          description: List of aliases for this user
+          items:
+            type: string
+        status:
+          $ref: '#/components/schemas/userStatus'
+        pop3_imap:
+          type: boolean
+          description: POP3/IMAP privilege
+        smtp:
+          type: boolean
+          description: SMTP privilege
+        changePassword:
+          type: boolean
+          description: Password changing privilege
+        publicAddress:
+          type: boolean
+          description: Public address privilege
+        privChat:
+          type: boolean
+          description: Chat privilege
+        privVideo:
+          type: boolean
+          description: Meet privilege
+        privFiles:
+          type: boolean
+          description: Files privilege
+        privArchive:
+          type: boolean
+          description: Archive privilege
+        ldapID:
+          type: string
+          description: Detach imported user from LDAP object
+          nullable: true
+          enum: [null]
+        fetchmail:
+          type: array
+          description: List of fetchmail entries for this user
+          items:
+            $ref: '#/components/schemas/fetchmailEntry'
+        syncPolicy:
+          $ref: '#/components/schemas/syncPolicy'
+        chat:
+          type: boolean
+          description: Whether chat is enabled for this user
+        chatAdmin:
+          type: boolean
+          description: Whether this user has grommunio-chat admin permissions
+        lang:
+          type: string
+          description: User language
+        forward:
+          $ref: '#/components/schemas/forward'
+        homeserver:
+          $ref: '#/components/schemas/homeserverID'
+    publicFolder:
+      type: object
+      properties:
+        folderid:
+          type: string
+        displayname:
+          type: string
+        comment:
+          type: string
+        creationtime:
+          $ref: '#/components/schemas/dateTime'
+        container:
+          type: string
+    service:
+      type: object
+      properties:
+        state:
+          type: string
+        substate:
+          type: string
+        description:
+          type: string
+          nullable: true
+        autostart:
+          type: string
+          description: State of the unit file
+        since:
+          $ref: '#/components/schemas/dateTime'
+        name:
+          type: string
+          description: Name of the service
+        unit:
+          type: string
+          description: Name of the systemd unit. Required for action endpoints.
+    adminPermission:
+      type: object
+      properties:
+        ID:
+          type: integer
+        permission:
+          type: string
+    adminRole:
+      type: object
+      properties:
+        ID:
+          $ref: '#/components/schemas/ID'
+        name:
+          type: string
+          maxLength: 32
+        description:
+          type: string
+          nullable: true
+          maxLength: 256
+        permissions:
+          type: array
+          description: List of permissions associated with the role
+          items:
+            $ref: '#/components/schemas/adminPermission'
+        users:
+          type: array
+          description: List of users associated with the role
+          items:
+            type: object
+            properties:
+              ID:
+                $ref: '#/components/schemas/ID'
+              username:
+                type: string
+    adminRoleWrite:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/adminPermission'
+        users:
+          type: array
+          description: List of user IDs to associate with the role
+          items:
+            type: integer
+    license:
+      type: object
+      properties:
+        product:
+          type: string
+          nullable: true
+          description: Product name
+        maxUsers:
+          type: integer
+          description: License user limit
+        notBefore:
+          $ref: '#/components/schemas/dateTime'
+        notAfter:
+          $ref: '#/components/schemas/dateTime'
+        currentUsers:
+          type: integer
+          nullable: true
+          description: Number of currently existing users
+        certificate:
+          type: string
+          nullable: true
+          description: Download link for the certificate
+    ldapConfig:
+      type: object
+      properties:
+        disabled:
+          type: boolean
+          description: Disable LDAP service
+          default: False
+        connection:
+          type: object
+          properties:
+            server:
+              type: string
+              description: Space separated list of addresses of the LDAP server to connect to
+            bindUser:
+              type: string
+              description: DN of the user to perform initial bind with
+            bindPass:
+              type: string
+              description: Password for bindUser
+            starttls:
+              type: boolean
+              description: Whether to initiate a StartTLS connection
+        baseDn:
+          type: string
+          description: Base DN to use for user search
+        objectID:
+          type: string
+          description: Name of an attribute that uniquely idetifies an LDAP object
+        users:
+          type: object
+          description: Configuration for user search
+          properties:
+            username:
+              type: string
+              description: Name of the attribute that corresponds to the username (e-mail address)
+            displayName:
+              type: string
+              description: Name of the attribute that contains the name
+            filters:
+              type: array
+              description: List of additional filter expressions to use for user search
+              items:
+                type: string
+                example: 'objectclass=person'
+            filter:
+              type: string
+              description: LDAP search filter to apply to user lookup
+              example: '(&(objectclass=person)(mailPrimaryAddress=*))'
+            templates:
+              type: array
+              description: List of mapping templates to use
+              items:
+                type: string
+                description: Name of a template defined in res/ldapTemplates.yaml
+            attributes:
+              type: object
+              description: LDAP attribute -> PropTag mapping to used for LDAP import. Any mappings specified take precendence over active templates
+              additionalProperties:
+                type: string
+                description: Name of the PropTag the atribute maps to
+            defaultQuota:
+              type: integer
+              description: Storage quota of imported users if no mapping exists
+            searchAttributes:
+              type: array
+              description: List of attributes to use for searching
+              items:
+                type: string
+                description: LDAP attribute name
+            aliases:
+              type: string
+              description: LDAP attribute containing alternative e-mail addresses
+    mlistRead:
+      type: object
+      properties:
+        ID:
+          $ref: '#/components/schemas/ID'
+        listname:
+          type: string
+          description: Name or e-mail address of the list
+        listType:
+          type: integer
+          enum: [0, 1, 2, 3]
+          description: Type of mailing list (0=Normal, 2=Domain, 3=Class)
+        listPrivilege:
+          type: integer
+          enum: [0, 1, 2, 3, 4]
+          description: Sender privilege of list (0=All, 1=Internal, 2=Domain, 3=Specific, 4=Outgoing)
+        associations:
+          type: array
+          description: Recipients, only available if listType=0
+          items:
+            type: string
+            description: E-Mail address of recipient
+        specifieds:
+          type: array
+          description: Senders, only available if listPrivilege=3
+          items:
+            type: string
+            description: E-Mail address of sender
+        class:
+          type: object
+          nullable: true
+          description: Associated class, only available if listType=3
+          properties:
+            ID:
+              $ref: '#/components/schemas/ID'
+            classname:
+              type: string
+    mlistWrite:
+      type: object
+      properties:
+        listname:
+          type: string
+          description: Name or e-mail address of the list
+        listType:
+          type: integer
+          enum: [0, 2, 3]
+          description: Type of mailing list (0=Normal, 2=Domain, 3=Class)
+        listPrivilege:
+          type: integer
+          enum: [0, 1, 2, 3, 4]
+          description: Sender privilege of list (0=All, 1=Internal, 2=Domain, 3=Specific, 4=Outgoing)
+        associations:
+          type: array
+          description: Recipients, only available if listType=0
+          items:
+            type: string
+            description: E-Mail address of recipient
+        specifieds:
+          type: array
+          description: Senders, only available if listPrivilege=3
+          items:
+            type: string
+            description: E-Mail address of sender
+        class:
+          type: integer
+          description: ID of the associated class, only available if listType=3
+    classRead:
+      type: object
+      properties:
+        ID:
+          $ref: '#/components/schemas/ID'
+        classname:
+          type: string
+        listname:
+          type: string
+          nullable: true
+          description: Name of the associated mlist
+        parentClasses:
+          type: array
+          description: List of parent classes
+          items:
+            type: object
+            properties:
+              ID:
+                $ref: '#/components/schemas/ID'
+              classname:
+                type: string
+        children:
+          type: array
+          description: List of child classes
+          items:
+            type: object
+            properties:
+              ID:
+                $ref: '#/components/schemas/ID'
+              classname:
+                type: string
+        members:
+          type: array
+          description: List of class members
+          items:
+            type: string
+            description: E-Mail address of the class members
+        filters:
+          $ref: '#/components/schemas/classFilters'
+    classWrite:
+      type: object
+      properties:
+        classname:
+          type: string
+        parentClasses:
+          type: array
+          description: List of parent class IDs
+          items:
+            type: integer
+        members:
+          type: array
+          description: List of class members
+          items:
+            type: string
+            description: E-Mail address of the class members
+        filters:
+          $ref: '#/components/schemas/classFilters'
+    classTreeElement:
+      type: object
+      properties:
+        ID:
+          $ref: '#/components/schemas/ID'
+        name:
+          type: string
+        children:
+          type: array
+          items:
+            type: object
+    classFilters:
+      type: array
+      nullable: true
+      description: List of filter lists, which are joined by logical `and` (CNF)
+      items:
+        type: array
+        description: list of filters, which are joined by logical `or`
+        items:
+          type: object
+          required: [prop, op]
+          description: Filter specification. Exactly one of `c` and `p` must be specified
+          properties:
+            prop:
+              type: string
+              description: Column name or property to test
+            op:
+              type: string
+              description: Comparison operator
+              enum: [eq, ne, lt, le, gt, ge, li, nl, ex, nx]
+            val:
+              type: string
+              description: Value used for comparison (binary operators)
+    createDefaults:
+      type: object
+      properties:
+        user:
+          type: object
+          additionalProperties: true
+          description: Default values for user creation
+        domain:
+          type: object
+          additionalProperties: true
+          description: Default values for domain creation
+    dbConfFile:
+      type: object
+      additionalProperties:
+        type: string
+    fetchmailEntry:
+      type: object
+      properties:
+        ID:
+          type: integer
+        mailbox:
+          type: string
+          description: Username of the local user
+        active:
+          type: boolean
+          description: Whether fetchmail is currently activated
+        srcServer:
+          type: string
+          description: Source server address
+        srcUser:
+          type: string
+          description: Source user
+        srcPassword:
+          description: Password of the source user
+          type: string
+        date:
+          description: Last modification time
+          readOnly: true
+          type: string
+          pattern: '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$'
+        srcAuth:
+          description: Type auf authentication to use
+          type: string
+          default: "password"
+          enum: [password, kerberos_v5, kerberos, kerberos_v4, gssapi, cram-md5, otp, ntlm, msn, ssh, any]
+        srcFolder:
+          description: Folder to sync from
+          type: string
+        fetchall:
+          description: Whether to fetch seen mails
+          type: boolean
+        keep:
+          description: Keep original e-mails
+          type: boolean
+        protocol:
+          description: Protocol to use
+          type: string
+          enum: [POP3, IMAP, POP2, ETRN, AUTO]
+        useSSL:
+          description: Whether to use SSL
+          type: boolean
+        sslCertCheck:
+          description: Check ssl certificate
+          type: boolean
+          default: false
+        sslCertPath:
+          description: Path to local certificate directory or null to use local default
+          type: string
+          nullable: true
+          default: null
+        sslFingerprint:
+          description: Fingerprint of the server certificate
+          pattern: '^([0-9A-F]{2}(:[0-9A-F]{2})*)?$'
+          type: string
+          nullable: true
+          default: null
+        extraOptions:
+          description: Additional fetchmail options
+          type: string
+          nullable: true
+    folderMemberList:
+      type: array
+      items:
+        type: object
+        properties:
+          memberID:
+            type: integer
+            description: Member ID of the owner list
+          displayName:
+            type: string
+            description: Name of member
+          username:
+            type: string
+            description: E-Mail address of the user
+    homeserver:
+      type: object
+      properties:
+        ID:
+          $ref: '#/components/schemas/ID'
+        hostname:
+          type: string
+          description: Internal hostname of the server
+        extname:
+          type: string
+          description: External address of the server
+        users:
+          type: integer
+          readOnly: true
+          description: Number of users on the server
+        domains:
+          type: integer
+          readOnly: true
+          description: Number of domains on the server
+    syncPolicy:
+      type: object
+      nullable: true
+      description: Active Sync Policy overrides
+      properties:
+        allowbluetooth:
+          type: integer
+          enum: [0, 1, 2]
+          default: 2
+          description: Whether Bluetooth and hands-free profiles are allowed on the device (0=disabled, 1=allow only HFP, 2=allow)
+        allowbrowser:
+          type: integer
+          enum: [0, 1]
+          default: 1
+          description: Whether the device allows the use of a web browser.
+        allowcam:
+          type: integer
+          default: 1
+          enum: [0, 1]
+          description: Whether the device allows the use of the built-in camera.
+        allowconsumeremail:
+          type: integer
+          default: 1
+          enum: [0, 1]
+          description: Whether the device allows the use of personal email.
+        allowdesktopsync:
+          type: integer
+          enum: [0, 1]
+          default: 1
+          description: Whether the device allows synchronization with Desktop ActiveSync.
+        allowhtmlemail:
+          type: integer
+          enum: [0, 1]
+          default: 1
+          description: Whether the device uses HTML-formatted email.
+        allowinternetsharing:
+          type: integer
+          enum: [0, 1]
+          default: 1
+          description: Whether the device allows the use of Internet Sharing.
+        allowirda:
+          type: integer
+          enum: [0, 1]
+          default: 1
+          description: Whether the device allows the use of IrDA (infrared) connections.
+        allowpopimapemail:
+          type: integer
+          default: 1
+          enum: [0, 1]
+          description: Whether the device allows access to POP/IMAP email.
+        allowremotedesk:
+          type: integer
+          default: 1
+          enum: [0, 1]
+          description: Whether the device allows the use of Remote Desktop.
+        allowsimpledevpw:
+          type: integer
+          enum: [0, 1]
+          default: 1
+          description: Whether the device allows simple passwords.
+        allowsmimeencalgneg:
+          type: integer
+          enum: [0, 1, 2]
+          default: 2
+          description: Whether the device can negotiate the encryption algorithm to be used for signing (0=not allowed, 1=only strong, 2=any)
+        allowsmimesoftcerts:
+          type: integer
+          enum: [0, 1]
+          default: 1
+          description: Whether the device uses soft certificates to sign outgoing messages.
+        allowstoragecard:
+          type: integer
+          enum: [0, 1]
+          default: 1
+          description: Whether the device allows the use of the storage card.
+        allowtextmessaging:
+          type: integer
+          enum: [0, 1]
+          default: 1
+          description: Whether the device allows Short Message Service (SMS)/text messaging.
+        allowunsignedapps:
+          type: integer
+          enum: [0, 1]
+          default: 1
+          description: Whether the device allows unsigned applications to execute.
+        allowunsigninstallpacks:
+          type: integer
+          enum: [0, 1]
+          default: 1
+          description: Whether the device allows unsigned cabinet (.cab) files to be installed.
+        allowwifi:
+          type: integer
+          enum: [0, 1]
+          default: 1
+          description: Whether the device allows the use of Wi-Fi connections.
+        alphanumpwreq:
+          type: integer
+          enum: [0, 1]
+          default: 0
+          description: Indicates whether a client device requires an alphanumeric password.
+        approvedapplist:
+          type: array
+          description: A list of in-RAM applications that are approved for execution.
+          default: []
+          items:
+            type: string
+        attenabled:
+          type: integer
+          enum: [0, 1]
+          default: 1
+          description: Indicates whether email attachments are enabled.
+        devencenabled:
+          type: integer
+          default: 0
+          enum: [0, 1]
+          description: Deprecated, kept for backwards compatibility
+        devpwenabled:
+          type: integer
+          enum: [0, 1]
+          default: 0
+          description: Indicates whether a client device requires a password.
+        devpwexpiration:
+          type: integer
+          default: 0
+          description: Whether the password expires after the specified number of days, as determined by the policy (0=unlimited).
+        devpwhistory:
+          type: integer
+          default: 0
+          description: The minimum number of previously used passwords the client device stores to prevent reuse (0=no storage).
+        maxattsize:
+          oneOf:
+            - type: string
+              default: ''
+              enum: ['']
+              description: Unlimited attachment size
+            - type: integer
+              description: The maximum attachment size, as determined by the security policy.
+        maxcalagefilter:
+          type: integer
+          enum: [0, 4, 5, 6, 7]
+          default: 0
+          description: The maximum number of calendar days that can be synchronized (0=unlimited, 4=2 weeks, 5=1 month, 6=3 months, 7=6 months)
+        maxdevpwfailedattempts:
+          type: integer
+          minimum: 4
+          maximum: 16
+          default: 8
+          description: The number of password failures that are permitted before the device is wiped.
+        maxemailagefilter:
+          type: integer
+          default: 0
+          enum: [0, 1, 2, 3, 4, 5]
+          description: The email age limit for synchronization (0=all, 1=1 day, 2=3 days, 3=1 week, 4=2 weeks, 5=1 month)
+        maxemailbodytruncsize:
+          type: integer
+          default: -1
+          description: The truncation size for plain text–formatted email messages (-1=unlimited, 0=header only, >0=truncate to size)
+        maxemailhtmlbodytruncsize:
+          type: integer
+          default: -1
+          description: The truncation size for HTML-formatted email messages (-1=unlimited, 0=header only, >0=truncate to size)
+        maxinacttimedevlock:
+          type: integer
+          default: 900
+          description: The number of seconds of inactivity before the device locks itself (>9999=unlimited)
+        mindevcomplexchars:
+          type: integer
+          minimum: 1
+          maximum: 4
+          default: 3
+          description: The minimum number of character classes (lower case, upper case, numbers and symbols) contained within the password.
+        mindevpwlenngth:
+          type: integer
+          minimum: 1
+          maximum: 16
+          default: 4
+          description: The minimum device password length that the user can enter (1=unlimited).
+        pwrecoveryenabled:
+          type: integer
+          enum: [0, 1]
+          default: 0
+          description: Indicates whether to enable a recovery password to be sent to the server by using the Settings command.
+        reqdevenc:
+          type: integer
+          enum: [0, 1]
+          default: 0
+          description: Whether the device uses encryption.
+        reqencsmimealgorithm:
+          type: integer
+          enum: [0, 1, 2, 3, 4]
+          default: 0
+          description: The algorithm to be used when encrypting a message (0=TripleDES, 1=DES, 2=RC2128bit, 3=RC264bit, 4=RC240bit)
+        reqencsmimemessages:
+          type: integer
+          enum: [0, 1]
+          default: 0
+          description: Whether the device is required to send encrypted messages.
+        reqmansyncroam:
+          type: integer
+          enum: [0, 1]
+          default: 0
+          description: Whether the device requires manual synchronization when the device is roaming.
+        reqsignedsmimealgorithm:
+          type: integer
+          enum: [0, 1]
+          default: 0
+          description: The algorithm to be used when signing a message (0=SHA1, 1=MD5)
+        reqsignedsmimemessages:
+          type: integer
+          enum: [0, 1]
+          default: 0
+          description: Whether the device is required to send signed S/MIME messages.
+        unapprovedinromapplist:
+          type: array
+          description: A list of in-ROM applications that are not approved for execution.
+          default: []
+          items:
+            type: string
+    syncStatus:
+      type: array
+      description: List of updated/imported users
+      items:
+        type: object
+        properties:
+          ID:
+            $ref: '#/components/schemas/ID'
+          username:
+            type: string
+          code:
+            type: integer
+            description: HTTP-like status code of the user update or import
+            enum: [200, 201, 400, 404, 409, 500, 503]
+          message:
+            type: string
+            description: Update/import message
+    tasqTask:
+      type: object
+      properties:
+        ID:
+          $ref: '#/components/schemas/ID'
+        command:
+          type: string
+          description: Task command
+        state:
+          type: integer
+          description: Task state (0=Queued, 1=Loaded, 2=Running, 3=Completed, 4=Error, 5=Cancelled)
+          enum: [0, 1, 2, 3, 4, 5]
+        created:
+          $ref: '#/components/schemas/dateTime'
+        updated:
+          $ref: '#/components/schemas/dateTime'
+        message:
+          type: string
+          description: Status message
+        params:
+          type: object
+          description: Task specific parameters
+  responses:
+    ServerError:
+      description: An error occured while processing the request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: String representation of the exception
+    InvalidRequest:
+      description: Validation of input parameters failed
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              errors:
+                type: array
+                description: List of errors encountered during validation
+                items:
+                  type: string
+    DatabaseError:
+      description: The database query failed
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Description of the error
+    ServiceUnavailable:
+      description: One of the required external services is unavailable
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: Description of the error
+    NotFound:
+      description: The requested resource could not be found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    Queued:
+      description: Task took more than timeout seconds and is resumed in the background
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              taskID:
+                type: integer
+                description: ID of the task running the command
+
+tags:
+  - name: System Admin/Dashboard
+    description: Endpoints for the system admin dashboard
+  - name: System Admin/DBConf
+    description: Endpoints for database stored configuration management
+  - name: System Admin/Domains
+    description: Endpoints for domain management
+  - name: System Admin/License
+    description: Endpoints for license management
+  - name: System Admin/Logs
+    description: Endpoints for viewing logs
+  - name: System Admin/MConf
+    description: Endpoints for accessing managed configurations
+  - name: System Admin/Organizations
+    description: Endpoints for organization management
+  - name: System Admin/Proxies
+    description: Proxy endpoints to internal services
+  - name: System Admin/Roles
+    description: Endpoints for user role and permission management
+  - name: System Admin/Servers
+    description: Endpoints for multi-server configuration
+  - name: Domain Admin/Classes
+    description: Endpoints for class and hierarchy management
+  - name: Domain Admin/Folders
+    description: Endpoints for public folder management
+  - name: Domain Admin/MLists
+    description: Endpoints for mailing list management
+  - name: Domain Admin/Users
+    description: Endpoints for user management
+  - name: Defaults
+    description: Endpoints providing default data
+  - name: LDAP
+    description: Endpoints for LDAP operations
+  - name: Service
+    description: Endpoints intended for other services
+  - name: TasQ
+    description: Endpoints for accessing the TasQ server
+  - name: Misc
+    description: Miscellaneous and organizational endpoints
