@@ -1,7 +1,13 @@
 #!/bin/bash
 
-rm -Rf .aapi
-git clone --depth=2 https://github.com/grommunio/admin-api.git .aapi
+if [ -d .aapi ]; then
+	pushd .aapi
+	git remote update -p
+	git checkout origin/HEAD
+	popd
+else
+	git clone --depth=2 https://github.com/grommunio/admin-api.git .aapi
+fi
 
 cat .aapi/doc/rst/grommunio-admin.rst .aapi/doc/rst/grommunio-admin-*.rst .aapi/doc/rst/grommunio-dbconf.rst
 
