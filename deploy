@@ -10,7 +10,7 @@ DOC_RELEASEFULL="`date +%Y.%m.%d`"
 
 declare -a AVAIL_MANUAL=("main" "admin" "user" "web" "man" "dev" "migration")
 
-if [ -z ${1+x} ]; then
+if [ -z "$1" ]; then
 	declare -a BUILD_MANUAL=("main" "admin" "user" "web" "man" "dev" "migration")
 elif [[ ! " ${AVAIL_MANUAL[@]} " =~ " ${1} " ]]; then
 	echo "No manual name given. Specify a valid manual to be built. Current valid manuals are:"
