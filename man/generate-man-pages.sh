@@ -10,8 +10,7 @@ pushd .gromox/doc/
 	done
 popd
 
-rm -f gromox.7.rst gromox-pffimport.8.rst *gx*.rst
-
+rm -f gromox.7.rst gromox-pffimport.8.rst *gx*.rst grommunio-admin-*.rst
 mv .gromox/doc/*.rst .
 sed -i 's#(1)##g' .aapi/doc/rst/*.rst
 mv .aapi/doc/rst/*.rst .
