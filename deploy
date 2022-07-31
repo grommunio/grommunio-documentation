@@ -20,7 +20,6 @@ else
 fi
 
 for MANUAL in ${BUILD_MANUAL[@]}; do
-
 	sed -i "s#^version =.*#version = \'${DOC_RELEASE}\'##g" ${MANUAL}/conf.py
 	sed -i "s#^release =.*#release = \'${DOC_RELEASEFULL}\'##g" ${MANUAL}/conf.py
 
@@ -56,23 +55,34 @@ for MANUAL in ${BUILD_MANUAL[@]}; do
 	fi
 
 	if [ "${MANUAL}" != "main" ]; then
-		rm -rf $DOCU_ROOT/${MANUAL}
-		mkdir -p $DOCU_ROOT/${MANUAL}
-		rsync -av ${MANUAL}-build/html/* $DOCU_ROOT/${MANUAL}/
 		mkdir -p ${MANUAL}-build/latex
 		rsync -av resources/_static/img/back_a4.png ${MANUAL}-build/latex/background.png
 		if ! make latexpdf DOCDIR=${MANUAL} BUILDDIR=${MANUAL}-build; then
 			if test -z "$IGNORE_PDF"; then
 				exit 1
 			fi
-		else
-			rsync -av ${MANUAL}-build/latex/grommunio.pdf $DOCU_ROOT/grommunio${MANUAL^}Doc.pdf
 		fi
 		if ! make epub DOCDIR=${MANUAL} BUILDDIR=${MANUAL}-build; then
 			if test -z "$IGNORE_EPUB"; then
 				exit 1
 			fi
-		else
+		fi
+	fi
+done
+
+if [ -z "$PUBLISH" ]; then
+	exit 0
+fi
+
+for MANUAL in ${BUILD_MANUAL[@]}; do
+	if [ "${MANUAL}" != "main" ]; then
+		rm -rf $DOCU_ROOT/${MANUAL}
+		mkdir -p $DOCU_ROOT/${MANUAL}
+		rsync -av ${MANUAL}-build/html/* $DOCU_ROOT/${MANUAL}/
+		if [[ -f ${MANUAL}-build/latex/grommunio.pdf ]]; then
+			rsync -av ${MANUAL}-build/latex/grommunio.pdf $DOCU_ROOT/grommunio${MANUAL^}Doc.pdf
+		fi
+		if [[ -f ${MANUAL}-build/epub/grommunio.epub ]]; then
 			rsync -av ${MANUAL}-build/epub/grommunio.epub $DOCU_ROOT/grommunio${MANUAL^}Doc.epub
 		fi
 	else
