@@ -9,8 +9,6 @@ else
 	git clone --depth=2 https://github.com/grommunio/admin-api.git .aapi
 fi
 
-cat .aapi/doc/rst/grommunio-admin.rst .aapi/doc/rst/grommunio-admin-*.rst .aapi/doc/rst/grommunio-dbconf.rst
-
 if [ -e "admin-api.rst" ]; then
 	rm -f admin-api.rst
 fi
