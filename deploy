@@ -61,10 +61,20 @@ for MANUAL in ${BUILD_MANUAL[@]}; do
 		rsync -av ${MANUAL}-build/html/* $DOCU_ROOT/${MANUAL}/
 		mkdir -p ${MANUAL}-build/latex
 		rsync -av resources/_static/img/back_a4.png ${MANUAL}-build/latex/background.png
-		make latexpdf DOCDIR=${MANUAL} BUILDDIR=${MANUAL}-build
-		rsync -av ${MANUAL}-build/latex/grommunio.pdf $DOCU_ROOT/grommunio${MANUAL^}Doc.pdf
-		make epub DOCDIR=${MANUAL} BUILDDIR=${MANUAL}-build
-		rsync -av ${MANUAL}-build/epub/grommunio.epub $DOCU_ROOT/grommunio${MANUAL^}Doc.epub
+		if ! make latexpdf DOCDIR=${MANUAL} BUILDDIR=${MANUAL}-build; then
+			if test -z "$IGNORE_PDF"; then
+				exit 1
+			fi
+		else
+			rsync -av ${MANUAL}-build/latex/grommunio.pdf $DOCU_ROOT/grommunio${MANUAL^}Doc.pdf
+		fi
+		if ! make epub DOCDIR=${MANUAL} BUILDDIR=${MANUAL}-build; then
+			if test -z "$IGNORE_EPUB"; then
+				exit 1
+			fi
+		else
+			rsync -av ${MANUAL}-build/epub/grommunio.epub $DOCU_ROOT/grommunio${MANUAL^}Doc.epub
+		fi
 	else
 		mkdir -p $DOCU_ROOT
 		rsync -av ${MANUAL}-build/html/* $DOCU_ROOT/
