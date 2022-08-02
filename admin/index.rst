@@ -28,6 +28,7 @@ installation and operation:
         introduction.rst
         quickstart.rst
         installation.rst
+        manual_install.rst
         administration.rst
         architecture.rst
         operations.rst
