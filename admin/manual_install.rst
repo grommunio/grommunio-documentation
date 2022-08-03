@@ -23,7 +23,7 @@ means:
 Establish networking
 --------------------
 
-.. code-block:: sh
+.. code-block::
 
 	localhost:~ # networkctl
 	IDX LINK  TYPE     OPERATIONAL SETUP
@@ -68,7 +68,7 @@ get online.
 
 [Text screenshot of iproute2 output in a command shell]
 
-.. code-block:: sh
+.. code-block::
 
 	mail:~ # ip a
 	1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
@@ -143,7 +143,7 @@ Retrieve the GPG key and import it into the RPM database to trust it. Then,
 optionally, download the repository metadata (if not, it will be done the next
 time you install anything).
 
-.. code-block:: sh
+.. code-block::
 
 	curl https://download.grommunio.com/RPM-GPG-KEY-grommunio >gr.key
 	rpm --import gr.key
@@ -171,7 +171,7 @@ apt
 
 For Debian, one is to add into ``/etc/apt/sources.list.d/grommunio.list``:
 
-.. code-block:: sh
+.. code-block::
 
 	deb [trusted=yes] https://download.grommunio.com/community/Debian_11 Debian_11 main
 
@@ -460,7 +460,7 @@ change that…)
 
 Expected output:
 
-.. code-block:: sh
+.. code-block::
 
 	> GET / HTTP/1.1
 	> Host: localhost:10443
@@ -486,7 +486,7 @@ Using a browser from a separate desktop machine is also possible provided port
 hosts.) The result for localhost:10443 and localhost:443 should be the same.
 Expected output:
 
-.. code-block:: sh
+.. code-block::
 
 	< HTTP/1.1 200 OK
 	< Date: Tue, 29 Mar 2022 23:08:33 GMT
@@ -556,7 +556,7 @@ commands.
 
 Expected output for IMAP:
 
-.. code-block:: sh
+.. code-block::
 
 	*   Trying ::1:993...
 	…
@@ -568,7 +568,7 @@ Expected output for IMAP:
 
 Expected output for POP3:
 
-.. code-block:: sh
+.. code-block::
 
 	*   Trying ::1:995...
 	* TCP_NODELAY set
@@ -633,7 +633,7 @@ Autodiscover also works in test setups without a frontend like nginx.)
 
 Expected result of this operation:
 
-.. code-block:: sh
+.. code-block::
 
 	> GET /Autodiscover/Autodiscover.xml HTTP/1.1
 	> Host: localhost:10443
@@ -751,7 +751,7 @@ endpoints, and we can test for that with curl or even firefox.
 
 The expected result is a JSON response.
 
-.. code-block:: sh
+.. code-block::
 
 	…
 	< HTTP/1.1 405 METHOD NOT ALLOWED
@@ -833,7 +833,7 @@ enabled,
 
 Expected output:
 
-.. code-block:: sh
+.. code-block::
 
 	…
 	> A001 CAPABILITY
