@@ -23,7 +23,9 @@ means:
 Establish networking
 --------------------
 
-.. code-block::
+[Text-based screenshot of networkctl being issued from a command shell.]
+
+.. code-block:: text
 
 	localhost:~ # networkctl
 	IDX LINK  TYPE     OPERATIONAL SETUP
@@ -33,7 +35,7 @@ Establish networking
 	2 links listed.
 
 	localhost:~ # networkctl status host0
-	  2: host0
+	* 2: host0
 			     Link File: n/a
 			  Network File: /etc/systemd/network/host0.network
 				  Type: ether
@@ -66,11 +68,11 @@ varies wildly between operating systems, and not every system is using
 systemd-networkd. Consult the documentation relevant for your environment to
 get online.
 
-[Text screenshot of iproute2 output in a command shell]
+[Text-based screenshot of iproute2 being issued from a command shell.]
 
-.. code-block::
+.. code-block:: text
 
-	mail:~ # ip a
+	localhost:~ # ip a
 	1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
 	    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
 	    inet 127.0.0.1/8 scope host lo
@@ -101,6 +103,16 @@ throughout the sections going forward. The summary though:
 Declare hostname identity
 -------------------------
 
+[Text-based screenshot of shell prompts (not part of the command)
+and commands to issue.]
+
+.. code-block:: text
+
+	localhost:~ # echo mail.route27.test >/etc/hostame
+	localhost:~ # hostname mail.route27.test
+	localhost:~ # exec bash --login
+	mail:~ #
+
 If you have not consciously set a hostname yet, do so now, especially if some
 default setting has left you with localhost as the hostname. You cannot
 reasonably reach localhost from another machine without unnecessary pains.
@@ -116,10 +128,11 @@ Package manager setup
 ---------------------
 
 Visit `<https://download.grommunio.com>`_ to get an idea of the list of platforms for
-which pre-built packages have been made available. Even though different
-operating systems may use the same archive format (RPM, DEB, etc.) or
-repository metadata formats (rpm-md, apt), do not use a repository which does
-not exactly match your system. Do not use Debian packages for an Ubuntu system
+which pre-built packages have been made available. Different
+operating systems may use the same archive format (RPM, DEB, etc.), or
+the same repository metadata formats (such as rpm-md, apt). However,
+do not use a repository which does
+not _exactly match_ your system. Do not use Debian packages for an Ubuntu system
 or vice-versa. Do not use openSUSE packages for a Fedora system or vice-versa.
 Do not even remotely think of converting between formats.
 
@@ -143,10 +156,27 @@ Retrieve the GPG key and import it into the RPM database to trust it. Then,
 optionally, download the repository metadata (if not, it will be done the next
 time you install anything).
 
-.. code-block::
+[Text-based screenshot of shell prompts (not part of the command)
+and commands to issue.]
 
-	curl https://download.grommunio.com/RPM-GPG-KEY-grommunio >gr.key
-	rpm --import gr.key
+.. code-block:: text
+
+	mail:~ # curl https://download.grommunio.com/RPM-GPG-KEY-grommunio >gr.key
+	  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+	                                 Dload  Upload   Total   Spent    Left  Speed
+	100  3175  100  3175    0     0  18021      0 --:--:-- --:--:-- --:--:-- 18039
+	mail:~ # rpm --import gr.key
+
+[Text-based screenshot of shell prompts (not part of the command)
+and commands to issue.]
+
+.. code-block:: text
+
+	mail:~ # zypper ref grommunio
+	Retrieving repository 'grommunio' metadata ... [done]
+	Building repository 'grommunio' cache ... [done]
+	Specified repositories have been refreshed.
+
 
 dnf
 ~~~
@@ -169,17 +199,47 @@ at your leisure.
 apt
 ~~~
 
-For Debian, one is to add into ``/etc/apt/sources.list.d/grommunio.list``:
+For Debian-based systems, the repository information can be added to ``/etc/apt/sources.list.d/grommunio.list``. E.g. for Ubuntu 22.04, one would write:
 
-.. code-block::
+.. code-block:: text
 
-	deb [trusted=yes] https://download.grommunio.com/community/Debian_11 Debian_11 main
+	deb [trusted=yes] https://download.grommunio.com/community/Ubuntu_22.04 Ubuntu_22.04 main
 
 Then import the GPG key and proceed to use apt commands to update at your
 leisure.
 
-For Ubuntu installations, the ``universe`` repository is required in addition
-to the base install.
+.. code-block:: text
+
+	deb https://ftp.gwdg.de/pub/linux/debian/ubuntu jammy main
+	deb [trusted=yes] https://download.grommunio.com/community/Ubuntu_22.04 Ubuntu_22.04 main
+	deb http://archive.ubuntu.com/ubuntu jammy universe
+
+[Text-based screenshot of shell prompts (not part of the command)
+and commands to issue.]
+
+.. code-block:: text
+
+	# curl https://download.grommunio.com/RPM-GPG-KEY-grommunio >gr.key
+	  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+					 Dload  Upload   Total   Spent    Left  Speed
+	100  3175  100  3175    0     0  50396      0 --:--:-- --:--:-- --:--:-- 50396
+	root@mail:~# apt-key add gr.key
+	OK
+
+For the specific case of Ubuntu installations, the ``universe`` repository is required. For Debian, the base distribution is sufficient.
+
+[Text-based screenshot of shell prompts (not part of the command)
+and commands to issue.]
+
+.. code-block:: text
+
+	root@mail:~# apt-get update
+	Hit:1 https://ftp.gwdg.de/pub/linux/debian/ubuntu jammy InRelease
+	Get:2 https://download.grommunio.com/community/Ubuntu_22.04 Ubuntu_22.04 InRelease [4692 B]
+	Hit:3 http://archive.ubuntu.com/ubuntu jammy InRelease
+	Get:4 https://download.grommunio.com/community/Ubuntu_22.04 Ubuntu_22.04/main amd64 Packages [7083 B]
+	Fetched 11.8 kB in 0s (47.9 kB/s)
+	Reading package lists... Done
 
 
 TLS certificates
@@ -234,6 +294,44 @@ An alternative HTTP server may be used if you feel comfortable in configuring
 nginx package from your operating system, and have the service started both on
 next boot and immediately.
 
+[Text-based screenshot of shell prompts (not part of the command)
+and commands to issue.]
+
+.. code-block:: text
+
+	mail:~ # zypper in nginx nginx-module-vts
+	Loading repository data...
+	Reading installed packages...
+	Resolving package dependencies...
+
+	The following 26 NEW packages are going to be installed:
+	  fontconfig libX11-6 libX11-data libXau6 libXpm4 libaom3 libavif13 libdav1d5
+	  libdb-4_8 libexslt0 libfontconfig1 libfreetype6 libgd3 libgdbm6
+	  ilbgdbm_compat4 libjbig2 libjpeg8 libpng16-16 librav1e0 libtiff5 libwebp7
+	  libxcb1 libxslt1 nginx nginx-module-vts perl
+
+	26 new packages to install.
+	Overall download size: 15.2 MiB. Already cached: 0 B. After the operation,
+	additional 68.4 MiB will be used.
+	Continue? [y/n/v/...? shows all options] (y):
+
+[Text-based screenshot of shell prompts (not part of the command)
+and commands to issue.]
+
+.. code-block:: text
+
+	(22/26) Installing: libXpm4-3.5.13-1.8.x86_64 ... [done]
+	(23/26) Installing: libfontconfig1-2.13.1-2.12.x86_64 ... [done]
+	(24/26) Installing: libgd3-2.3.3-2.2.x86_64 ... [done]
+	(25/26) Installing: nginx-1.21.5-1.1.x86_64 ... [done]
+	Additional rpmoutput:
+	/usr/bin/systemd-sysusers --replace=/usr/lib/sysusers.d/nginx.conf -
+	Creating group nginx with gid 477.
+	Creating user nginx (User for nginx) with uid 477 and gid 477.
+	(26/26) Installing: nginx-module-vts-0.1.116-1.1.x86_64 ... [done]
+	mail:~ # systemctl enable --now nginx
+	Created symlink /etc/systemd/system/multi-user.target.wants/nginx.service → /usr/lib/systemd/system/nginx.service
+
 In this screenshot, we also requested the installation of the nginx VTS module,
 which AAPI can *optionally* for reporting traffic statistics. VTS is
 **not** available for all platforms, in which case you have to omit and make do
@@ -256,7 +354,7 @@ inclusion points throughout the configuration tree, enabling customized setups.
 
 
 nginx support package
-~~~~~~~~~~~~~~~~~~~~~
+---------------------
 
 We have a package that contains the first set of premade configuration
 fragments for nginx. Do install the ``grommunio-common`` package.
@@ -282,7 +380,7 @@ and forward such requests to gromox-http on port 10443 (see later section).
 
 
 TLS for nginx
-~~~~~~~~~~~~~
+-------------
 
 Create ``/etc/grommunio-common/nginx/ssl_certificate.conf`` and populate with
 the certificate directives, exchanging paths as appropriate:
@@ -292,13 +390,13 @@ the certificate directives, exchanging paths as appropriate:
 	ssl_certificate zzz.pem;
 	ssl_certificate_key zzz.key;
 
-(The exact chain of includes is ``/etc/nginx/nginx.conf`` -> ``/etc/nginx/conf.d/grommunio.conf`` -> ``/usr/share/grommunio-common/nginx.conf`` -> ``/etc/grommunio-common/nginx/ssl_certificate.conf``.)
+(The exact chain of includes is ``/etc/nginx/nginx.conf`` >
+``/etc/nginx/conf.d/grommunio.conf`` >
+``/usr/share/grommunio-common/nginx.conf`` >
+``/etc/grommunio-common/nginx/ssl_certificate.conf``.)
 
 The port 80 and 443 listen declarations are provided by
 ``/usr/share/grommunio-common/nginx.conf``.
-
-nginx config check
-~~~~~~~~~~~~~~~~~~
 
 nginx's configuration can be tested and shown, respectively:
 
@@ -324,8 +422,58 @@ Assuming though that you are going for a new SQL server instance, source the
 MariaDB packages from your operating system, and have the service started
 both on next boot and immediately.
 
+[Text-based screenshot of shell prompts (not part of the command)
+and commands to issue.]
+
+.. code-block:: text
+
+	mail:~ # zypper in mariadb mariadb-client
+	Loading repository data...
+	Reading installed packages...
+	Resolving package dependencies...
+
+	The following 15 NEW packages are going to be installed:
+	  libJudy1 libaio1 libedit0 libltdl7 liblzo2-2 libmariadb3 libodbc2
+	  libpython3_8-1_0 libwrap0 mariadb mariadb-client mariadb-errormessages
+	  python38-base python38-mysqlclient
+
+	15 new packages to install.
+	Overall download size: 33.3 MiB. Already cached: 0 B. After the operation,
+	additional 160.7 MiB will be used.
+	Continue? [y/n/v/...? shows all options] (y):
+
+.. code-block:: text
+
+	(13/15) Installing: python38-base-3.8.12-3.2.x86_64 ... [done]
+	(14/15) Installing: pytnon38-mysqlclient-2.0.3-2.2.x86_64 ... [done]
+	(15/15) Installing: mariadb-10.6.5-4.1.x86_64 ... [done]
+	mail:~ # systemctl enable --now mariadb
+	Created symlinks /etc/systemd/system/mysql.service → /usr/lib/systemd/system/mariadb.service.
+	Created symlink /etc/systemd/system/multi-user.target.wants/mariadb.service → /usr/lib/systemd/system/mariadb.service
+
 After the installation, do create a blank database and user identity for
 accessing it.
+
+[Terminal screenshot of an interactive mysql session.]
+
+.. code-block:: text
+
+	mail:~ # mariadb
+	Welcome to the MariaDB monitor.  Commands end with ; or \g.
+	Your MariaDB connection id is 4
+	Server version: 10.6.5-MariDB MariaDB package
+
+	Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+	Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+	MariaDB [(none)]> create database grommunio;
+	Query OK, 1 row affected (0.001 sec)
+
+	MariaDB [(none)]> grant all on grommunio.* to 'grommunio'@'localhost' identified by 'freddledgruntbuggly';
+	Query OK, 0 rows affected (0.004 sec)
+
+	MariaDB [(none)]>
 
 .. code-block:: sql
 
@@ -346,8 +494,8 @@ for CREATE USER or `ALTER USER
 <https://stackoverflow.com/questions/49194719/>`_.
 
 
-Gromox
-------
+Gromox in general
+-----------------
 
 Gromox is the central groupware server component of grommunio. It provides
 the services for Outlook RPC, IMAP/POP3, an LDA for ingestion, and a PHP
@@ -359,6 +507,27 @@ source and who have general knowledge on how to do so are referred to the
 `Gromox installation documentation
 <https://github.com/grommunio/gromox/doc/install.rst>`_ on specific aspects of
 the build procedure.
+
+[Text-based screenshot of shell prompts (not part of the command)
+and commands to issue.]
+
+.. code-block:: text
+
+	mail:~ # zypper in gromox
+	Loading repository data...
+	Reading installed packages...
+	Resolving package dependencies...
+
+	The following 26 NEW packages are going to be installed:
+	  gromox libHX32 libbfio1 libcdata1 libcerror1 libcfile1 libclocale1 libcnotify1
+	  libcpath1 libcsplit1 libcthreads1 libfcache1 libfdata1 libfmapi1 libgumbo1
+	  ilbjsoncpp25 libpff1 libuna1 php8 php8-cli php8-mysql php8-pdo php8-soap
+	  system-user-gromox system-user-wwwrun timezone
+
+	26 new packages to install
+	Overall download size: 5.8 MiB. Already cached: 0 B. After the operation,
+	additional 19.3 MiB will be used.
+	Continue? [y/n/v/...? shows all options] (y):
 
 Gromox runs a number of processes and network services. None of them are meant
 to be open to the public Internet, because nginx is already that important
@@ -378,8 +547,8 @@ All log output goes to stderr. When run from systemd, this is automatically
 redirected to the journal.
 
 
-User database
-~~~~~~~~~~~~~
+Gromox user database
+--------------------
 
 The connection parameters for MariaDB need to be conveyed to Gromox with the
 file ``/etc/gromox/mysql_adaptor.cfg``, whose contents could look like this::
@@ -398,11 +567,38 @@ be consistent across all mailbox nodes. It is possible to completely omit
 ``schema_upgrade``, at which point no updates will be done automatically.
 
 With Gromox instrumented on the SQL parameters, proceed now with performing the
-initial creation of the database tables by issuing the command:
+initial creation of the database tables by issuing the gromox-dbop command:
 
-.. code-block:: sh
+[Text-based screenshot of shell prompts (not part of the command)
+and commands to issue.]
 
-	gromox-dbop -C
+.. code-block:: text
+
+	mail:~ # gromox-dbop -C
+	Creating admin_roles
+	Creating associations
+	Creating configs
+	Creating domains
+	Creating forwards
+	Creating groups
+	Creating hierarchy
+	Creating members
+	Creating mlists
+	Creating options
+	Creating orgs
+	Creating specifieds
+	Creating users
+	Creating aliases
+	Creating user_properties
+	Creating admin_role_permission_relation
+	Creating admin_user_role_relation
+	Creating classes
+	Creating fetchmail
+	Creating secondary_store_hints
+	Creating user_devices
+	Creating user_device_history
+	Creating task_queue
+	mail:~ #
 
 If automatic schema upgrades are disabled, manual updates can be performed
 later with:
@@ -413,7 +609,7 @@ later with:
 
 
 gromox-event/timer
-~~~~~~~~~~~~~~~~~~
+------------------
 
 * event: A notification daemon for an interprocess channel between
 gromox-imap/gromox-midb. No configuration needed.
@@ -426,7 +622,7 @@ needed.
 
 
 gromox-http
-~~~~~~~~~~~
+-----------
 
 Because nginx was set up earlier as a frontend to listen on ports 80 and 443,
 gromox-http needs to be moved "out of the way" (its built-in defaults are also
@@ -460,7 +656,7 @@ change that…)
 
 Expected output:
 
-.. code-block::
+.. code-block:: text
 
 	> GET / HTTP/1.1
 	> Host: localhost:10443
@@ -486,7 +682,7 @@ Using a browser from a separate desktop machine is also possible provided port
 hosts.) The result for localhost:10443 and localhost:443 should be the same.
 Expected output:
 
-.. code-block::
+.. code-block:: text
 
 	< HTTP/1.1 200 OK
 	< Date: Tue, 29 Mar 2022 23:08:33 GMT
@@ -501,7 +697,7 @@ Expected output:
 
 
 gromox-midb & zcore
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
 The IMAP Message Index Database, and the bridge process for PHP-MAPI. No
 further configuration needed.
@@ -512,7 +708,7 @@ further configuration needed.
 
 
 gromox-imap & pop3
-~~~~~~~~~~~~~~~~~~
+------------------
 
 Similar to ``http.cfg``, convey to the IMAP/POP3 daemons the TLS certificate
 paths. Skip this section if you do not intend to run these protocols.
@@ -556,7 +752,7 @@ commands.
 
 Expected output for IMAP:
 
-.. code-block::
+.. code-block:: text
 
 	*   Trying ::1:993...
 	…
@@ -568,7 +764,7 @@ Expected output for IMAP:
 
 Expected output for POP3:
 
-.. code-block::
+.. code-block:: text
 
 	*   Trying ::1:995...
 	* TCP_NODELAY set
@@ -633,7 +829,7 @@ Autodiscover also works in test setups without a frontend like nginx.)
 
 Expected result of this operation:
 
-.. code-block::
+.. code-block:: text
 
 	> GET /Autodiscover/Autodiscover.xml HTTP/1.1
 	> Host: localhost:10443
@@ -716,7 +912,7 @@ mode 0775 on ``/etc/gromox``. Individual files within that directory should be
 
 
 nginx support package for AAPI/AWEB
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------------
 
 The installation of ``grommunio-admin-api`` or ``grommunio-admin-web`` also
 pulls in ``grommunio-admin-common``, which places a number of nginx fragments
@@ -751,7 +947,7 @@ endpoints, and we can test for that with curl or even firefox.
 
 The expected result is a JSON response.
 
-.. code-block::
+.. code-block:: text
 
 	…
 	< HTTP/1.1 405 METHOD NOT ALLOWED
@@ -791,7 +987,7 @@ on the `Grommunio documentation website
 
 
 Known issues
-------------
+~~~~~~~~~~~~
 
 The systemd service list in the dashboard (subsection “Performance”, box
 container in the left third) has action buttons to trigger systemctl
@@ -802,7 +998,7 @@ required`` will appear.
 
 
 Create domain & user
---------------------
+~~~~~~~~~~~~~~~~~~~~
 
 Create the ``route27.test`` domain, and a user using AWEB. Afterwards, one can
 test the login/use in various ways. For example, to run the Autodiscover
@@ -818,13 +1014,13 @@ Expected output:
 
 	<?xml version="1.0" encoding="utf-8"?>
 	<Autodiscover xmlns="http://schemas.microsoft.com/exchange/autodiscover/responseschema/2006">
-	<Response xmlns=…>
+	<Response xmlns=…
 
 At your leisure, connect with Outlook.
 
 To be able to log into IMAP/POP3, the user must have this feature explicitly
-enabled. This can be changed using AWEB by going to the *Domains* ->
-*route27.test* -> *Users* tab on the left-hand side navigation pane. Once
+enabled. This can be changed using AWEB by going to the *Domains* >
+*route27.test* > *Users* tab on the left-hand side navigation pane. Once
 enabled,
 
 .. code-block:: sh
@@ -833,7 +1029,7 @@ enabled,
 
 Expected output:
 
-.. code-block::
+.. code-block:: text
 
 	…
 	> A001 CAPABILITY
