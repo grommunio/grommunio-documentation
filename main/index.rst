@@ -6,7 +6,7 @@ Welcome! On this site, you can find almost everything you need to know about
 grommunio, how it works, how you can use it. If you have any questions, or want
 to make a report about information you are missing, or something else that you
 would like to see here, do not hesitate and relay us a message on `our homepage
-<https://grommunio.com/kontakt/>`_.
+<https://grommunio.com/contact/>`_.
 
 .. toctree::
 	:caption: Administrator Documentation
