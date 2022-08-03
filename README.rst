@@ -19,29 +19,29 @@ Note: The meta.txt file is included with the deploy script and is a unique meta 
 
 Handling the rtd theme under SUSE is a bit of an adventure, since the shipped version is quite outdated and the theme depends on the python3-Sphinx version, which is why the following workaround works:
 
-```
-# rpm -e python3-sphinx_rtd_theme
-error: Failed dependencies:
-        python3-sphinx_rtd_theme is needed by (installed) python3-Sphinx-1.7.6-lp152.5.3.1.noarch
+.. code-block:: text
 
-# pip install sphinx-rtd-theme
-Requirement already satisfied: sphinx-rtd-theme in /usr/lib/python3.6/site-packages (0.2.4)
-pygobject 3.34.0 requires pycairo>=1.11.1, which is not installed.
-You are using pip version 10.0.1, however version 20.3.3 is available.
-You should consider upgrading via the 'pip install --upgrade pip' command.
-# pip install --upgrade pip
-...
-# pip uninstall sphinx-rtd-theme
-Found existing installation: sphinx-rtd-theme 0.2.4
-Uninstalling sphinx-rtd-theme-0.2.4:
-  Would remove:
-    /usr/lib/python3.6/site-packages/sphinx_rtd_theme
-    /usr/lib/python3.6/site-packages/sphinx_rtd_theme-0.2.4-py3.6.egg-info
-Proceed (y/n)? y
-  Successfully uninstalled sphinx-rtd-theme-0.2.4
-# pip install sphinx-rtd-theme
-...
-Successfully installed sphinx-rtd-theme-0.5.1
-```
+	# rpm -e python3-sphinx_rtd_theme
+	error: Failed dependencies:
+		python3-sphinx_rtd_theme is needed by (installed) python3-Sphinx-1.7.6-lp152.5.3.1.noarch
+
+	# pip install sphinx-rtd-theme
+	Requirement already satisfied: sphinx-rtd-theme in /usr/lib/python3.6/site-packages (0.2.4)
+	pygobject 3.34.0 requires pycairo>=1.11.1, which is not installed.
+	You are using pip version 10.0.1, however version 20.3.3 is available.
+	You should consider upgrading via the 'pip install --upgrade pip' command.
+	# pip install --upgrade pip
+	...
+	# pip uninstall sphinx-rtd-theme
+	Found existing installation: sphinx-rtd-theme 0.2.4
+	Uninstalling sphinx-rtd-theme-0.2.4:
+	  Would remove:
+	    /usr/lib/python3.6/site-packages/sphinx_rtd_theme
+	    /usr/lib/python3.6/site-packages/sphinx_rtd_theme-0.2.4-py3.6.egg-info
+	Proceed (y/n)? y
+	  Successfully uninstalled sphinx-rtd-theme-0.2.4
+	# pip install sphinx-rtd-theme
+	...
+	Successfully installed sphinx-rtd-theme-0.5.1
 
 The man pages' sub-documentation checks out the current (mirrored) Gromox project from github.com and builds all man pages with pandoc. To integrate this into the build process, the deploy script automatically triggers `generate-man-pages.sh`, and `index.rst` picks up all generated rst files thanks to a TOC glob filter. Gromox is placed intentionally at the front.
