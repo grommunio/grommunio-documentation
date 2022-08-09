@@ -7,7 +7,7 @@ While for the majority of installations the grommunio Appliance delivers a compr
    grommunio is a comprehensive communication and collaboration solution with many services and components. With this modularity, grommunio is extremely versatile and allows various installation types which all of them can't be covered in detail. This section is intentionally held as generic as possible
    
 .. important::
-   Please note that this section it targeted at adept administrators who are experienced in advanced linux administration and configuration.
+   Please note that this section is targeted at adept administrators who are experienced in advanced linux administration and configuration.
 
 This chapter assumes a basic system is running already. *Basic* in this regard
 means:

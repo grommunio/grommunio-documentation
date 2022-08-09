@@ -1,4 +1,4 @@
-Guided Insatllation (grommunio Appliance)
+Guided Installation (grommunio Appliance)
 =========================================
 
 grommunio delivers ready-to-use appliances for:
