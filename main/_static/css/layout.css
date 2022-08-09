@@ -1,3 +1,21 @@
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans Regular"), url("FiraSans-Regular.otf") format("truetype"); font-weight: 400; font-style: normal; }
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans Regular Italic"), url("FiraSans-RegularItalic.otf") format("truetype"); font-weight: 400; font-style: italic; }
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans Bold"), url("FiraSans-Bold.otf") format("truetype"); font-weight: 600; font-style: normal; }
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans Bold Italic"), url("FiraSans-BoldItalic.otf") format("truetype"); font-weight: 600; font-style: italic; }
+@font-face { font-family: "Consolas"; src: local("CMU Typewriter Text Regular"), url("cmuntt.otf") format("truetype"); font-weight: 400; font-style: normal; }
+@font-face { font-family: "Consolas"; src: local("CMU Typewriter Text Italic"), url("cmunit.otf") format("truetype"); font-weight: 400; font-style: italic; }
+@font-face { font-family: "Consolas"; src: local("CMU Typewriter Text Bold"), url("cmuntb.otf") format("truetype"); font-weight: 600; font-style: normal; }
+@font-face { font-family: "Consolas"; src: local("CMU Typewriter Text BoldItalic"), url("cmuntx.otf") format("truetype"); font-weight: 600; font-style: italic; }
+
+body {
+	font-family: "Fira Sans";
+}
+h1, h2, h3, h4, h5, h6, body, pre, code {
+	/* undo asocial rtd inaccessibility */
+	color: #000000;
+	font-family: "Fira Sans";
+}
+
 a {
 	color: #003060;
 }

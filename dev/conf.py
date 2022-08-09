@@ -160,7 +160,7 @@ latex_elements = {
 # Additional stuff for the LaTeX preamble.
 'preamble': r'''
 \usepackage{charter}
-\usepackage[defaultsans]{lato}
+\usepackage[sfdefault]{FiraSans}
 \usepackage{inconsolata}
 \usepackage{wallpaper}
 \ThisCenterWallPaper{1.0}{background.png}
