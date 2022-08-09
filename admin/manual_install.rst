@@ -132,7 +132,7 @@ which pre-built packages have been made available. Different
 operating systems may use the same archive format (RPM, DEB, etc.), or
 the same repository metadata formats (such as rpm-md, apt). However,
 do not use a repository which does
-not _exactly match_ your system. Do not use Debian packages for an Ubuntu system
+not *exactly match* your system. Do not use Debian packages for an Ubuntu system
 or vice-versa. Do not use openSUSE packages for a Fedora system or vice-versa.
 Do not even remotely think of converting between formats.
 
