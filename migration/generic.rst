@@ -24,10 +24,3 @@ As a user, you can do IMAP-to-IMAP transfers. This can be done interactively
 with a MUA such as Thunderbird or Alpine by having both the original and the
 Gromox IMAP accounts added and moving mails. Alternatively, the `imapsync`
 command-line utility may be used to do so non-interactively.
-
-
-Migration via POP
-=================
-
-Migration via PST
-=================

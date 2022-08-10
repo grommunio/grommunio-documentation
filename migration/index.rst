@@ -22,10 +22,7 @@ sources, rather than migration in terms of configuration.
         intro.rst
         ms_exchange.rst
         generic.rst
-        zimbra.rst
-        kerio.rst
         kopano.rst
-        nextcloud.rst
         legal_notice.rst
 
 .. toctree::
