@@ -7,10 +7,10 @@ DOCU_ROOT="/srv/www/vhosts/docs.grommunio.com/htdocs"
 DOC_RELEASE="`date +%y.%m`"
 DOC_RELEASEFULL="`date +%Y.%m.%d`"
 
-declare -a AVAIL_MANUAL=("main" "admin" "user" "web" "man" "dev" "migration")
+declare -a AVAIL_MANUAL=("main" "admin" "user" "web" "man" "dev" "migration" "kb")
 
 if [ -z "$1" ]; then
-	declare -a BUILD_MANUAL=("main" "admin" "user" "web" "man" "dev" "migration")
+	declare -a BUILD_MANUAL=("main" "admin" "user" "web" "man" "dev" "migration" "kb")
 elif [[ ! " ${AVAIL_MANUAL[@]} " =~ " ${1} " ]]; then
 	echo "Manual \"$1\" is unknown. Valid manuals:"
 	printf '%s\n' "${AVAIL_MANUAL[@]}" | sed 's#^#-> #'
