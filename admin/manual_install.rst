@@ -199,12 +199,6 @@ at your leisure.
 apt
 ~~~
 
-The Repository is only available via https
-
-.. code-block:: shell
-  
-  apt-get install apt-transport-https
-
 Debian
 ^^^^^^^^^^^^
 
