@@ -199,6 +199,36 @@ at your leisure.
 apt
 ~~~
 
+Debian
+^^^^^^^^^^^^
+
+Save the Repository-Key in ``/etc/apt/trusted.gpg.d/``
+
+.. code-block:: shell
+
+  wget -q https://download.grommunio.com/RPM-GPG-KEY-grommunio -O /etc/apt/trusted.gpg.d/download.grommunio.com.asc
+
+.. note::
+   ``apt-key`` is deprecated and should no longer be used - more information in `apt-key(8)`_.
+.. _apt-key(8): https://manpages.debian.org/apt-key
+
+and create ``/etc/apt/sources.list.d/grommunio-community.sources``
+
+.. code-block:: debcontrol
+
+  Types: deb
+  URIs: https://download.grommunio.com/community/Debian_11
+  Suites: Debian_11
+  Components: main
+
+Debian-based distributions
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. important::
+   You shouldn't use ``[trusted=yes]`` in a production environment - more information in `sources.list(5)`_.
+.. _sources.list(5): https://manpages.debian.org/sources.list
+
+
 For Debian-based systems, the repository information can be added to ``/etc/apt/sources.list.d/grommunio.list``. E.g. for Ubuntu 22.04, one would write:
 
 .. code-block:: text
