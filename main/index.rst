@@ -17,6 +17,7 @@ do not hesitate and relay us a message on `our homepage
         grommunio Admin <https://docs.grommunio.com/admin> 
         grommunio Man Pages <https://docs.grommunio.com/man> 
         grommunio Migration <https://docs.grommunio.com/migration>
+        Knowledge Base </kb>
 
 .. toctree::
 	:caption: User Documentation
@@ -76,6 +77,10 @@ details.
 `grommunio Migration Docs </migration>`_
 	This document provides information on migration strategies to
 	grommunio, mainly for use by Administrators.
+
+`Knowledge Base </kb>`_
+	Unstructured information, specifically delivering information beyond
+	the existing documentation.
 
 Developer Documentation
 =======================
