@@ -105,10 +105,6 @@ discover the world of grommunio.
 	Providing insight on how and where grommunio develops to and which
 	features are to be expected next.
 
-`grommunio Wiki <https://wiki.grommunio.com>`_
-	grommunio Wiki contains useful information, specifically delivering
-	extensive information beyond the existing documentation.
-
 `grommunio Community <https://community.grommunio.com>`_
 	grommunio Community hosts a forum for grommunio users, and while gramm
 	tries to help occasionally, the platform is not for support requests.
