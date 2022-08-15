@@ -76,4 +76,4 @@ All other trademarks, trade names, service marks, and companies referenced
 herein belong to their respective companies, foundations, or development
 communities.
 
-Copyright © 2020-2022 grommunio GmbH
+Copyright 2020-2022 grommunio GmbH
