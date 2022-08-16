@@ -199,76 +199,55 @@ at your leisure.
 apt
 ~~~
 
-Debian
-^^^^^^^^^^^^
-
-Save the Repository-Key in ``/etc/apt/trusted.gpg.d/``
-
-.. code-block:: shell
-
-  wget -q https://download.grommunio.com/RPM-GPG-KEY-grommunio -O /etc/apt/trusted.gpg.d/download.grommunio.com.asc
-
-.. note::
-   ``apt-key`` is deprecated and should no longer be used - more information in `apt-key(8)`_.
-.. _apt-key(8): https://manpages.debian.org/apt-key
-
-and create ``/etc/apt/sources.list.d/grommunio-community.sources``
+For Debian-based systems, the repository information needs to be added.
+Create a new file in ``/etc/apt/sources.list.d/``, e.g. ``grommunio.list``:
 
 .. code-block:: debcontrol
 
-  Types: deb
-  URIs: https://download.grommunio.com/community/Debian_11
-  Suites: Debian_11
-  Components: main
+	Types: deb
+	URIs: https://download.grommunio.com/community/Debian_11
+	Suites: Debian_11
+	Components: main
 
-Debian-based distributions
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. important::
-   You shouldn't use ``[trusted=yes]`` in a production environment - more information in `sources.list(5)`_.
-.. _sources.list(5): https://manpages.debian.org/sources.list
-
-
-For Debian-based systems, the repository information can be added to ``/etc/apt/sources.list.d/grommunio.list``. E.g. for Ubuntu 22.04, one would write:
-
-.. code-block:: text
-
-	deb [trusted=yes] https://download.grommunio.com/community/Ubuntu_22.04 Ubuntu_22.04 main
+(This equally works for `Ubuntu_22.04`, for example. For the specific case of
+Ubuntu installations however, the Ubuntu ``universe`` repository is *also*
+required, so be sure to enable it. For Debian, the base distribution is
+sufficient.)
 
 Then import the GPG key and proceed to use apt commands to update at your
 leisure.
 
-.. code-block:: text
-
-	deb https://ftp.gwdg.de/pub/linux/debian/ubuntu jammy main
-	deb [trusted=yes] https://download.grommunio.com/community/Ubuntu_22.04 Ubuntu_22.04 main
-	deb http://archive.ubuntu.com/ubuntu jammy universe
-
 [Text-based screenshot of shell prompts (not part of the command)
 and commands to issue.]
 
 .. code-block:: text
 
-	# curl https://download.grommunio.com/RPM-GPG-KEY-grommunio >gr.key
+	# curl https://download.grommunio.com/RPM-GPG-KEY-grommunio >/etc/apt/trusted.gpg.d/download.grommunio.com.asc
 	  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
 					 Dload  Upload   Total   Spent    Left  Speed
 	100  3175  100  3175    0     0  50396      0 --:--:-- --:--:-- --:--:-- 50396
-	root@mail:~# apt-key add gr.key
-	OK
 
-For the specific case of Ubuntu installations, the ``universe`` repository is required. For Debian, the base distribution is sufficient.
+.. note::
+	The ``apt-key`` command is deprecated and should no longer be used. For
+	more information, see the `apt-key(8)`_ manpage.
+
+.. _apt-key(8): https://manpages.debian.org/apt-key
+
 
 [Text-based screenshot of shell prompts (not part of the command)
 and commands to issue.]
 
 .. code-block:: text
 
-	root@mail:~# apt-get update
-	Hit:1 https://ftp.gwdg.de/pub/linux/debian/ubuntu jammy InRelease
-	Get:2 https://download.grommunio.com/community/Ubuntu_22.04 Ubuntu_22.04 InRelease [4692 B]
-	Hit:3 http://archive.ubuntu.com/ubuntu jammy InRelease
-	Get:4 https://download.grommunio.com/community/Ubuntu_22.04 Ubuntu_22.04/main amd64 Packages [7083 B]
-	Fetched 11.8 kB in 0s (47.9 kB/s)
+	# apt-get update
+	Hit:1 http://gb.archive.ubuntu.com/ubuntu jammy InRelease
+	Hit:2 http://gb.archive.ubuntu.com/ubuntu jammy-updates InRelease
+	Hit:3 http://gb.archive.ubuntu.com/ubuntu jammy-backports InRelease
+	Get:4 https://download.grommunio.com/community/Ubuntu_22.04 Ubuntu_22.04 InRelease [4,692 B]
+	Hit:5 http://security.ubuntu.com/ubuntu jammy-security InRelease
+	Get:6 https://download.grommunio.com/community/Ubuntu_22.04 Ubuntu_22.04/main amd64 Packages [7,072 B]
+	Get:7 https://download.grommunio.com/community/Ubuntu_22.04 Ubuntu_22.04/main i386 Packages [4,637 B]
+	Fetched 16.4 kB in 1s (23.8 kB/s)
 	Reading package lists... Done
 
 
