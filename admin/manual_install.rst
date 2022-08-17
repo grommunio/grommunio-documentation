@@ -621,9 +621,9 @@ gromox-event/timer
 ------------------
 
 * event: A notification daemon for an interprocess channel between
-gromox-imap/gromox-midb. No configuration needed.
+  gromox-imap/gromox-midb. No configuration needed.
 * timer: An at(1)/atd(8)-like daemon for delayed delivery. No configuration
-needed.
+  needed.
 
 .. code-block:: sh
 
