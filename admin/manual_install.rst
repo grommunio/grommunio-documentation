@@ -200,7 +200,7 @@ apt
 ~~~
 
 For Debian-based systems, the repository information needs to be added.
-Create a new file in ``/etc/apt/sources.list.d/``, e.g. ``grommunio.list``:
+Create a new file in ``/etc/apt/sources.list.d/``, e.g. ``grommunio.sources``:
 
 .. code-block:: debcontrol
 
