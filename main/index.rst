@@ -17,7 +17,7 @@ do not hesitate and relay us a message on `our homepage
         grommunio Admin <https://docs.grommunio.com/admin> 
         grommunio Man Pages <https://docs.grommunio.com/man> 
         grommunio Migration <https://docs.grommunio.com/migration>
-        Knowledge Base </kb>
+        Knowledge Base <https://docs.grommunio.com/kb>
 
 .. toctree::
 	:caption: User Documentation
