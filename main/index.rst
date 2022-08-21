@@ -14,9 +14,9 @@ do not hesitate and relay us a message on `our homepage
 	:caption: Administrator Documentation
         :hidden:
 
-        grommunio Admin <https://docs.grommunio.com/admin> 
-        grommunio Man Pages <https://docs.grommunio.com/man> 
-        grommunio Migration <https://docs.grommunio.com/migration>
+        Administrator Documentation <https://docs.grommunio.com/admin>
+        Man Pages <https://docs.grommunio.com/man>
+        Migration Guides <https://docs.grommunio.com/migration>
         Knowledge Base <https://docs.grommunio.com/kb>
 
 .. toctree::
@@ -37,8 +37,8 @@ do not hesitate and relay us a message on `our homepage
         :hidden:
 
         grommunio Roadmap <https://docs.grommunio.com/admin/roadmap.html> 
-        grommunio Community <https://community.grommunio.com> 
-        grommunio Portal <https://portal.grommunio.com> 
+        Community Forum <https://community.grommunio.com>
+        Partner Portal <https://portal.grommunio.com>
         grommunio Home <https://grommunio.com> 
 
 User Documentation
