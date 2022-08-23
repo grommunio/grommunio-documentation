@@ -52,6 +52,17 @@ case that would fall under this:
 Outgoing messages
 -----------------
 
+If sending a message fails with Outlook and gromox-http emits a log message like
+this,
+
+```
+user=test@a4.inai.de host=::ffff:162.55.248.37  W-1281: Failed to export to RFC5322 mail while sending mid:0x5001b
+```
+
+then gromox-exm2eml can be used by with a debugger to step into the
+`oxcmail_export` routine without stopping the server itself. (`gromox-exm2eml
+-u test@a4.inai.de 0x5001b`)
+
 If a message is received on a remote syste in an unexpectedly broken fashion,
 there may be a problem with the sending path. If the issue is visible with the
 message that is placed in the Sent Items folder, confer with the section
