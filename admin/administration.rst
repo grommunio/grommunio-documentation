@@ -1002,8 +1002,8 @@ line.
 
 
 Mail queue
-
 ----------
+
 Click on `Mail queue` in the drawer, which will redirect you to the view of the
 current postfix and gromox mail queue.
 
