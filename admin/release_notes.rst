@@ -2,6 +2,76 @@
 Release Notes
 #############
 
+grommunio 2022.05.2
+===================
+
+Release type: Minor
+
+Release date: 31th of August 2022
+
+**Highlights**
+
+- Support for PHP 8.0 and 8.1
+- "SendAs" support (additionally to "Send on behalf of")
+- Improved admin interface design and handling, including topic search
+- Multi-Language Support with 22 languages
+- Multiple dependency extensions for Platforms EL 8, Debian 11 and Ubuntu 22.04
+- Hierarchy for Public Folders in grommunio Admin (API, CLI and Web)
+- Public Folder ACL support admin grommunio Admin (API, CLI and Web)
+
+**New Features**
+
+- Support for multi-iCal and multi-vCard formats
+- Unification of MAPI libraries throughout web components
+- Configurable midb command buffer size for large IMAP migrations (80GB+ per mailbox)
+- Migration: Ignore Kopano Archiver stub elements
+
+**Enhancements**
+
+- Support for pooled LDAP connections via TLS (restartable Policy)
+- Enhanced Timezone handling based on most recent IANA Timezone policies
+- kdb2mt: support recovering broken attachments lacking PR_ATTACH_METHOD
+- kdb2mt: remove PK-1005 warning since now implemented
+- delmsg: support mailbox lookup using just the mailbox directory name
+- http: added the "msrpc_debug" config directive
+- nsp: added the "nsp_trace" config directive
+- mh_nsp: make the addition of delegates functional
+- kdb2mt: support recovering broken attachments lacking PR_ATTACH_METHOD
+- imap: emit gratuitous CAPABILITY lines upon connect and login
+- imap, pop3: support recognizing LF as a line terminator as well (other than CRLF)
+- Added a config directive tls_min_proto so one can set a minimum TLS standard when your distro doesn't have crypto-policies (`https://gitlab.com/redhat-crypto/fedora-crypto-policies <https://gitlab.com/redhat-crypto/fedora-crypto-policies>`_)
+- autodiscover.ini: new directives advertise_mh and advertise_rpch for finer grained control over individual protocol advertisements; replaces mapihttp.
+- exmdb_provider: lifted the folder limit from 10k to 28 billion
+- oxcmail: cease excessive base64 encoding.
+- Improvements to Outlook online/interactive search for improved responsiveness in Online Mode.
+- Messages are now preferably encoded as quoted-printable during conversion to Internet Mail format. This might help with spam classification.
+- delivery-queue: the maximum mail size is now strictly enforced rather than rounded up to the next 2 megabytes
+- gromox-dscli: the -h option is no longer strictly needed, it will be derived from the -e argument if absent
+
+The above is list not conclusive. As usual, numerous bug fixes and features have been included. The release notes just highlight major changes; Feel free to check out the detailed logs at GitHub (`https://github.com/grommunio <https://github.com/grommunio>`_).
+
+The official documentation covers the necessary steps for the update procedure.
+
+**Did you know?**
+
+grommunio strives for precise documentation underlying the standards and protocols grommunio builds upon, since these are the foundation for stable communication and functionality. We at grommunio also regularly fix incorrect portions of Microsofts‘ own documentation - example: `https://github.com/MicrosoftDocs/office-developer-client-docs/pull/613/commits/09c4ada5114d8e2d9f65ce29a25f40a6fc6c2278 <https://github.com/MicrosoftDocs/office-developer-client-docs/pull/613/commits/09c4ada5114d8e2d9f65ce29a25f40a6fc6c2278>`_
+
+In this spirit, we have published the grommunio documentation online (`https://github.com/grommunio/grommunio-documentation <https://github.com/grommunio/grommunio-documentation>`_), available for contributions from any source to make the documentation of grommunio as good as possible.
+
+**Contributions**
+
+Thanks to customers partners and the entire community - the community for their ongoing contributions, especially to:
+
+- Robert, who has provided various contributions to support BSD.
+- Walter, for his various contributions in the migration tools area.
+- Christopher, for his role-model involvement in grommunio community as maintainer.
+- Michael, for reports on admin api resiliency in distributed environments.
+- Stefan, Bob and Andreas for large scale container setup feedback.
+- Rob and Hannah, for guidances path on F5 nginx plus/unit.
+- Microsoft, for review, feedback and acceptance of errors in Microsofts' documentation.
+- ILS, for intense collaborative contributions to deliver grommunio in over 22 languages.
+- Artem, Milo, Hugel and many more for various language contributions.
+
 grommunio 2022.05.1
 ===================
 
