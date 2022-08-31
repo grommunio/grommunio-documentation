@@ -21,7 +21,6 @@ installation and operation:
   solutions.
 
 .. toctree::
-        :hidden:
 	:maxdepth: 5
 	:caption: Contents
 
