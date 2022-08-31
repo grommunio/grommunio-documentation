@@ -7,7 +7,7 @@ grommunio 2022.05.2
 
 Release type: Minor
 
-Release date: 31th of August 2022
+Release date: 31st of August 2022
 
 **Highlights**
 
@@ -48,7 +48,7 @@ Release date: 31th of August 2022
 - delivery-queue: the maximum mail size is now strictly enforced rather than rounded up to the next 2 megabytes
 - gromox-dscli: the -h option is no longer strictly needed, it will be derived from the -e argument if absent
 
-The above is list not conclusive. As usual, numerous bug fixes and features have been included. The release notes just highlight major changes; Feel free to check out the detailed logs at GitHub (`https://github.com/grommunio <https://github.com/grommunio>`_).
+The above list is not conclusive. As usual, numerous bug fixes and features have been included. The release notes just highlight major changes; Feel free to check out the detailed logs at GitHub (`https://github.com/grommunio <https://github.com/grommunio>`_).
 
 The official documentation covers the necessary steps for the update procedure.
 
