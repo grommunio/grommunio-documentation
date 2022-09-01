@@ -17,7 +17,6 @@ sources, rather than migration in terms of configuration.
 .. toctree::
 	:maxdepth: 4
 	:caption: Contents
-	:hidden:
 
         intro.rst
         ms_exchange.rst

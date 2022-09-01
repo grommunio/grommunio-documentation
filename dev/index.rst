@@ -15,7 +15,6 @@ and extend grommunio based on the developers own requirements.
 .. toctree::
 	:maxdepth: 4
 	:caption: Contents
-	:hidden:
 
         intro.rst
         adminapi.rst

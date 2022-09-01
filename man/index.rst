@@ -26,7 +26,6 @@ experience to install and operate grommunio:
   solutions.
 
 .. toctree::
-        :hidden:
 	:maxdepth: 4
 	:caption: Contents
         :glob:

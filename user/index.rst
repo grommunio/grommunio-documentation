@@ -16,7 +16,6 @@ understand the concepts behind grommunio.
 .. toctree::
 	:maxdepth: 4
 	:caption: Contents
-	:hidden:
 
         intro.rst
         groupware.rst
