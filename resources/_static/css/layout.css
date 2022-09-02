@@ -26,6 +26,13 @@ a {
 a:hover {
 	color: #2DCAFF;
 }
+a:visited {
+  color: #005A8A;
+}
+a:active {
+  color: #2AA1CB;
+}
+
 .wy-side-nav-search>a img.logo, .wy-side-nav-search .wy-dropdown>a img.logo {
 	width: 75%;
 }
