@@ -26,6 +26,9 @@ a {
 a:hover {
 	color: #2DCAFF;
 }
+a:active, a:visited {
+	color: #2AA1CB;
+}
 
 .wy-side-nav-search>a img.logo, .wy-side-nav-search .wy-dropdown>a img.logo {
 	width: 75%;
