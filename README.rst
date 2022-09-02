@@ -6,6 +6,7 @@ Notes regarding generating documentation
 This repository can be cloned and run locally if wanted. Yet, there are some dependencies:
 
 - make
+- rsync
 - python3-Sphinx
 - python3-Sphinx-latex
 - texlive-fira
