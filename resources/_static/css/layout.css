@@ -12,7 +12,7 @@ body {
 }
 h1, h2, h3, h4, h5, h6, body, pre, code {
 	/* undo asocial rtd inaccessibility */
-	color: #000000;
+	color: #1f1f1f;
 	font-family: "Fira Sans";
 }
 p {
@@ -21,10 +21,10 @@ p {
 }
 
 a {
-	color: #003060;
+	color: #0072B0;
 }
 a:hover {
-	color: #ff8d00;
+	color: #2DCAFF;
 }
 .wy-side-nav-search>a img.logo, .wy-side-nav-search .wy-dropdown>a img.logo {
 	width: 75%;
