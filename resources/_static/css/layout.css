@@ -31,7 +31,7 @@ a:active, a:visited {
 }
 
 .wy-side-nav-search>a img.logo, .wy-side-nav-search .wy-dropdown>a img.logo {
-	width: 75%;
+	width: 100%;
 }
 .wy-side-nav-search {
 	background: #1f1f1f;
