@@ -21,13 +21,13 @@ p {
 }
 
 a {
-	color: #0072B0;
+	color: #005A8A;
 }
 a:hover {
 	color: #2DCAFF;
 }
 a:active, a:visited {
-	color: #2AA1CB;
+	color: #0072B0;
 }
 
 .wy-side-nav-search>a img.logo, .wy-side-nav-search .wy-dropdown>a img.logo {
@@ -41,10 +41,10 @@ a:active, a:visited {
 }
 
 .wy-menu-vertical p.caption {
-	color: #6cc5fe;
+	color: #0CA7FB;
 }
 .wy-menu-vertical a {
-	color: #EFEFEF;
+	color: #efefef;
 }
 .wy-menu-vertical a:hover {
 	color: #2dcaff;
@@ -53,7 +53,7 @@ a:active, a:visited {
 	color: #fcfcfc;
 }
 .wy-menu-vertical a:visited {
-	color: #EFEFEF;
+	color: #efefef;
 }
 
 @media screen and (min-width: 1400px) {
