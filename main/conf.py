@@ -89,7 +89,7 @@ html_theme_options = {
 	'prev_next_buttons_location' : 'None'
 }
 
-html_logo = '_static/img/logolight.png'
+html_logo = '_static/img/logolight.svg'
 latex_logo = '_static/img/logo.png'
 html_show_sphinx = False
 html_style = 'css/layout.css'
