@@ -46,14 +46,17 @@ a:active, a:visited {
 .wy-menu-vertical a {
 	color: #efefef;
 }
+.wy-menu-vertical a:visited {
+	color: #efefef;
+}
+.wy-menu-vertical a:visited:hover {
+	color: #2dcaff;
+}
 .wy-menu-vertical a:hover {
 	color: #2dcaff;
 }
 .wy-menu-vertical a:active {
 	color: #fcfcfc;
-}
-.wy-menu-vertical a:visited {
-	color: #efefef;
 }
 
 @media screen and (min-width: 1400px) {
