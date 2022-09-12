@@ -156,8 +156,8 @@ grommunio stack are:
   (`https://jitsi.org/ <https://jitsi.org/>`_)
 - grommunio-office is a fork of OnlyOffice web with integration enhancements
   (`https://www.onlyoffice.com/ <https://www.onlyoffice.com/>`_)
-- grommunio-chat is a fork of Mattermost with authentication and integration
-  enhancements (`https://mattermost.com/ <https://mattermost.com/>`_)
+- grommunio-chat is a fork of an open source chat platform with authentication and integration
+  enhancements
 - grommunio-archive is a fork of Piler with authentication and integration
   enhancements (`https://www.mailpiler.org/ <https://www.mailpiler.org/>`_)
 - grommunio-antispam is a fork of rspamd with integration enhancements
