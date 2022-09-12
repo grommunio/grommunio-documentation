@@ -172,7 +172,7 @@ subscription level.
 In case an environment or similar installation exists, these components can be
 integrated on an interface level. Note that grommunio can not support
 installations not packaged by grommunio. However, if existing enterprise
-installations are available (such as Mattermost E20), the integration of these
+installations are available, the integration of these
 systems is possible with the correct configuration in place. grommunio
 subscriptions deliver support for integrations with these enterprise variants
 or even - based on the interfaces available - alternative solutions.
