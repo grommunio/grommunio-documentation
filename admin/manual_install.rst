@@ -295,8 +295,8 @@ nginx
 nginx is used as a frontend to handle all HTTP requests, and to forward them to
 further individual services. For example, RPC/HTTP requests will be delegated
 to Gromox for further processing, Administration API (AAPI for short) requests
-will be delegated to an uwsgi instance for further processing, and Mattermost
-requests to the chat API.
+will be delegated to an uwsgi instance for further processing, and requests 
+to the chat API.
 
 An alternative HTTP server may be used if you feel comfortable in configuring
 *all* of it, however this guide will only focus on nginx. Now then, source the
