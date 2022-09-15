@@ -1,7 +1,10 @@
 Manual Installation (Custom Integration)
 ========================================
 
-While for the majority of installations the grommunio Appliance delivers a comprehensive solution for most installation targets, some special needs might not be possible to satisfy. For these cases, grommunio can be installed manually with guidance from this chapter. 
+While for the majority of installations the grommunio Appliance delivers a
+comprehensive solution for most installation targets, some special needs might
+not be possible to satisfy. For these cases, the grommunio base system and core
+(groupware) can be installed manually with guidance from this chapter.
 
 .. note::
    grommunio is a comprehensive communication and collaboration solution with many services and components. With this modularity, grommunio is extremely versatile and allows various installation types which all of them can't be covered in detail. This section is intentionally held as generic as possible
@@ -19,6 +22,7 @@ means:
   init level 3 or 5)
 * should have an interactive shell for you to use
 * should not be ephemeral and not lose its state when turned off
+
 
 Establish networking
 --------------------
@@ -1147,3 +1151,11 @@ Finally, enable/restart the services so they can take their new places:
 
 	systemctl enable --now gromox-delivery gromox-delivery-queue postfix
 	systemctl restart gromox-delivery-queue postfix
+
+
+Other services
+--------------
+
+This chapter is only meant to cover the core component.
+Optional components, such as Chat, Meet, Files, Office and/or Archive, will
+be published in their own chapter at a later date.
