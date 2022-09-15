@@ -208,6 +208,11 @@ Create a new file in ``/etc/apt/sources.list.d/``, e.g. ``grommunio.sources``:
 	URIs: https://download.grommunio.com/community/Debian_11
 	Suites: Debian_11
 	Components: main
+	Signed-By: /usr/share/keyrings/download.grommunio.com.gpg
+
+.. code-block:: text
+
+	# wget -qO - https://download.grommunio.com/RPM-GPG-KEY-grommunio | gpg --dearmor --output /usr/share/keyrings/download.grommunio.com.gpg
 
 (This equally works for `Ubuntu_22.04`, for example. For the specific case of
 Ubuntu installations however, the Ubuntu ``universe`` repository is *also*
