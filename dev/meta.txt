@@ -3,7 +3,7 @@
    :keywords: grommunio developer documentation
    :author: grommunio GmbH
    :publisher: grommunio GmbH
-   :copyright: grommunio GmbH, 2020-2022
+   :copyright: grommunio GmbH, 2022
    :page-topic: software
    :page-type: documentation
    :robots: index, follow

@@ -1,3 +1,7 @@
+..
+        SPDX-License-Identifier: CC-BY-SA-4.0 or-later
+        SPDX-FileCopyrightText: 2022 grommunio GmbH
+
 Notes regarding generating documentation
 
 - The deploy script is the main script to generate and create HTML, EPUB and PDF files.
