@@ -1,3 +1,6 @@
+..
+        SPDX-License-Identifier: CC-BY-SA-4.0 or-later
+
 Grommunio-Archive
 =================
 
