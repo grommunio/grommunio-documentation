@@ -980,7 +980,7 @@ An authenticated request can also be made:
 
 .. code-block:: sh
 
-	curl -kv https://localhost:8443/api/v1/login -d 'user=admin&password=freddledgruntbuggly'
+	curl -kv https://localhost:8443/api/v1/login -d 'user=admin&pass=freddledgruntbuggly'
 
 Expected output:
 
