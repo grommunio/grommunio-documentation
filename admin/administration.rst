@@ -96,10 +96,19 @@ Load
 A display of the system load over the last 1, 5 and 15 minutes.
 
 
+Versions
+~~~~~~~~
+
+.. image:: _static/img/versions.png
+   :alt: grommunio load chart
+
+A display of installed component versions.
+
+
 Domains
 -------
 
-Click on `Domain list` in the drawer, which will redirect you to the list view
+Click on `Domains` in the drawer, which will redirect you to the list view
 of existing domains.
 If you just set up grommunio, the table will be empty.
 If you want to show currently deactivated domains check the checkbox `show
@@ -117,7 +126,7 @@ dialog:
 The following properties can be set:
 
 - Domain (required): The name of the domain (cannot be changed afterwards)
-- Status: Whether domain should be currently activated or deactivated
+- Status: Whether the domain should be currently activated or deactivated
 - Organization: Organization of the domain
 - Maximum users (required): The maximum amount of users (e-mails) of this
   domain
@@ -125,6 +134,7 @@ The following properties can be set:
 - Address: Address of the domain
 - Administrator: Administrator of the domain
 - Telephone: Hotline for problems
+- Homeserver: The server, on which the domain's data is stored
 - Create domain admin role: Creates a role for users, who will be admins for this domain
 - Create grommunio-chat team: Creates a new grommunio-chat team for this domain. If you want users of this domain to be able to log into grommunio-chat, this has to be checked.
 
@@ -196,11 +206,13 @@ To add a new user, click the blue `NEW USER` button to open the form dialog:
 
 The following properties can be set:
 
+- Mode: Normal or shared user
 - Username (required): Username of the user
 - Password (required): Password of the user
 - Display name: Name to be displayed for this user
 - Storage quota limit: Storage limit of the user
 - Type: Type of user
+- Homeserver: The server, on which the user's data is stored
 
 Click `Add` to confirm or `Cancel` to cancel.
 If you need to further specify user properties, click `Add and Edit` to open
@@ -215,15 +227,19 @@ of a user.
 .. image:: _static/img/edit_user.png
    :alt: editing a user
 
-There are 6 main categories of user properties:
+There are 10 main categories of user properties:
 
 - Account: RPC/HTTP (Outlook Anywhere), MAPI/HTTP, IMAP, POP3 etc.
   configuration
 - User: MAPI props
 - Contact: Additional MAPI props
 - Roles: Roles of the user
-- SMTP: Additional e-mails for this user (aliases)
+- SMTP: Additional e-mails for this user (aliases) and forwarding rules
+- Permission: Select users which have special permissions for this user's mailbox
+- OOF: Out of office settings
 - Fetchmail: Configuration to fetch mails from other servers via fetchmail
+- Mobile devices: List of user's mobile devices (via MDM)
+- Sync policy: MDM sync policy (specifically for this user)
 
 
 Account
@@ -231,9 +247,11 @@ Account
 
 The following properties can be edited:
 
+- Username
 - Mode: Mailbox mode, toggle between a normal user and a shared mailbox
 - Type: Type of user
-- Language: Language of the user (does not effect the language of the UI)
+- Homeserver: Server, on which the user's data is stored
+- Language: Store language of the user (does not effect the language of the UI)
 - Used space
    - Send quota limit: Maximum size of the mailbox before sending messages is
      blocked
@@ -241,21 +259,24 @@ The following properties can be edited:
      is blocked
    - Storage quota limit: Maximum size of the mailbox before storing (any kind
      of) objects is blocked
+- Create grommunio-chat user: Creates a grommunio-chat account for this user. If this checkbox is disabled, there is no grommunio-chat team for this domain.
+- grommunio-chat admin permission: Gives administrative permissions for grommunio-chat to this user's grommunio-chat account.
+- grommunio-chat permissions: Grants grommunio-chat admin permissions
 - Allow SMTP sending: Allows the user to send e-mails via SMTP
 - Allow password changes: Allows the user to change his/her password
 - Allow POP3/IMAP logins: Allows logins via POP3 or IMAP
-- Create grommunio-chat user: Creates a grommunio-chat account for this user. If this checkbox is disabled, there is no grommunio-chat team for this domain.
-- grommunio-chat admin permission: Gives administrative permissions for grommunio-chat to this user's grommunio-chat account.
+- Hide from GAL: Hides the user from he Global Address List
+- Allow Chat/Meet/Files/Archive: Allows access to respective feature
 
-Note that, because a message first needs to be exist internally before it can
+Note that, because a message needs to exist internally before it can
 be sent, the storage quota limit is also relevant for sending. Conversely,
-for reception, the storage quota limit must allow storing messages. (It follows
-that the storage quota should always be more than receive quota, and more than
+for reception, the storage quota limit must allow storing messages.
+(Thus, the storage quota should always be more than receive quota, and more than
 send quota.)
 
 To change the current password of the user, click `Change password` next to the
 username.
-You will be prompted to set and repeat your new password.
+You will be prompted to set and repeat the new password.
 
 
 User & Contact
@@ -276,33 +297,36 @@ Roles of the user, which can be edited with the autocompleting textfield
 SMTP
 ^^^^
 
-User aliases. Edit the textfield to edit an alias, click `ADD E-MAIL` to add or
+User aliases:. Edit the textfield to edit an alias, click `ADD E-MAIL` to add or
 click the delete icon to delete an alias.
 
-.. image:: _static/img/edit_alias.png
+E-Mail forward: Select forward type (CC or Redirect) and the destination e-mail.
+
+.. image:: _static/img/user_smtp.png
    :alt: editing a user
 
 
-Delegates
-^^^^^^^^^
+Permissions
+^^^^^^^^^^^
 
-Delegates of the user, which can send e-mails "on behalf of" the user.
+Granting other users access to this mailbox.
+Available permissions:
 
-.. image:: _static/img/delegates.png
-   :alt: user delegates
+- Delegates: Permission to send 'on behalf of' this user
+- Send as: Permission to set this user as the sender of an email
+- Full permissions: Grants full mailbox permission
 
-In above example, the user ``steakie@grammm.com`` is a delegate for Victor Tesla, so ``steakie`` can send e-mails on behalf of Victor.
+.. image:: _static/img/user_permissions.png
+   :alt: editing a user
 
 
-Permitted users
-^^^^^^^^^^^^^^^
+OOF
+^^^
 
-Permitted users are granted full access the user's mailbox.
+Out of office settings (auto-reply messages).
 
-.. image:: _static/img/permitted_users.png
-   :alt: permitted users
-
-In above example, the user ``steakie@grammm.com`` has full access to Victor Tesla's mailbox.
+.. image:: _static/img/user_oof.png
+   :alt: editing a user
 
 
 Fetchmail
@@ -353,10 +377,20 @@ Synchronized mobile devices of this user
 .. image:: _static/img/user_devices.png
    :alt: user mobile devices
 
+
 Actions:
 """"""""
 - Remote wipe: Engages a remote wipe for a device via MDM (Mobile Device Management)
 - Cancel remote wipe: Cancel above action
+
+
+Sync policy
+^^^^^^^^^^^
+
+Specific MDM rules for this user. Unedited rules (greyed out) are adopted from the domain's policy.
+
+.. image:: _static/img/user_sync_policy.png
+   :alt: user sync policy
 
 
 Deleting a user
@@ -371,24 +405,30 @@ The following flags can be set:
 Click `Confirm` to confirm or `Cancel` to cancel.
 
 
-Folders
--------
+Public folders
+--------------
 
-If at least one domain exists in the database, folders can be added to a
+If at least one domain exists in the database, public folders can be added to a
 domain.
-To show existing folders of a domain, navigate to the domain view in the
+To show existing public folders of a domain, navigate to the domain view in the
 drawer.
 
-Click on a domain to expand available sub-pages and click on `Folders`, which
+Click on a domain to expand available sub-pages and click on `Public folders`, which
 will redirect you to the list of folders of this domain.
-If you have just installed grommunio or added the domain, the list will be
-empty.
+There are two views: A hierarchical view, like a common folder structure and a tree-like graph view.
+
+.. image:: _static/img/folders.png
+   :alt: public folders
+
+.. image:: _static/img/folders_tree.png
+   :alt: public folders
+
 
 Adding a folder
 ~~~~~~~~~~~~~~~
 
-To add a new folder, click the blue `NEW FOLDER` button to open the form
-dialog:
+To add a folder, click the `Plus Circle` icon of the folder's parent folder.
+`Public Folders` is the root folder, all other folders are put into. Thus the first folder is always within `Public Folders (IPM_SUBTREE)`.
 
 .. image:: _static/img/add_folder.png
    :alt: adding a folder
@@ -406,8 +446,7 @@ Click `Add` to confirm or `Cancel` to cancel.
 Editing a folder
 ~~~~~~~~~~~~~~~~
 
-To edit an existing folder, click on a folder in the list to open the detailed
-view of a folder.
+To edit an existing folder, click on the right `Edit` icon inside the hierarchy view to open the folder details.
 
 .. image:: _static/img/edit_folder.png
    :alt: editing a folder
@@ -415,9 +454,18 @@ view of a folder.
 Simply change attributes to your needs, then click `Save` on the bottom to save
 your changes.
 
-To add new owners, click the `+` next to "Owners".
-Enter all users of database to be added as owner of this folder.
-To remove an owner, click trash icon next to the owner and confirm.
+
+Folder permissions
+^^^^^^^^^^^^^^^^^^
+
+To edit folder permission click on `Open permissions` to open the permissions dialog.
+
+.. image:: _static/img/folder_permissions.png
+   :alt: editing a folder
+
+This form is a direct replica of grommunio-web's and outlook's folder permission settings.
+Select users to grant permissions at the top and set their permissions at the bottom.
+
 
 Deleting a folder
 ~~~~~~~~~~~~~~~~~
@@ -596,7 +644,9 @@ The following properties can be set:
 - Users: Users to which this role will be assigned to
 - Permissions:
    - SystemAdmin: Permits any operation
+   - SystemAdminRO: Grants read-only permissions to system settings
    - DomainAdmin: Permits operations on for specific domain
+   - DomainAdminRO: Grants read-only permissions to specific domain
    - DomainPurge: If present, grants permission to purge any writable domain
    - OrgAdmin: Grants DomainAdmin permission to any domain with matching orgID
    - Params: Domain/Organisation to get access to with this role
@@ -650,6 +700,7 @@ The following properties can be set:
 
 - Name (required): Name of the organization
 - Description: Detailed description of the organization
+- Domains: Domains which are part of this organization
 
 Click `Add` to confirm or `Cancel` to cancel.
 
@@ -987,12 +1038,54 @@ For example, you could configure `postfix` changes like this:
 This will, among else, restart the service if the service config changes.
 
 
+Servers
+-------
+
+If grommunio is running on a distributed system, the list of servers can be added in this view.
+It is possible to specify the selection policy for user distribution.
+You can select from:
+
+- round-robin: Always use the server, on which a user has *not* been added for the longest time (in a circle-like manner).
+- balanced: Put new user on server with least workload
+- first: Always use the first server
+- last: Always use the last server
+- random: Pick a random server
+
+.. image:: _static/img/servers.png
+   :alt: servers
+
+Adding a server
+~~~~~~~~~~~~~~~
+
+To add a new server, click the blue `NEW SERVER` button to open the form dialog:
+
+.. image:: _static/img/add_server.png
+   :alt: add server
+
+The following properties can be set:
+
+- Hostname (required): Internal server hostname
+- Extname (required): Hostname for external access (DNS-Name)
+
+
+Editing a server
+~~~~~~~~~~~~~~~~
+
+To edit an existing server, click on a server in the list to open the detailed view.
+
+.. image:: _static/img/edit_server.png
+   :alt: edit server
+
+Simply change attributes to your needs, then click `Save` on the bottom to save
+your changes.
+
+
 Logs
 ----
 
 Click on `Logs` in the drawer, which will redirect you to the list of available
 logs.
-Usually, you will see a list of grommunio/gromox services, which journalctl
+Usually, you will see a list of grommunio/gromox services, which `journalctl`
 logs you can view here.
 
 .. image:: _static/img/logs.png
@@ -1015,6 +1108,35 @@ current postfix and gromox mail queue.
    :alt: mailQ
 
 These lists will update automatically every 10 seconds.
+
+
+Actions
+~~~~~~~
+
+Select table rows by clicking the checkboxes. Mail queue actions will be used on thw selected entries.
+
+The actions are:
+
+- Flush: Try to continue mail processing
+- Requeue: Remove mail from queue and add queue the same mail as new entry
+- Delete: Permanently remove mail from queue
+
+
+Tasks
+-----
+
+Click on `Mail queue` in the drawer, which will redirect you to the Tasks view.
+
+Tasks are created for operations which could potentially take a long time.
+Currently, this includes LDAP sync and folder deletion.
+If one of these operations take too long, a background task is created, which can be viewed in this table.
+
+.. image:: _static/img/tasks.png
+   :alt: tasks
+
+In case the internal task processor is not running, it can be started manually by clicking the `Start server` button.
+
+Further task details can be seen in the task details view, by clicking on a task in the table.
 
 
 Mobile devices
