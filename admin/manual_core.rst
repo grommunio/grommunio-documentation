@@ -197,7 +197,7 @@ would be ``/etc/yum.repos.d/grommunio.repo``, with contents:
 	[grommunio]
 	enabled=1
 	autorefresh=1
-	baseurl=https://download.grommunio.com/community/EL_8
+	baseurl=https://download.grommunio.com/community/EL8
 	type=rpm-md
 	keeppackages=0
 
