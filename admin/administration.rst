@@ -265,7 +265,7 @@ The following properties can be edited:
 - Allow SMTP sending: Allows the user to send e-mails via SMTP
 - Allow password changes: Allows the user to change his/her password
 - Allow POP3/IMAP logins: Allows logins via POP3 or IMAP
-- Hide from GAL: Hides the user from he Global Address List
+- Hide from GAL: Hides the user from the Global Address List
 - Allow Chat/Meet/Files/Archive: Allows access to respective feature
 
 Note that, because a message needs to exist internally before it can
