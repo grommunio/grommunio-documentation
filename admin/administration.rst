@@ -134,7 +134,7 @@ The following properties can be set:
 - Address: Address of the domain
 - Administrator: Administrator of the domain
 - Telephone: Hotline for problems
-- Homeserver: The server, on which the domain's data is stored
+- Homeserver: The server on which the domain's data is stored
 - Create domain admin role: Creates a role for users, who will be admins for this domain
 - Create grommunio-chat team: Creates a new grommunio-chat team for this domain. If you want users of this domain to be able to log into grommunio-chat, this has to be checked.
 
@@ -212,7 +212,7 @@ The following properties can be set:
 - Display name: Name to be displayed for this user
 - Storage quota limit: Storage limit of the user
 - Type: Type of user
-- Homeserver: The server, on which the user's data is stored
+- Homeserver: The server on which the user's data is stored
 
 Click `Add` to confirm or `Cancel` to cancel.
 If you need to further specify user properties, click `Add and Edit` to open
@@ -250,7 +250,7 @@ The following properties can be edited:
 - Username
 - Mode: Mailbox mode, toggle between a normal user and a shared mailbox
 - Type: Type of user
-- Homeserver: Server, on which the user's data is stored
+- Homeserver: Server on which the user's data is stored
 - Language: Store language of the user (does not effect the language of the UI)
 - Used space
    - Send quota limit: Maximum size of the mailbox before sending messages is
@@ -1045,7 +1045,7 @@ If grommunio is running on a distributed system, the list of servers can be adde
 It is possible to specify the selection policy for user distribution.
 You can select from:
 
-- round-robin: Always use the server, on which a user has *not* been added for the longest time (in a circle-like manner).
+- round-robin: Always use the server on which a user has *not* been added for the longest time (in a circle-like manner).
 - balanced: Put new user on server with least workload
 - first: Always use the first server
 - last: Always use the last server
