@@ -18,4 +18,5 @@ This section is a collection of unstructed notes.
 	mail_content.rst
 	gromox_debug.rst
 	outlook_notes.rst
+	OL2013_Setup.rst
 	legal_notice.rst
