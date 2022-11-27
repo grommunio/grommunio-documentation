@@ -12,9 +12,10 @@ This section is a collection of unstructed notes.
 	:maxdepth: 5
 	:caption: Contents
 
-        archive.rst
-        auth.rst
-        debug_options.rst
+	archive.rst
+	auth.rst
+	debug_options.rst
 	mail_content.rst
 	gromox_debug.rst
+	outlook_notes.rst
 	legal_notice.rst
