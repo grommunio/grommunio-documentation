@@ -176,10 +176,6 @@ dialog will show `someguid@domain` in the Server field and the email address in
 the username field. In addition, under "More Settings", there will only be
 *three* tabs and no way to call up the RPC proxy settings.
 
-.. image:: profdisco5.png
-
-.. image:: profdisco6.png
-
 Now for the odd case with at least one OL2013 variant (German):
 
 Whether you have done Manual Setup or reached this point through AutoDiscover,
