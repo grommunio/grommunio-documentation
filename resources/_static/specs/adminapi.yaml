@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: grommunio Admin API
-  version: 1.7.0
+  version: 1.9.1
 servers:
   - url: '/api/v1'
     description: Default deployment path
@@ -26,9 +26,6 @@ paths:
                   database:
                     type: boolean
                     description: Whether the database connection is initialized
-                  ldap:
-                    type: boolean
-                    description: Whether the LDAP connection is initialized
                   tasq:
                     type: boolean
                     description: Whether the TasQ server is running
@@ -84,6 +81,9 @@ paths:
                   grommunioAuthJwt:
                     type: string
                     description: API access token
+                  csrf:
+                    type: string
+                    description: CSRF token
         '400':
           $ref: '#/components/responses/InvalidRequest'
         '401':
@@ -127,6 +127,8 @@ paths:
       tags:
         - Misc
         - Service
+      parameters:
+        - $ref: '#/components/parameters/CSRFToken'
       requestBody:
         content:
           application/json:
@@ -226,6 +228,7 @@ paths:
         - JWTCookie: []
         - {}
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/username'
         - $ref: '#/components/parameters/devices'
       requestBody:
@@ -262,6 +265,28 @@ paths:
           $ref: '#/components/responses/ServerError'
         '503':
           $ref: '#/components/responses/DatabaseError'
+
+  /service/userinfo/{username}:
+    get:
+      summary: Get basic user information
+      tags:
+        - Service
+      security:
+        - JWTCookie: []
+        - {}
+      parameters:
+        - $ref: '#/components/parameters/username'
+      responses:
+        '200':
+          description: User info returned
+          content:
+            application/json:
+             schema:
+              type: object
+              properties:
+                ldap:
+                  description: Whether the user is linked to an LDAP object
+                  type: boolean
 
   /system/dashboard:
     get:
@@ -415,7 +440,7 @@ paths:
         - $ref: '#/components/parameters/systemdUnit'
       responses:
         '200':
-          description: Inforamtion about service returned
+          description: Information about service returned
           content:
             application/json:
               schema:
@@ -433,6 +458,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/systemdUnit'
         - name: action
           description: Signal to send
@@ -541,6 +567,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/dbConfService'
       requestBody:
         content:
@@ -567,6 +594,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/dbConfService'
       responses:
         '200':
@@ -613,6 +641,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/dbConfService'
         - $ref: '#/components/parameters/dbConfFile'
       requestBody:
@@ -639,6 +668,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/dbConfService'
         - $ref: '#/components/parameters/dbConfFile'
       requestBody:
@@ -668,6 +698,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/dbConfService'
         - $ref: '#/components/parameters/dbConfFile'
       responses:
@@ -773,6 +804,7 @@ paths:
             schema:
               $ref: '#/components/schemas/domainWrite'
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - name: createRole
           description: Whether to automatically create a domain admin role for the new domain
           in: query
@@ -825,6 +857,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/domainID'
       requestBody:
         content:
@@ -854,6 +887,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/domainID'
         - name: purge
           in: query
@@ -888,6 +922,13 @@ paths:
         - System Admin/Domains
       security:
         - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/verbosity'
+        - $ref: '#/components/parameters/queryLimit'
+        - $ref: '#/components/parameters/queryOffset'
+        - $ref: '#/components/parameters/match'
+        - $ref: '#/components/parameters/matchFields'
+        - $ref: '#/components/parameters/propnames'
       responses:
         '200':
           description: User list returned
@@ -980,6 +1021,8 @@ paths:
         - System Admin/Roles
       security:
         - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/CSRFToken'
       requestBody:
         content:
           application/json:
@@ -1031,6 +1074,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/ID'
       requestBody:
         content:
@@ -1059,6 +1103,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/ID'
       responses:
         '200':
@@ -1098,6 +1143,8 @@ paths:
         - System Admin/License
       security:
         - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/CSRFToken'
       responses:
         '200':
           description: License updated
@@ -1305,6 +1352,80 @@ paths:
                   gromoxMailq:
                     description: Output of the gromox-mailq command
                     type: string
+                  postqueue:
+                    description: Output of postqueue -j
+                    type: array
+                    items:
+                      type: object
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /system/mailq/flush:
+    post:
+      summary: Flush postfix mail queue
+      tags:
+        - Misc
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/CSRFToken'
+        - name: queue
+          in: query
+          required: true
+          description: Postfix queue ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Command successful
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /system/mailq/delete:
+    post:
+      summary: Delete entries from postfix mail queue
+      tags:
+        - Misc
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/CSRFToken'
+        - name: queue
+          in: query
+          description: Comma separated list of postfix queue IDs
+          schema:
+            type: string
+            default: ALL
+      responses:
+        '200':
+          description: Command successful
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /system/mailq/requeue:
+    post:
+      summary: Requeue entries from postfix mail queue
+      tags:
+        - Misc
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/CSRFToken'
+        - name: queue
+          in: query
+          description: Comma separated list of postfix queue IDs
+          schema:
+            type: string
+            default: ALL
+      responses:
+        '200':
+          description: Command successful
         '400':
           $ref: '#/components/responses/InvalidRequest'
         '500':
@@ -1356,6 +1477,8 @@ paths:
         - Misc
       security:
         - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/CSRFToken'
       requestBody:
         required: true
         content:
@@ -1552,7 +1675,7 @@ paths:
           description: Filter by username
           in: query
           schema:
-            $ref: '#/components/schemas/intList'
+            type: string
         - $ref: '#/components/parameters/propnames'
       responses:
         '200':
@@ -1579,6 +1702,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/domainID'
       requestBody:
         content:
@@ -1632,6 +1756,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/userID'
         - $ref: '#/components/parameters/domainID'
       requestBody:
@@ -1661,6 +1786,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/userID'
         - $ref: '#/components/parameters/domainID'
         - name: deleteFiles
@@ -1670,6 +1796,13 @@ paths:
           schema:
             type: boolean
             default: false
+        - name: deleteChatUser
+          description: Permanently delete chat user
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: true
       responses:
         '200':
           description: User deleted
@@ -1719,6 +1852,66 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
+        - $ref: '#/components/parameters/userID'
+        - $ref: '#/components/parameters/domainID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+      responses:
+        '200':
+          description: List updated
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /domains/{domainID}/users/{userID}/sendas:
+    get:
+      summary: Get list of users that can send mails as the user
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/userID'
+        - $ref: '#/components/parameters/domainID'
+      responses:
+        '200':
+          description: List of users returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: string
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    put:
+      summary: Set list of users that can send mails as the user
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/userID'
         - $ref: '#/components/parameters/domainID'
       requestBody:
@@ -1774,6 +1967,7 @@ paths:
       tags:
        - Domain Admin/Users
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/userID'
         - $ref: '#/components/parameters/domainID'
       requestBody:
@@ -1814,6 +2008,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/userID'
         - $ref: '#/components/parameters/domainID'
         - $ref: '#/components/parameters/propnames'
@@ -1864,7 +2059,9 @@ paths:
                           type: integer
                           description: UNIX timestamp of last update
                         asversion:
-                          type: string
+                          oneOf:
+                            - type: string
+                            - type: number
                           description: Sync version
                         foldersSyncable:
                           type: integer
@@ -1872,6 +2069,27 @@ paths:
                         foldersSynced:
                           type: integer
                           description: Number of folders that were actually synced
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    delete:
+      summary: Remove device states
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/CSRFToken'
+        - $ref: '#/components/parameters/userID'
+        - $ref: '#/components/parameters/domainID'
+      responses:
+        '200':
+          description: Device states removal queued
         '400':
           $ref: '#/components/responses/InvalidRequest'
         '404':
@@ -1889,6 +2107,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/userID'
         - $ref: '#/components/parameters/domainID'
         - $ref: '#/components/parameters/deviceID'
@@ -1912,6 +2131,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/userID'
         - $ref: '#/components/parameters/domainID'
         - $ref: '#/components/parameters/deviceID'
@@ -1935,6 +2155,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/userID'
         - $ref: '#/components/parameters/domainID'
         - $ref: '#/components/parameters/deviceID'
@@ -1967,6 +2188,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/userID'
         - $ref: '#/components/parameters/domainID'
         - $ref: '#/components/parameters/deviceID'
@@ -2018,6 +2240,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/userID'
         - $ref: '#/components/parameters/domainID'
       requestBody:
@@ -2047,6 +2270,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/userID'
         - $ref: '#/components/parameters/domainID'
       requestBody:
@@ -2080,6 +2304,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/userID'
         - $ref: '#/components/parameters/domainID'
         - $ref: '#/components/parameters/username'
@@ -2104,6 +2329,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/domainID'
         - $ref: '#/components/parameters/userID'
       requestBody:
@@ -2136,6 +2362,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/domainID'
         - $ref: '#/components/parameters/userID'
         - name: ID
@@ -2152,6 +2379,58 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/user'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
+  /domains/{domainID}/users/{userID}/oof:
+    get:
+      summary: Get user's out of office state
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/userID'
+      responses:
+        '200':
+          description: Out-of-office state returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userOofState'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+    put:
+      summary: Set user's out of office state
+      tags:
+        - Domain Admin/Users
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/CSRFToken'
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/userID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userOofState'
+      responses:
+        '200':
+          description: Out-of-office state updated
         '400':
           $ref: '#/components/responses/InvalidRequest'
         '404':
@@ -2197,6 +2476,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/domainID'
         - $ref: '#/components/parameters/userID'
       requestBody:
@@ -2298,6 +2578,7 @@ paths:
     post:
       summary: Create new mailing list
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/domainID'
       tags:
        - Domain Admin/MLists
@@ -2353,6 +2634,7 @@ paths:
     patch:
       summary: Update mailing list
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/domainID'
         - $ref: '#/components/parameters/ID'
       tags:
@@ -2382,6 +2664,7 @@ paths:
     delete:
       summary: Delete mailing list
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/domainID'
         - $ref: '#/components/parameters/ID'
       tags:
@@ -2456,6 +2739,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/domainID'
       requestBody:
         content:
@@ -2484,6 +2768,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/domainID'
       requestBody:
         content:
@@ -2575,6 +2860,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/domainID'
         - $ref: '#/components/parameters/ID'
       requestBody:
@@ -2604,6 +2890,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/domainID'
         - $ref: '#/components/parameters/ID'
       responses:
@@ -2623,6 +2910,15 @@ paths:
       summary: Get list of public folders
       parameters:
         - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/queryOffset'
+        - $ref: '#/components/parameters/queryLimit'
+        - $ref: '#/components/parameters/match'
+        - name: parentID
+          in: query
+          description: ID of the parent folder
+          schema:
+            type: integer
+            default: 144115188075855873
       tags:
         - Domain Admin/Folders
       security:
@@ -2650,6 +2946,7 @@ paths:
     post:
       summary: Create a new public folder
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/domainID'
       tags:
         - Domain Admin/Folders
@@ -2671,6 +2968,10 @@ paths:
                   enum: [IPF.Note, IPF.Contact, IPF.Appointment, IPF.Stickynote, IPF.Task]
                 comment:
                   type: string
+                parentID:
+                  type: string
+                  description: ID of the parent folder
+                  default: "0"
       responses:
         '201':
           description: Folder creation successful
@@ -2678,6 +2979,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/publicFolder'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /domains/{domainID}/folders/tree:
+    get:
+      summary: Get hierarchical view of folders
+      parameters:
+        - $ref: '#/components/parameters/domainID'
+        - name: folderID
+          in: query
+          description: ID of the root folder
+          schema:
+            type: integer
+            default: 144115188075855873
+      tags:
+        - Domain Admin/Folders
+      security:
+        - JWTCookie: []
+      responses:
+        '200':
+          description: Tree of folders returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/publicFolderRef'
         '400':
           $ref: '#/components/responses/InvalidRequest'
         '404':
@@ -2719,6 +3051,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/domainID'
         - $ref: '#/components/parameters/folderID'
       requestBody:
@@ -2754,6 +3087,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/domainID'
         - $ref: '#/components/parameters/folderID'
         - name: clear
@@ -2820,6 +3154,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/domainID'
         - $ref: '#/components/parameters/folderID'
       requestBody:
@@ -2833,6 +3168,10 @@ paths:
                 username:
                   type: string
                   description: Username (e-mail address) to add to member list
+                permissions:
+                  type: integer
+                  description: Bit mask of permissions to grant the user (defaults to folder owner)
+                  default: 0x100
       responses:
         '201':
           description: Creation successful
@@ -2843,9 +3182,42 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
         '503':
-          $ref: '#/components/responses/DatabaseError'
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /domains/{domainID}/folders/{folderID}/owners/{memberID}:
+    put:
+      summary: Set folder member permissions
+      tags:
+        - Domain Admin/Folders
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/CSRFToken'
+        - $ref: '#/components/parameters/domainID'
+        - $ref: '#/components/parameters/folderID'
+        - $ref: '#/components/parameters/memberID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [permissions]
+              properties:
+                permissions:
+                  type: integer
+                  description: Bit mask of permissions to set for the user (defaults to folder owner)
+      responses:
+        '200':
+          description: Update successful
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
     delete:
       summary: Remove a user from the owner list
       tags:
@@ -2853,14 +3225,10 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/domainID'
         - $ref: '#/components/parameters/folderID'
-        - name: memberID
-          description: Member ID of the owner list
-          in: path
-          required: true
-          schema:
-            type: integer
+        - $ref: '#/components/parameters/memberID'
       responses:
         '200':
           description: Member removed
@@ -2871,7 +3239,7 @@ paths:
         '500':
           $ref: '#/components/responses/ServerError'
         '503':
-          $ref: '#/components/responses/DatabaseError'
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /domains/ldap/search:
     get:
@@ -2881,6 +3249,9 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/queryLimit'
+        - $ref: '#/components/parameters/domain'
+        - $ref: '#/components/parameters/organization'
         - name: query
           in: query
           description: Search term
@@ -2888,13 +3259,12 @@ paths:
           schema:
             type: string
             minLength: 3
-        - name: domain
-          description: Restrict search to specific domain IDs
+        - name: showAll
           in: query
-          required: false
-          explode: false
+          description: Do not filter un-importable results
           schema:
-            $ref: '#/components/schemas/intList'
+            type: boolean
+            default: false
       responses:
         '200':
           description: List of users returned
@@ -2916,7 +3286,15 @@ paths:
                           description: Display name of the person
                         email:
                           type: string
+                          nullable: true
                           description: E-mail address of the person
+                        type:
+                          type: string
+                          description: Type of the entry (either 'user' or 'contact')
+                        error:
+                          type: string
+                          nullable: true
+                          description: Why the entry cannot be imported (showAll=true only)
         '400':
           $ref: '#/components/responses/InvalidRequest'
         '500':
@@ -2932,6 +3310,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - name: ID
           in: query
           required: true
@@ -2946,13 +3325,20 @@ paths:
             type: boolean
             default: false
         - $ref: '#/components/parameters/defaultLang'
+        - $ref: '#/components/parameters/domain'
+        - $ref: '#/components/parameters/organization'
       responses:
         '200':
           description: An existing user was updated with LDAP data
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/user'
+                anyOf:
+                  - type: object
+                    properties:
+                      message:
+                        description: Contact import for multiple domains at once
+                  - $ref: '#/components/schemas/user'
         '201':
           description: A new user was created from LDAP data
           content:
@@ -2977,6 +3363,9 @@ paths:
         - LDAP
       security:
         - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/domain'
+        - $ref: '#/components/parameters/organization'
       responses:
         '200':
           description: A list of orphaned users is returned
@@ -3008,6 +3397,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - name: deleteFiles
           description: Delete user files on disk
           in: query
@@ -3048,6 +3438,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/completeSync'
         - $ref: '#/components/parameters/defaultLang'
         - $ref: '#/components/parameters/timeout'
@@ -3078,6 +3469,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/domainID'
         - $ref: '#/components/parameters/completeSync'
         - $ref: '#/components/parameters/defaultLang'
@@ -3111,6 +3503,8 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/domain'
+        - $ref: '#/components/parameters/organization'
         - name: ID
           in: query
           required: true
@@ -3171,8 +3565,9 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - name: force
-          description: Update configutation even if validation failed
+          description: Update configuration even if validation failed
           in: query
           schema:
             type: boolean
@@ -3197,6 +3592,8 @@ paths:
         - System Admin/MConf
       security:
         - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/CSRFToken'
       responses:
         '200':
           description: LDAP deactivated
@@ -3236,6 +3633,8 @@ paths:
         - System Admin/MConf
       security:
         - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/CSRFToken'
       requestBody:
         content:
           application/json:
@@ -3323,6 +3722,8 @@ paths:
         - System Admin/Organizations
       security:
         - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/CSRFToken'
       requestBody:
         content:
           application/json:
@@ -3374,6 +3775,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/ID'
       requestBody:
         content:
@@ -3403,6 +3805,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/ID'
       responses:
         '200':
@@ -3415,6 +3818,119 @@ paths:
           $ref: '#/components/responses/ServerError'
         '503':
           $ref: '#/components/responses/DatabaseError'
+
+  /system/orgs/{ID}/ldap:
+    get:
+      summary: Get organization specific LDAP configuration
+      tags:
+        - System Admin/Organizations
+        - LDAP
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/ID'
+      responses:
+        '200':
+          description: LDAP configuration returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ldapAvailable:
+                    type: boolean
+                    description: Whether the LDAP is currently available
+                  data:
+                    $ref: '#/components/schemas/ldapConfig'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    put:
+      summary: Set organization specific LDAP configuration
+      tags:
+        - System Admin/Organizations
+        - LDAP
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/CSRFToken'
+        - $ref: '#/components/parameters/ID'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ldapConfig'
+      responses:
+        '200':
+          description: LDAP configuration updated
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+    delete:
+      summary: Reset organization specific LDAP configuration
+      tags:
+        - System Admin/Organizations
+        - LDAP
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/CSRFToken'
+        - $ref: '#/components/parameters/ID'
+      responses:
+        '200':
+          description: LDAP configuration removed
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/DatabaseError'
+
+  /system/orgs/{ID}/ldap/downsync:
+    post:
+      summary: Update all LDAP imported users in this organization
+      tags:
+        - LDAP
+      security:
+        - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/CSRFToken'
+        - $ref: '#/components/parameters/ID'
+        - $ref: '#/components/parameters/completeSync'
+        - $ref: '#/components/parameters/defaultLang'
+        - $ref: '#/components/parameters/timeout'
+      responses:
+        '200':
+          description: Update process successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/syncStatus'
+        '202':
+          $ref: '#/components/responses/Queued'
+        '400':
+          $ref: '#/components/responses/InvalidRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /system/servers:
     get:
@@ -3479,6 +3995,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/homeserver'
+      parameters:
+        - $ref: '#/components/parameters/CSRFToken'
       responses:
         '201':
           description: Server registered
@@ -3525,6 +4043,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/ID'
       requestBody:
         content:
@@ -3553,6 +4072,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/ID'
       responses:
         '200':
@@ -3617,6 +4137,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - name: procs
           in: query
           description: Override number of worker processes
@@ -3638,6 +4159,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - name: timeout
           in: query
           description: Duration in seconds to wait for worker processes to quit
@@ -3770,6 +4292,8 @@ paths:
         - Defaults
       security:
         - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/CSRFToken'
       requestBody:
         content:
           application/json:
@@ -3790,6 +4314,8 @@ paths:
         - Defaults
       security:
         - JWTCookie: []
+      parameters:
+        - $ref: '#/components/parameters/CSRFToken'
       requestBody:
         content:
           application/json:
@@ -3837,6 +4363,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/domainID'
       requestBody:
         content:
@@ -3859,6 +4386,7 @@ paths:
       security:
         - JWTCookie: []
       parameters:
+        - $ref: '#/components/parameters/CSRFToken'
         - $ref: '#/components/parameters/domainID'
       requestBody:
         content:
@@ -3907,11 +4435,25 @@ components:
       in: cookie
       name: grommunioAuthJwt
   parameters:
+    CSRFToken:
+      name: X-Csrf-Token
+      in: header
+      description: CSRF Token
+      required: false
+      schema:
+        type: string
     ID:
       name: ID
       description: ID of the object
       in: path
       required: true
+      schema:
+        type: integer
+    domain:
+      name: domain
+      description: ID of the domain
+      in: query
+      required: false
       schema:
         type: integer
     domainID:
@@ -3951,6 +4493,13 @@ components:
       description: Import new users from LDAP
       schema:
         type: boolean
+    organization:
+      name: organization
+      description: ID of the organization
+      in: query
+      required: false
+      schema:
+        type: integer
     systemdUnit:
       name: unit
       description: Name of the unit to signal
@@ -4009,6 +4558,13 @@ components:
       in: query
       schema:
         type: string
+    memberID:
+      name: memberID
+      description: Member ID of the owner list
+      in: path
+      required: true
+      schema:
+        type: integer
     verbosity:
       name: level
       in: query
@@ -4200,8 +4756,8 @@ components:
       additionalProperties: true
     userStatus:
       type: integer
-      description: User status (0=Normal, 1=Suspended, 2=Out-of-date, 3=Deleted, 4=Shared Mailbox)
-      enum: [0, 1, 2, 3, 4]
+      description: User status (0=Normal, 1=Suspended, 2=Out-of-date, 3=Deleted, 4=Shared Mailbox, 5=Contact)
+      enum: [0, 1, 2, 3, 4, 5]
     forward:
       type: object
       nullable: true
@@ -4434,6 +4990,20 @@ components:
           $ref: '#/components/schemas/dateTime'
         container:
           type: string
+    publicFolderRef:
+      type: object
+      properties:
+        folderid:
+          type: string
+        name:
+          type: string
+        container:
+          type: string
+        children:
+          type: array
+          description: List of child folders (in the same format as the parent)
+          items:
+            type: object
     service:
       type: object
       properties:
@@ -4555,7 +5125,7 @@ components:
           description: Base DN to use for user search
         objectID:
           type: string
-          description: Name of an attribute that uniquely idetifies an LDAP object
+          description: Name of an attribute that uniquely identifies an LDAP object
         users:
           type: object
           description: Configuration for user search
@@ -4584,10 +5154,10 @@ components:
                 description: Name of a template defined in res/ldapTemplates.yaml
             attributes:
               type: object
-              description: LDAP attribute -> PropTag mapping to used for LDAP import. Any mappings specified take precendence over active templates
+              description: LDAP attribute -> PropTag mapping to used for LDAP import. Any mappings specified take precedence over active templates
               additionalProperties:
                 type: string
-                description: Name of the PropTag the atribute maps to
+                description: Name of the PropTag the attribute maps to
             defaultQuota:
               type: integer
               description: Storage quota of imported users if no mapping exists
@@ -5025,7 +5595,7 @@ components:
         maxemailbodytruncsize:
           type: integer
           default: -1
-          description: The truncation size for plain text–formatted email messages (-1=unlimited, 0=header only, >0=truncate to size)
+          description: The truncation size for plain text-formatted email messages (-1=unlimited, 0=header only, >0=truncate to size)
         maxemailhtmlbodytruncsize:
           type: integer
           default: -1
@@ -5126,9 +5696,42 @@ components:
         params:
           type: object
           description: Task specific parameters
+    userOofState:
+      type: object
+      properties:
+        state:
+          type: integer
+          enum: [0, 1, 2]
+          description: Out-of-office state (0=Disabled, 1=Enabled, 2=Scheduled)
+        externalAudience:
+          type: integer
+          enum: [0, 1, 2]
+          description: External audience setting (0=None, 1=Known, 2=All)
+        startTime:
+          $ref: '#/components/schemas/dateTime'
+        endTime:
+          $ref: '#/components/schemas/dateTime'
+        internalSubject:
+          type: string
+          nullable: true
+          default: Out of Office
+          description: Subject for internal out-of-office reply
+        internalReply:
+          type: string
+          nullable: true
+          description: Internal out-of-office reply body
+        externalSubject:
+          type: string
+          nullable: true
+          default: Out of Office
+          description: Subject for external out-of-office reply
+        externalReply:
+          type: string
+          nullable: true
+          description: External out-of-office reply body
   responses:
     ServerError:
-      description: An error occured while processing the request
+      description: An error occurred while processing the request
       content:
         application/json:
           schema:
