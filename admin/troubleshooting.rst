@@ -35,7 +35,7 @@ The information collected by grommunio-support contains:
 .. important::
    The support package might contain sensitive information. If this is a
    concern to you, it is recommended to prune specific private data from the
-   generated archive bedore sending it to grommunio support. Support data is
+   generated archive before sending it to grommunio support. Support data is
    used only for diagnostic purposesi and is considered confidential
    information.
 

@@ -561,7 +561,7 @@ Daemon executables are located in ``/usr/libexec/gromox``, they have short
 names like ``http``, ``zcore``, etc. The manpage carries the same name, so you
 would use ``man http`` to call up the corresponding manpage. The configuration
 files read by default follow the same scheme, e.g. ``/etc/gromox/http.cfg``.
-Process infomration utilities such as ps(1) may show the full path of the
+Process information utilities such as ps(1) may show the full path of the
 executable or just ``http``, depending on how these diagnostic utilities are
 used. The systemd unit name, though, is ``gromox-http.service``.
 
@@ -830,7 +830,7 @@ Then enable/start php-fpm:
 
 	systemctl enable --now php-fpm
 
-For completness, verify that the socket in the pool file was created:
+For completeness, verify that the socket in the pool file was created:
 
 .. code-block:: sh
 

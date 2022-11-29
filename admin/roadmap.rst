@@ -56,7 +56,7 @@ The release model of grommunio is divided into 2 different chains:
 - Minor releases (e.g. 2021.08.2, 2021.08.3, 2022.05.2)
 
 Major releases contain are determined to larger feature sets as well as
-including potential architectural changes whereas minor releases are focussed
+including potential architectural changes whereas minor releases are focused
 on bugfixes, security updates and smaller features.
 
 Disclaimer

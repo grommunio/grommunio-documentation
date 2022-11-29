@@ -39,7 +39,7 @@ integrated solution to todays needs: Simplicity, Performance, Stability,
 Productivity.
 
 The following chapters will show how to configure and setup grommunio accounts
-with the preferred client of choice. Since grommunio is focussed on delivering
+with the preferred client of choice. Since grommunio is focused on delivering
 its products according to well-established computer standards, the list of
 clients covered in this manual is not exhaustive. The chance, the client of
 choice not covered in this manual operating well with grommunio are very high,
@@ -51,7 +51,7 @@ to configure accounts, however, the illustrations shown might differ slightly
 from your environment. This documentation has been written with the sole
 intention of delivering the necessary steps to setup grommunio, with the
 intention of documenting the relevant portions which are in the very most cases
-version independant from a content perspective.
+version independent from a content perspective.
 
 .. note::
    While grommunio is determined to keep the documentation regularly

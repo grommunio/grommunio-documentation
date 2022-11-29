@@ -33,7 +33,7 @@ To navigate through the UI, simply use the drawer on the left side of the page.
 Dashboard
 ---------
 
-After a successfull login, you can see the dashboard with live data of the
+After a successful login, you can see the dashboard with live data of the
 machine grommunio runs on.
 
 
@@ -350,7 +350,7 @@ To add new fetchmail entry, click the circled plus icon, which will open the fol
 - Source folder (required): Source folder to sync from
 - Source auth: Type of authentication to use
 - Protocol (required): Protocol to use
-- SSL certifcate path (if `Use SSL` is checked): Path to local certificate
+- SSL certificate path (if `Use SSL` is checked): Path to local certificate
   directory or empty to use local default
 - SSL fingerprint (if `Use SSL` is checked): Fingerprint of the server
   certificate
@@ -864,7 +864,7 @@ The following properties are available:
    - ActiveDirectory
 - LDAP Filter (filters): LDAP search filter to apply to user lookup
 - Unique Identifier Attribute (objectID): Name of an attribute that uniquely
-  idetifies an LDAP object
+  identifies an LDAP object
 - LDAP Username Attribute (username): Name of the attribute that corresponds to
   the username (e-mail address)
 - LDAP Default Quota (defaultQuota): Storage quota of imported users if no
@@ -884,7 +884,7 @@ Custom Mapping
 ~~~~~~~~~~~~~~
 
 LDAP attribute -> PropTag mapping to use for LDAP import.
-Any mappings specified take precendence over active templates.
+Any mappings specified take precedence over active templates.
 
 You can create a list of `(Name, Value)` pairs
 
@@ -941,7 +941,7 @@ Detaching a user
 
 If you want to modify an ldap user, you need to detach it from ldap.
 You can achieve this by clicking `Detach` in the detailed user view.
-This essentially removes the synchronisation until forcefully overwritting the
+This essentially removes the synchronisation until forcefully overwriting the
 user via another import.
 
 
@@ -1094,7 +1094,7 @@ logs you can view here.
 Click on the uparrow to show previous logs.
 Click on the the refresh button to fetch new logs or toggle the autorefresh
 switch to automatically refresh logs of the selected service every 5 seconds.
-Click on a log line to fetch every log *after* the timestap of the clicked
+Click on a log line to fetch every log *after* the timestamp of the clicked
 line.
 
 
@@ -1113,7 +1113,7 @@ These lists will update automatically every 10 seconds.
 Actions
 ~~~~~~~
 
-Select table rows by clicking the checkboxes. Mail queue actions will be used on thw selected entries.
+Select table rows by clicking the checkboxes. Mail queue actions will be used on the selected entries.
 
 The actions are:
 

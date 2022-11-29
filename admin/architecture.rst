@@ -166,7 +166,7 @@ Exchange ActiveSync (EAS)
 The main protocol used for mobile devices and tablets is Exchange ActiveSync
 (EAS). EAS is a synchronization state-based protocol which uses state data to
 determine its current synchronization status. EAS is often synonymously
-reffered to as "Push Mail", since it is permanently connected to its service
+refered to as "Push Mail", since it is permanently connected to its service
 and listening for updates. As such, EAS is recommended as protocol for mobile
 devices especially over unreliable networks, such as cellular networks. While
 it is possible to connect certain clients, including Microsoft Mail and

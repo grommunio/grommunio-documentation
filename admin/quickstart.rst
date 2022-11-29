@@ -135,7 +135,7 @@ grommunio-setup logfile, `/var/log/grommunio-setup.log`.
    If the configuration fails for any reason, grommunio-setup can be re-run.
    However, any re-configuration from scratch is **destructive** and will
    re-initialize the installation. If you intend to change any system-related
-   parameters, use the grommunio administation interface instead. Any re-run
+   parameters, use the grommunio administration interface instead. Any re-run
    grommunio-setup invocation will warn and ask for confirmation before
    deleting any data.
 
@@ -224,7 +224,7 @@ certificate installation:
    recommended to either use SAN certificates with multiple domains or a
    wildcard certificate. With your choice of your own TLS certificates, you
    have the highest flexibility to either use a trusted CA or a publicly signed
-   certificate by an offically trusted certification authority including, but
+   certificate by an officially trusted certification authority including, but
    not limited to, Thawte, Digicert, Comodo or others.
 
 #. **Automatic generation of certificates with Let's Encrypt**

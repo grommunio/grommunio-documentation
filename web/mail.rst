@@ -16,7 +16,7 @@ Mail reading
 By default, the main content area in the mail interface is split into three
 parts. In the left pane, the folder navigation area is visible. Right next to
 the folder navigation area is the folder list area which lists all mails from
-the particularily selected folder from the folder navigation area. Selecting an
+the particularly selected folder from the folder navigation area. Selecting an
 e-mail from the folder automatically opens the e-mail in the main window area,
 showing the e-mail effectively.
 

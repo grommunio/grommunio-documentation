@@ -26,7 +26,7 @@ configuration of grommunio-admin, execute the following steps:
    ln -s /etc/grommunio-common/nginx/ssl_certficate.conf /etc/grommunio-admin-common/nginx-ssl.conf
 
 This assumes the configuration of the TLS certificates has been installed
-successfullly by the provisioning of grommunio Setup.
+successfully by the provisioning of grommunio Setup.
 
 As a final step, uncomment the prepared configuration directive in the last line
 of the configuration file ``/etc/nginx/conf.d/grommunio-admin.conf`` as

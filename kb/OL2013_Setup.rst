@@ -86,7 +86,7 @@ server.
 
 Furthermore, there may be also be a second warning. The AutoDiscovery process
 uses a number of techniques, and one of them involves testing for a DNS entry
-wherein ``autodiscover.`` is preprended to the e-mail domain you entered. If
+wherein ``autodiscover.`` is prepended to the e-mail domain you entered. If
 that DNS entry indeed exists, but is not part of the TLS certificate, the
 wizard complains about a certifiace name mismatch.
 
@@ -189,7 +189,7 @@ common word was reused.
 
 The server and email address are underlined and the "Check Names" button is
 grayed out, which normally indicates that the two field values have
-(supposedly) been succesfully resolved.
+(supposedly) been successfully resolved.
 
 You may finish the profile wizard at this point. Read on for more technical
 gore though…

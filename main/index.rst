@@ -101,7 +101,7 @@ other management tools/solutions.
 Generic Information
 ===================
 
-In our generic information section, we provide links to other useful ressources
+In our generic information section, we provide links to other useful resources
 which can help users, administrators, developers and any other party to
 discover the world of grommunio.
 

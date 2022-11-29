@@ -122,7 +122,7 @@ possibilities of configuration settings vary by Android versions and OEM
 configurations (brand of mobile device).
 
 With the configuration of your mobile device with an exchange account, your
-mobile device has access to the data of your account throught the personal
+mobile device has access to the data of your account through the personal
 information manager (PIM) interface. This allows you to use your grommunio
 mailbox with a variety of applications of your choice, such as a mail or
 calendar application of your preference.
@@ -184,7 +184,7 @@ or handle the device through mobile device management. The possibilities of
 profile settings vary by different iOS versions.
 
 With the configuration of your mobile device with an exchange account, your
-mobile device has access to the data of your account throught the personal
+mobile device has access to the data of your account through the personal
 information manager (PIM) interface. This allows you to use your grommunio
 mailbox with a variety of applications of your choice, such as a mail or
 calendar application of your preference.
@@ -336,7 +336,7 @@ Thunderbird: Calendar
 Thunderbird: Contacts
 ---------------------
 
-1. To setup a contacts account with Mozilla Thunderbird, it is first requried
+1. To setup a contacts account with Mozilla Thunderbird, it is first required
    to install a plugin with Mozilla Thunderbird. The well-known plugin
    "CardBook" is fully tested and supported with grommunio, and available at
    the following location:

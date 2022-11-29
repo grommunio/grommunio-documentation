@@ -30,7 +30,7 @@ Though, depending on circumstances, we may need access to the entire database
 (interactively or a mysqldump) if the MT file is not informative enough.
 
 *For messages that were sourced by gromox-pff2mt*, it is possible to send us
-the MT stream output thta pff2mt produces on stdout. The `--only-nid` option
+the MT stream output that pff2mt produces on stdout. The `--only-nid` option
 can help produce a minimal-size MT file. Though, depending on circumstnaces, we
 may need access to the PFF/PST/OST file if the MT file is not informative
 enough.
@@ -67,7 +67,7 @@ then gromox-exm2eml can be used by with a debugger to step into the
 `oxcmail_export` routine without stopping the server itself. (`gromox-exm2eml
 -u test@a4.inai.de 0x5001b`)
 
-If a message is received on a remote syste in an unexpectedly broken fashion,
+If a message is received on a remote system in an unexpectedly broken fashion,
 there may be a problem with the sending path. If the issue is visible with the
 message that is placed in the Sent Items folder, confer with the section
 "Messages at rest". The gromox-exm2eml utility is eml2mt-mt2exm but in reverse,

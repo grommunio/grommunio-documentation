@@ -124,7 +124,7 @@ correct entries should be either available in DNS or setup in ``/etc/hosts``.
 To do this with the appliance, set the fully qualified domain name (FQDN) in the
 interface settings (which will be mirrored to ``/etc/hosts``) and in the
 "Hostname/DNS" tab (the static hostname relates to ``/etc/hostname``). This way,
-any services of the appliance will be able to use the correct adressing based
+any services of the appliance will be able to use the correct addressing based
 on the domain and host. A correct hostname/DNS setup is mandatory, especially for
 multi-host setups.
 
@@ -337,7 +337,7 @@ choice of the preferred TLS setup with the grommunio installation:
    recommended to either use SAN certificates with multiple domains or a
    wildcard certificate. With your choice of your own TLS certificates, you
    have the highest flexibility to either use a trusted CA or a publicly signed
-   certificate by an offically trusted certification authority including, but
+   certificate by an officially trusted certification authority including, but
    not limited to, Thawte, Digicert, Comodo or others.
 
 .. image:: _static/img/cui_19_setup_importcert.png

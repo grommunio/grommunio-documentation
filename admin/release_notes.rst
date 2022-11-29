@@ -119,7 +119,7 @@ Release date: 16th of May 2022
 - grommunio Web: Integration of grommunio Office with realtime collaboration editing on Office Documents
 - grommunio Web: Integration of online maps, based on OSM (OpenStreetMap), for contacts and global contacts
 - grommunio Web: Performance optimizations, delivering with intermediary caches and large object size reduction, resulting in 4+-fold delivery speed to user
-- grommunio Web: Several editor enhancements, e.g. extensive copy & paste compatiblity with office documents
+- grommunio Web: Several editor enhancements, e.g. extensive copy & paste compatibility with office documents
 - grommunio Web: Several style and compatibility enhancements, e.g. enhanced printing format and favorite folder handling
 - grommunio Web: Support for multi-hierarchy-level search without performance penalties  
 - grommunio Web: Support for prefix-based search operations, e.g. "gro" -> "grommunio"
@@ -460,7 +460,7 @@ New (Improvements)
 - Add displayname to headline of user details
 - Add email to fetchmail dialog headline
 - Add form autofill attributes to LDAP config
-- Add human readble MSE to slider
+- Add human readable MSE to slider
 - Add icon to get back to users view when in LDAP view
 - Add indication of LDAP user sync at LDAP config view
 - Add missing autocompletes
@@ -471,7 +471,7 @@ New (Improvements)
 - Add new table view wrapper
 - Add org to domain
 - Add placeholder to LDAP server TF
-- Add possiblity to set 0 MB as quota limits
+- Add possibility to set 0 MB as quota limits
 - Add scroll: auto to drawer
 - Add send and receive quota to AddUser dialog
 - Add service detail page
@@ -497,7 +497,7 @@ New (Improvements)
 - Fill form when selecting LDAP template
 - Fully reset store when logging out
 - Get command name from code
-- Imlemented new responsive grid layout for the dashboard
+- Implemented new responsive grid layout for the dashboard
 - Implement CRUD for orgs
 - Implement DBConf Filecreation
 - Implement anti spam statistics into dashboard with a responsive layout
@@ -513,7 +513,7 @@ New (Improvements)
 - Implement file editing
 - Implement folder editing
 - Implement full domain deletion
-- Implement grommunio chat team/user managment
+- Implement grommunio chat team/user management
 - Implement live server status page
 - Implement local services filter
 - Implement log viewer
@@ -562,7 +562,7 @@ New (Improvements)
 - Resolve fetchmail warning
 - Separate user and storeprops fetch in 2 different try/catch blocks
 - Show domain displayname if it's different than the domainname
-- Significantly improve data managment
+- Significantly improve data management
 - Significantly improve design of sync policy mask
 - Slightly improve padding and margin
 - Split spam and performance into 2 chapters by headlines
@@ -624,7 +624,7 @@ Removed
 - Remove password and make maxUser mandatory
 - Remove redundant home icons in views
 - Remove sorting from user list, besides username
-- Remove srcFolder from required textfields and disable save-button if a required tf isnt filled
+- Remove srcFolder from required textfields and disable save-button if a required tf isn't filled
 
 grommunio CUI
 -------------
@@ -650,7 +650,7 @@ New (Improvements)
 
 - Add cancel button to admin pw change dialog
 - Add cancel button to reboot and shutdown question box
-- Add checked informations to homescreen
+- Add checked information to homescreen
 - Add footerbar for better keyboard shortcut readability
 - Add help note to "Change password" dialog
 - Add last login time to bottom half of homescreen
@@ -719,7 +719,7 @@ New (Improvements)
 - Show IPv6 addresses in overview
 - Split large handle_event function
 - Stop abusing str() to test for classes/enums
-- Supress messages of shell commands
+- Suppress messages of shell commands
 - Switch to RGB444 format
 - Tone down brightness of the "dark" scheme
 - Tone down reverse color in light mode
@@ -739,7 +739,7 @@ Bugfixes
 - Fix correct display of distro and version
 - Fix crash on starting if no grommunio-admin was present
 - Fix hanging in menu while colormode or kbd switching
-- Fix missing captions on some formating calllls of GEdit
+- Fix missing captions on some formatting calllls of GEdit
 - Fix not closing password change dialog on hitting close with enter
 - Fix out of bounds on the right side of log viewer
 - Fix returning back from unsupported shell
@@ -1315,7 +1315,7 @@ New (Improvements)
 - lib: switch to std::mutex
 - lib: trim 3rd arg to contexts_pool_init
 - lib: trim gotos from rtf_convert_group_node
-- lib: turn MIME_FIELD length valuse into unsigneds
+- lib: turn MIME_FIELD length values into unsigneds
 - lib: use common-place PR_OOF_*/PR_EC_* tag names
 - lib: use full 8-char salt for md5crypt
 - lib: use size_t for LIST_FILE members
@@ -1379,7 +1379,7 @@ New (Improvements)
 - mapi_lib: support MH encodings
 - mapilib: switch oxcical from INT_HASH to unordered_map<int>
 - mapilib: switch oxcmail from INT_HASH to unordered_map<int>
-- mapi_lib: use standardized calender scale enum names
+- mapi_lib: use standardized calendar scale enum names
 - mda, mra: add const/unsigned qualifiers
 - mda, mra: compact system_service hook definitions
 - mda, mra: expand char arrays to hold usernames (emailaddrs)
@@ -1775,10 +1775,10 @@ Bugfixes
 - misc: fix instances of NULL_RETURNS
 - misc: fix two overlapping copy operations
 - misc: fix unbounded strcpy calls
-- misc: fix unintialized pointers/scalars
+- misc: fix uninitialized pointers/scalars
 - mod_cache: fix spello "defualt"
 - mod_proxy: fix out-of-bounds access parsing proxy.txt
-- mra: fix occassional compile error
+- mra: fix occasional compile error
 - mt2exm: add small prefix to log messages
 - mt2exm: fix inverted meaning of exm_create_folder::o_excl parameter
 - mysql_adaptor: fix unchecked return value
