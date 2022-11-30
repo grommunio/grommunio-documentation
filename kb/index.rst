@@ -14,6 +14,7 @@ This section is a collection of unstructed notes.
 
 	archive.rst
 	auth.rst
+	autodiscover.rst
 	debug_options.rst
 	mail_content.rst
 	gromox_debug.rst
