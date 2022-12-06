@@ -527,7 +527,7 @@ The package is available by way of the Grommunio repositories. This guide is
 subsequently based on such a pre-built Gromox. Experts wishing to build from
 source and who have general knowledge on how to do so are referred to the
 `Gromox installation documentation
-<https://github.com/grommunio/gromox/doc/install.rst>`_ on specific aspects of
+<https://github.com/grommunio/gromox/blob/master/doc/install.rst>`_ on specific aspects of
 the build procedure.
 
 [Text-based screenshot of shell prompts (not part of the command)
