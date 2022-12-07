@@ -17,7 +17,7 @@ else
 	git clone --depth=1 https://github.com/grommunio/gromox.git .gromox
 fi
 
-rm -f gromox.7.rst gromox-pffimport.8.rst *gx*.rst grommunio-admin-*.rst
+rm -f gromox.7.rst *gx*.rst gromox-*.rst grommunio-admin-*.rst
 pushd .gromox/doc/
 	for i in *.[0-9]*; do
 	       pandoc -s -f man -t rst -o "$OLDPWD/$i.rst" "$i";
