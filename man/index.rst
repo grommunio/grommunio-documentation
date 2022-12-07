@@ -36,6 +36,7 @@ experience to install and operate grommunio:
 
         gromox.7.rst
         *grommunio*
+        *gromox-*
         *gx*
         legal_notice.rst
 
