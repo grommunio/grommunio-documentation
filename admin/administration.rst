@@ -784,6 +784,33 @@ The following license properties are display:
 If you click on the expansion icon next to the users count, you can see what users are occupying user slots of the license.
 
 
+Design
+------
+
+Admins have the ability to whitelabel the app for `all` users.
+There is a basic input mask, which helps you set custom app icons and background images.
+
+It is possible to create separate sets of images for different hostnames.
+Click the plus icon to create a new set of images for a hostname.
+Following images can be set:
+
+- ``logo``: The logo in the login form
+- ``logoLight``: The logo in the expanded drawer
+- ``icon``: The icon in the collapsed drawer
+- ``background``: The background image in light mode
+- ``backgroundDark``: The background image in dark mode
+
+Each of these keys must be an URL to an image file.
+
+.. image:: _static/img/design.png
+   :alt: design
+
+As you can see, it is not necessary to overwrite every image, but the hostnames need to be accurate.
+
+Click on the `Show config` button to display the ``customImages`` config object,
+which needs to be copied into ``/etc/grommunio-admin-common/config.json`` on the server.
+
+
 LDAP
 ----
 
