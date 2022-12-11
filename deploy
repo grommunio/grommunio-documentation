@@ -59,7 +59,7 @@ for MANUAL in ${BUILD_MANUAL[@]}; do
 	if [ "${MANUAL}" != "main" ]; then
 		mkdir -p ${MANUAL}-build/latex
 		rsync -av resources/_static/img/back_a4.png ${MANUAL}-build/latex/background.png
-		if ! make latexpdf DOCDIR=${MANUAL} BUILDDIR=${MANUAL}-build; then
+		if ! make latexpdf O="-D smartquotes_action=" DOCDIR=${MANUAL} BUILDDIR=${MANUAL}-build; then
 			if test -z "$IGNORE_PDF"; then
 				exit 1
 			fi
