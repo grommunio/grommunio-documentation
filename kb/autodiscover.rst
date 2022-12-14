@@ -75,6 +75,17 @@ using the following .reg file fragment:
 	"ExcludeScpLookup"=dword:00000001
 	"ExcludeSrvRecord"=dword:00000001
 	"EnableOffice365ConfigService"=dword:00000000
+	
+	[HKEY_CURRENT_USER\Software\Policies\Microsoft\Office\16.0\Outlook\AutoDiscover]
+	
+	"ExcludeExplicitO365Endpoint"=dword:00000001
+	"ExcludeLastKnownGoodURL"=dword:00000001
+	"ExcludeHttpsRootDomain"=dword:00000001
+	"ExcludeHttpsAutoDiscoverDomain"=dword:00000000
+	"ExcludeHttpRedirect"=dword:00000000
+	"ExcludeScpLookup"=dword:00000001
+	"ExcludeSrvRecord"=dword:00000001
+	"EnableOffice365ConfigService"=dword:00000000
 
 
 This configuration example sets Outlook 2016+ to skip over any mechanisms
