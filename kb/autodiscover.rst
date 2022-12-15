@@ -19,9 +19,10 @@ configuration keywords apply:
 
   In Outlook 2016+ (versions after 16.0.6741.2017), this configuration
   parameter is used to proxy AutoDiscover requests via Microsoft servers. Usage
-  of this service is possible (1) with grommunio if the AutoDiscover entries
-  have been configured, and/or (2) when globally resolvable records are
-  pointing to grommunio as endpoint.
+  of this service is possible
+
+  # with grommunio if the AutoDiscover entries have been configured, and/or
+  # when globally resolvable records are pointing to grommunio as the endpoint.
 
 * ``ExcludeHttpRedirect``
 
@@ -66,7 +67,6 @@ using the following .reg file fragment:
 .. code-block::
 
 	[HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Outlook\AutoDiscover]
-
 	"ExcludeExplicitO365Endpoint"=dword:00000001
 	"ExcludeLastKnownGoodURL"=dword:00000001
 	"ExcludeHttpsRootDomain"=dword:00000001
@@ -77,7 +77,6 @@ using the following .reg file fragment:
 	"EnableOffice365ConfigService"=dword:00000000
 	
 	[HKEY_CURRENT_USER\Software\Policies\Microsoft\Office\16.0\Outlook\AutoDiscover]
-	
 	"ExcludeExplicitO365Endpoint"=dword:00000001
 	"ExcludeLastKnownGoodURL"=dword:00000001
 	"ExcludeHttpsRootDomain"=dword:00000001
