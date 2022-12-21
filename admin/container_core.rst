@@ -11,11 +11,11 @@ not be possible to satisfy. For these cases, the grommunio base system and core
 (groupware) can be installed on container management systems such as Kubernetes
 and Docker Compose with guidance from this chapter.
 
-.. note::
+.. info::
    grommunio is a comprehensive communication and collaboration solution with
-many services and components. With this modularity, grommunio is extremely
-versatile and allows various installation types which all of them can't be
-covered in detail. This section is intentionally held as generic as possible
+   many services and components. With this modularity, grommunio is extremely
+   versatile and allows various installation types which all of them can't be
+   covered in detail. This section is intentionally held as generic as possible
    
 This chapter assumes a basic system is running already. **Basic** in this regard
 means:
@@ -44,8 +44,9 @@ We will build a container for the `Grommunio Core <https://grommunio.com/>`_ sui
    running with sane defaults, you will need to switch eventually over to manually
    configuring the configuration file when depending on your use case.
 
-.. note::
-   Do not use our defaults in production environment! Change them 
+.. important::
+   Do not use our defaults in production environments! Please adapt them according
+   to your usage requirements.
 
 
 Prerequisites and Assumptions
@@ -90,13 +91,21 @@ Persistent Storage
 The following directories are used for configuration and can be mapped for
 persistent storage.
 
-| Directory                | Description                                                                                         |
-| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `/home/certificates/`    | Certificates for nginx and other services.                                                                                         |
-| `/home/plugins/`         | YAML configuration files for Grommunio Admin API                                                                                   |
-| `/home/gromox-services/` | Configuration files for http, imap, pop3, mysql connection, smtp and others that will reside in `/etc/gromox`                      |
-| `/home/links/`           | Configuration files for nginx additions and a script to generate grommunio admin API links to Grommunio web, Grommunio Meet e.t.c. |
-| `/home/nginx/`           | SSL certificate configuration for nginx                                                                                            |
+.. list-table:: Persistent storage configuration
+   :header-rows: 1
+
+   * - Directory
+     - Description
+   * - `/home/certificates/`
+     - Certificates for nginx and other services.
+   * - `/home/plugins/`
+     - YAML configuration files for Grommunio Admin API
+   * - `/home/gromox-services/`
+     - Configuration files for http, imap, pop3, mysql connection, smtp and others that will reside in `/etc/gromox`
+   * - `/home/links/`
+     - Configuration files for nginx additions and a script to generate grommunio admin API links to Grommunio web, Grommunio Meet etc.
+   * `/home/nginx/`
+     - SSL certificate configuration for nginx
 
 Environment Variables
 ~~~~~~~~~~~~~~~~~~~~~
@@ -110,22 +119,43 @@ variable based deployments natively.**
 General Options
 +++++++++++++++
 
-| Parameter          | Description                                                                                                          | Default             |
-| ------------------ | -------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| `FQDN`             | Fully Qualified Domain Name                                                                                          | `mail.route27.test` |
-| `ADMIN_PASS`       | Password for Admin user on Admin API                                                                                 |                     |
+.. list-table:: General options
+   :header-rows: 1
+
+   * - Parameter
+     - Description
+     - Default
+   * - `FQDN`
+     - Fully Qualified Domain Name
+     - `mail.route27.test`
+   * - `ADMIN_PASS`
+     - Password for Admin user on Admin API
+     - 
 
 Database Options
 ++++++++++++++++
 
-| Parameter               | Description                              | Default        |
-| ----------------------- | ---------------------------------------- | -------------- |
-| `DB_HOST`               | Host or container name of MariaDB Server |                |
-| `MARIADB_DATABASE`      | MariaDB Database name                    | `grommunio`    |
-| `MARIADB_ROOT_PASSWORD` | MariaDB Root Password                    |                |
-| `MARIADB_USER`          | MariaDB Username for above Database      | `grommunio`    |
-| `MARIADB_PASSWORD`      | MariaDB Password for above Database      |                |
+.. list-table:: Database options
+   :header-rows: 1
 
+   * - Parameter
+     - Description
+     - Default
+   * - `DB_HOST`
+     - Host or container name of MariaDB Server
+     - 
+   * - `MARIADB_DATABASE`
+     - MariaDB Database name
+     - `grommunio`
+   * - `MARIADB_ROOT_PASSWORD`
+     - MariaDB Root Password
+     - 
+   * - `MARIADB_USER`
+     - MariaDB Username for above Database
+     - `grommunio`
+   * - `MARIADB_PASSWORD`
+     - MariaDB Password for above Database
+     - 
 
 Shell Access
 ------------
@@ -133,4 +163,4 @@ Shell Access
 For debugging and maintenance purposes you may want access the containers shell.
 
 .. code-block:: text
-        docker exec -it (whatever your container name is e.g.) gromox bash
+        docker exec -it `<container-name>` gromox bash
