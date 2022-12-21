@@ -32,6 +32,7 @@ installation and operation:
         quickstart.rst
         installation.rst
         manual_core.rst
+        container_core.rst
         administration.rst
         architecture.rst
         operations.rst
