@@ -49,11 +49,11 @@ The official documentation covers the necessary steps for the update procedure.
 
 **Contributions & Thanks**
 
-Thanks to customers partners and the entire community - the community for their ongoing contributions, especially to:
+Thanks to customers, partners and the entire community - the community for their ongoing contributions, especially to:
 
 - MrPikPik, tiredofit, maddin200, artem, steve, thermi, milo, Bheam, crpb, rnagy, walter any many others
 
-Special thanks to Microsoft Corporation for the productive cooperation on standards and protocols and to T-Systems International.
+Special thanks to Microsoft Corporation for the productive cooperation on standards and protocols and to T-Systems International for the collaborative work on scale-out installations with highest enterprise demands.
 
 grommunio 2022.05.2
 ===================
@@ -113,7 +113,7 @@ In this spirit, we have published the grommunio documentation online (`https://g
 
 **Contributions**
 
-Thanks to customers partners and the entire community - the community for their ongoing contributions, especially to:
+Thanks to customers, partners and the entire community - the community for their ongoing contributions, especially to:
 
 - Robert, who has provided various contributions to support BSD.
 - Walter, for his various contributions in the migration tools area.
