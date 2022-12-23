@@ -13,5 +13,5 @@ you can do that with the following commands:
 .. code-block::
 
 	 PASSWORD="YourNewPassword"
-	NEWPASS=$(printf 'password = "%s";\n' $(rspamadm pw -p "${PASSWORD})")
+	NEWPASS=$(printf 'password = "%s";\n' $(rspamadm pw -p "${PASSWORD}"))
 	sed -i -n -e '/^password/!p;$a \'"$NEWPASS/" /etc/grommunio-antispam/local.d/worker-controller.inc
