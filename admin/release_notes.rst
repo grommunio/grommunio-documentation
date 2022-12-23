@@ -6,6 +6,55 @@
 Release Notes
 #############
 
+grommunio 2022.12.1
+===================
+
+Release type: Major
+
+Release date: 24th of December 2022
+
+**Highlights**
+
+- grommunio Appliance now on openSUSE 15.4 with many improvements, such as PHP 8.0
+- General Availability of Multi-LDAP, worlds-first multi-backend groupware engine
+- General Availability of Admin API for PowerShell (AAPIPS), a PowerShell interface for grommunio Admin
+- General Availability of grommunio Desktop, a multi-platform client for grommunio Web
+- General Availability of grommunio Meet for Outlook, a plugin for Microsoft Outlook and grommunio Meet
+- General Availability of grommunio Auth, SSO availability with grommunio (based on Keycloak)
+- General Availability of native Dockerfiles and Kubernetes recipes for Gromox
+- High performance data compression with zStandard (zstd)
+- Public Folder synchronization for mobile devices
+- High-performance rewrite of Autodiscover and Autoconfig
+- High-performance rewrite of EWS (Exchange Web Services)
+- DNS-Name based OEM whitelabeling for custom branding
+
+**Enhancements**
+
+- Availability of EAS 16.1 FIND command
+- Full user resolution for Kopano migrations (--mbox-name/--user-map)
+- Centralization of MAPI header files
+- grommunio CUI is now fully translated in 22 languages
+- Enhanced navivation controls of grommunio CUI 
+- Support for hidden contacts
+- Automatic mapping of AD/Exchange Store Types (msExchRecipientDisplayType)
+- Centralized MAPI header files for PHP consumers
+- Default integration of grommunio-dbconf
+- Implementation of hierarchy and permission model (ACLs) for public folders in Admin
+- Mail-Queue mangement in grommunio Admin
+- Large documentation updates, launch of Knowledge Base in Documentation Portal
+
+The above list is not conclusive. As usual, numerous bug fixes and features have been included. The release notes just highlight major changes; Feel free to check out the detailed logs at GitHub (`https://github.com/grommunio <https://github.com/grommunio>`_).
+
+The official documentation covers the necessary steps for the update procedure.
+
+**Contributions & Thanks**
+
+Thanks to customers partners and the entire community - the community for their ongoing contributions, especially to:
+
+- MrPikPik, tiredofit, maddin200, artem, steve, thermi, milo, Bheam, crpb, rnagy, walter any many others
+
+Special thanks to Microsoft Corporation for the productive cooperation on standards and protocols and to T-Systems International.
+
 grommunio 2022.05.2
 ===================
 
