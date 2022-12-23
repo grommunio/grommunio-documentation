@@ -14,4 +14,4 @@ you can do that with the following commands:
 
 	 PASSWORD="YourNewPassword"
 	NEWPASS=$(printf 'password = "%s";\n' $(rspamadm pw -p "${PASSWORD}"))
-	sed -i -n -e '/^password/!p;$a \'"$NEWPASS/" /etc/grommunio-antispam/local.d/worker-controller.inc
+	sed -i -n -e '/^password/!p;$a \'"$NEWPASS" /etc/grommunio-antispam/local.d/worker-controller.inc
