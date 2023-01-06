@@ -2,6 +2,8 @@
 
 if [ -d .aapi ]; then
 	pushd .aapi
+	git reset --hard
+	git clean -dfx
 	git remote update -p
 	git checkout origin/HEAD
 	popd

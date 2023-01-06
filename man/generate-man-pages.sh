@@ -2,6 +2,7 @@
 
 if [ -d .aapi ]; then
 	pushd .aapi
+	git clean -dfx
 	git remote update -p
 	git checkout origin/HEAD
 	popd
@@ -10,6 +11,8 @@ else
 fi
 if [ -d .gromox ]; then
 	pushd .gromox
+	git reset --hard
+	git clean -dfx
 	git remote update -p
 	git checkout origin/HEAD
 	popd
