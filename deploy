@@ -2,9 +2,9 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # SPDX-FileCopyrightText: 2022 grommunio GmbH
 #set -x # debug
+set -e # fail deployment if something goes wrong
 export SHELLOPTS
 
-set -e # fail deployment if something goes wrong
 
 DOCU_ROOT="/srv/www/vhosts/docs.grommunio.com/htdocs"
 
