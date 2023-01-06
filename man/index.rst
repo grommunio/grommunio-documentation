@@ -32,13 +32,14 @@ experience to install and operate grommunio:
 .. toctree::
 	:maxdepth: 4
 	:caption: Contents
-        :glob:
+	:glob:
 
-        gromox.7.rst
-        *grommunio*
-        *gromox-*
-        *gx*
-        legal_notice.rst
+	gromox.7.rst
+	*grommunio*
+	*gromox-*
+	*gx*
+	kdb-uid*
+	legal_notice.rst
 
 .. toctree::
         :caption: Docs Navigation
