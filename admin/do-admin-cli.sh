@@ -15,7 +15,7 @@ if [ -e "admin-api.rst" ]; then
 	rm -f admin-api.rst
 fi
 
-for rst in .aapi/doc/rst/grommunio-admin-*.rst .aapi/doc/rst/grommunio-dbconf.rst; do
+for rst in .aapi/doc/rst/grommunio-admin-*.rst; do
 	sed -i '1s/.*//' $rst
 	(
 	sed '3!b;s/=/\&/g' $rst | sed 's#(1)##' |
