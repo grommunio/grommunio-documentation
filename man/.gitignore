@@ -1,6 +1,7 @@
 /.aapi/
 /.gromox/
-gromox.7.rst
-gromox-pffimport.8.rst
-*gx*
-grommunio-*
+/gromox*.rst
+/*.[0-9]gx.rst
+/kdb-uidex*.8.rst
+/grommunio-admin*.rst
+
