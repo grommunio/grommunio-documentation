@@ -116,27 +116,27 @@ Hostname & FQDN setup
 ~~~~~~~~~~~~~~~~~~~~~
 
 It is a
-requirement to setup the hostname and domainname correctly.
+requirement to setup the system hostname and domainname correctly.
 
-Additionally, for local name resolving of services to work properly, the
-correct entries should be either available in DNS or setup in ``/etc/hosts``.
+Second, for local name resolving of services to work properly, the
+correct entries should be either available in DNS and/or be set in ``/etc/hosts``.
 
 To do this with the appliance, set the fully qualified domain name (FQDN) in the
-interface settings (which will be mirrored to ``/etc/hosts``) and in the
+interface settings (which will be mirrored to ``/etc/hosts``) **and** in the
 "Hostname/DNS" tab (the static hostname relates to ``/etc/hostname``). This way,
 any services of the appliance will be able to use the correct addressing based
 on the domain and host. A correct hostname/DNS setup is mandatory, especially for
 multi-host setups.
 
+.. image:: _static/img/yast_hostname_interface.png
+   :alt: Hostname setting (affects ``/etc/hostname``)
+
+.. image:: _static/img/yast_hostname_system.png
+   :alt: Hostname resolution aid (affects ``/etc/hosts``)
+
 .. important::
    To verify the settings, the command ``hostname`` should return the
    FQDN of the system.
-
-.. image:: _static/img/yast_hostname_interface.png
-   :alt: Hostname configuration on the interface
-
-.. image:: _static/img/yast_hostname_system.png
-   :alt: Generic hostname configuration of the system
 
 Timezone configuration
 ----------------------
