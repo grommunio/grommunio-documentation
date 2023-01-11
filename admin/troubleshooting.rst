@@ -91,13 +91,19 @@ Some logs are emitted to files rather than journald. These include:
 Coredumps
 =========
 
-The grommunio Appliance inherits the coredump defaults from systemd. The sysctl
-variable for the core pattern is set to::
+The grommunio Appliance ships with systemd-coredump installed by default and is
+thus configured to emit dumps to ``/var/lib/systemd/coredump``. There is
+usually Zstd or LZ4 compression applied.
+
+When systemd-coredump gets installed on a custom system which is not the
+appliance, a fragment file will be added to ``/usr/lib/sysctl.d/``::
 
 	kernel.core_pattern = |/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %e
 
-`systemd-coredump` stores dumps in ``/var/lib/systemd/coredump``. Refer to the
-systemd-coredump(8) and coredump.conf(5) manpages for details. Dumps are
-normally LZ4-compressed and need to be decompressed before they can be used
-with gdb; for this, you will need to install the lz4 program (``zypper in
-lz4``).
+A reboot will make this effective, and will also activate the
+``systemd-coredump.socket`` service needed for operation.
+
+In lieu of systemd-coredump, one can also exercise the direct-dump
+functionality form the kernel, e.g. by setting the sysctl to::
+
+	kernel.core_pattern = /var/tmp/core.%E.%p
