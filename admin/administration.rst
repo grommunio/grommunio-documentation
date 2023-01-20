@@ -714,8 +714,8 @@ the detailed view of an organization.
 .. image:: _static/img/edit_organization.png
    :alt: editing an organization
 
-Simply change attributes to your needs, then click `Save` on the bottom to save
-your changes.
+In this view, it is also possible to override the global LDAP configuration for domains in this organisation.
+To get more information about creating an LDAP config, see the `LDAP` section of this documentation.
 
 
 Deleting an oranization
@@ -816,7 +816,10 @@ LDAP
 
 It it possible to synchronise users from external user directories using LDAP.
 To configure LDAP, click on `LDAP` in the drawer, which will redirect you to
-the LDAP configuration form.
+the LDAP form to define a global LDAP configuration.
+This config can be overwritten for each individual organisation.
+To do so, navigate to `Organisations` and open the detailed view of an organisation.
+Flip the `Override global LDAP config` switch and set a config according to the following specification.
 
 .. important::
    Please note that configuration changes are not automatically applied to the
