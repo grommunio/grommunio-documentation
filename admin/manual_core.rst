@@ -141,7 +141,7 @@ operating systems may use the same archive format (RPM, DEB, etc.), or
 the same repository metadata formats (such as rpm-md, apt). However,
 do not use a repository which does
 not *exactly match* your system. Do not use Debian packages for an Ubuntu system
-or vice-versa. Do not use openSUSE packages for a Fedora system or vice-versa.
+or vice-versa. Do not use openSUSE packages for a RHEL system or vice-versa.
 Do not even remotely think of converting between formats.
 
 zypp
@@ -195,14 +195,14 @@ would be ``/etc/yum.repos.d/grommunio.repo``, with contents:
 .. code-block:: ini
 
 	[grommunio]
+	name=grommunio for Enterprise Linux 9
+	baseurl=https://download.grommunio.com/community/EL9/
 	enabled=1
-	autorefresh=1
-	baseurl=https://download.grommunio.com/community/EL8
-	type=rpm-md
-	keeppackages=0
+	gpgcheck=1
+	gpgkey=https://download.grommunio.com/RPM-GPG-KEY-grommunio
 
-Import the GPG key likewise, then proceed to use dnf or yum commands to update
-at your leisure.
+Accept the GPG key during the first package installation or update when
+proceeding with dnf or yum commands.
 
 apt
 ~~~
