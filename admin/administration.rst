@@ -788,7 +788,8 @@ Design
 ------
 
 Admins have the ability to whitelabel the app for `all` users.
-There is a basic input mask, which helps you set custom app icons and background images.
+There is a basic input mask located at the `License` page,
+which helps you set custom app icons and background images.
 
 It is possible to create separate sets of images for different hostnames.
 Click the plus icon to create a new set of images for a hostname.
