@@ -92,18 +92,35 @@ Coredumps
 =========
 
 The grommunio Appliance ships with systemd-coredump installed by default and is
-thus configured to emit dumps to ``/var/lib/systemd/coredump``. There is
-usually Zstd or LZ4 compression applied.
+thus configured to emit dumps to ``/var/lib/systemd/coredump``. If a crash
+occurred and left a dump behind in this directory, make available the dump file
+to the support team, and specify the version details of packages (e.g. the
+command ``rpm -qi gromox grommunio-index libexmdbpp0`` will give Version: and
+Distribution: field). Note that because it is a complete memory dump, the files
+can contain sensitive information like usernames, passwords, mail texts, etc.
 
-When systemd-coredump gets installed on a custom system which is not the
-appliance, a fragment file will be added to ``/usr/lib/sysctl.d/``::
+For systems not based on the appliance, consider the following points:
+
+When systemd-coredump is installed, that package normally sets the
+``systemd-coredump.socket`` to active, and places a fragment file in
+``/usr/lib/sysctl.d/``::
 
 	kernel.core_pattern = |/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %e
 
-A reboot will make this effective, and will also activate the
-``systemd-coredump.socket`` service needed for operation.
+The presence of this fragment file will make this setting effective at the next
+boot. The presence of _another_ coredump middleware, including, but not limited
+to, Ubuntu ``apport`` or Fedora ``abrt``, may cause multiple sysctl fragment
+files to compete and only one win. It is best not to have more than one such
+middleware.
 
-In lieu of systemd-coredump, one can also exercise the direct-dump
-functionality form the kernel, e.g. by setting the sysctl to::
+Furthermore, systemd versions before 251 have a rather low dump limit of just
+2 GB. To raise this, see ``/etc/systemd/coredump.conf``.
+
+It is possible to do without middleware and instead exercise the direct-to-file
+dump functionality from the Linux kernel, e.g. by setting the particular sysctl
+variable to::
 
 	kernel.core_pattern = /var/tmp/core.%E.%p
+
+This emits files without compression, which may be beneficial during
+development but less so much for transferring dumps.
