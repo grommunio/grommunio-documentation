@@ -204,6 +204,10 @@ would be ``/etc/yum.repos.d/grommunio.repo``, with contents:
 Accept the GPG key during the first package installation or update when
 proceeding with dnf or yum commands.
 
+.. note::
+        Our packages depend on packages in the EPEL repo. See https://docs.fedoraproject.org/en-US/epel/
+        for installation instructions.
+        
 apt
 ~~~
 
