@@ -493,10 +493,10 @@ accessing it.
 
 	Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
-	MariaDB [(none)]> create database grommunio;
+	MariaDB [(none)]> CREATE DATABASE `grommunio`;
 	Query OK, 1 row affected (0.001 sec)
 
-	MariaDB [(none)]> grant all on grommunio.* to 'grommunio'@'localhost' identified by 'freddledgruntbuggly';
+	MariaDB [(none)]> GRANT ALL ON `grommunio`.* TO 'grommunio'@'localhost' IDENTIFIED BY 'freddledgruntbuggly';
 	Query OK, 0 rows affected (0.004 sec)
 
 	MariaDB [(none)]>
