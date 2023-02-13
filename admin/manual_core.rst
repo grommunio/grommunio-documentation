@@ -205,8 +205,14 @@ Accept the GPG key during the first package installation or update when
 proceeding with dnf or yum commands.
 
 .. note::
-        Our packages depend on packages in the EPEL repo. See https://docs.fedoraproject.org/en-US/epel/
-        for installation instructions.
+        Our packages depend on packages in the `CodeReady Linux Builder`_ and
+        the `EPEL`_ repository. To enable them, run ``dnf install epel-release``
+        followed by ``crb enable``.
+
+.. _CodeReady Linux Builder: https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html-single/package_manifest/index#CodeReadyLinuxBuilder-repository
+
+.. _EPEL: https://docs.fedoraproject.org/en-US/epel/
+
         
 apt
 ~~~
