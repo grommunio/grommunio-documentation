@@ -90,6 +90,29 @@ using the following .reg file fragment:
 This configuration example sets Outlook 2016+ to skip over any mechanisms
 other than ``ExcludeHttpsAutoDiscoverDomain`` and ``ExcludeHttpRedirect``.
 
+
+Gromox notes
+------------
+
+The OXDISCO module uses the host_id setting when making references to itself in
+AutoDiscover responses. The host_id can be specified in ``http.cfg``, if not,
+the host_id will be filled in from the system hostname (kernel hostname), the
+latter of which can be inspected with the ``hostname`` or ``sysctl
+kernel.hostname`` commands. If the host_id is not fully-qualified, clients such
+as Outlook will likely not succeed in connecting if they do not happen to have
+a suitable domain search list.
+
+Because Outlook re-issues AutoDiscover requests every now and then and can
+potentially pick up a new bad hostname from a misconfigured AutoDiscover
+service, re-opening the mailbox may spuriously cease to function. Because OL
+will also not re-run AutoDiscover when caches are present and before having
+successfully opened the mailbox, bad hostnames are cumbersome to purge and need
+manual intervention.
+
+* Delete ``%LOCALAPPDATA%/Microsoft/Outlook/16/AutoD.*.xml``
+* Delete ``%LOCALAPPDATA%/Microsoft/Outlook/* - Autodiscover.xml``
+
+
 AutoDiscover in MS Outlook
 --------------------------
 
