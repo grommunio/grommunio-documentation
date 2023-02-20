@@ -16,6 +16,7 @@ This section is a collection of unstructed notes.
 	auth.rst
 	autodiscover.rst
 	debug_options.rst
+	inbox_rules.rst
 	mail_content.rst
 	gromox_debug.rst
 	outlook_notes.rst
