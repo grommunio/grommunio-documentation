@@ -403,7 +403,7 @@ nginx (re-)start.
 
 The actual fragment files for nginx are located under
 ``/usr/share/grommunio-common`` for packaging policy reasons; they are not
-meant to be modified. They do however has further ``include`` directives
+meant to be modified. However, they have further ``include`` directives
 pointing back to ``/etc`` to facilitate overriding specific aspects.
 
 ``/usr/share/grommunio-common/nginx/locations.d/autodiscover.conf`` for example
@@ -696,12 +696,12 @@ Expected output:
 	< HTTP/1.1 404 Not Found
 	…
 
-Gromox's default config does however has a mapping for ``/web`` (to
-``/usr/share/grommunio-web``). If you happen have the ``grommunio-web`` package
-already installed, requests to this subdirectory can be responded to. You can
-test the following URLs (port 10443 for gromox-http directly, 443 for nginx,
-respectively) with curl from the server command-line, and it should serve a
-static file:
+Gromox's default config however has a mapping for ``/web`` (to
+``/usr/share/grommunio-web``). If you happen to have the ``grommunio-web``
+package already installed, requests to this subdirectory can be responded to.
+You can test the following URLs (port 10443 for gromox-http directly, 443 for
+nginx, respectively) with curl from the server command-line, and it should
+serve a static file:
 
 .. code-block:: sh
 
