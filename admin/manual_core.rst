@@ -116,7 +116,7 @@ and commands to issue.]
 
 .. code-block:: text
 
-	localhost:~ # echo mail.route27.test >/etc/hostame
+	localhost:~ # echo mail.route27.test >/etc/hostname
 	localhost:~ # hostname mail.route27.test
 	localhost:~ # exec bash --login
 	mail:~ #
