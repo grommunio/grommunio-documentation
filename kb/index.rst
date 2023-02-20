@@ -21,4 +21,5 @@ This section is a collection of unstructed notes.
 	gromox_debug.rst
 	outlook_notes.rst
 	OL2013_Setup.rst
+	php.rst
 	legal_notice.rst
