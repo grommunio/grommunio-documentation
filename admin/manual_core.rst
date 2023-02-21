@@ -131,6 +131,16 @@ will be installed on has received a hostname of ``mail.route27.test``.
 Arbitrary names can be chosen so long as they make sense for their intended
 network.
 
+.. note::
+
+	The hostname(5) manual page provided in Linux/systemd systems says that
+	the name in ``/etc/hostname`` should be a single label (no dots). If
+	you choose to do this, and if the single label does not constitute a
+	fully-qualified name already, you must set the ``host_id`` directive in
+	``/etc/gromox/http.cfg`` to the fully-qualified name. (AutoDiscover
+	responses contain references to the server. Other services like zcore,
+	imap, etc. do not depend on FQDNs.)
+
 
 Package manager setup
 ---------------------
