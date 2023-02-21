@@ -9,20 +9,23 @@ Managing rules
 --------------
 
 MAPI allows to keep rules for *every individual folder* (cf. MS-OXORULE §1.3),
-but the way this is exposed by clients in their user interface varies:
+but the way this is exposed by clients in their user interface varies.
 
-* To edit the rule table of the Inbox folder of the default private store in
-  Outlook, choose File » Manage Rules & Alerts.
+* Outlook (as of 2021) only supports editing rules for the default private
+  store inbox, and for public folders.
 
-* To edit the rule table of folders in public stores in Outlook,
-  select the folder in the folder hierarchy view, call up the context menu,
-  select "Properties". The properties dialog has a button "Folder Assistant".
+  * To edit the rule table of the Inbox folder of the default private store in
+    Outlook, choose File » Manage Rules & Alerts.
+
+  * To edit the rule table of folders in public stores in Outlook,
+    select the folder in the folder hierarchy view, call up the context menu,
+    select "Properties". The properties dialog has a button "Folder Assistant".
 
   * "Folder Assistant" is greyed out for Exchange 2019 servers and enabled
     for Gromox servers.
 
-* To edit the rule table of the Inbox folder of the default private store in
-  grommunio-web, go to Settings (top horizontal bar) » Rules
+* grommunio-web only supports editing rules for the default private store
+  inbox. (Settings » Rules)
 
 * To show the rule table of any folder in MFCMAPI, select the folder in the
   hierarchy view, call up the context menu, select "Other tables » Rules
