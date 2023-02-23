@@ -26,33 +26,70 @@ php-calender even eschews Windows's own definitions.
 opcache
 -------
 
-The ``opcache`` extension is incompatible with the PHP JIT in at least php
-8.0.25 and causes a vital function to mis-execute. The php-opcache extension
-should be deinstalled.
+The ``opcache`` extension mis-executes the ZEND_TYPE_CHECK opcode in at least
+PHP 8.0.25 and causes a vital PHP expression, ``is_resource($x)``, to
+spuriously yield ``false`` even when ``$x`` is a valid resource. Spurious as
+in: we do not know why, but it is reproducibly the same line in grommunio-web.
 
 Details:
 
-``zend_compile.c`` treats the ``is_resource(...)`` function call specially and
-resolves it here:
+We find that the Zend engine treats the PHP ``is_resource(...)`` function call
+specially[`↗
+<https://github.com/php/php-src/blob/master/Zend/zend_compile.c#L4497>_`],
 
 .. code-block:: c
 
-   } else if (zend_string_equals_literal(lcname, "is_resource")) {
-           return zend_compile_func_typecheck(result, args, IS_RESOURCE);
+	} else if (zend_string_equals_literal(lcname, "is_resource")) {
+		return zend_compile_func_typecheck(result, args, IS_RESOURCE);
 
-In conjunction with php-opcache, the logic inside the
-``zend_compile_func_typecheck`` C function causes ``is_resource($x)`` in PHP to
-spuriously return false.
-
-We can comment out these two lines, at which point ``is_resource`` will not be
-JIT-ed, and instead be evaluated by:
+and that Zend compiles it to a ``ZEND_TYPE_CHECK`` opcode with extended_value
+being ``(1 << IS_RESOURCE)``[`↗
+<https://github.com/php/php-src/blob/master/Zend/zend_compile.c#L3945..L3950>`_].
 
 .. code-block:: c
 
-    PHP_FUNCTION(is_resource)
-    {
-            php_is_type(INTERNAL_FUNCTION_PARAM_PASSTHRU, IS_RESOURCE);
-    }
+	opline = zend_emit_op_tmp(result, ZEND_TYPE_CHECK, &arg_node, NULL);
+	if (type != _IS_BOOL) {
+		opline->extended_value = (1 << type);
+	} else {
+		opline->extended_value = (1 << IS_FALSE) | (1 << IS_TRUE);
+	}
 
-We conclude that PHP's JIT logic and php-opcache are incompatible with each
-other.
+When the two lines shown in the first block are removed, the
+``is_resource($x)`` expression would instead be compiled to a
+``ZEND_INIT_FCALL`` opcode[`↗
+<https://github.com/php/php-src/blob/master/Zend/zend_compile.c#L4612>`_].
+ and execution would eventually land in the C function corresponding to
+``is_resource`` [`↗
+<https://github.com/php/php-src/blob/php-8.0.25/ext/standard/type.c#L240..L276>`_].
+
+.. code-block:: c
+
+	static inline void php_is_type(INTERNAL_FUNCTION_PARAMETERS, int type)
+	{
+		if (Z_TYPE_P(arg) == type) {
+		...
+
+Summarizing our observations:
+
+* Unmodified Zend VM, php-opcache disabled, ``is_resource`` becomes
+  ``ZEND_TYPE_CHECK``: good
+* Unmodified Zend VM, php-opcache enabled, ``is_resource`` becomes
+  ``ZEND_TYPE_CHECK``: bad
+* Modified Zend VM, php-opcache enabled, ``is_resource`` becomes
+  ``ZEND_INIT_FCALL``: good
+* We conclude that php-opcache induces a problem with respect to the
+  ``ZEND_TYPE_CHECK`` opcode.
+
+There is a... peculiar comment in php-opcache (``MAY_BE_RESOURCE`` is the same
+as ``1 << IS_RESOURCE``)[↗
+<https://github.com/php/php-src/blob/master/ext/opcache/jit/zend_jit.c#L3515>`_]
+that could(?) be relevant:
+
+.. code-block:: c
+
+	case ZEND_TYPE_CHECK:
+		if (opline->extended_value == MAY_BE_RESOURCE) {
+			// TODO: support for is_resource() ???
+			break;
+		}
