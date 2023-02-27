@@ -10,10 +10,10 @@ This chapter covers a short walkthrough which can be used as a check list to
 install and get grommunio started.
 
 - Download the installation ISO from
-  `<https://download.grommunio.com/appliance/grommunio_Appliance.x86_64-latest.install.iso>`_.
+  `<https://download.grommunio.com/appliance/grommunio.x86_64-latest.install.iso>`_.
   The installation image is a hybrid installation image which also allows to be
-  transferred to a USB stick with USB imaging tools, such as
-  `<https://rufus.ie>`_.
+  transferred to a USB stick with USB imaging tools such as
+  GNU ddrescue or `<https://rufus.ie>`_.
 - Use the installation media from grommunio to install and quickstart the
   configuration by walking through the following chapters.
 - Create or request TLS certificates for secure, encrypted operation of the
