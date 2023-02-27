@@ -96,37 +96,24 @@ Incoming
 .. image:: _static/img/diag_workflow_smtpin.png
    :alt: SMTP workflow of incoming mails
    
-Incoming mails are processed as follows:
+Mails are processed as follows (applies to incoming and outgoing):
 
-#. The shipped MTA postfix receives the mails and processes these to
-#. grommunio-antispam which automatically checks the email for spam
-   evaluation. If configured,
-#. grommunio-antispam (optionally) sends the email to an anti-virus processing
-   service. After this check, the mail is handled back to
-#. grommunio-antispam which utilizes
-#. postfix do distribute the email to the
-#. gromox-delivery-queue process which effectively shows up in the users'
-   mailbox.
-
-Outgoing / Internal
-~~~~~~~~~~~~~~~~~~~
+#. The included Postfix MTA receives messages and passes them to
+   grommunio-antispam via the *Milter* mail filter protocol.
+#. grommunio-antispam checks the message for spam.
+   If configured, grommunio-antispam (optionally) passes the message to an
+   anti-virus processing service.
+#. The response from the anti-virus check is read back by antispam.
+#. The response from antispam is read back by Postfix.
+#. Postfix evaluates the contents of the Envelope-From and Envelope-To address
+   pair to make the decision if this is i incoming or outgoing mail.
+#. Incoming mail is relayed to the gromox-delivery process, which converts the
+   mail to a MAPI object and places it in the user's mailbox.
+#. Outgoing mail is delivered to a configured relayhost or to the next MX
+   destination that is responsible for the target address.
 
 .. image:: _static/img/diag_workflow_smtpout.png
    :alt: SMTP workflow of outgoing mails
-
-Outgoing / Internal mails are processed as follows:
-
-#. The shipped MTA postfix receives the mails via direct port 25 transport and
-   processes these to
-#. grommunio-antispam which automatically checks the email for spam evaluation.
-   If configured,
-#. grommunio-antispam (optionally) sends the email to an anti-virus processing
-   service. After this check, the mail is handled back to
-#. grommunio-antispam which utilizes
-#. postfix do distribute the email to the
-#. gromox-delivery-queue process which effectively shows up in the users'
-   mailbox **or** (depending on the configuration) relays the email to the next
-   relayhost or attempts direct delivery.
 
 RPC/HTTP, MAPI/HTTP & EWS workflow
 ----------------------------------
