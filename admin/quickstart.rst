@@ -11,7 +11,12 @@ install and get grommunio started.
 
 - Download the installation ISO from
   `<https://download.grommunio.com/appliance/grommunio_Appliance.x86_64-latest.install.iso>`_.
-  The installation image is a hybrid installation image which also allows to be
+  (https://download.grommunio.com/appliance/grommunio_Appliance.x86_64-latest.install.iso
+   returns 404 not found, it could be 
+  https://download.grommunio.com/appliance/grommunio.x86_64-latest.install.iso
+  or
+  https://download.grommunio.com/appliance/grommunio.x86_64-2022.12.1-Build23.16.install.iso
+  )The installation image is a hybrid installation image which also allows to be
   transferred to a USB stick with USB imaging tools, such as
   `<https://rufus.ie>`_.
 - Use the installation media from grommunio to install and quickstart the

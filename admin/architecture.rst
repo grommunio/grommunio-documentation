@@ -98,14 +98,13 @@ Incoming
    
 Incoming mails are processed as follows:
 
-#. The shipped MTA postfix receives the mails and processes these to
-#. grommunio-antispam which automatically checks the email for spam
-   evaluation. If configured,
-#. grommunio-antispam (optionally) sends the email to an anti-virus processing
-   service. After this check, the mail is handled back to
-#. grommunio-antispam which utilizes
-#. postfix do distribute the email to the
-#. gromox-delivery-queue process which effectively shows up in the users'
+#. The shipped MTA postfix receives the mails, processes them and sends them to the grommunio-antispam 
+#. The grommunio-antispam automatically checks the email for spam
+   evaluation. If configured, grommunio-antispam (optionally) sends the email to an anti-virus processing
+   service. 
+#. After the Anti-virus check, the mail is handled back to grommunio-antispam.
+#. The grommunio-antispam utilizes postfix to distribute the email to the
+#. postfix to distribute the email to the gromox-delivery-queue process which effectively shows up in the users'
    mailbox.
 
 Outgoing / Internal
@@ -117,14 +116,12 @@ Outgoing / Internal
 Outgoing / Internal mails are processed as follows:
 
 #. The shipped MTA postfix receives the mails via direct port 25 transport and
-   processes these to
-#. grommunio-antispam which automatically checks the email for spam evaluation.
-   If configured,
-#. grommunio-antispam (optionally) sends the email to an anti-virus processing
-   service. After this check, the mail is handled back to
-#. grommunio-antispam which utilizes
-#. postfix do distribute the email to the
-#. gromox-delivery-queue process which effectively shows up in the users'
+   processes these to grommunio-antispam.
+#. The grommunio-antispam automatically checks the email for spam evaluation.
+   If configured, grommunio-antispam (optionally) sends the email to an anti-virus processing
+   service.
+#. After the anti-virus check, the mail is handled back to the grommunio-antispam.
+#. The grommunio-antispam utilizes postfix to distribute the email to the gromox-delivery-queue process which effectively shows up in the users'
    mailbox **or** (depending on the configuration) relays the email to the next
    relayhost or attempts direct delivery.
 
