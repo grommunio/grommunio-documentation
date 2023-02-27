@@ -14,9 +14,9 @@ well known in the workplace, grommunio does not require special training, if
 the users already have a basic understanding of the clients used.
 
 This documentation does not replace any sane client training for end users and
-does not replace documentation of the client uses, such as Microsoft Outlook of
+does not replace documentation of the client uses, such as Microsoft Outlook or
 Mozilla Thunderbird. For clients which are non-exclusive to grommunio,
-refer to the documentation provided by the client software, as provided by the
+refer to the documentation provided by the client software as provided by the
 vendor.
 
 The goal of this document is to simplify the configuration effort for users and
@@ -39,7 +39,9 @@ integrated solution to todays needs: Simplicity, Performance, Stability,
 Productivity.
 
 The following chapters will show how to configure and setup grommunio accounts
-with the preferred client of choice. Since grommunio is focused on delivering
+with the preferred client of choice (Microsoft Outlook, Android, Apple Mail
+(iOS), Apple Mail (macOS), Microsoft Mail, Mozilla Thunderbird).
+Since grommunio is focused on delivering
 its products according to well-established computer standards, the list of
 clients covered in this manual is not exhaustive. The chance, the client of
 choice not covered in this manual operating well with grommunio are very high,
