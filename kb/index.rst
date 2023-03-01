@@ -22,4 +22,5 @@ This section is a collection of unstructed notes.
 	outlook_notes.rst
 	OL2013_Setup.rst
 	php.rst
+	update_cycle.rst
 	legal_notice.rst
