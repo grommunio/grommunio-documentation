@@ -13,6 +13,11 @@ PHP 8.0.25 and causes a vital PHP expression, ``is_resource($x)``, to
 spuriously yield ``false`` even when ``$x`` is a valid resource. Spurious as
 in: we do not know why, but it is reproducibly the same line in grommunio-web.
 
+mapi.so checks whether opcache.so is loaded and refuses operation if this is
+the case. (This is in lieu of blocking opcache at the distribution packaging
+level from being installed, which sometimes is too much since FPM, CLI and SAPI
+can have different INI settings.)
+
 Details:
 
 We find that the Zend engine treats the PHP ``is_resource(...)`` function call
