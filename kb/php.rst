@@ -5,24 +5,6 @@
 PHP Environment Notes
 =====================
 
-calendar
---------
-
-The ``calendar`` extension (php-calendar) defines ``CAL_GREGORIAN`` for the the
-PHP environment, which clashes with equally-named defines in our
-*mapi-php-header* package.
-
-php-calender even eschews Windows's own definitions.
-
-.. code-block:: c
-
-   #ifdef PHP_WIN32
-   /* This conflicts with a define in winnls.h, but that header is needed
-      to have GetACP(). */
-   #undef CAL_GREGORIAN
-   #endif
-
-
 opcache
 -------
 
