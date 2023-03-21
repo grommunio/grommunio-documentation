@@ -77,7 +77,7 @@ even if joined to an NT domain of the same name.
 
 .. image:: profdisco.png
 
-At this point, you may get a warning if you used a _self-signed_ or otherwise
+At this point, you may get a warning if you used a *self-signed* or otherwise
 not verifiable TLS certificate. If indeed your Gromox server uses such a
 certificate, that is a good sign that AutoDiscover did indeed reach the Gromox
 server.
