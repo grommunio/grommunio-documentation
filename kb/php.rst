@@ -21,7 +21,7 @@ can have different INI settings.)
 Details:
 
 We find that the Zend engine treats the PHP ``is_resource(...)`` function call
-specially (cf.
+specially (`[1]
 <https://github.com/php/php-src/blob/master/Zend/zend_compile.c#L4497>_`):
 
 .. code-block:: c
@@ -30,7 +30,7 @@ specially (cf.
 		return zend_compile_func_typecheck(result, args, IS_RESOURCE);
 
 and that Zend compiles it to a ``ZEND_TYPE_CHECK`` opcode with extended_value
-being ``(1 << IS_RESOURCE)`` (cf.
+being ``(1 << IS_RESOURCE)`` (`[2]
 <https://github.com/php/php-src/blob/master/Zend/zend_compile.c#L3945..L3950>`_).
 
 .. code-block:: c
@@ -44,10 +44,10 @@ being ``(1 << IS_RESOURCE)`` (cf.
 
 When the two lines shown in the first block are removed, the
 ``is_resource($x)`` expression would instead be compiled to a
-``ZEND_INIT_FCALL`` opcode (cf.
+``ZEND_INIT_FCALL`` opcode (`[3]
 <https://github.com/php/php-src/blob/master/Zend/zend_compile.c#L4612>`_)
 and execution would eventually land in the C function corresponding to
-``is_resource`` (cf.
+``is_resource`` (`[4]
 <https://github.com/php/php-src/blob/php-8.0.25/ext/standard/type.c#L240..L276>`_).
 
 .. code-block:: c
@@ -69,7 +69,7 @@ Summarizing our observations:
   ``ZEND_TYPE_CHECK`` opcode.
 
 There is a... peculiar comment in php-opcache (``MAY_BE_RESOURCE`` is the same
-as ``1 << IS_RESOURCE``) (cf.
+as ``1 << IS_RESOURCE``) (`[5]
 <https://github.com/php/php-src/blob/master/ext/opcache/jit/zend_jit.c#L3515>`_)
 that could(?) be relevant:
 
