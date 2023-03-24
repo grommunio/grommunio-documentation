@@ -715,9 +715,9 @@ serve a static file:
 
 .. code-block:: sh
 
-	curl -kv https://localhost:10443/web/robots.txt
-	curl -kv https://localhost:443/web/robots.txt
-	# firefox https://mail.route27.test/web/robots.txt
+	curl -kv https://localhost:10443/web/version
+	curl -kv https://localhost:443/web/version
+	# firefox https://mail.route27.test/web/version
 
 Using a browser from a separate desktop machine is also possible provided port
 10443 was made accessible. (Normally, 10443 need not be exposed to any other
