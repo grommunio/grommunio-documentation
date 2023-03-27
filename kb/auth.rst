@@ -20,6 +20,6 @@ recognize there are two bugs with Windows:
   * When entering a password with a CJK character, the copy of Windows we used
     does not transmit *any* `Authorization` header *at all*.
 
-The Internet Options control panel dialog `[1] <auth_intopts.png>`_
-`[2] <auth_intopts2.png>`_ which concerns itself with system HTTP libraries
+The Internet Options control panel dialog `[1] <_static/img/auth_intopts.png>`_
+`[2] <_static/img/auth_intopts2.png>`_ which concerns itself with system HTTP libraries
 of the old days does not influence this.

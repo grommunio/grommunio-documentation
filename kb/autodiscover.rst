@@ -237,7 +237,7 @@ In this AutoDiscover test dialog, if the discovery reports HTTP error 401
 Unauthorized, the cause is because that dialog stupidly uses an old saved
 password and not the contents of the password field.
 
-.. image:: oldisco.png
+.. image:: _static/img/oldisco.png
 
 An alternative way to validate AutoDiscover request & responses is to use the
 Gromox command-line utility ``PASS=abcd gromox-dscli -e user@domain``.

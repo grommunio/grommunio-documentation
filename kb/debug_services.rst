@@ -2,15 +2,18 @@
         SPDX-License-Identifier: CC-BY-SA-4.0 or-later
         SPDX-FileCopyrightText: 2022 grommunio GmbH
 
+Debug Services
+==============
+
 Log level
-=========
+---------
 
 As of Gromox gromox-1.33-72-ge09fed809, all messages have a severity level
 associated with them, and the Gromox daemons have a log level setting. The
 default level is 4 (NOTICE).
 
-Gromox verbose debug options
-============================
+Verbose debug options
+---------------------
 
 The gromox-http daemon can be made to emit more messages for detailed
 debugging. See the respective manpages for details.
