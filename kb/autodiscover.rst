@@ -43,7 +43,7 @@ at https://autodiscover.<domain>.<tld>/autodiscover/autodiscover.json. The
 Autodiscover V2 endpoint then returns an Autodiscover V2 JSON file that contains
 the necessary configuration settings.
 
-Please note that Autodiscover is not only used exclusively by Microsoft Outlook,
+Please note that Autodiscover is not used exclusively by Microsoft Outlook,
 Autodiscover is the main discovery protocol for any EAS-enabled device and
 application, such as Apple iOS, Android and other applications.
 
@@ -95,6 +95,16 @@ publicly resolvable, most clients will fail to discover the endpoint correctly,
 for example Microsoft Outlook uses Microsoft servers for discovery if the
 explicit endpoint request (``ExcludeExplicitO365Endpoint``) has not been
 disabled appropriately.
+
+.. important::
+   Please note that for successful discovery, the endpoint should be available
+   from any network segment where client devices could be accessing the
+   autodiscover as well as the service resolved by autodiscover as well. Depending
+   on your setup, you might want to use techniques such as `Split-horizon DNS
+   <https://en.wikipedia.org/wiki/Split-horizon_DNS>`_ or define your externally
+   available adresses to be accessible from the internal networks as well, known
+   as `NAT hairpinning or NAT reflection
+   <https://en.wikipedia.org/wiki/Network_address_translation#NAT_hairpinning>_`.
 
 Registry settings (MS Outlook)
 ------------------------------
