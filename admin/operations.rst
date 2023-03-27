@@ -215,6 +215,7 @@ solutions or storage systems are tested and supported:
 - Amazon EBS snapshots
 - Azure VM snapshots
 - Bacula Backup
+- Bareos Backup
 - btrfs-based snapshots
 - CephFS/RBD snapshots
 - Commvault Hyperscale
