@@ -57,13 +57,17 @@ support the Autodiscover V2 endpoint.
 * ``Autodiscover`` record
 
   Type: A
+
   Name: autodiscover.<domain>.<tld>
+
   Value: <IP address of Mail server>
 
-  or
+  **or**
 
   Type: CNAME
+
   Name: autodiscover.<domain>.<tld>
+
   Value: <alias>.<domain>.<tld>
 
 
@@ -74,10 +78,15 @@ the Autodiscover V2 endpoint.
 * ``AutodiscoverV2`` record
 
   Type: SRV
+
   Name: _autodiscover._tcp.<domain>.<tld>
+
   Priority: 10
+
   Weight: 10
+
   Port: 443
+
   Target: autodiscover.<domain>.<tld>
 
 When an email client sends an Autodiscover request, it first looks for an SRV
