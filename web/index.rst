@@ -22,7 +22,6 @@ understand the concepts behind grommunio.
 	:caption: Contents
 
         intro.rst
-        login.rst
         mail.rst
         calendar.rst
         contacts.rst
