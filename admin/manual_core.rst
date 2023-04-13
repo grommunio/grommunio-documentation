@@ -58,10 +58,10 @@ Establish networking
 				 Speed: 10Gbps
 				Duplex: full
 				  Port: tp
-			       Address: 88.198.85.196
-					2a01:4f8:10b:45d8::f27
-			       Gateway: 195.201.56.39
-					2a01:4f8:10b:45d8::1
+			       Address: 192.0.2.196
+					2001:db8:10b:45d8::f27
+			       Gateway: 192.0.2.1
+					2001:db8:10b:45d8::1
 		     Activation Policy: up
 		   Required For Online: yes
 
@@ -89,9 +89,9 @@ get online.
 	       valid_lft forever preferred_lft forever
 	2: host0@if17: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
 	    link/ether aa:b2:5f:b1:9d:46 brd ff:ff:ff:ff:ff:ff link-netnsid 0
-	    inet 88.198.85.196/32 scope global host0
+	    inet 192.0.2.196/24 scope global host0
 	       valid_lft forever preferred_lft forever
-	    inet6 2a01:4f8:10b:45d8::f27/128 scope global
+	    inet6 2001:db8:10b:45d8::f27/64 scope global
 	       valid_lft forever preferred_lft forever
 
 IPv6 is mandatory on the host itself. If you have ``::1`` assigned, all is
@@ -116,8 +116,8 @@ and commands to issue.]
 
 .. code-block:: text
 
-	localhost:~ # echo mail.route27.test >/etc/hostname
-	localhost:~ # hostname mail.route27.test
+	localhost:~ # echo mail.example.net >/etc/hostname
+	localhost:~ # hostname mail.example.net
 	localhost:~ # exec bash --login
 	mail:~ #
 
@@ -125,9 +125,9 @@ If you have not consciously set a hostname yet, do so now, especially if some
 default setting has left you with localhost as the hostname. You cannot
 reasonably reach localhost from another machine without unnecessary pains.
 
-I decided to use ``route27.test`` for the domain part of later e-mail addresses
-(e.g. ``someuser@route27.test``), and this particular machine that Grommunio
-will be installed on has received a hostname of ``mail.route27.test``.
+I decided to use ``example.net`` for the domain part of later e-mail addresses
+(e.g. ``someuser@example.net``), and this particular machine that Grommunio
+will be installed on has received a hostname of ``mail.example.net``.
 Arbitrary names can be chosen so long as they make sense for their intended
 network.
 
@@ -298,10 +298,10 @@ anyway).
 
 A certificate with a *subjectAltName* (SAN) field, or even a wildcard
 certificate may be desirable for the domain, if you plan on using multiple
-subdomains, e.g. ``meet.route27.test`` for *grommunio-meet*.
+subdomains, e.g. ``meet.example.net`` for *grommunio-meet*.
 
 Autodiscover clients, as part of their setup attempts, try to resolve and use
-``autodiscover.route27.test``. Having a SAN for this subdomain is however not
+``autodiscover.example.net``. Having a SAN for this subdomain is however not
 strictly necessary; we can report that Autodiscover also works without this
 domain. See `MS-OXDISCO §3.1.5
 <https://docs.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxdisco/d56ae3c6-bf29-4712-b274-2e4cc5fdaa64>`_
@@ -598,7 +598,7 @@ file ``/etc/gromox/mysql_adaptor.cfg``, whose contents could look like this::
 	mysql_username=grommunio
 	mysql_password=freddledgruntbuggly
 	mysql_dbname=grommunio
-	schema_upgrade=host:mail.route27.test
+	schema_upgrade=host:mail.example.net
 
 The data stored in MariaDB is shared among all mailbox nodes in a clustered
 setup. Table schema (DDL) changes are necessary at times, but at most one node
@@ -717,7 +717,7 @@ serve a static file:
 
 	curl -kv https://localhost:10443/web/version
 	curl -kv https://localhost:443/web/version
-	# firefox https://mail.route27.test/web/version
+	# firefox https://mail.example.net/web/version
 
 Using a browser from a separate desktop machine is also possible provided port
 10443 was made accessible. (Normally, 10443 need not be exposed to any other
@@ -798,7 +798,7 @@ Expected output for IMAP:
 
 	*   Trying ::1:993...
 	…
-	< * OK mail.route27.test service ready
+	< * OK mail.example.net service ready
 	> A001 CAPABILITY
 	< * CAPABILITY IMAP4rev1 XLIST SPECIAL-USE UNSELECT UIDPLUS IDLE AUTH=LOGIN STARTTLS
 	< A001 OK CAPABILITY completed
@@ -812,7 +812,7 @@ Expected output for POP3:
 	* TCP_NODELAY set
 	* Connected to localhost (::1) port 995 (#0)
 	…
-	< +OK mail.route27.test pop service ready
+	< +OK mail.example.net pop service ready
 	> CAPA
 	< +OK capability list follows
 	< STLS
@@ -867,7 +867,7 @@ Autodiscover also works in test setups without a frontend like nginx.)
 
 	curl -kv https://localhost:10443/Autodiscover/Autodiscover.xml
 	curl -kv https://localhost:443/Autodiscover/Autodiscover.xml
-	# firefox https://mail.route27.test/Autodiscover/Autodiscover.xml
+	# firefox https://mail.example.net/Autodiscover/Autodiscover.xml
 
 Expected result of this operation:
 
@@ -985,7 +985,7 @@ endpoints, and we can test for that with curl or even firefox.
 .. code-block:: sh
 
 	curl -kv https://localhost:8443/api/v1/login
-	# firefox https://mail.route27.test:8443/api/v1/login
+	# firefox https://mail.example.net:8443/api/v1/login
 
 The expected result is a JSON response.
 
@@ -1020,7 +1020,7 @@ of AAPI's endpoints via REST.
 	zypper in grommunio-admin-web
 
 Since this package contains just static files, the login page is now ready.
-Visit ``https://mail.route27.test:8443/`` and log in with the credentials you
+Visit ``https://mail.example.net:8443/`` and log in with the credentials you
 have previously assigned (username: ``admin``, password: as you did).
 
 The details on how to use AWEB (sometimes also referred to as AUI) are provided
@@ -1042,13 +1042,13 @@ required`` will appear.
 Create domain & user
 ~~~~~~~~~~~~~~~~~~~~
 
-Create the ``route27.test`` domain, and a user using AWEB. Afterwards, one can
+Create the ``example.net`` domain, and a user using AWEB. Afterwards, one can
 test the login/use in various ways. For example, to run the Autodiscover
 procedure from the command-line:
 
 .. code-block:: sh
 
-	PASS=abcdef /usr/libexec/gromox/autodiscover -e boop@route27.test
+	PASS=abcdef /usr/libexec/gromox/autodiscover -e boop@example.net
 
 Expected output:
 
@@ -1062,12 +1062,12 @@ At your leisure, connect with Outlook.
 
 To be able to log into IMAP/POP3, the user must have this feature explicitly
 enabled. This can be changed using AWEB by going to the *Domains* >
-*route27.test* > *Users* tab on the left-hand side navigation pane. Once
+*example.net* > *Users* tab on the left-hand side navigation pane. Once
 enabled,
 
 .. code-block:: sh
 
-	curl -kv imaps://localhost/ -u boop@route27.test:abcdef
+	curl -kv imaps://localhost/ -u boop@example.net:abcdef
 
 Expected output:
 
@@ -1098,7 +1098,7 @@ Install ``grommunio-web``. Verify that you can load the login page and login:
 .. code-block:: sh
 
 	curl -kv https://localhost:443/web/
-	# firefox https://mail.route27.test/web/
+	# firefox https://mail.example.net/web/
 
 
 Loopback mail
@@ -1106,8 +1106,8 @@ Loopback mail
 
 The *gromox-delivery-queue* and *gromox-delivery* services comprise the Local
 Delivery Agent. This LDA supports a bit of SMTP to facilitate it being used in
-a filter-free loopback scenario. That is, one can send mail from route27.test
-to route27.test (only), with no SMTP to the outside.
+a filter-free loopback scenario. That is, one can send mail from example.net
+to example.net (only), with no SMTP to the outside.
 
 (A mail composed and submitted with grommunio-web will ultimately be emitted by
 the *gromox-zcore* process, which sends it to *localhost:25*. Alternatively, when

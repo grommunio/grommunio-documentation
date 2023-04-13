@@ -141,19 +141,19 @@ configuration keywords apply:
 
   Outlook does not use the HTTP redirect method in the event it is unable to
   reach the AutoDiscover service via either of the HTTPS URLs:
-  ``https:///mydomain.at/autodiscover.xml`` or
-  ``https://mydomain.at/autodiscover/autodiscover.xml``.
+  ``https:///example.net/autodiscover.xml`` or
+  ``https://example.net/autodiscover/autodiscover.xml``.
 
 * ``ExcludeHttpsAutoDiscoverDomain``
 
   Outlook does not use the AutoDiscover domain to locate the AutoDiscover
   service. For example, Outlook does not use the following URL:
-  ``https://mydomain.at/autodiscover/autodiscover.xml``
+  ``https://example.net/autodiscover/autodiscover.xml``
 
 * ``ExcludeHttpsRootDomain``
 
   When this option is enabled, Outlook will skip trying the URL
-  ``https:///mydomain.at/autodiscover.xml`` of your primary SMTP address to
+  ``https:///example.net/autodiscover.xml`` of your primary SMTP address to
   locate the AutoDiscover service.
 
 * ``ExcludeLastKnownGoodURL``

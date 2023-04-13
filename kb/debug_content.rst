@@ -60,12 +60,12 @@ If sending a message fails with Outlook and gromox-http emits a log message like
 this,
 
 ```
-user=test@host.mydomain.at host=::ffff:162.55.248.37  W-1281: Failed to export to RFC5322 mail while sending mid:0x5001b
+user=test@host.example.net host=::ffff:192.0.2.37  W-1281: Failed to export to RFC5322 mail while sending mid:0x5001b
 ```
 
 then gromox-exm2eml can be used by with a debugger to step into the
 `oxcmail_export` routine without stopping the server itself. (`gromox-exm2eml
--u test@host.mydomain.at 0x5001b`)
+-u test@host.example.net 0x5001b`)
 
 If a message is received on a remote system in an unexpectedly broken fashion,
 there may be a problem with the sending path. If the issue is visible with the
