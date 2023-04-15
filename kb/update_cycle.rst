@@ -8,18 +8,28 @@ Update Cycle
 RH vs SUSE
 ----------
 
-> *We do not want to update all that often, so we are choosing RHEL/CentOS/Alma/etc.*
+	“ *We do not want to update all that often, so we are
+	choosing RHEL/CentOS/Alma/etc. [in favor of SLE]* ”
 
-CentOS (classic) had two service pack releases per year, as does AlmaLinux
-currently, e.g. AlmaLinux 9.0 released on 2022-05-26, and 9.1 on 2022-11-17,
-whereby 9.0 is already out of support again. This means that every SP in
-the 8.x/9.x series lives only 6 to 8 months.
+RHEL (and its derivatives) actually release a lot more service packs over time,
+and the service packs' individual lifetime is also shorter:
 
-With SUSE Linux Enterprise/Leap, the service packs are published once per year,
-e.g. SLE 15.3 released on 2021-06-21, 15.4 on 2022-06-08, and 15.5 to be made
-on or about 2023-06-01, and the projected support period for each SP is *18* months.
+=============  ==========  ================  ========
+SP             Release     Last repo change  Lifetime
+=============  ==========  ================  ========
+AlmaLinux 8.4  2021-05-26  2021-11-22        181 days
+AlmaLinux 8.5  2021-11-12  2022-09-28        320 days
+AlmaLinux 8.6  2022-05-12  2022-11-03        176 days
+AlmaLinux 9.0  2022-05-26  2022-11-03        162 days
+=============  ==========  ================  ========
 
-In other words, the update cadence is in favor of a SUSE-based distribution.
-The default lifetime of the entire 15.x series is speced for about 10 years by
-SUSE (2018..2028), which is the same as for RHEL and its derivatives (also 10
-years).
+========     ==========  ==============  ========
+SP           Release     End of Support  Lifetime
+========     ==========  ==============  ========
+SLE 15.1     2019-06-21  2021-01-31      591 days
+SLE 15.2     2020-06-22  2021-12-31      558 days
+SLE 15.3     2021-06-21  2022-12-31      559 days
+========     ==========  ==============  ========
+
+For admins with an aversion to periodic invocation of the updater, the update
+cadence is in favor of a SUSE-based distribution.
