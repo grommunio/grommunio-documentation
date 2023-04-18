@@ -295,7 +295,7 @@ Database backup
 ---------------
 
 Backup the grommunio databases ``grommunio``, ``grofiles``,
-``groarchive``, ``grochat`` and ``grofiles`` using standard procedures.
+``groarchive`` and  ``grochat`` using standard procedures.
 Most backup solutions provide MySQL database backup agents for easy integration.
 For detailed backup options of your MySQL databases, refer to:
 `https://dev.mysql.com/doc/refman/8.0/en/backup-types.html
