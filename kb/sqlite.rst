@@ -34,9 +34,9 @@ When (just) indices are broken, the file may be recreated:
 .. code-block:: sh
 
 	cd /var/lib/gromox/domain/1/exmdb/
-	sqlite3 exchange.sqlite3 .recover >recover.sql
-	mv exchange.sqlite3 exchange.sqlite3.old
-	sqlite3 exchange.sqlite3 <recover.sql
-	chmod u=rw,g=rw exchange.sqlite3
-	chown grommunio:gromox exchange.sqlite3
+	sqlite3 exchange.sqlite3 .recover | sqlite3 new
+	chmod u=rw,g=rw new
+	chown grommunio:gromox new
+	mv exchange.sqlite3 old
+	mv new exchange.sqlite3
 	systemctl restart gromox-http
