@@ -16,7 +16,7 @@ support for analysis to `support@grommunio.com
 
 The archive generated is made available under the web root of grommunio admin
 archive, which is why it is stongly recommended to remove the generated support
-archive as soon as it has been transmitted to grommunioi support. The support
+archive as soon as it has been transmitted to grommunio support. The support
 archive can be removed by accessing the console and executing the command ``rm
 -f /usr/share/grommunio-admin-web/grommunio-support.txz``.
 
@@ -36,7 +36,7 @@ The information collected by grommunio-support contains:
    The support package might contain sensitive information. If this is a
    concern to you, it is recommended to prune specific private data from the
    generated archive before sending it to grommunio support. Support data is
-   used only for diagnostic purposesi and is considered confidential
+   used only for diagnostic purposes and is considered confidential
    information.
 
 .. note::
