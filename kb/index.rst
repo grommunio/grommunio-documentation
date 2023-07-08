@@ -21,6 +21,7 @@ This section is a collection of unstructed notes.
 	message_rules.rst
 	outlook.rst
 	php.rst
+	search.rst
 	sent_folder.rst
 	sqlite.rst
 	update_cycle.rst
