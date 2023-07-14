@@ -87,3 +87,7 @@ Default filter of grommunio-web:
 	* IPM.Activity (journal), IPM.Post (public folder post), SMIME messages
 * Since BCC is not on the list, Drafts with an otherwise matching BCC entry
   would get skipped
+
+The MFCMAPI utility can be used to inspect the search criteria (filter).
+
+.. image:: _static/img/mfcmapi_searchcrit.png
