@@ -58,7 +58,7 @@ for MANUAL in ${BUILD_MANUAL[@]}; do
 		sed -i -e 's#<body>#<body><style>.operation-samples[_ngcontent-c9]{width:0%;background:none!important;}.operation-content[_ngcontent-c9]{width:90%;!important;}.background-actual[_ngcontent-c0]{background:none!important;}[sticky-sidebar][_ngcontent-c0]{max-width:90%;}.selected-tag[_ngcontent-c4]{margin-left:20px;}</style>#' ${MANUAL}-build/html/adminapispec.html
 	fi
 
-	if [ "${MANUAL}" != "main" ]; then
+	if [ "${MANUAL}" != "main" ] && [ -n "$MAKE_PDF" ]; then
 		mkdir -p ${MANUAL}-build/latex
 		rsync -av resources/_static/img/back_a4.png ${MANUAL}-build/latex/background.png
 		if ! make latexpdf O="-D smartquotes_action=" DOCDIR=${MANUAL} BUILDDIR=${MANUAL}-build; then
@@ -66,6 +66,8 @@ for MANUAL in ${BUILD_MANUAL[@]}; do
 				exit 1
 			fi
 		fi
+	fi
+	if [ "${MANUAL}" != "main" ] && [ -n "$MAKE_EPUB" ]; then
 		if ! make epub DOCDIR=${MANUAL} BUILDDIR=${MANUAL}-build; then
 			if test -z "$IGNORE_EPUB"; then
 				exit 1
