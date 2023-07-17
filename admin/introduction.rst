@@ -154,8 +154,8 @@ experience.
 As a reference, the components of software products forked as part of the
 grommunio stack are:
 
-- grommunio-files is a fork of ownCloud with authentication and setup
-  enhancements (`https://owncloud.com/ <https://owncloud.com/>`_)
+- grommunio-files is a fork of Nextcloud with authentication and setup
+  enhancements (`https://nextcloud.com/ <https://nextcloud.com/>`_)
 - grommunio-meet is a fork of Jitsi with integration enhancements
   (`https://jitsi.org/ <https://jitsi.org/>`_)
 - grommunio-office is a fork of OnlyOffice web with integration enhancements

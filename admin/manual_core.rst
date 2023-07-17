@@ -6,12 +6,12 @@ Manual Installation (Custom Integration)
 ========================================
 
 While for the majority of installations the grommunio Appliance delivers a
-comprehensive solution for most installation targets, some special needs might
-not be possible to satisfy. For these cases, the grommunio base system and core
+comprehensive solution for most installation targets, some special needs might 
+require a different approach. For these cases, the grommunio base system and core
 (groupware) can be installed manually with guidance from this chapter.
 
 .. note::
-   grommunio is a comprehensive communication and collaboration solution with many services and components. With this modularity, grommunio is extremely versatile and allows various installation types which all of them can't be covered in detail. This section is intentionally held as generic as possible
+   grommunio is a comprehensive communication and collaboration solution with many services and components. With this modularity, grommunio is extremely versatile and allows various installation types which all of them can't be covered in detail. This section is intentionally as generic as possible.
    
 .. important::
    Please note that this section is targeted at adept administrators who are experienced in advanced linux administration and configuration.
@@ -68,12 +68,12 @@ Establish networking
 	Mar 31 23:47:13 localhost systemd-networkd[22]: host0: Link UP
 	Mar 31 23:47:13 localhost systemd-networkd[22]: host0: Gained carrier
 
-For this particular container, I had enabled ``systemd-networkd`` and put the
-network configuration in place apriori. If anything, this section is but a
-reminder to hook up the host to Internet, as it will be needed to get at
-package repositories later. The particular method of network configuration
+For this setup, we enabled ``systemd-networkd``  and the
+network configuration put in place apriori. This section is a
+reminder to hook up the host to Internet, as it will be needed to get the package repositories later. 
+The particular method of network configuration
 varies wildly between operating systems, and not every system is using
-systemd-networkd. Consult the documentation relevant for your environment to
+``systemd-networkd``. Consult the documentation relevant for your environment to
 get online.
 
 [Text-based screenshot of iproute2 being issued from a command shell.]
@@ -94,18 +94,16 @@ get online.
 	    inet6 2001:db8:10b:45d8::f27/64 scope global
 	       valid_lft forever preferred_lft forever
 
-IPv6 is mandatory on the host itself. If you have ``::1`` assigned, all is
-good.
+IPv6 is mandatory on the host itself. If you have ``::1`` assigned, that is sufficient.
 
-You are well advised to install and configure a packet filter, a.k.a. a
-firewall, with the sensible default of disallowing every service by default,
-save perhaps for a way to let yourself in. More details will be presented
-throughout the sections going forward. The summary though:
+We advise that a packet filter (i.e., a firewall) should be installed and configured by default to disallow every service.
+More details will be presented throughout the sections going forward. 
+However, the following ports need to be open for grommunio to function properly: 
 
-* open VPN, SSH and/or port 8443 (AWEB) for the admin as desired
-* open smtp/25 for server-to-server mail passing as needed
-* open https/443 for end-user interactions
-* open imaps, pop3s for end-user interactions if desired
+* VPN, SSH and/or port 8443 (AWEB) for the admin
+* smtp/25 for server-to-server mail passing
+* https/443 for end-user interactions
+* imaps, pop3s for end-user interactions if desired
 
 
 Declare hostname identity
@@ -121,14 +119,14 @@ and commands to issue.]
 	localhost:~ # exec bash --login
 	mail:~ #
 
-If you have not consciously set a hostname yet, do so now, especially if some
+If you have not set a hostname yet, do so, especially if some
 default setting has left you with localhost as the hostname. You cannot
 reasonably reach localhost from another machine without unnecessary pains.
 
-I decided to use ``example.net`` for the domain part of later e-mail addresses
-(e.g. ``someuser@example.net``), and this particular machine that Grommunio
-will be installed on has received a hostname of ``mail.example.net``.
-Arbitrary names can be chosen so long as they make sense for their intended
+We used ``example.net`` for the domain part of later e-mail addresses
+(e.g. ``someuser@example.net``), and this machine that Grommunio
+will be installed has a hostname of ``mail.example.net``.
+Arbitrary names can be chosen as long as they are meaningful for their intended
 network.
 
 .. note::
@@ -145,28 +143,25 @@ network.
 Package manager setup
 ---------------------
 
-Visit `<https://download.grommunio.com>`_ to get an idea of the list of platforms for
-which pre-built packages have been made available. Different
+Pre-build packages are available for different platforms on `<https://download.grommunio.com>`_. Different
 operating systems may use the same archive format (RPM, DEB, etc.), or
 the same repository metadata formats (such as rpm-md, apt). However,
 do not use a repository which does
-not *exactly match* your system. Do not use Debian packages for an Ubuntu system
-or vice-versa. Do not use openSUSE packages for a RHEL system or vice-versa.
-Do not even remotely think of converting between formats.
+not *exactly match* your system nor do not attempt to convert between formats. 
+This action might lead to unnecessary problems.
 
 zypp
 ~~~~
 
-openSUSE uses yum-style ``.repo`` files for declaring repositories. Based on
-the Tumbleweed container introduced earlier, one can create a file
-``/etc/zypp/repos.d/grommunio.repo`` and populate it like so:
+openSUSE uses yum-style ``.repo`` files for declaring repositories. 
+For openSUSE Leap 15.4, you can create a file ``/etc/zypp/repos.d/grommunio.repo`` and populate it as below:
 
 .. code-block:: ini
 
 	[grommunio]
 	enabled=1
 	autorefresh=1
-	baseurl=https://download.grommunio.com/community/openSUSE_Tumbleweed
+	baseurl=https://download.grommunio.com/community/openSUSE_Leap_15.4
 	type=rpm-md
 	keeppackages=0
 
@@ -247,8 +242,7 @@ Ubuntu installations however, the Ubuntu ``universe`` repository is *also*
 required, so be sure to enable it. For Debian, the base distribution is
 sufficient.)
 
-Then import the GPG key and proceed to use apt commands to update at your
-leisure.
+Then import the GPG key and update the repositories.
 
 [Text-based screenshot of shell prompts (not part of the command)
 and commands to issue.]

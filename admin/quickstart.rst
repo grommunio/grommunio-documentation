@@ -18,7 +18,7 @@ install and get grommunio started.
   configuration by walking through the following chapters.
 - Create or request TLS certificates for secure, encrypted operation of the
   main services.
-- Create the corresponding DNS records with a sane configuration (A, MX, TXT
+- Create the corresponding DNS records (A, MX, TXT
   and CNAME records).
 - Configure the grommunio appliance by running grommunio-setup.
 
