@@ -284,7 +284,7 @@ TLS certificates
 For obtaining a certificate, refer to external documentation.
 
 * Self-signed certificate: https://stackoverflow.com/a/10176685
-* Using Let's Encrypt: https://certbot.eff.org/instructions
+* Let's Encrypt certificate: https://certbot.eff.org/instructions
 
 The certificate's key must be passwordless as interactive prompting is not
 implemented.
@@ -302,10 +302,9 @@ Autodiscover clients, as part of their routine, attempt to resolve and use
 multiple names, a SAN entry for the ``autodiscover.`` subdomain is not strictly
 necessary. See `MS-OXDISCO §3.1.5
 <https://docs.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxdisco/d56ae3c6-bf29-4712-b274-2e4cc5fdaa64>`_
-about all the ways.
+for further details.
 
-Advance list about which entities will prospectively need access to the
-certificate(s):
+The following services need access to the certificate(s):
 
 * gromox
 
@@ -315,7 +314,7 @@ certificate(s):
 
 Some processes read TLS certificates and their keyfiles *after* switching to an
 unprivileged user identity. For this reason, certificate files may need
-to be enhanced with a filesystem ACL or, failing that, duplicate copies be made
+to be enhanced with a filesystem ACL or duplicate copies be made
 with suitable ownership.
 
 
@@ -328,9 +327,10 @@ an uwsgi instance, and requests to the chat API are proxied to a Mattermost
 instance.
 
 An alternative HTTP server may be used if you feel comfortable in configuring
-*all* of it, however this guide will only focus on nginx. Now then, source the
-nginx package from your operating system, and have the service started both on
-next boot and immediately.
+*all* of it, however this guide will only focus on nginx from here on.
+
+Obtain the nginx package for your operating system, and have the service
+started both on next boot and immediately.
 
 [Text-based screenshot of shell prompts (not part of the command)
 and commands to issue.]
@@ -371,12 +371,11 @@ and commands to issue.]
 	Created symlink /etc/systemd/system/multi-user.target.wants/nginx.service → /usr/lib/systemd/system/nginx.service
 
 In this screenshot, we also requested the installation of the nginx VTS module,
-which AAPI can *optionally* for reporting traffic statistics. VTS is
-**not** available for all platforms, in which case you have to omit and make do
-without it.
+which AAPI uses for reporting traffic statistics. VTS is **not** available for
+all platforms, and you can omit it.
 
-Being the main entrypoint for everything, the nginx HTTPS network service will
-need to be configured in the packet filter to be accessible (publicly). In
+Being the main entrypoint for everything, the nginx HTTPS network service
+must be configured in the packet filter to be publicly accessible. In
 other words, open port 443.
 
 By *default*, Debian-based distributions ship default web server configs which
@@ -392,8 +391,8 @@ changes when an update is processed by the package manager.
 nginx support package
 ---------------------
 
-We have a package that contains the first set of premade configuration
-fragments for nginx. Do install the ``grommunio-common`` package.
+The ``grommunio-common`` package contains the initial configuration
+fragments for nginx. Install it.
 
 .. code-block:: sh
 
