@@ -569,7 +569,7 @@ Gromox runs a number of processes and network services. None of them are meant
 to be open to the public Internet, because nginx is already that important
 point of ingress. The Gromox exmdb service (port 5000/tcp by default) needs to
 be reachable from other Gromox nodes in a multi-host grommunio setup for
-reasons of internal forwarding to a mailbox's home server.
+internal forwarding to a mailbox's home server.
 
 Daemon executables are located in ``/usr/libexec/gromox``, they have short
 names like ``http``, ``zcore``, etc. The manpage carries the same name, so you
