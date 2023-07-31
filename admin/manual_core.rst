@@ -1108,7 +1108,7 @@ on port 25, one can either run the LDA, or indeed a full MTA like Postfix.)
 
 On some systems which exuberantly start services (hi Debian), you may need to
 disable an existing MTA first before being able to perform this test.
-(Alternatively, you can skip right the "Postfix" section below.)
+(Alternatively, you can skip right to the "Postfix" section below.)
 
 .. code-block:: sh
 
