@@ -646,10 +646,11 @@ later with:
 gromox-event/timer
 ------------------
 
-* event: A notification daemon for an interprocess channel between
-  gromox-imap/gromox-midb. No configuration needed.
-* timer: An at(1)/atd(8)-like daemon for delayed delivery. No configuration
-  needed.
+gromox-event is a notification daemon for an interprocess channel between
+gromox-imap/gromox-midb. No configuration is needed.
+
+gromox-timer is an at(1)/atd(8)-like daemon for delayed delivery. No
+configuration is needed.
 
 .. code-block:: sh
 
@@ -733,8 +734,8 @@ Expected output:
 gromox-midb & zcore
 -------------------
 
-The IMAP Message Index Database, and the bridge process for PHP-MAPI. No
-further configuration needed.
+gromox-midb is the IMAP Message Index Database, and gromox-zcore the bridge
+process for PHP-MAPI. No further configuration needed.
 
 .. code-block:: sh
 
