@@ -682,8 +682,7 @@ Run the service.
 
 Perform a connection test. The expected result of requesting the ``/`` URI will
 be a 404 status code. (It could serve a static HTML file, but the default
-config has no such file, and ``/`` is not mapped anywhere. Maybe we should
-change that…)
+config has no such file, and ``/`` is not mapped to anywhere.)
 
 .. code-block:: sh
 
@@ -700,8 +699,8 @@ Expected output:
 	…
 
 Gromox's default config however has a mapping for ``/web`` (to
-``/usr/share/grommunio-web``). If you happen to have the ``grommunio-web``
-package already installed, requests to this subdirectory can be responded to.
+``/usr/share/grommunio-web``). If you have the ``grommunio-web``
+package already installed, requests to this subdirectory will succeed.
 You can test the following URLs (port 10443 for gromox-http directly, 443 for
 nginx, respectively) with curl from the server command-line, and it should
 serve a static file:
@@ -745,8 +744,8 @@ further configuration needed.
 gromox-imap & pop3
 ------------------
 
-Similar to ``http.cfg``, convey to the IMAP/POP3 daemons the TLS certificate
-paths. Skip this section if you do not intend to run these protocols.
+Similar to ``http.cfg``, configure the TLS certificate paths for the IMAP/POP3
+daemons. Skip this section if you do not intend to run these protocols.
 
 IMAP/POP3 can run in unencrypted mode, but only for developers. Hence,
 imap_force_starttls is set here. In ``/etc/gromox/imap.cfg``, declare:
@@ -769,7 +768,7 @@ In ``/etc/gromox/pop3.cfg``:
 	pop3_private_key_path=zzz.key
 	pop3_force_stls=true
 
-Enable/start zero or more of the services you wish to utilize. Adjust
+Enable and start services you wish to utilize. Adjust
 your packet filter configuration for these new ports as needed.
 
 .. code-block:: sh
@@ -821,8 +820,8 @@ Expected output for POP3:
 PHP-FPM
 -------
 
-The installation of the ``gromox`` package should have already pulled in
-php-fpm as a dependency.
+The installation of the ``gromox`` package already pulls in php-fpm as a
+dependency.
 
 For completeness, verify that PHP knows about the MAPI module.
 
@@ -1050,7 +1049,7 @@ Expected output:
 	<Autodiscover xmlns="http://schemas.microsoft.com/exchange/autodiscover/responseschema/2006">
 	<Response xmlns=…
 
-At your leisure, connect with Outlook.
+You can connect with Outlook if necessary.
 
 To be able to log into IMAP/POP3, the user must have this feature explicitly
 enabled. This can be changed using AWEB by going to the *Domains* >
