@@ -445,16 +445,16 @@ nginx's configuration can be tested and shown, respectively:
 MariaDB
 -------
 
-MariaDB/MySQL is used to store the user database amongst a few auxiliary
-configuration parameters. If you plan on erecting a multi-host Gromox cluster,
-this database is the one that is meant to be globally available to all nodes
-that will eventually be running Gromox services.
+MariaDB/MySQL is used to store the user database and other auxiliary
+configuration parameters. If you plan on setting up a Gromox cluster, this
+database needs to be globally available to all nodes that will host Gromox
+services.
 
 A preexisting MariaDB server may be used. All the standard tools and
-procedures that the world community has developed around SQL are applicable, in
+procedures that the database community has developed around SQL are applicable, in
 terms of e.g. configuration, backup/restore, and replication.
 
-Assuming though that you are going for a new SQL server instance, source the
+Assuming that you are going for a new SQL server instance, source the
 MariaDB packages from your operating system, and have the service started
 both on next boot and immediately.
 
@@ -487,7 +487,7 @@ and commands to issue.]
 	Created symlinks /etc/systemd/system/mysql.service → /usr/lib/systemd/system/mariadb.service.
 	Created symlink /etc/systemd/system/multi-user.target.wants/mariadb.service → /usr/lib/systemd/system/mariadb.service
 
-After the installation, do create a blank database and user identity for
+After the installation, create a blank database and user identity for
 accessing it.
 
 [Terminal screenshot of an interactive mysql session.]
@@ -537,7 +537,7 @@ Gromox is the central groupware server component of grommunio. It provides
 the services for Outlook RPC, IMAP/POP3, an LDA for ingestion, and a PHP
 module for Z-MAPI.
 
-The package is available by way of the Grommunio repositories. This guide is
+The pre-built package is available in the Grommunio repositories. This guide is
 subsequently based on such a pre-built Gromox. Experts wishing to build from
 source and who have general knowledge on how to do so are referred to the
 `Gromox installation documentation
