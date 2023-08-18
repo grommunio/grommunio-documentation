@@ -322,11 +322,10 @@ with suitable ownership.
 nginx
 -----
 
-nginx is used as a frontend to handle all HTTP requests, and to forward them to
-further individual services. For example, RPC/HTTP requests will be delegated
-to Gromox for further processing, Administration API (AAPI for short) requests
-will be delegated to an uwsgi instance for further processing, and requests 
-to the chat API.
+nginx is used as a frontend to handle HTTP requests. RPC/HTTP requests are
+proxied to Gromox, Administration API (AAPI for short) requests are proxied to
+an uwsgi instance, and requests to the chat API are proxied to a Mattermost
+instance.
 
 An alternative HTTP server may be used if you feel comfortable in configuring
 *all* of it, however this guide will only focus on nginx. Now then, source the
