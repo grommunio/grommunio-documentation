@@ -289,14 +289,18 @@ For obtaining a certificate, refer to external documentation.
 The certificate's key must be passwordless as interactive prompting is not
 implemented.
 
-A certificate with a *subjectAltName* (SAN) field, or even a wildcard
-certificate may be desirable for the domain, if you plan on using multiple
-subdomains, e.g. ``meet.example.net`` for *grommunio-meet*.
+If you plan on using multiple subdomains for your deployment, e.g.
+``meet.example.net`` for *grommunio-meet* and ``mail.example.net`` for
+*grommunio-web*, the generation a certificate with a *subjectAltName* (SAN)
+field, or even a wildcard certificate, may be desirable over individual
+certificates. Not all network protocols have something like Server Name
+Indication (SNI), and even fewer system services support multiple individual
+certificates even if they serve multiple IP addresses.
 
-Autodiscover clients, as part of their setup attempts, try to resolve and use
-``autodiscover.example.net``. Having a SAN for this subdomain is however not
-strictly necessary; we can report that Autodiscover also works without this
-domain. See `MS-OXDISCO §3.1.5
+Autodiscover clients, as part of their routine, attempt to resolve and use
+``autodiscover.example.net`` in addition to ``example.net``. Because it tries
+multiple names, a SAN entry for the ``autodiscover.`` subdomain is not strictly
+necessary. See `MS-OXDISCO §3.1.5
 <https://docs.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxdisco/d56ae3c6-bf29-4712-b274-2e4cc5fdaa64>`_
 about all the ways.
 
