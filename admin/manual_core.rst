@@ -313,8 +313,8 @@ certificate(s):
 
 * postfix (optional)
 
-Some of the processes may read TLS certificates and their keyfiles *after*
-switching to an unprivileged user identity. As a result, these files may need
+Some processes read TLS certificates and their keyfiles *after* switching to an
+unprivileged user identity. For this reason, certificate files may need
 to be enhanced with a filesystem ACL or, failing that, duplicate copies be made
 with suitable ownership.
 
