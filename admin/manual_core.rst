@@ -384,11 +384,9 @@ are in conflict with grommunio. It is recommended to remove the default web
 service entry, generally located at ``/etc/nginx/sites-available/default```. By
 removing this file, the webserver default website is disabled.
 
-It is recommended to just alter configuration snippets under ``/etc/`` including
-admin-api configuration, since ``/usr/share``  ships the default configurations.
-There should be no requirement to adapt this default set of configuration files,
-if there are special cases, the base configuration can be adapted with multiple
-inclusion points throughout the configuration tree, enabling customized setups.
+Configuration snippets should solely be edited under ``/etc/``. Files in
+``/usr`` belong to the vendor/the distribution and are subject to (silent)
+changes when an update is processed by the package manager.
 
 
 nginx support package
