@@ -379,10 +379,10 @@ Being the main entrypoint for everything, the nginx HTTPS network service will
 need to be configured in the packet filter to be accessible (publicly). In
 other words, open port 443.
 
-By *default*, debian-based distributions ship default web server configs which
-are in conflict with grommunio. It is recommended, to remove the default web
-service entry, mostly located at ``/etc/nginx/sites-available/default```. By
-simply removing this file, the webserver default website is disabled.
+By *default*, Debian-based distributions ship default web server configs which
+are in conflict with grommunio. It is recommended to remove the default web
+service entry, generally located at ``/etc/nginx/sites-available/default```. By
+removing this file, the webserver default website is disabled.
 
 It is recommended to just alter configuration snippets under ``/etc/`` including
 admin-api configuration, since ``/usr/share``  ships the default configurations.
