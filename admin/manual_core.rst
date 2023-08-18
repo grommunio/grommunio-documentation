@@ -286,9 +286,8 @@ For obtaining a certificate, refer to external documentation.
 * Self-signed certificate: https://stackoverflow.com/a/10176685
 * Using Let's Encrypt: https://certbot.eff.org/instructions
 
-The certificate's key strictly needs to be passwordless, as most services have
-no way to interactively ask for a password (they are launched in the background
-anyway).
+The certificate's key must be passwordless as interactive prompting is not
+implemented.
 
 A certificate with a *subjectAltName* (SAN) field, or even a wildcard
 certificate may be desirable for the domain, if you plan on using multiple
