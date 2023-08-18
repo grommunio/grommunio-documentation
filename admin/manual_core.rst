@@ -5,10 +5,10 @@
 Manual Installation (Custom Integration)
 ========================================
 
-While for the majority of installations the grommunio Appliance delivers a
-comprehensive solution for most installation targets, some special needs might 
-require a different approach. For these cases, the grommunio base system and core
-(groupware) can be installed manually with guidance from this chapter.
+While the grommunio Appliance delivers a comprehensive solution for the
+majority of installations, some special needs might require a different
+approach. For these cases, the grommunio base system and core (groupware) can
+be installed manually with guidance from this chapter.
 
 .. note::
    grommunio is a comprehensive communication and collaboration solution with many services and components. With this modularity, grommunio is extremely versatile and allows various installation types which all of them can't be covered in detail. This section is intentionally as generic as possible.
