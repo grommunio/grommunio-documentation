@@ -777,9 +777,8 @@ your packet filter configuration for these new ports as needed.
 
 	systemctl enable --now gromox-imap gromox-pop3
 
-Trivial testing can be performed with a utility like *telnet*, *socat*; but
-*curl* is quite sophisticated in its own right and can issue IMAP/POP3 protocol
-commands.
+Manual testing can be performed with a utility like *telnet*, *socat*, and
+*curl* can issue more complex IMAP/POP3 protocol command chains.
 
 .. code-block:: sh
 
