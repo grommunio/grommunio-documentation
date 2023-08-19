@@ -601,8 +601,8 @@ considered authoritative, if any. The ``schema_upgrade=host:...`` line should
 be consistent across all mailbox nodes. It is possible to completely omit
 ``schema_upgrade``, at which point no updates will be done automatically.
 
-With Gromox instrumented on the SQL parameters, proceed now with performing the
-initial creation of the database tables by issuing the gromox-dbop command:
+After the database parameters have been set in the configuration file, the
+initial tables can be created by issuing the gromox-dbop command:
 
 [Text-based screenshot of shell prompts (not part of the command)
 and commands to issue.]
