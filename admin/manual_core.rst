@@ -1177,6 +1177,6 @@ Finally, enable/restart the services so they can take their new places:
 Other services
 --------------
 
-This chapter is only meant to cover the core component.
+This chapter only covers the core component.
 Optional components, such as Chat, Meet, Files, Office and/or Archive, will
 be published in their own chapter at a later date.
