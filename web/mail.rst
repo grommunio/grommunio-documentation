@@ -22,7 +22,7 @@ showing the e-mail effectively.
 
 .. image:: _static/img/web_mail_read_overview.png
    :alt: Reading mails with default layout
-   
+
 Reading mails with default layout
 
 Mail sending
@@ -32,7 +32,7 @@ To compose a new mail, choose the highlighted "New Email" button from the main
 shortcut bar.
 
 #. Pressing the button will open a new mail tab with an empty
-   ready-to-write-mail interface. 
+   ready-to-write-mail interface.
 #. To add a recipient, either manually add this recipient by typing the
    recipient's mail address in the To:, CC: or BCC: fields. (BCC is available
    via the "Show BCC: field" button from the composition windows shortcut bar.)
@@ -61,7 +61,7 @@ shortcut bar.
 
 .. image:: _static/img/web_mail_create_email.png
    :alt: Composing a new mail
-   
+
 Composing a new mail
 
 Mail organization

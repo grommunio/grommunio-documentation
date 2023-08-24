@@ -20,7 +20,7 @@ Current roadmap of grommunio (as of 24th of December, 2022):
   - New filesystem storage backend with application-level, store-wide
     deduplication and enhanced integrity through hash-based storage
 
-  - Completed EWS feature-set to fully support macOS and Outlook mobile clients 
+  - Completed EWS feature-set to fully support macOS and Outlook mobile clients
 
   - AI processing will allow insight information for in-depth communication
     analysis, enabling next-generation analytics on collaborative data.

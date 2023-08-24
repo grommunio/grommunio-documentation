@@ -308,7 +308,7 @@ be issued with:
 
 .. code-block:: bash
 
-   mysqldump --single-transaction --routines --triggers --events --add-drop-database > grommunio-mysql-backup.sql 
+   mysqldump --single-transaction --routines --triggers --events --add-drop-database > grommunio-mysql-backup.sql
 
 
 File-based backup

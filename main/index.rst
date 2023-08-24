@@ -27,23 +27,23 @@ do not hesitate and relay us a message on `our homepage
 	:caption: User Documentation
         :hidden:
 
-        grommunio User <https://docs.grommunio.com/user> 
-        grommunio Web <https://docs.grommunio.com/web> 
+        grommunio User <https://docs.grommunio.com/user>
+        grommunio Web <https://docs.grommunio.com/web>
 
 .. toctree::
 	:caption: Developer Documentation
         :hidden:
 
-        grommunio Developer <https://docs.grommunio.com/dev> 
+        grommunio Developer <https://docs.grommunio.com/dev>
 
 .. toctree::
 	:caption: Generic Information
         :hidden:
 
-        grommunio Roadmap <https://docs.grommunio.com/admin/roadmap.html> 
+        grommunio Roadmap <https://docs.grommunio.com/admin/roadmap.html>
         Community Forum <https://community.grommunio.com>
         Partner Portal <https://portal.grommunio.com>
-        grommunio Home <https://grommunio.com> 
+        grommunio Home <https://grommunio.com>
 
 User Documentation
 ==================

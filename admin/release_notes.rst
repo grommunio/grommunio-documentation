@@ -34,7 +34,7 @@ Release date: 24th of December 2022
 - Full user resolution for Kopano migrations (--mbox-name/--user-map)
 - Centralization of MAPI header files
 - grommunio CUI is now fully translated in 22 languages
-- Enhanced navivation controls of grommunio CUI 
+- Enhanced navivation controls of grommunio CUI
 - Support for hidden contacts
 - Automatic mapping of AD/Exchange Store Types (msExchRecipientDisplayType)
 - Centralized MAPI header files for PHP consumers
@@ -137,7 +137,7 @@ Release date: 16th of May 2022
 - grommunio: Support for 389 Directory Server
 - grommunio: Support for Multi-Forest Active Directory installations
 - grommunio: Support for IBM z15 (T02) mainframe
-- grommunio: API extensions to support store-level operations, e.g. setting store permissions and store properties 
+- grommunio: API extensions to support store-level operations, e.g. setting store permissions and store properties
 - grommunio: Automatic restore of connections for long-lived and/or error-prone connections (libexmdbpp)
 - grommunio: Availability in OTC (Open Telekom Cloud) via T-Systems
 - grommunio: Availability of grommunio Antispam web interface via grommunio Admin API
@@ -159,7 +159,7 @@ Release date: 16th of May 2022
 - grommunio Groupware: Several enhancements to existing migration tools (imapsync, kdb2mt, ...), filtering and partially even repairing broken data and migrating permissions where possible from the source
 - grommunio Groupware: Several optimizations to cached mode handling, also making use of alternative return of states
 - grommunio Groupware: Upgrade to FTS5 search index
-- grommunio Groupware: Upgrade-capability of user stores for further extensibility in feature set 
+- grommunio Groupware: Upgrade-capability of user stores for further extensibility in feature set
 - grommunio Web: Allow setting recursive permissions by copying changes to lower hierarchy objects
 - grommunio Web: Enhancements to multiple contactfolder scenarios with logical filters (contacts with e-mail addresses)
 - grommunio Web: Integration of S/MIME management with support for multiple S/MIME keys and key management
@@ -170,7 +170,7 @@ Release date: 16th of May 2022
 - grommunio Web: Performance optimizations, delivering with intermediary caches and large object size reduction, resulting in 4+-fold delivery speed to user
 - grommunio Web: Several editor enhancements, e.g. extensive copy & paste compatibility with office documents
 - grommunio Web: Several style and compatibility enhancements, e.g. enhanced printing format and favorite folder handling
-- grommunio Web: Support for multi-hierarchy-level search without performance penalties  
+- grommunio Web: Support for multi-hierarchy-level search without performance penalties
 - grommunio Web: Support for prefix-based search operations, e.g. "gro" -> "grommunio"
 - grommunio Web: Translation updates, now including all modules of grommunio Web
 - grommunio Sync: Enhanced MIME (rfc822, rfc2822) and S/MIME support
@@ -715,11 +715,11 @@ New (Improvements)
 - Add timesyncd config to main menu
 - Add timezone configuration via yast2
 - Change Buttons to RadioButtons
-- Change column size of menu field descriptions 
+- Change column size of menu field descriptions
 - Change hidden keyboard switcher to menu guided
-- Change netmask to cidr 
+- Change netmask to cidr
 - Change stupid cat command to pythons internal open
-- Change wrap mode of all editable fields to ellipsis 
+- Change wrap mode of all editable fields to ellipsis
 - Check content of netifaces before getting default gw
 - Correct indenting after event refactoring
 - Create a general input box for changing admin-web password

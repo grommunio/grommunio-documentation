@@ -95,7 +95,7 @@ Incoming
 
 .. image:: _static/img/diag_workflow_smtpin.png
    :alt: SMTP workflow of incoming mails
-   
+
 Mails are processed as follows (applies to incoming and outgoing):
 
 #. The included Postfix MTA receives messages and passes them to
@@ -143,7 +143,7 @@ MAPI-based connections are processed as follows:
    to the gromox-http service which handles the connection.
 #. For access to the users' mailbox, gromox-http's emsmdb plugin connects to
    the exmdb plugin for mailbox data delivery.
- 
+
 Exchange ActiveSync (EAS)
 -------------------------
 

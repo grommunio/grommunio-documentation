@@ -33,7 +33,7 @@ understand the concepts behind grommunio.
         meet.rst
         files.rst
         legal_notice.rst
-        
+
 .. toctree::
 	:hidden:
         :caption: Docs Navigation

@@ -97,7 +97,7 @@ support the Microsoft Exchange ActiveSync (EAS) protocol.
 
 .. image:: _static/img/user_exchange_android_2.png
    :alt: Android: Configure account email address
-   
+
 3. In the following setup dialog, enter your password, select ``Next``
 
 .. image:: _static/img/user_exchange_android_3.png

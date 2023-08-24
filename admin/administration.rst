@@ -20,7 +20,7 @@ Appliance, you can immediately use these credentials to login.
 
 .. image:: _static/img/login.png
    :alt: grommunio login
-   
+
 To navigate through the UI, simply use the drawer on the left side of the page.
 
 |pic1| |pic2|

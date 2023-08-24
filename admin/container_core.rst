@@ -2,7 +2,7 @@
         SPDX-License-Identifier: CC-BY-SA-4.0 or-later
         SPDX-FileCopyrightText: 2022 grommunio GmbH
 
-Container Installation 
+Container Installation
 ======================
 
 While for the majority of installations the grommunio Appliance delivers a
@@ -16,7 +16,7 @@ and Docker Compose with guidance from this chapter.
    many services and components. With this modularity, grommunio is extremely
    versatile and allows various installation types which all of them can't be
    covered in detail. This section is intentionally held as generic as possible
-   
+
 This chapter assumes a basic system is running already. **Basic** in this regard
 means:
 
@@ -30,7 +30,7 @@ We will build a container for the `Grommunio Core <https://grommunio.com/>`_ sui
   gromox-postfix,gromox-timer, gromox-zcore, gromox-imap, gromox-pop3,
   gromox-delivery, gromox-delivery-queue, gromox-admin, nginx, redis and
   php-fpm)
-* Configurable via config files and environment variables. 
+* Configurable via config files and environment variables.
 
 .. note::
    Future versions will configure all variables via the environment
@@ -39,7 +39,7 @@ We will build a container for the `Grommunio Core <https://grommunio.com/>`_ sui
   <https://hub.docker.com/r/opensuse/leap>`_ and includes `s6 overlay
   <https://github.com/just-containers/s6-overlay>`_ enabled for PID 1 init capabilities.
 
-.. note:: 
+.. note::
    This is a complex piece of software that tries to get you up and
    running with sane defaults, you will need to switch eventually over to manually
    configuring the configuration file when depending on your use case.
@@ -130,7 +130,6 @@ General Options
      - `mail.route27.test`
    * - `ADMIN_PASS`
      - Password for Admin user on Admin API
-     - 
 
 Database Options
 ++++++++++++++++
@@ -143,19 +142,16 @@ Database Options
      - Default
    * - `DB_HOST`
      - Host or container name of MariaDB Server
-     - 
    * - `MARIADB_DATABASE`
      - MariaDB Database name
      - `grommunio`
    * - `MARIADB_ROOT_PASSWORD`
      - MariaDB Root Password
-     - 
    * - `MARIADB_USER`
      - MariaDB Username for above Database
      - `grommunio`
    * - `MARIADB_PASSWORD`
      - MariaDB Password for above Database
-     - 
 
 Shell Access
 ------------

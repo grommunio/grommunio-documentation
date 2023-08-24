@@ -32,7 +32,7 @@ Accessing grommunio Web
 
 .. image:: _static/img/web_login.png
    :alt: Login page of grommunio Web
-   
+
 Login page of grommunio Web
 
 To access grommunio Web, follow these steps:
@@ -45,7 +45,7 @@ To access grommunio Web, follow these steps:
 
 .. image:: _static/img/web_welcome.png
    :alt: Welcome assistant of grommunio Web
-   
+
 Welcome assistant of grommunio Web
 
 Upon your first login, you are greeted by the "Welcome Assistant" which allows

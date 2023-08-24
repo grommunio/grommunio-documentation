@@ -12,7 +12,7 @@ be installed manually with guidance from this chapter.
 
 .. note::
    grommunio is a comprehensive communication and collaboration solution with many services and components. With this modularity, grommunio is extremely versatile and allows various installation types which all of them can't be covered in detail. This section is intentionally as generic as possible.
-   
+
 .. important::
    Please note that this section is targeted at adept administrators who are experienced in advanced linux administration and configuration.
 
@@ -70,7 +70,7 @@ Establish networking
 
 For this setup, we enabled ``systemd-networkd``  and the
 network configuration put in place apriori. This section is a
-reminder to hook up the host to Internet, as it will be needed to get the package repositories later. 
+reminder to hook up the host to Internet, as it will be needed to get the package repositories later.
 The particular method of network configuration
 varies wildly between operating systems, and not every system is using
 ``systemd-networkd``. Consult the documentation relevant for your environment to
@@ -97,8 +97,8 @@ get online.
 IPv6 is mandatory on the host itself. If you have ``::1`` assigned, that is sufficient.
 
 We advise that a packet filter (i.e., a firewall) should be installed and configured by default to disallow every service.
-More details will be presented throughout the sections going forward. 
-However, the following ports need to be open for grommunio to function properly: 
+More details will be presented throughout the sections going forward.
+However, the following ports need to be open for grommunio to function properly:
 
 * VPN, SSH and/or port 8443 (AWEB) for the admin
 * smtp/25 for server-to-server mail passing
@@ -147,13 +147,13 @@ Pre-build packages are available for different platforms on `<https://download.g
 operating systems may use the same archive format (RPM, DEB, etc.), or
 the same repository metadata formats (such as rpm-md, apt). However,
 do not use a repository which does
-not *exactly match* your system nor do not attempt to convert between formats. 
+not *exactly match* your system nor do not attempt to convert between formats.
 This action might lead to unnecessary problems.
 
 zypp
 ~~~~
 
-openSUSE uses yum-style ``.repo`` files for declaring repositories. 
+openSUSE uses yum-style ``.repo`` files for declaring repositories.
 For openSUSE Leap 15.4, you can create a file ``/etc/zypp/repos.d/grommunio.repo`` and populate it as below:
 
 .. code-block:: ini
@@ -218,7 +218,7 @@ proceeding with dnf or yum commands.
 
 .. _EPEL: https://docs.fedoraproject.org/en-US/epel/
 
-        
+
 apt
 ~~~
 

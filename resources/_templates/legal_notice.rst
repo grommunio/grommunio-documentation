@@ -6,7 +6,7 @@ Amazon Web Services, AWS, AWS CloudFront, CloudFront, Elastic Compute Cloud, Ama
 
 Ansible, CentOS, CoreOS, RHEL, Red Hat Enterprise Linux, and RHCE are trademarks or registered trademarks of Red Hat, Inc. or its subsidiaries in the United States and other countries.
 
-Apache and the Apache feather logo are registered trademarks of The Apache Software Foundation in the United States and other countries. 
+Apache and the Apache feather logo are registered trademarks of The Apache Software Foundation in the United States and other countries.
 
 Azure, Azure Container Service, ACS, Azure Resource Manager, Microsoft Windows Server, Active Directory, and Microsoft are registered trademarks or trademarks of the Microsoft Corporation.
 

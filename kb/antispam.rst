@@ -7,7 +7,7 @@ Antispam
 Reset the password
 ------------------
 
-If you have forgotten the initial password or just want to set a new password 
+If you have forgotten the initial password or just want to set a new password
 you can do that with the following commands:
 
 .. code-block::
