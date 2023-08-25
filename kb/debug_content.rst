@@ -75,3 +75,13 @@ and can be used to produce the RFC5322 form that is normally used for messages
 leaving the system through SMTP. It can help determine if the MAPI-to-RFC5322
 (MAPI Message to Internet Message) conversion has a problem, or the SMTP
 transport.
+
+.. meta::
+   :description: grommunio Knowledge Database
+   :keywords: grommunio Knowledge Database
+   :author: grommunio GmbH
+   :publisher: grommunio GmbH
+   :copyright: grommunio GmbH, 2022
+   :page-topic: software
+   :page-type: documentation
+   :robots: index, follow

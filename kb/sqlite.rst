@@ -40,3 +40,13 @@ When (just) indices are broken, the file may be recreated:
 	mv exchange.sqlite3 old
 	mv new exchange.sqlite3
 	systemctl restart gromox-http
+
+.. meta::
+   :description: grommunio Knowledge Database
+   :keywords: grommunio Knowledge Database
+   :author: grommunio GmbH
+   :publisher: grommunio GmbH
+   :copyright: grommunio GmbH, 2022
+   :page-topic: software
+   :page-type: documentation
+   :robots: index, follow

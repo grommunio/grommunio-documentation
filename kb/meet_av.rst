@@ -295,3 +295,13 @@ Capture device selection (Meet)
 Device selection can be made from the Meet interface settings.
 
 .. image:: _static/img/meet-settings.png
+
+.. meta::
+   :description: grommunio Knowledge Database
+   :keywords: grommunio Knowledge Database
+   :author: grommunio GmbH
+   :publisher: grommunio GmbH
+   :copyright: grommunio GmbH, 2022
+   :page-topic: software
+   :page-type: documentation
+   :robots: index, follow

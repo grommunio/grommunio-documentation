@@ -289,3 +289,13 @@ The Windows registry normally needs no changes, but for the curious, there are
 some options.
 
 * https://docs.microsoft.com/en-us/outlook/troubleshoot/profiles-and-accounts/unexpected-autodiscover-behavior
+
+.. meta::
+   :description: grommunio Knowledge Database
+   :keywords: grommunio Knowledge Database
+   :author: grommunio GmbH
+   :publisher: grommunio GmbH
+   :copyright: grommunio GmbH, 2022
+   :page-topic: software
+   :page-type: documentation
+   :robots: index, follow

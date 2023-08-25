@@ -23,3 +23,13 @@ recognize there are two bugs with Windows:
 The Internet Options control panel dialog `[1] <_static/img/auth_intopts.png>`_
 `[2] <_static/img/auth_intopts2.png>`_ which concerns itself with system HTTP libraries
 of the old days does not influence this.
+
+.. meta::
+   :description: grommunio Knowledge Database
+   :keywords: grommunio Knowledge Database
+   :author: grommunio GmbH
+   :publisher: grommunio GmbH
+   :copyright: grommunio GmbH, 2022
+   :page-topic: software
+   :page-type: documentation
+   :robots: index, follow

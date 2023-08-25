@@ -91,3 +91,13 @@ Default filter of grommunio-web:
 The MFCMAPI utility can be used to inspect the search criteria (filter).
 
 .. image:: _static/img/mfcmapi_searchcrit.png
+
+.. meta::
+   :description: grommunio Knowledge Database
+   :keywords: grommunio Knowledge Database
+   :author: grommunio GmbH
+   :publisher: grommunio GmbH
+   :copyright: grommunio GmbH, 2022
+   :page-topic: software
+   :page-type: documentation
+   :robots: index, follow

@@ -33,3 +33,13 @@ SLE 15.3     2021-06-21  2022-12-31      559 days
 
 For admins with an aversion to periodic invocation of the updater, the update
 cadence is in favor of a SUSE-based distribution.
+
+.. meta::
+   :description: grommunio Knowledge Database
+   :keywords: grommunio Knowledge Database
+   :author: grommunio GmbH
+   :publisher: grommunio GmbH
+   :copyright: grommunio GmbH, 2022
+   :page-topic: software
+   :page-type: documentation
+   :robots: index, follow

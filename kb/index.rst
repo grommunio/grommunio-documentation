@@ -28,3 +28,13 @@ This section is a collection of unstructed notes.
 	sqlite.rst
 	update_cycle.rst
 	legal_notice.rst
+
+.. meta::
+   :description: grommunio Knowledge Database
+   :keywords: grommunio Knowledge Database
+   :author: grommunio GmbH
+   :publisher: grommunio GmbH
+   :copyright: grommunio GmbH, 2022
+   :page-topic: software
+   :page-type: documentation
+   :robots: index, follow
