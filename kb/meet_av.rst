@@ -55,7 +55,8 @@ Bluetooth devices
 -----------------
 
 In the A2DP profile, Bluetooth devices are unable to provide microphone
-functionality. This requires use of HFP/HSP instead.
+functionality. This requires use of HFP/HSP (Headset profile/Hands-free
+profile, not High Fidelity Playback) instead.
 
 .. image:: _static/img/pavucontrol-config.png
 
