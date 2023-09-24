@@ -16,6 +16,7 @@ This section is a collection of unstructed notes.
 	archive.rst
 	auth.rst
 	autodiscover.rst
+	connection_analyzer.rst
 	debug_content.rst
 	debug_services.rst
 	meet_av.rst
