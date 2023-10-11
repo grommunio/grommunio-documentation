@@ -2,8 +2,8 @@
         SPDX-License-Identifier: CC-BY-SA-4.0 or-later
         SPDX-FileCopyrightText: 2022 grommunio GmbH
 
-Outlook
-=======
+Outlook bugs and issues
+=======================
 
 Attachment size
 ---------------
@@ -15,6 +15,14 @@ to disk.
 Cause: Outlook displays the value of the ``PR_ATTACH_SIZE`` MAPI property. This
 property is specified to not only include the file size, but also the metadata
 for the attachment.
+
+
+Restoring softdeleted public folders
+------------------------------------
+
+When a softdeleted public (sub-)folder is restored, the name is truncated to
+one character, even with EXC2019 server.
+
 
 Outlook 2010/2013 specialties
 -----------------------------
