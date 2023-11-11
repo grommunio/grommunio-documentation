@@ -4,10 +4,13 @@
 Authentication
 ==============
 
-As of Gromox 1.33, only HTTP Basic authentication is offered. We have a patch
-that makes Gromox send the WWW-Authentication header with the ``charset``
-parameter (RFC 7617 §2.1), however, the MSRPC libraries ignore this. We
-recognize there are two bugs with Windows:
+Before Gromox version 2.17, only HTTP Basic authentication was offered by the
+server. (Since then, HTTP Negotiate is available as a second mechanism.) For
+Basic, Gromox conveys the desired encoding for usernames and passwords to the
+client via the ``WWW-Authentication`` header, particular the ``charset``
+parameter as defined in RFC 7617 §2.1. However, the Windows RPC and HTTP
+libraries ignore this. We have thus identified problems with non-ASCII
+characters in Windows systems:
 
   * When entering a password with an umlaut, the copy of Windows we used
     transmits in local codepage, but nowhere does it indicate the codepage in
@@ -17,12 +20,16 @@ recognize there are two bugs with Windows:
     values! The HTTP requests are also sent with ample custom headers in
     general.)
 
-  * When entering a password with a CJK character, the copy of Windows we used
-    does not transmit *any* `Authorization` header *at all*.
+  * When entering a password with a Chinese/Japanese character,
+    the copy of Windows (10 Workstation Pro) we used does not transmit *any*
+    `Authorization` header *at all*.
 
 The Internet Options control panel dialog `[1] <_static/img/auth_intopts.png>`_
 `[2] <_static/img/auth_intopts2.png>`_ which concerns itself with system HTTP libraries
 of the old days does not influence this.
+
+From this, we conclude that umlauts can only be used from Outlook when it is
+using Negotiate authentication.
 
 .. meta::
    :description: grommunio Knowledge Database
