@@ -14,7 +14,6 @@ This section is a collection of unstructed notes.
 
 	antispam.rst
 	archive.rst
-	auth.rst
 	autodiscover.rst
 	connection_analyzer.rst
 	debug_content.rst

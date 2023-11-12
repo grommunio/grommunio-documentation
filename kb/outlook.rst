@@ -24,6 +24,32 @@ When a softdeleted public (sub-)folder is restored, the name is truncated to
 one character, even with EXC2019 server.
 
 
+Passwords with umlauts
+----------------------
+
+Gromox conveys the available authentication mechanisms to clients via the
+``WWW-Authentication`` header in HTTP responses. As of Gromox 2.17, "Basic" and
+"Negotiate" are supported. "Basic" is augmented by a ``charset`` parameter (RFC
+7617 §2.1). However, the Windows RPC and HTTP libraries ignore this. We have
+thus identified problems with non-ASCII characters in Windows systems:
+
+  * When entering a password with an umlaut, the copy of Windows we used
+    transmits in local codepage, but nowhere does it indicate the codepage in
+    the HTTP request. This is a serious design deficiency, especially
+    considering the MAPI protocols themselves *do* have a means to convey the
+    corresponding codepage number when transmitting 8-bit MAPI property string
+    values! The HTTP requests are also sent with ample custom headers in
+    general.)
+
+  * When entering a password with a Chinese/Japanese character,
+    the copy of Windows (10 Workstation Pro) we used does not transmit *any*
+    `Authorization` header *at all*.
+
+The Internet Options control panel dialog `[1] <_static/img/auth_intopts.png>`_
+`[2] <_static/img/auth_intopts2.png>`_ which concerns itself with system HTTP libraries
+of the old days does not influence this.
+
+
 Outlook 2010/2013 specialties
 -----------------------------
 
@@ -295,7 +321,7 @@ some options.
    :keywords: grommunio Knowledge Database
    :author: grommunio GmbH
    :publisher: grommunio GmbH
-   :copyright: grommunio GmbH, 2022
+   :copyright: grommunio GmbH, 2023
    :page-topic: software
    :page-type: documentation
    :robots: index, follow
