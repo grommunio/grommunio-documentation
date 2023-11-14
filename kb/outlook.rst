@@ -50,6 +50,21 @@ The Internet Options control panel dialog `[1] <_static/img/auth_intopts.png>`_
 of the old days does not influence this.
 
 
+Rules dialog not openable
+-------------------------
+
+RuleOrganizer is a FAI message in Inbox with
+PR_MESSAGE_CLASS="IPM.RuleOrganizer". If this message has no PR_RW_RULES_STREAM
+property, Outlook refuses to open the rules dialog. It issues a ropOpenStream
+call without MAPI_CREATE, which means it did not pass MAPI_CREATE to the
+IMessage::OpenProperty COM API either. Therefore, if the property is missing,
+OL will will not re-create it (which is stupid, because when the message is
+absent, it will re-create that).
+
+Moreover, when the PR_RW_RULES_STREAM property exists but has size 0, the rules
+dialog immediately closes again, another bug.
+
+
 Outlook 2010/2013 specialties
 -----------------------------
 
