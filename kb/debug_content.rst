@@ -5,83 +5,189 @@
 Debug Content
 =============
 
-Incoming messages
------------------
+Messages in delivery
+--------------------
 
-If any part of a mail is considered broken or if the way it is displayed in
-Outlook, grommunio-web, etc. is disputed, Grommunio Support can take a look at
-the matter. For that, we need the original form of the message.
+**Observation:** gromox-delivery emits log messages about failed
+RFC5322-to-MAPI conversion such as the following.
 
-*Provided the message was received through SMTP*, the original transmission
-before it is chopped up to fit the MAPI data model -- is recorded into
-`/var/lib/gromox/user/XXX/eml/ZZZZZ`, for some values of X and Z, e.g.
-`/var/lib/gromox/user/0/1/eml/166031254.1688`. You may need to use a bit of
-Linux command-line `grep` command exercising to find the right one. File
-timestamps may prove useful to limit the scope.
+.. code-block:: text
 
-With the right eml file, we can retrace the steps in the RFC5322-to-MAPI
-(Internet Message to MAPI Message) conversion through with the help of the
-gromox-eml2mt utility.
+	# journalctl -u gromox-delivery
+	...
+	exmdb_client_do_rpc: Dispatch error
+	oxcmail_import:2870: returned false
+	SMTP message queue-ID: 2, FROM: doc@example.com, TO: doc@example.com  fail to convert rfc5322 into MAPI message object
 
-*For messages that were sourced by gromox-kdb2mt*, it is possible to send us
-the MT stream output that gromox-kdb2mt produces on stdout (do redirect this
-into file). The `--only-obj` option can help produce a minimal-size MT file.
-Though, depending on circumstances, we may need access to the entire database
+**Cause:** Suboptimal parsing routines.
+
+**Action to take:** Send the message file to Grommunio Support to facilitate
+further investigation.
+
+The message in question should be located in ``/var/lib/gromox/queue/cache``
+(messages for which delivery will be retried) or
+``/var/lib/gromox/queue/cache`` (no retry). It can be found by matching up the
+timestamp in the log with the timstamp of the file object or, in fact, the
+timestamp in the filename itself. The filename usually consists of a Unix
+timestamp, a boot-time monotonically-increasing counter (QID), and the
+hostname. This file may contain small binary tags, so if looking for the exact
+file by way of the ``grep`` command and it complains about ``Binary file
+matches``, you may need the ``--text`` option. To convert from and to Unix
+timestamps, the following command examples should help.
+
+.. code-block:: text
+
+	perl -e 'print scalar localtime 1699956475'
+
+	date +%s "2023-11-14 11:07:55"
+
+
+Delivered messages & IMAP messages
+----------------------------------
+
+**Observation:** A message appears incomplete in any MUA after being put into
+the mailbox by gromox-delivery or an IMAP client.
+
+**Cause:** Conversion from Internet Mail (IM) to MAPI is lossy in nature, and
+the conversion procedure has unanticipatedly ignored too much of the IM
+content.
+
+**Action to take:** Send the original EML copy of the message to Grommunio
+Support to facilitate further investigation.
+
+Look into the ``/var/lib/gromox/user/XXX/eml/`` directory. The filename is
+generally the one used during delivery (Unix TS + QID + hostname). If the file
+was created later, that may be reflected in timestamps. This should help
+narrowing the set of files as should the use of ``grep``. (The binary tags from
+the delivery stage are not present.)
+
+The hostname portion may be ``.midb``. If so, that file was synthesized from a
+MAPI object, and *not the original EML form* from delivery/IMAP.
+
+
+Messages imported from a MAPI source
+------------------------------------
+
+**Observation:** A message appears incomplete in any MUA after import
+from gromox-kdb2mt, gromox-pff2mt or gromox-oxm2mt.
+
+**Observation:** A message has missing metadata, mangled metadata, mangled
+body, or has substantial differences in how it is rendered between Outlook,
+grommunio-web or some IMAP client to the point that it is subjectively
+considered "broken".
+
+**Cause:** To be determined in detail. Imports via gromox-kdb2mt/pff2mt/oxm2mt
+are practically lossless (compared to RFC5322 conversions) because the data
+model is already MAPI. Some metadata and some internal IDs and references are
+regenerated or dropped so messages make reasonable sense when placed in the
+target Gromox mailbox. But not all ancient metadata is dropped so as to provide
+as loss-free a conversion as is feasible, but such ancient data may cause
+strange behavior in corner cases. (For example, unusual recipient address
+types.)
+
+**Action to take:** Send the MT stream file to Grommunio Support to facilitate
+further investigation.
+
+For gromox-kdb2mt: Capture the standard output of the gromox-kdb2mt process to
+a file. The ``--only-obj`` option can help produce a smaller MT file. Depending
+on circumstances however, access may be needed to the entire database
 (interactively or a mysqldump) if the MT file is not informative enough.
 
-*For messages that were sourced by gromox-pff2mt*, it is possible to send us
-the MT stream output that pff2mt produces on stdout. The `--only-nid` option
-can help produce a minimal-size MT file. Though, depending on circumstnaces, we
-may need access to the PFF/PST/OST file if the MT file is not informative
-enough.
+For gromox-pff2mt: Capture the standard output of gromox-pff2mt to a file. The
+``--only-nid`` option can help produce a minimal-size MT file. Depending on
+circumstances however, access may be needed to the PFF/PST/OST file if the MT
+file is not informative enough.
 
-*For objects sourced by gromox-eml2mt, gromox-ical2mt, gromox-vcf2mt*, send the
-original file (it should be reasonably small compared to entire mailboxes).
+For gromox-oxm2mt: Send the .msg file to the support team.
+
+
+Messages imported from RFC5322/5545/6350 files
+----------------------------------------------
+
+**Observation:** A message appears incomplete in any MUA after import
+from gromox-eml2mt, gromox-ical2mt or gromox-vcf2mt.
+
+**Cause:** Conversion from Internet Mail (IM) to MAPI is lossy in nature, and
+the conversion procedure has unanticipatedly ignored too much of the IM
+content.
+
+**Action to take:** Send the original EML, iCal or vCard file to Grommunio
+Support to facilitate further investigation.
 
 
 Messages at rest
 ----------------
 
-If some operation on a mailbox with existing messages does not work as
-expected, we may require the sqlite mailbox, which is located in
-`/var/lib/gromox/X/exmdb/exchange.sqlite3` to reproduce. Example use
-case that would fall under this:
+**Observation:** Some operation on a mailbox that involves existing messages
+does not work as expected. Example use cases that would fall under this:
 
 * moving messages between folders
 * setting categories on messages
 * composing or submitting messages
 * MAPI-to-RFC5322 conversions for outgoing mail
 
+**Cause:** To be individually determined.
+
+**Action to take:** Grommunio Support may require the sqlite mailbox, which is
+located in ``/var/lib/gromox/X/exmdb/exchange.sqlite3`` to reproduce.
+
+
+Message export
+--------------
+
+**Observation:** gromox-http or gromox-zcore emits a log message about failed
+MAPI-to-RFC5322 conversion such as the following.
+
+.. code-block:: text
+
+	# journalctl -u gromox-zcore
+	...
+	user=test@host.example.net host=::ffff:192.0.2.37  W-1281: Failed to export to RFC5322 mail while sending mid:0x5001b
+
+**Cause:** Presumably the software did not anticipate a lack of certain
+metadata on the message.
+
+**Action to take:** Follow-up with Grommunio Support to facilitate access to
+the sqlite3 file. (The conversion procedure ought to succeed at all times with
+all MAPI messages.)
+
 
 Outgoing messages
 -----------------
 
-If sending a message fails with Outlook and gromox-http emits a log message like
-this,
+**Observation:** A message in "Sent Items" appears acceptable, but arrives
+incomplete for the recipient in their Inbox.
 
-```
-user=test@host.example.net host=::ffff:192.0.2.37  W-1281: Failed to export to RFC5322 mail while sending mid:0x5001b
-```
+**Cause:** Suboptimal export routines.
 
-then gromox-exm2eml can be used by with a debugger to step into the
-`oxcmail_export` routine without stopping the server itself. (`gromox-exm2eml
--u test@host.example.net 0x5001b`)
+**Action to take:** Local investigation by administrator, follow-up with
+Grommunio Support.
 
-If a message is received on a remote system in an unexpectedly broken fashion,
-there may be a problem with the sending path. If the issue is visible with the
-message that is placed in the Sent Items folder, confer with the section
-"Messages at rest". The gromox-exm2eml utility is eml2mt-mt2exm but in reverse,
-and can be used to produce the RFC5322 form that is normally used for messages
-leaving the system through SMTP. It can help determine if the MAPI-to-RFC5322
-(MAPI Message to Internet Message) conversion has a problem, or the SMTP
-transport.
+**Procedure:**
+
+On the sender side, open grommunio-web, right click the message in "Sent Items"
+and call up the Options dialog. The 16th-last to 5th-last nibble is the
+GCV/message id. (Screenshot example: 0x1fe647)
+
+.. image:: _static/img/gweb-messageid.png
+
+With this ID, the MAPI-to-RFC5322 conversion can be re-enacted:
+
+.. code-block:: sh
+
+	gromox-exm2eml -u test@host.example.net 0x1fe647
+
+If this EML looks bad: Export routine is broken. Confer with section "Messages at rest".
+
+If this EML looks good: Look for problems in the SMTP transport or on the
+receiving side.
 
 .. meta::
    :description: grommunio Knowledge Database
    :keywords: grommunio Knowledge Database
    :author: grommunio GmbH
    :publisher: grommunio GmbH
-   :copyright: grommunio GmbH, 2022
+   :copyright: grommunio GmbH, 2023
    :page-topic: software
    :page-type: documentation
    :robots: index, follow
