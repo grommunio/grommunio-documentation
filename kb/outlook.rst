@@ -30,24 +30,45 @@ Passwords with umlauts
 Gromox conveys the available authentication mechanisms to clients via the
 ``WWW-Authentication`` header in HTTP responses. As of Gromox 2.17, "Basic" and
 "Negotiate" are supported. "Basic" is augmented by a ``charset`` parameter (RFC
-7617 §2.1). However, the Windows RPC and HTTP libraries ignore this. We have
-thus identified problems with non-ASCII characters in Windows systems:
+7617 §2.1).
 
-  * When entering a password with an umlaut, the copy of Windows we used
-    transmits in local codepage, but nowhere does it indicate the codepage in
-    the HTTP request. This is a serious design deficiency, especially
-    considering the MAPI protocols themselves *do* have a means to convey the
-    corresponding codepage number when transmitting 8-bit MAPI property string
-    values! The HTTP requests are also sent with ample custom headers in
-    general.)
+However, the Windows RPC and HTTP libraries ignore this parameter, and they
+also ignore the few UTF-8 options from the Control Panel's Internet Options
+dialog.
 
-  * When entering a password with a Chinese/Japanese character,
-    the copy of Windows (10 Workstation Pro) we used does not transmit *any*
-    `Authorization` header *at all*.
+.. image:: _static/img/windows_intopts.png
 
-The Internet Options control panel dialog `[1] <_static/img/auth_intopts.png>`_
-`[2] <_static/img/auth_intopts2.png>`_ which concerns itself with system HTTP libraries
-of the old days does not influence this.
+The RPC/HTTP libraries always transmit Basic authorization using the *system
+default locale*'s codepage. In fact, if the password entered into the
+authorization dialog cannot be represented in that encoding, *no*
+``Authorization`` header will be sent *at all* in the HTTP request.
+
+Exchange Server interprets passwords received via the Basic authorization
+header as UTF-8 at first and, should the password validation fail, it will
+retry using the codepage of the default locale of the *server* system. This
+means that a client with Japanese locale (with cp932) will never be able to
+connect to an Exchange Server running with English locale (with cp1252) with
+``Basic``-type authentication.
+
+Unlike Windows, installations of contemporary Linux systems exclusively use
+UTF-8. As such, there is no second charset that would make sense for a server
+process to try.
+
+It is possible to change the locale in the Windows Control Panel. There even is
+a UTF-8 checkbox, which resolves the issues problems with non-ASCII characters
+in passwords.
+
+.. image:: _static/img/windows_region1.png
+
+.. image:: _static/img/windows_region2.png
+
+.. image:: _static/img/windows_region3.png
+
+Authentication via the ``Negotiate`` mechanism is believed to be mostly free
+from character set problems. Negotiate can contain GSS/SSO/NTLM tokens, and
+NTLM in particular is *specified* to use UCS-2LE/UTF-16LE for its
+challenge–response authentication, which gives non-ASCII characters an angle to
+survive.
 
 
 Rules dialog not openable
