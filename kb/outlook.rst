@@ -85,6 +85,9 @@ absent, it will re-create that).
 Moreover, when the PR_RW_RULES_STREAM property exists but has size 0, the rules
 dialog immediately closes again, another bug.
 
+Offending mailboxes can be repaired with the ``gromox-mbop -u abc@example.com
+clear-rwz`` command.
+
 
 Outlook 2010/2013 specialties
 -----------------------------
