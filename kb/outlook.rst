@@ -54,9 +54,12 @@ Unlike Windows, installations of contemporary Linux systems exclusively use
 UTF-8. As such, there is no second charset that would make sense for a server
 process to try.
 
-It is possible to change the locale in the Windows Control Panel. There even is
-a UTF-8 checkbox, which resolves the issues problems with non-ASCII characters
-in passwords.
+In Windows 10 and later, the Region settings in the (classic) Control Panel has
+a checkbox to switch the Narrow Encoding System APIs to *interpret* and emit
+strings and some other data as UTF-8, much like what Linux systems do. Be aware
+that changing the region has consequences for all unannotated data. For
+example, it influences how text editors will make guesses about the encoding of
+plain-text files.
 
 .. image:: _static/img/windows_region1.png
 
