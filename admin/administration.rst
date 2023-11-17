@@ -477,143 +477,47 @@ Click `Confirm` to confirm or `Cancel` to cancel.
 Groups
 ------
 
-If at least one domain exists in the database, groups can be added to a domain.
-To show existing groups of a domain, navigate to the domain view in the drawer.
+If at least one domain exists in the database, groups can be added to a
+domain. To show existing groups of a domain, navigate to the domain view in
+the drawer.
 
-Click on a domain to expand available sub-pages and click on `Groups`, which
-will redirect you to the list of groups of this domain.
-If you have just installed grommunio or added the domain, the list will be
-empty.
-
-Groups have a hierarchical structure, but aren't built like a tree, but like a
-directional, loop-free graph.
-Thus, groups can have multiple parent groups and child groups.
-
-To simply show a list of groups click on the `List` tab.
-It is also possible to show a more advanced view of groups by clicking on the
-`Tree` tab.
-In order to simplify a potentially massive structure of groups, instead of a
-graph, different trees can be displayed here.
-By selecting a root group, a cut-out of the graph can be shown as a tree with
-the selected group as root node.
-All recursive children will be displayed.
-
-.. image:: _static/img/group_tree.png
-   :alt: grommunio group tree
+Click on a domain to expand available sub-pages and click on `Groups`,
+which will redirect you to the list of groups of this domain. If you have
+just installed grommunio or added the domain, the list will be empty.
 
 
 Adding a group
 ~~~~~~~~~~~~~~
 
-To add a new group, click the blue `NEW GROUP` button to open the form dialog:
+To add a new group, click the blue `NEW GROUP` button to open the form
+dialog:
 
 .. image:: _static/img/add_group.png
    :alt: adding a group
 
 The following properties can be set:
 
-- Groupname (required): Name of the group
-- Parent groups: Which groups does this group inherit from?
-- Members: Groupmembers
-- Filters: See below
+- Group name (required): E-Mail address of the group
+- Displayname: Displayed name of the group
+- Hide from addressbook: If selected, the mailing list won't be visible in the Global Address Book
+- Type:
+   - Normal: Select users as recipients
+   - Domain: All users of the domain will be recipients
+- Privilege: Users who are allowed to send E-Mails to the group
+   - All: Everyone
+   - Internal: All users of the group
+   - Domain: All users in the domain
+   - Specific: Specific users (`Senders`)
+- Recipients: Users of the domain, who are part of the group (not available if type=Domain)
+- Senders: Users, who are allowed to send e-mails to the group (only available if privilege=Specific)
 
-Either members of filters can be specified.
-
-Group filters
-~~~~~~~~~~~~~
-
-A group can have a clause to filter users with.
-This could for example be `username == exampleUser`.
-In this case, all users that are named "exampleUser" are part of this group.
-To further specify, a CNF clause on properties can be written.
-
-The UI uses Expansionpanels (EP) to visualize a conjunctive normal form (CNF)
-clause.
-Each EP symbolises a logical `AND`, so each EP must be true, for the entire
-clause to be true.
-Each EP also contains multiple textfields.
-One row of which represents an expression in the CNF (above: `username ==
-exampleUser`).
-Each row is combined by a logical `OR`, so an EP is true, if at least one row
-(one expression) in the EP is true.
-That also means, that at least one expression in every EP of the filter must be
-true for a user to be part of the group.
-
-
-Editing a group
-~~~~~~~~~~~~~~~
-
-To edit an existing group, you can either:
-
-- Click on a group in the list
-- Click on a node in the tree view
-
-.. image:: _static/img/edit_group.png
-   :alt: editing a group
-
-Simply change attributes to your needs, then click `Save` on the bottom to save
-your changes.
-
-To quickly navigate through a group hierarchy, click a childgroup at the bottom
-or click a breadcrumb at the top.
+Click `Add` to confirm or `Cancel` to cancel.
 
 
 Deleting a group
 ~~~~~~~~~~~~~~~~
 
 To delete a group, click on the trash icon of a group in the list view.
-Click `Confirm` to confirm or `Cancel` to cancel.
-
-
-Mail lists
-----------
-
-If at least one domain exists in the database, mail lists can be added to a
-domain. To show existing mail lists of a domain, navigate to the domain view in
-the drawer.
-
-Click on a domain to expand available sub-pages and click on `Mail lists`,
-which will redirect you to the list of mail lists of this domain. If you have
-just installed grommunio or added the domain, the list will be empty.
-
-
-Adding a mail list
-~~~~~~~~~~~~~~~~~~
-
-To add a new mail list, click the blue `NEW MAIL LIST` button to open the form
-dialog:
-
-.. image:: _static/img/add_maillist.png
-   :alt: adding a mail list
-
-The following properties can be set:
-
-- Mail list name (required): Name of mail list
-- Type: Type of mail list
-- Privilege: Mail list privilege (not available if type=Domain)
-- Recipients: Recipients of e-mails
-- Senders: Senders of e-mails (only available if privilege=Specific)
-
-Click `Add` to confirm or `Cancel` to cancel.
-
-
-Editing a mail list
-~~~~~~~~~~~~~~~~~~~
-
-To edit an existing mail list, click on a mail list in the list to open the
-detailed view of a mail list.
-
-.. image:: _static/img/edit_maillist.png
-   :alt: edit a mail list
-
-Simply change attributes to your needs, then click `Save` on the bottom to save
-your changes.
-
-
-Deleting a mail list
-~~~~~~~~~~~~~~~~~~~~
-
-To delete a mail list, click on the trash icon of a mail list in the list view.
 Click `Confirm` to confirm or `Cancel` to cancel.
 
 
