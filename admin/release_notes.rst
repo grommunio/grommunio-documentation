@@ -6,6 +6,45 @@
 Release Notes
 #############
 
+grommunio 2023.11.1
+===================
+
+Release type: Major
+
+Release date: 18th of November 2023
+
+**Highlights**
+
+We are excited to announce the release of grommunio 2023.11.1. This update marks a significant milestone in our journey as a leading open-source groupware platform. With a suite of new features and enhancements, this release underscores our commitment to providing an enterprise-grade communication solution that is both comprehensive and secure.
+
+**What's New**
+
+- Enhanced EWS Functionality with support for Microsoft Outlook for Mac, Apple Mail, and Microsoft Outlook for Mobile
+- Advanced Single Sign-On (SSO) with Active Directory environments (SPNEGO support)
+- Redesigned User Interfaces, adhering to WCAG 2.1 guidelines for improved accessibility
+- Performance improvements with grommunio Web and 25% faster end-to-end processing
+- Alternative Logon Names Support, offering greater flexibility in identity management for complex enterprise needs
+- Online Update and Upgrade Capabilities integrated with grommunio Admin
+- Recipient Plus-Addressing and enhanced Mailbox DB Operations with grommunio-mbop
+- Modern Authentication in grommunio Web with OpenID Connect including support for 2FA (Two-Factor Authentication)
+
+**Enhancements**
+
+- Various Fixes: Including support for non-receiving shared mailboxes and enhancements in imap, exmdb, and alias_resolve modules.
+- Comprehensive IMAP (Large Literals and RFC 7888) and Productivity Enhancements
+- Support for vCard 4.0 and improvements in 'oxvcard'
+- Refined Folder and Message Delivery including improved 'create_folder' and 'movecopy_folder' RPCs
+
+**Future Outlook**
+
+- EWS Finalization Date: Planned for December 24, 2023.
+
+**Acknowledgements**
+
+We extend our heartfelt thanks to our customers, partners, and the community for their invaluable input and feedback, especially to:
+
+- clique2015, robert-scheck, General-Aussie, steve, prandev01, crpb, rnagy, walter any many others
+
 grommunio 2022.12.1
 ===================
 
