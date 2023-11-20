@@ -35,9 +35,30 @@ We are excited to announce the release of grommunio 2023.11.1. This update marks
 - Support for vCard 4.0 and improvements in 'oxvcard'
 - Refined Folder and Message Delivery including improved 'create_folder' and 'movecopy_folder' RPCs
 
-**Future Outlook**
+**Future Roadmap**
 
-- EWS Finalization Date: Planned for December 24, 2023.
+- EWS Finalization Date: Planned for December 24, 2023
+- grommunio Next: Q1 2024
+- grommunio Graph API: Q2 2024
+
+**Notes on EWS**
+
+- To activate EWS Beta features, add ```ews_beta = 1``` to ```/etc/gromox/ews.cfg```
+- Activation of ```ews_pretty_response``` is not supported by Mac Mail and is recommended not to be enabled as such
+- The best supported EWS Client is currently Microsoft Outlook for Mac
+- The upcoming EWS operations FindFolder and FindItem are expected to be released within the upcoming 2 weeks after release which enhances Apple's macOS apps most.
+
+**Disclaimer: Public Beta Release of EWS Functionality**
+
+- Intensive Development and Testing: The EWS functionality has undergone extensive development to achieve a modern and solid software architecture. This rigorous process ensures a high standard of quality, security, and functionality. However, as with any complex software endeavor, there may be unforeseen nuances in diverse real-world environments.
+
+- Current Limitations: We acknowledge that two features – the FindItem operation and the Impersonation feature – are not yet included in this beta release. These features are currently undergoing thorough quality assurance testing. We anticipate their inclusion still within the 2023 release timeline, further enhancing the EWS functionality.
+
+- Commitment to quality and security: Our team, in collaboration with our technology partners, has repeatedly validated the EWS functionality to ensure its security, data protection, and stability. We adhere to the highest standards to safeguard your experience.
+
+- Feedback and continuous improvement: While we have invested considerable effort in testing, we acknowledge that the diverse and dynamic nature of IT environments can present unique scenarios. Therefore, we welcome and appreciate any feedback or reports of issues from our users. Your insights are invaluable in helping us refine and improve the EWS functionality.
+
+- Support for subscription holders: With the release of this EWS functionality, it becomes a fully supported protocol within grommunio. Subscription holders are entitled to our full support for any queries or assistance related to EWS. For customers and hosters: Please approach your support representative if you need any planing for EWS rollout. As with every new big feature, it is recommended to plan the availability with care and our staff is committed to support you well.
 
 **Acknowledgements**
 
