@@ -358,6 +358,34 @@ some options.
 
 * https://docs.microsoft.com/en-us/outlook/troubleshoot/profiles-and-accounts/unexpected-autodiscover-behavior
 
+
+Technicalities with hanging connections
+---------------------------------------
+
+Outlook and tools like MFCMAPI usually invoke mapi32.dll functions from the
+same thread that also runs the user interface. The UI is blocked while MAPI
+functions execute. If the UI does not respond for a while, the desktop shell
+marks the window as unresponsive.
+
+Modern connections to Exchange-style servers use HTTP (TCP), but even with a
+server sending TCP RST/FIN, the MSRPC libraries seem to take a while to notice.
+We surmise this is a side-effect of the historic design of DCERPC/MSRPC which
+allows for datagram transports — and where connection-oriented transports are
+an afterthought.
+
+In Cached Mode, MAPI calls from application terminate at the OST file. The
+OST<->server synchronization runs in a separate thread. Therefore, connectivity
+interruptions do not normally affect the UI, though complex queries involving
+the OST contents (opening a folder with 50000 mails) may still.
+
+In MFCMAPI with an online-mode MAPI profile, on connectivity interruption it
+can be observed that the store handle "shuts down" and a number of subsequent
+MAPI calls return a network error, until such a time that mapi.dll or the
+program decides to effectively re-login and obtain a new, valid store handle.
+(In doing so, MFCMAPI crashes sometimes. Outlook seems to handle this better
+and live on.)
+
+
 .. meta::
    :description: grommunio Knowledge Database
    :keywords: grommunio Knowledge Database
