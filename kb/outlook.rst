@@ -92,6 +92,14 @@ Offending mailboxes can be repaired with the ``gromox-mbop -u abc@example.com
 clear-rwz`` command.
 
 
+MFCMAPI table sort quirk
+------------------------
+
+Sorting a table by clicking on a column header will make MFCMAPI use its own
+sorting rather than ropSortTable. Only the portion of rows that has already
+been loaded (ropQueryRows) will be sorted.
+
+
 Outlook 2010/2013 specialties
 -----------------------------
 
