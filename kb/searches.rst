@@ -11,9 +11,9 @@ Different search results
 Outlook and g-web use different search filters (MAPI
 restrictions), so it is possible they yield different results.
 
-Default filter of Outlook (online mode):
+Default restriction of Outlook (online mode) for Inbox (22 conditions):
 
-* 22 properties across all message classes
+* 19 properties across all message classes
 	* 0037001fh PR_SUBJECT
 	* 0042001fh PR_SENT_REPRESENTING_NAME
 	* 0065001fh PR_SENT_REPRESENTING_EMAIL_ADDRESS
@@ -33,6 +33,34 @@ Default filter of Outlook (online mode):
 	* PSETID_Sharing,LID=8a51h PidLidSharingBrowseUrl
 	* PS_PUBLIC_STRINGS,NAME=Keywords (Categories)
 	* PSETID_UnifiedMessaging,NAME=UMAudioNotes
+* 3 instances of some nonsensical condition:
+  ``RES_AND[2]{2,RES_EXIST{30080040h},RES_NOT{RES_EXIST{30080040h}}}``
+
+Default restriction of Outlook (online mode) for the trashcan (44 conditions):
+
+* 19+3 from above, plus 22:
+	* 3001001fh PR_DISPLAY_NAME
+	* 3a08001fh PR_BUSINESS_TELEPHONE_NUMBER
+	* 3a09001fh PR_HOME_TELEPHONE_NUMBER
+	* 3a16001fh PR_COMPANY_NAME
+	* 3a17001fh PR_COMPANY_NAME
+	* 3a18001fh PR_DEPARTMENT_NAME
+	* 3a1b001fh PR_BUSINESS2_TELEPHONE_NUMBER
+	* 3a1c001fh PR_MOBILE_TELEPHONE_NUMBER
+	* PSETID_Address,LID=8005h PidLidFileUnder
+	* PSETID_Address,LID=801ah PidLidHomeAddress
+	* PSETID_Address,LID=801bh PidLidWorkAddress
+	* PSETID_Address,LID=801ch PidLidOtherAddress
+	* PSETID_Address,LID=802ch PidLidYomiFirstName
+	* PSETID_Address,LID=802dh PidLidYomiLastName
+	* PSETID_Address,LID=802eh PidLidYomiCompanyName
+	* PSETID_Address,LID=8083h PidLidEmail1EmailAddress
+	* PSETID_Address,LID=8093h PidLidEmail2EmailAddress
+	* PSETID_Address,LID=80a3h PidLidEmail3EmailAddress
+	* PSETID_Task,LID=811fh PidLidTaskOwner
+	* PSETID_Common,LID=8539h PidLidCompanies
+	* PSETID_Common,LID=853ah PidLidContacts
+	* PSETID_Log,LID=8700h PidLidLogType
 
 Outlook (Cached Mode) might yet use another filter.
 
