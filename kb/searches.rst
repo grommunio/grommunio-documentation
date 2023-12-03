@@ -8,12 +8,13 @@ Search
 Different search results
 ------------------------
 
-Outlook and g-web use different search filters (MAPI
-restrictions), so it is possible they yield different results.
+Outlook and g-web use different search filters (MAPI restrictions)
+under different circumstances, so it is possible they yield different
+results.
 
 Default restriction of Outlook (online mode) for Inbox (22 conditions):
 
-* 19 properties across all message classes
+* 19 properties tested for the user-defined search terms:
 	* 0037001fh PR_SUBJECT
 	* 0042001fh PR_SENT_REPRESENTING_NAME
 	* 0065001fh PR_SENT_REPRESENTING_EMAIL_ADDRESS
@@ -36,9 +37,10 @@ Default restriction of Outlook (online mode) for Inbox (22 conditions):
 * 3 instances of some nonsensical condition:
   ``RES_AND[2]{2,RES_EXIST{30080040h},RES_NOT{RES_EXIST{30080040h}}}``
 
-Default restriction of Outlook (online mode) for the trashcan (44 conditions):
+Default restriction of Outlook (online mode) for the trash folder (44
+conditions):
 
-* 19+3 from above, plus 22:
+* 19+3 from above, plus 22 more properties:
 	* 3001001fh PR_DISPLAY_NAME
 	* 3a08001fh PR_BUSINESS_TELEPHONE_NUMBER
 	* 3a09001fh PR_HOME_TELEPHONE_NUMBER
@@ -61,6 +63,17 @@ Default restriction of Outlook (online mode) for the trashcan (44 conditions):
 	* PSETID_Common,LID=8539h PidLidCompanies
 	* PSETID_Common,LID=853ah PidLidContacts
 	* PSETID_Log,LID=8700h PidLidLogType
+
+If OL detects {some property}, it instead may opt to use:
+
+* 1 property tested for the user-defined search terms
+	* 0eaf001fh PR_SEARCH_ALL_INDEXED_PROPS
+
+If OL is to search the entire mailbox, further conditions are added:
+
+* message class must be one of: ``IPM.Document``, ``IPM.Note``,
+  ``IPM.Post``, ``IPM.Recall``, ``IPM.Schedule``, ``IPM.Sharing``,
+  ``IPM.TaskRequest`` ``REPORT``
 
 Outlook (Cached Mode) might yet use another filter.
 
