@@ -77,9 +77,10 @@ a:active, a:visited {
 .wy-nav-content-wrap {
 	background-color: white;
 	background-image: url('../img/back_web.png');
-	background-position: right top; 
-	background-repeat: no-repeat;
 	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 .wy-nav-content {
 	background-color: transparent;
