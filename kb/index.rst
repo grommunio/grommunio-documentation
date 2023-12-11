@@ -19,6 +19,7 @@ This section is a collection of unstructed notes.
 	debug_content.rst
 	debug_services.rst
 	meet_av.rst
+	memory_usage.rst
 	message_rules.rst
 	outlook.rst
 	php.rst
