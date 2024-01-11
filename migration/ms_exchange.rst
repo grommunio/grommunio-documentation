@@ -38,6 +38,8 @@ Then follow the usual dialog chain.
 
 .. image:: olexport6.png
 
+.. important::
+   **ALWAYS close Outlook** after exporting the PST file(s) and **before** starting to copy the files over to your grommunio machine. If Outlook stays open while you are copying the files (e.g. using SCP) they will be broken and the following commands will fail with `pff: "export.pst" not recognized as PFF`
 
 gromox-pff2mt import
 ====================
