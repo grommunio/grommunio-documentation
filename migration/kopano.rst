@@ -7,7 +7,7 @@ Kopano
 ######
 
 On the grommunio system, Kopano databases can be imported on the command-line
-with `gromox-kdb2mt </man/gromox-kdb2mt.8gx.html>`_ and `gromox-mt2exm
-</man/gromox-mt2exm.8gx.html>`_. These are two commands meant to be chained
+with `gromox-kdb2mt <https://docs.grommunio.com/man/gromox-kdb2mt.8.html>`_ and `gromox-mt2exm
+<https://docs.grommunio.com/man/gromox-mt2exm.8.html>`_. These are two commands meant to be chained
 together by way of a pipe; tend to the linked manual pages to read about the
 invocation syntax.
