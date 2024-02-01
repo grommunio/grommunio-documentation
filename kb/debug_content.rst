@@ -24,9 +24,16 @@ RFC5322-to-MAPI conversion such as the following.
 **Action to take:** Send the message file to Grommunio Support to facilitate
 further investigation.
 
-The message in question should be located in ``/var/lib/gromox/queue/cache``
-(messages for which delivery will be retried) or
-``/var/lib/gromox/queue/cache`` (no retry). It can be found by matching up the
+The message in question should be located in ``/var/lib/gromox/queue/save``.
+Conversion failure is considered terminal and no retry will be attempted.
+
+(There are three other errors which are not considered terminal. These are: the
+user database being unavailable, a permission error on disk, or a disk full
+event. In these cases, redelivery will be attempted and the messages placed in
+``/var/lib/gromox/queue/cache`` instead. Redelivery may disappear in a future
+version of Gromox, because Postfix is already capable of handling this.)
+
+The message can be found by matching up the
 timestamp in the log with the timstamp of the file object or, in fact, the
 timestamp in the filename itself. The filename usually consists of a Unix
 timestamp, a boot-time monotonically-increasing counter (QID), and the
