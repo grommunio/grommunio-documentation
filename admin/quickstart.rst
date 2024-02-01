@@ -64,7 +64,7 @@ Installation
 ============
 
 #. Download of the bootable x86 image from download.grommunio.com:
-   https://download.grommunio.com/appliance/grommunio_Appliance.x86_64-latest.install.iso
+   https://download.grommunio.com/appliance/grommunio.x86_64-latest.install.iso
 #. Load the file for installation into the server on
    which grommunio should be installed on.
 #. Run the installer and choose "Install grommunio_Appliance" from the boot
