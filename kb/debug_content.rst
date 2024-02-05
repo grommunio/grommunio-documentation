@@ -74,7 +74,8 @@ Delivered messages & IMAP messages
 ----------------------------------
 
 **Observation:** A message appears incomplete in any MUA after being put into
-the mailbox by gromox-delivery or an IMAP client.
+the mailbox by the gromox LDA (gromox-delivery), or put into the mailbox by an
+IMAP client using e.g. the IMAP APPEND command.
 
 **Cause:** Conversion from Internet Mail (IM) to MAPI is lossy in nature, and
 the conversion procedure has unanticipatedly ignored too much of the IM
