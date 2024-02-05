@@ -8,14 +8,35 @@ Debug Content
 Messages in delivery
 --------------------
 
-**Observation:** gromox-delivery emits log messages about failed
-RFC5322-to-MAPI conversion such as the following.
+**Observation:** gromox-delivery emits log messages about "Dispatch error".
 
 .. code-block:: text
 
 	# journalctl -u gromox-delivery
 	...
 	exmdb_client_do_rpc: Dispatch error
+	oxcmail_import:2870: returned false
+	SMTP message queue-ID: 2, FROM: doc@example.com, TO: doc@example.com  fail to convert rfc5322 into MAPI message object
+
+**Cause:** The TCP connection between gromox-delivery and gromox-http
+(exmdb_provider subcomponent) ended unexpectedly. Routine(s) for converting
+Internet Mail to MAPI objects thus could not complete.
+
+**Action to take:** Check the system logs for indications that gromox-http has
+suffered a crash, or that an administrator has willingly stopped the process.
+
+---
+
+**Observation:** gromox-delivery emits log messages about failed
+RFC5322-to-MAPI conversion such as the following (but without the
+above-mentioned "Dispatch error").
+
+.. code-block:: text
+
+	# journalctl -u gromox-delivery
+	...
+	oxcical_import:1234: returned null/false
+	...
 	oxcmail_import:2870: returned false
 	SMTP message queue-ID: 2, FROM: doc@example.com, TO: doc@example.com  fail to convert rfc5322 into MAPI message object
 
