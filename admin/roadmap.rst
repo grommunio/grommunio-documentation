@@ -1,40 +1,34 @@
 ..
         SPDX-License-Identifier: CC-BY-SA-4.0 or-later
-        SPDX-FileCopyrightText: 2022 grommunio GmbH
+        SPDX-FileCopyrightText: 2024 grommunio GmbH
 
 #######
 Roadmap
 #######
 
-Current roadmap of grommunio (as of 24th of December, 2022):
+Current roadmap of grommunio (as of 5th of January, 2024):
 
 - The **Current Stable** stable release of grommunio has been released on the
-  24th of December 2022, with a support lifecycle of 3 years and optional extended
+  24th of December 2023, with a support lifecycle of 3 years and optional extended
   lifecycle extensions available with grommunio's subscription program.
 
-- The **Next** stable release is planned for release in Q2 2023 with the
+- The **Next** stable release is planned for release in Q4 2024 with the
   following features:
 
-  - Full support for group-mapping from LDAP-backends
+  - Open Source Graph API/Outlook REST-implementation, with grommunio Next as
+    modern multi-account client
 
-  - New filesystem storage backend with application-level, store-wide
-    deduplication and enhanced integrity through hash-based storage
+  - Performance optimizations through parallelization of accessing a single
+    store (for highly parallelized access of single mailboxes)
 
-  - Completed EWS feature-set to fully support macOS and Outlook mobile clients
+  - Further improved support for Internet Mail specifications (VMIME)
 
-  - AI processing will allow insight information for in-depth communication
-    analysis, enabling next-generation analytics on collaborative data.
+  - High-performance, device-independent fulltext search engine
 
-  - Full modern Authentication for Microsoft Outlook, IMAP and POP3
+  - Full modern Authentication for Microsoft Outlook, IMAP and POP3 (in ADFS
+    scenarios)
 
-  - Full support of EAS 16.1 (Attachments on calendar items)
-
-- The **Future** release is planned after the **Next** release with the
-  following featureset, according to current plans:
-
-  - Open Source Graph API implementation, with grommunio Next as modern multi-account
-    client. As part of the implementation, grommunio Next will provide native S/MIME
-    and GPG support
+  - AI for enhanced user productivity (optional)
 
 Release strategy
 ================
@@ -44,9 +38,9 @@ customer-friendly and predictable way.
 
 The release model of grommunio is divided into 2 different chains:
 
-- Major releases (e.g. 2022.12.1, 2021.08.1, 2022.05.1)
+- Major releases (e.g. 2023.12.1, 2021.08.1, 2023.05.1)
 
-- Minor releases (e.g. 2022.12.2, 2021.08.3, 2022.05.2)
+- Minor releases (e.g. 2023.12.2, 2021.08.3, 2023.05.2)
 
 Major releases contain are determined to larger feature sets as well as
 including potential architectural changes whereas minor releases are focused
