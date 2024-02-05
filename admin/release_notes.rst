@@ -1,10 +1,108 @@
 ..
         SPDX-License-Identifier: CC-BY-SA-4.0 or-later
-        SPDX-FileCopyrightText: 2022 grommunio GmbH
+        SPDX-FileCopyrightText: 2024 grommunio GmbH
 
 #############
 Release Notes
 #############
+
+grommunio 2023.11.3
+===================
+
+Release type: Minor
+
+Release date: 14th of February 2024
+
+General availability: Planned (Note: Based on final QA, these release notes might slightly differ)
+
+**Highlights**
+
+- EWS is now fully supported to run with Microsoft Outlook for Mac as well as Apple native organization apps (Mail, Calendar, ...)
+- S/MIME received updates for validation across various device classes
+- IDN (internationalized) domains are now supported in GAL (Global Address Lists)
+- CalDAV now supports iCalender free/busy information
+- grommunio Web received polishing fixes since the last major design upgrade
+- Support for Passkey authentication with grommunio Auth
+- Documentation has received numerous updates, including a major documentation overhaul
+
+**New Features**
+
+- EWS has left the beta stage and is now enabled by default (See notes)
+- The new rule processor (twostep_ruleproc) now supports Outlook-style public folders
+- grommunio now provides 389DS schema via a selector in grommunio Admin
+- Outgoing messages submission via postdrop is now supported
+- grommunio Next is now available as technology preview in the repositories (requires Graph API)
+
+**Enhancements**
+
+- Unintended double-quotes in mails are now dropped around RFC 2047-style encodings
+- Resolved a rare case where PR_TRANSPORT_MESSAGE_HEADERS had an extra byte
+- Resolved a case where four extra bytes where added in front of the first transport header
+- Semicolons in "Reply-To" headers are now handled correctly
+- Proper handling for log messages enabling better fail2ban processing
+- ICS requests can now be dumped for developer inspection
+- Extensive dependency updates for Debian/Ubuntu based installations
+- Various improvements to migration toolset
+- Various mail processing enhancements (e.g. dot-stuffing)
+
+**Notes on EWS**
+
+As mentioned above, with EWS leaving the beta stage, the parameter ```ews_beta = 1``` in ```/etc/gromox/ews.cfg``` is now obsolete and replaced by the parameter ```ews_enable = 1```, which is now the default. Please note that even if ```ews_enable``` is set to 0, a basic subset of EWS is still active for proper functionality with Microsoft Outlook for Windows.
+
+**Acknowledgements**
+
+We extend our heartfelt thanks to our customers, partners, and the community for their valuable input and feedback. Thanks to feedback from customers and the community, we have been able to track down EWS-related issues properly and have included the feedback in our evaluation process, leading to a better product for all.
+
+We would especially like to thank the community for the overwhelming feedback, especially at FOSDEM https://fosdem.org/2024/ <https://fosdem.org/2024/>_.
+
+**Last remarks**
+
+The development, QA, and release teams, apologize that our public communication has been occasionally delayed. We've been very busy not only delivering a better product to you with a plethora of fixes and new features but also integrating new resources into the entire organization and infrastructure. It's amazing how many installations have hit production in the holiday season which required additional prioritization. Rest assured, there's big news coming up from grommunio, and you'll notice it.
+
+grommunio 2023.11.2
+===================
+
+Release type: Minor
+
+Release date: 28th of December 2023
+
+General availability: Yes
+
+**Highlights**
+
+- The appliance now ships with XFS as the default main filesystem
+- IMAP performance has improved overall by a factor of 2 or more (SELECT/LIST/FETCH seqid renumbering removal)
+- IMAP compatibility has significantly improved by handling EXPUNGE and STATUS commands properly
+- Windows Mail now also works as an EAS client
+- Enable Room and Equipment stores for AutoDiscover with Delegation (Shared Store)
+- Enhanced search folder notifications (more improvements to come)
+
+**New Features**
+
+- IMAP now receives deletion events from other clients (OL/Web/EAS/EWS)
+- gromox-mbop now supports time specifications to limit the deletion of messages of a certain age
+- All daemons have received various config directives for file descriptor limits, with 512K instead of 2256 in systemd environments
+- Support for XFS snapshots
+
+**Enhancements**
+
+- Enable gromox-mbop path specifications, such as `SENT/2022`
+- RTF compressed MAPI properties now generate a complete header
+- Free busy information is now more resilient to non-existing data (no information available)
+- The basic authentication header is now fully RFC 7617 compliant
+- The name service provider (NSP) now fully supports the Windows UTF-8 locale (Beta feature by Microsoft)
+- Improved calendar item coverage for EWS
+- Enhanced EWS CreateItem for Apple Mac Mail
+- Repair Property ID/Tag swapping with TNEF objects
+- Enhancements to ICS now reduce the number of sync issues due to broken items (imported e.g. from defective Kopano datasets)
+- Better processing for calendar appointments (RDATE, Weekorder), displaying correct all-day events from broken sources as per OXCICAL spec recommendations
+- Heap-use-after-free fix for free/busy requests in EWS
+- Multi-LDAP has received robustness fixes for special cases (such as 389DS)
+- Various fixes to free busy handling (related to scheduling)
+
+**Acknowledgements**
+
+Since the number of contributors keeps growing with each release, we now refrain from compiling a hand-curated list and instead ask anyone interested to head over to our git repositories and see the evolving community for yourself. Rest assured, grommunio thanks all its stakeholders: customers, partners, and the community alike.
 
 grommunio 2023.11.1
 ===================
@@ -12,6 +110,8 @@ grommunio 2023.11.1
 Release type: Major
 
 Release date: 18th of November 2023
+
+General availability: Yes
 
 **Highlights**
 
@@ -73,6 +173,8 @@ Release type: Major
 
 Release date: 24th of December 2022
 
+General availability: Yes
+
 **Highlights**
 
 - grommunio Appliance now on openSUSE 15.4 with many improvements, such as PHP 8.0
@@ -121,6 +223,8 @@ grommunio 2022.05.2
 Release type: Minor
 
 Release date: 31st of August 2022
+
+General availability: Yes
 
 **Highlights**
 
@@ -191,6 +295,8 @@ grommunio 2022.05.1
 Release type: Major
 
 Release date: 16th of May 2022
+
+General availability: Yes
 
 - grommunio: Support for Ubuntu 22.04
 - grommunio: Support for NetIQ eDirectory
@@ -273,6 +379,8 @@ Release type: Minor
 
 Release date: 8th of February 2022
 
+General availability: Yes
+
 - grommunio: Support for Univention Corporate Server 5
 - grommunio: Support for Red Hat Directory Server
 - grommunio: Support for FreeIPA, incl. duplicate primary attributes
@@ -332,6 +440,8 @@ Release type: Minor
 
 Release date: 24th of November 2021
 
+General availability: Yes
+
 Major changes:
 
 - grommunio: Production availability of Debian 11 via repository
@@ -386,6 +496,8 @@ grommunio 2021.08.1
 Release type: Major
 
 Release date: 17th of August 2021
+
+General availability: Yes
 
 Major changes:
 
