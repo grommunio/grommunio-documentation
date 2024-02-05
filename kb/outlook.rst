@@ -1,6 +1,6 @@
 ..
         SPDX-License-Identifier: CC-BY-SA-4.0 or-later
-        SPDX-FileCopyrightText: 2022 grommunio GmbH
+        SPDX-FileCopyrightText: 2024 grommunio GmbH
 
 Outlook bugs and issues
 =======================
@@ -106,7 +106,7 @@ Outlook 2010/2013 specialties
 Preface summary
 ~~~~~~~~~~~~~~~
 
-At the end of May 2022, this document's German screenshots were slated for
+At the end of May 2024, this document's German screenshots were slated for
 replacement with the English version. In that attempt, more weirdness
 protruded.
 
@@ -392,14 +392,3 @@ MAPI calls return a network error, until such a time that mapi.dll or the
 program decides to effectively re-login and obtain a new, valid store handle.
 (In doing so, MFCMAPI crashes sometimes. Outlook seems to handle this better
 and live on.)
-
-
-.. meta::
-   :description: grommunio Knowledge Database
-   :keywords: grommunio Knowledge Database
-   :author: grommunio GmbH
-   :publisher: grommunio GmbH
-   :copyright: grommunio GmbH, 2023
-   :page-topic: software
-   :page-type: documentation
-   :robots: index, follow

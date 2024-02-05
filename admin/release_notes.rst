@@ -86,7 +86,7 @@ General availability: Yes
 
 **Enhancements**
 
-- Enable gromox-mbop path specifications, such as `SENT/2022`
+- Enable gromox-mbop path specifications, such as `SENT/2024`
 - RTF compressed MAPI properties now generate a complete header
 - Free busy information is now more resilient to non-existing data (no information available)
 - The basic authentication header is now fully RFC 7617 compliant
@@ -166,12 +166,12 @@ We extend our heartfelt thanks to our customers, partners, and the community for
 
 - clique2015, robert-scheck, General-Aussie, steve, prandev01, crpb, rnagy, walter any many others
 
-grommunio 2022.12.1
+grommunio 2024.12.1
 ===================
 
 Release type: Major
 
-Release date: 24th of December 2022
+Release date: 24th of December 2024
 
 General availability: Yes
 
@@ -217,12 +217,12 @@ Thanks to customers, partners and the entire community - the community for their
 
 Special thanks to Microsoft Corporation for the productive cooperation on standards and protocols and to T-Systems International for the collaborative work on scale-out installations with highest enterprise demands.
 
-grommunio 2022.05.2
+grommunio 2024.05.2
 ===================
 
 Release type: Minor
 
-Release date: 31st of August 2022
+Release date: 31st of August 2024
 
 General availability: Yes
 
@@ -289,12 +289,12 @@ Thanks to customers, partners and the entire community - the community for their
 - ILS, for intense collaborative contributions to deliver grommunio in over 22 languages.
 - Artem, Milo, Hugel and many more for various language contributions.
 
-grommunio 2022.05.1
+grommunio 2024.05.1
 ===================
 
 Release type: Major
 
-Release date: 16th of May 2022
+Release date: 16th of May 2024
 
 General availability: Yes
 
@@ -377,7 +377,7 @@ grommunio 2021.08.3
 
 Release type: Minor
 
-Release date: 8th of February 2022
+Release date: 8th of February 2024
 
 General availability: Yes
 

@@ -1,6 +1,6 @@
 ..
         SPDX-License-Identifier: CC-BY-SA-4.0 or-later
-        SPDX-FileCopyrightText: 2022 grommunio GmbH
+        SPDX-FileCopyrightText: 2024 grommunio GmbH
 
 Manual Installation (Custom Integration)
 ========================================
@@ -720,11 +720,11 @@ Expected output:
 .. code-block:: text
 
 	< HTTP/1.1 200 OK
-	< Date: Tue, 29 Mar 2022 23:08:33 GMT
+	< Date: Tue, 29 Mar 2024 23:08:33 GMT
 	< Content-Type: text/plain
 	< Content-Length: 26
 	< Accept-Ranges: bytes
-	< Last-Modified: Tue, 29 Mar 2022 07:09:12 GMT
+	< Last-Modified: Tue, 29 Mar 2024 07:09:12 GMT
 	< ETag: "19165e1100000000-1a000000-98b0426200000000"
 	<
 	User-agent: *
@@ -869,7 +869,7 @@ Expected result of this operation:
 	> Host: localhost:10443
 	…
 	< HTTP/1.1 200 Success
-	< Date: Tue, 29 Mar 2022 23:54:16 GMT
+	< Date: Tue, 29 Mar 2024 23:54:16 GMT
 	< Transfer-Encoding: chunked
 	< Content-type: text/html; charset=UTF-8
 	<

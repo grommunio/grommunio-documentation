@@ -1,6 +1,6 @@
 ..
         SPDX-License-Identifier: CC-BY-SA-4.0 or-later
-        SPDX-FileCopyrightText: 2023 grommunio GmbH
+        SPDX-FileCopyrightText: 2024 grommunio GmbH
 
 Troubleshooting Meet, Audio/Video
 =================================
@@ -295,13 +295,3 @@ Capture device selection (Meet)
 Device selection can be made from the Meet interface settings.
 
 .. image:: _static/img/meet-settings.png
-
-.. meta::
-   :description: grommunio Knowledge Database
-   :keywords: grommunio Knowledge Database
-   :author: grommunio GmbH
-   :publisher: grommunio GmbH
-   :copyright: grommunio GmbH, 2022
-   :page-topic: software
-   :page-type: documentation
-   :robots: index, follow

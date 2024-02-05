@@ -54,13 +54,3 @@ allocators. (On the grommunio Appliance, you need to install the
 
 	[Service]
 	Environment=LD_PRELOAD=/usr/lib64/libjemalloc.so.2
-
-.. meta::
-   :description: grommunio Knowledge Database
-   :keywords: grommunio Knowledge Database
-   :author: grommunio GmbH
-   :publisher: grommunio GmbH
-   :copyright: grommunio GmbH, 2023
-   :page-topic: software
-   :page-type: documentation
-   :robots: index, follow

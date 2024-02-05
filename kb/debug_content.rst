@@ -1,6 +1,6 @@
 ..
         SPDX-License-Identifier: CC-BY-SA-4.0 or-later
-        SPDX-FileCopyrightText: 2022 grommunio GmbH
+        SPDX-FileCopyrightText: 2024 grommunio GmbH
 
 Debug Content
 =============
@@ -210,13 +210,3 @@ If this EML looks bad: Export routine is broken. Confer with section "Messages a
 
 If this EML looks good: Look for problems in the SMTP transport or on the
 receiving side.
-
-.. meta::
-   :description: grommunio Knowledge Database
-   :keywords: grommunio Knowledge Database
-   :author: grommunio GmbH
-   :publisher: grommunio GmbH
-   :copyright: grommunio GmbH, 2023
-   :page-topic: software
-   :page-type: documentation
-   :robots: index, follow

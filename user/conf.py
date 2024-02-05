@@ -20,13 +20,13 @@
 # -- Project information -----------------------------------------------------
 
 project = 'grommunio'
-copyright = '2022, grommunio GmbH'
+copyright = '2024, grommunio GmbH'
 author = 'grommunio Development Team'
 
 # The short X.Y version
 version = '22.05'
 # The full version, including alpha/beta/rc tags
-release = '2022.05.17'
+release = '2024.05.17'
 
 
 # -- General configuration ---------------------------------------------------

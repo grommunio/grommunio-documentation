@@ -1,6 +1,6 @@
 ..
         SPDX-License-Identifier: CC-BY-SA-4.0 or-later
-        SPDX-FileCopyrightText: 2022 grommunio GmbH
+        SPDX-FileCopyrightText: 2024 grommunio GmbH
 
 Debug Services
 ==============
@@ -49,13 +49,3 @@ Similar directives exist for other daemons:
   (without responses). Credentials may become visible.
 * ``/etc/gromox/pop3.cfg``: ``pop3_cmd_debug=2`` to dump all POP3 commands
   (without responses). Credentials may become visible.
-
-.. meta::
-   :description: grommunio Knowledge Database
-   :keywords: grommunio Knowledge Database
-   :author: grommunio GmbH
-   :publisher: grommunio GmbH
-   :copyright: grommunio GmbH, 2022
-   :page-topic: software
-   :page-type: documentation
-   :robots: index, follow

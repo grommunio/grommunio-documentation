@@ -71,14 +71,3 @@ disabled, recovery could succeed even though the result in ``new.db`` still is
 not consistent with the expectations of the Gromox data model.
 
 Consult with grommunio Support. Keep backups.
-
-
-.. meta::
-   :description: grommunio Knowledge Database
-   :keywords: grommunio Knowledge Database
-   :author: grommunio GmbH
-   :publisher: grommunio GmbH
-   :copyright: grommunio GmbH, 2023
-   :page-topic: software
-   :page-type: documentation
-   :robots: index, follow
