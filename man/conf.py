@@ -26,7 +26,7 @@ author = 'grommunio Development Team'
 # The short X.Y version
 version = '24.02'
 # The full version, including alpha/beta/rc tags
-release = '2024.02.05'
+release = '2024.02.06'
 
 
 # -- General configuration ---------------------------------------------------
@@ -39,7 +39,6 @@ release = '2024.02.05'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
 ]
 
@@ -91,6 +90,7 @@ html_theme_options = {
 
 html_logo = '_static/img/logolight.png'
 latex_logo = '_static/img/logo.png'
+latex_engine = 'xelatex'
 html_show_sphinx = False
 html_style = 'css/layout.css'
 html_favicon = '_static/img/favicon.png'
@@ -120,32 +120,15 @@ htmlhelp_basename = 'grommuniodoc'
 # -- Options for LaTeX output ------------------------------------------------
 
 latex_elements = {
-    # The paper size ('letterpaper' or 'a4paper').
-    #
-'papersize': 'a4paper',
-'extraclassoptions': 'openany,oneside',
-
-    # The font size ('10pt', '11pt' or '12pt').
-    #
-#'pointsize': '11pt',
-
-    # Additional stuff for the LaTeX preamble.
-    #
-    # 'preamble': '',
-
-    # Latex figure (float) alignment
-    #
-    # 'figure_align': 'htbp',
-
-# Additional stuff for the LaTeX preamble.
-'preamble': r'''
+    'papersize': 'a4paper',
+    'extraclassoptions': 'openany,oneside',
+    'preamble': r'''
 \usepackage{charter}
 \usepackage[sfdefault]{FiraSans}
 \usepackage{inconsolata}
 \usepackage{wallpaper}
 \ThisCenterWallPaper{1.0}{background.png}
-''',
-
+    ''',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
