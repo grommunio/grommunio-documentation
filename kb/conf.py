@@ -24,9 +24,9 @@ copyright = '2024, grommunio GmbH'
 author = 'grommunio Development Team'
 
 # The short X.Y version
-version = '23.08'
+version = '24.02'
 # The full version, including alpha/beta/rc tags
-release = '2024.08.25'
+release = '2024.02.05'
 
 
 # -- General configuration ---------------------------------------------------
