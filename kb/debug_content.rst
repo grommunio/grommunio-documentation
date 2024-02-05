@@ -46,7 +46,7 @@ timestamps, the following command examples should help.
 
 	perl -e 'print scalar localtime 1699956475'
 
-	date +%s "2023-11-14 11:07:55"
+	date -d "2023-11-14 11:07:55" +%s
 
 
 Delivered messages & IMAP messages
