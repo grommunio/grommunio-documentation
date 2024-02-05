@@ -13,6 +13,7 @@ This repository can be cloned and run locally if wanted. Yet, there are some dep
 - rsync
 - python3-Sphinx
 - python3-Sphinx-latex
+- python3-setuptools
 - texlive-fira
 - texlive-inconsolata
 - texlive-wallpaper
