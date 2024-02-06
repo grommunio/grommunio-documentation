@@ -18,8 +18,7 @@ Legal Notice
 
 - Grafana, Tempo, Pyroscope are trademarks of Raintank, Inc. dba Grafana Labs.
 
-grommunio contains software provided by NGINX and its contributors. nginx is a trademark of Nginx Software, Inc.
-
+- grommunio contains software provided by NGINX and its contributors. nginx is a trademark of Nginx Software, Inc.
 
 - HAProxy is a registered trademark of HAProxy Technologies LLC in the United States and France.
 
