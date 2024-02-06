@@ -48,6 +48,8 @@ for MANUAL in ${BUILD_MANUAL[@]}; do
 		fi
 	done
 
+	cp -av resources/_templates/legal_notice.rst "${MANUAL}/legal_notice.rst"
+
 	make html DOCDIR=${MANUAL} BUILDDIR=${MANUAL}-build
 	# ref: https://web.dev/font-display/
 	sed -i 's#@font-face{#@font-face{font-display:swap;#' ${MANUAL}-build/html/_static/css/badge_only.css ${MANUAL}-build/html/_static/css/theme.css
