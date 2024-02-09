@@ -119,16 +119,14 @@ htmlhelp_basename = 'grommuniodoc'
 
 # -- Options for LaTeX output ------------------------------------------------
 
+latex_additional_files = ["_templates/grommunio_preamble.sty"]
+
 latex_elements = {
     'papersize': 'a4paper',
     'extraclassoptions': 'openany,oneside',
-    'preamble': r'''
-\usepackage{charter}
-\usepackage[sfdefault]{FiraSans}
-\usepackage{inconsolata}
-\usepackage{wallpaper}
-\ThisCenterWallPaper{1.0}{background.png}
-    ''',
+    'fncychap': '\\usepackage[Sonny]{fncychap}',
+    'transition': '',
+    'preamble': r'\usepackage{grommunio_preamble}',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
