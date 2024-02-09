@@ -21,6 +21,7 @@ This repository can be cloned and run locally if wanted. Yet, there are some dep
 - texlive-pdfpages
 - texlive-pict2e
 - texlive-wallpaper
+- texlive-xurl
 - pandoc
 
 Additionally, for API documentation, redoc is used, which is not available with openSUSE per default.
