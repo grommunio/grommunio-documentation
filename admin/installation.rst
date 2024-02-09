@@ -358,6 +358,35 @@ choice of the preferred TLS setup with the grommunio installation:
    recommended for any simple installation and allows the most seamless
    installation experience if prepared correctly.
 
+3.a: **Generation of certificates with Let's Encrypt for Multi-Domains**
+
+   For adding more domains to your Let's Encrypt certificate you can use the
+   following command:
+
+.. code-block:: bash
+
+   certbot certonly -n --standalone --agree-tos \
+   --preferred-challenges http \
+   --cert-name="<domain1>" \
+   -d "<domain1>" \
+   -d "<domain2>" \
+   -d "<domain3>" \
+   -d "<domain4>" \
+   -d "<domain5>" \
+   -m "me@domain1.com" \
+   --pre-hook "service nginx stop" \
+   --deploy-hook /usr/share/grommunio-setup/grommunio-certbot-renew-hook \
+   --post-hook "service nginx start"
+
+While ``--cert-name="<domain1>"`` stands for the original domain and 
+``-d "<domain2>"`` to ``-d "<domain5>"`` are the multi domains to add to the 
+LE certificate. The ``-m "me@domain1.com"`` is your email address while the
+``--pre-hook "service nginx stop"`` stops nginx before the certificate 
+modification, the 
+``--deploy-hook /usr/share/grommunio-setup/grommunio-certbot-renew-hook`` makes
+the changes and the ``--post-hook "service nginx start"`` starts nginx after 
+the modification.
+
 .. image:: _static/img/cui_20_setup_letsencrypt.png
    :alt: grommunio-setup: Generating Let's Encrypt certificates
 
