@@ -380,8 +380,8 @@ other words, open port 443.
 
 By *default*, Debian-based distributions ship default web server configs which
 are in conflict with grommunio. It is recommended to remove the default web
-service entry, generally located at ``/etc/nginx/sites-available/default```. By
-removing this file, the webserver default website is disabled.
+service entry, generally located at ``/etc/nginx/sites-enabled/default```. By
+removing this link, the webserver default website is disabled.
 
 Configuration snippets should solely be edited under ``/etc/``. Files in
 ``/usr`` belong to the vendor/the distribution and are subject to (silent)
