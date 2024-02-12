@@ -38,6 +38,28 @@ Then follow the usual dialog chain.
 
 .. image:: olexport6.png
 
+.. important::
+   Before attempting to copy PFF files, ensure the file(s) is/are not open
+   anywhere anymore. Even after closing Outlook, Outlook may still execute in
+   the background for some seconds, *in particular* when the MAPI profile used
+   Exchange *Cached Mode*. Various failure modes trying to access active PFF
+   files have been observed, such as:
+
+   1. Under the ``cmd.exe`` shell, the command ``type
+   stillactive.pst >new.pst`` produces new.pst with just 512 bytes before
+   aborting with the message ``The process cannot access the file because
+   another process has locked a portion of the file``.
+
+   2. Under the ``cmd.exe`` shell, the command ``scp stillactive.pst a@b.com:``
+   can produce the file on the target, but all bytes are ASCII NUL bytes.
+   (So observed with Powershell-OpenSSH v8.x; fixed in 9.x).
+   A log message ``Domain error`` is output by scp.
+
+   3. PFF files contain a CRC-32 checksum, which can readily change while the
+   file is in use. Attempts to read the file from underneath Windows (e.g. at
+   the storage or hardware level), or attempting to use a PFF file that was not
+   cleanly closed may result in gromox-pff2mt rejecting the input.
+
 
 gromox-pff2mt import
 ====================
