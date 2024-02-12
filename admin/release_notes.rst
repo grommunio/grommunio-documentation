@@ -47,7 +47,7 @@ General availability: Planned (Note: Based on final QA, these release notes migh
 
 **Notes on EWS**
 
-As mentioned above, with EWS leaving the beta stage, the parameter ```ews_beta = 1``` in ```/etc/gromox/ews.cfg``` is now obsolete and replaced by the parameter ```ews_enable = 1```, which is now the default. Please note that even if ```ews_enable``` is set to 0, a basic subset of EWS is still active for proper functionality with Microsoft Outlook for Windows.
+As mentioned above, with EWS leaving the beta stage, the parameter ``ews_beta=1`` in ``/etc/gromox/ews.cfg`` is now obsolete and replaced by the parameter ``ews_enable=1``, which is now the default. Please note that even if ``ews_enable`` is set to 0, a basic subset of EWS is still active for proper functionality with Microsoft Outlook for Windows.
 
 **Acknowledgements**
 
@@ -143,8 +143,8 @@ We are excited to announce the release of grommunio 2023.11.1. This update marks
 
 **Notes on EWS**
 
-- To activate EWS Beta features, add ```ews_beta = 1``` to ```/etc/gromox/ews.cfg```
-- Activation of ```ews_pretty_response``` is not supported by Mac Mail and is recommended not to be enabled as such
+- To activate EWS Beta features, add ``ews_beta=1`` to ``/etc/gromox/ews.cfg``
+- Activation of ``ews_pretty_response`` is not supported by Mac Mail and is recommended not to be enabled as such
 - The best supported EWS Client is currently Microsoft Outlook for Mac
 - The upcoming EWS operations FindFolder and FindItem are expected to be released within the upcoming 2 weeks after release which enhances Apple's macOS apps most.
 
