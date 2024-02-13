@@ -46,10 +46,10 @@ When (just) indices are broken, the file may be recreated:
 
 	cd /var/lib/gromox/domain/1/exmdb/
 	sqlite3 exchange.sqlite3 ".recover" | sqlite3 new.db
-	chmod u=rw,g=rw new
-	chown grommunio:gromox new
-	mv exchange.sqlite3 old
-	mv new exchange.sqlite3
+	chmod u=rw,g=rw new.db
+	chown grommunio:gromox new.db
+	mv exchange.sqlite3 exchange.sqlite3.old
+	mv new.db exchange.sqlite3
 	systemctl restart gromox-http
 
 (There is also an alternate command for ``.recover``:)
