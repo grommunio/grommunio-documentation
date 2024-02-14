@@ -129,7 +129,7 @@ with the following contents:
    [grommunio]
    enabled=1
    autorefresh=1
-   baseurl=https://download.grommunio.com/community/packages/openSUSE_Leap_15.3/?ssl_verify=no
+   baseurl=https://download.grommunio.com/community/packages/openSUSE_Leap_15.5/?ssl_verify=no
    type=rpm-md
 
 The default configuration does not verify SSL/TLS certificates intentionally.
@@ -325,3 +325,46 @@ based on deltasync functionality by rsync can be issued with:
 .. code-block:: bash
 
    rsync -HPavS <from-directory> <to-directory>
+
+Mail requeueing
+===============
+
+To requeue messages in Gromox that have failed delivery for any reason, follow
+the steps outlined below. This process is particularly useful when dealing with
+messages that have not been delivered due to various errors, and can be found in
+the ``/var/lib/gromox/queue/save`` directory.
+
+Locate Failed Messages: Navigate to the directory where failed messages are
+stored by using the command ``cd /var/lib/gromox/queue/save``. This directory
+contains messages that have not been successfully processed.
+
+Listing Messages: Use the command ``ls -ltr`` to list the messages in the
+directory.  This will display all the files sorted by modification time, making
+it easier to identify and select the messages you wish to requeue.
+
+Requeue Messages: To requeue the messages, they must be moved to the
+``/var/lib/gromox/queue/mess`` directory. This can be done using the ``mv``
+command. For example, to move a specific message, use:
+
+.. code-block:: bash
+
+   mv <filename> /var/lib/gromox/queue/mess/
+
+Replace ``<filename>`` with the name of the message file you intend to requeue.
+If you wish to requeue multiple messages, you can use wildcards or specify
+multiple filenames separated by spaces.
+
+Reprocessing: Once the messages are moved to the ``/var/lib/gromox/queue/mess``
+directory, Gromox will automatically attempt to reprocess and deliver them. This
+step does not require any additional action from the user.
+
+Verification: After requeuing, it's a good practice to monitor the system logs
+to ensure that the messages are being processed successfully. Use ``journalctl
+-u gromox-delivery -u gromox-delivery-queue`` to check for any log entries
+related to the requeued messages.
+
+This process is essential for managing delivery issues within Gromox and
+ensuring that all messages reach their intended recipients. If requeuing does
+not resolve the delivery issues, further investigation into the cause of the
+failure might be necessary, including checking system logs for errors and
+reaching out to Grommunio Support for assistance.
