@@ -11,9 +11,9 @@ grommunio 2023.11.3
 
 Release type: Minor
 
-Release date: 14th of February 2024
+Release date: 16th of February 2024
 
-General availability: Planned (Note: Based on final QA, these release notes might slightly differ)
+General availability: Yes
 
 **Highlights**
 
@@ -35,6 +35,7 @@ General availability: Planned (Note: Based on final QA, these release notes migh
 
 **Enhancements**
 
+- S/MIME related fixes to Web now enable multiple attachment download
 - Unintended double-quotes in mails are now dropped around RFC 2047-style encodings
 - Resolved a rare case where PR_TRANSPORT_MESSAGE_HEADERS had an extra byte
 - Resolved a case where four extra bytes where added in front of the first transport header
@@ -47,7 +48,7 @@ General availability: Planned (Note: Based on final QA, these release notes migh
 
 **Notes on EWS**
 
-As mentioned above, with EWS leaving the beta stage, the parameter ``ews_beta=1`` in ``/etc/gromox/ews.cfg`` is now obsolete and replaced by the parameter ``ews_enable=1``, which is now the default. Please note that even if ``ews_enable`` is set to 0, a basic subset of EWS is still active for proper functionality with Microsoft Outlook for Windows.
+As mentioned above, with EWS leaving the beta stage, the parameter ``ews_beta=1`` in ``/etc/gromox/ews.cfg`` is now obsolete. EWS is now enabled per default and the parameter is not required anymore.
 
 **Acknowledgements**
 
