@@ -938,11 +938,37 @@ do enable/start the service now.
 Permissions
 ~~~~~~~~~~~
 
-AAPI can and will write to certain system configuration files, such as
-``/etc/gromox``. The AAPI uwsgi application server itself runs unprivileged too
-and needs write permission there. The recommendation is ``root:gromox`` with
-mode 0775 on ``/etc/gromox``. Individual files within that directory should be
-0660 since they contain credentials sometimes.
+The pre-built packages create the following identities:
+
+* Group ``gromox``, which is used for objects in the information store
+  (``/var/lib/gromox``)
+* Group ``gromoxcf``, which is used for configuration files (``/etc/gromox``)
+* Gromox service user: ``gromox`` of group ``gromox``, with supplementary group
+  ``gromoxcf``
+* AAPI service user: ``grommunio`` of group ``grommunio``, with supplementary
+  groups ``gromox`` and ``gromoxcf``
+
+The intention is that Gromox and AAPI services can interact with the
+information store and configuration files.
+
+The directory ``/var/lib/gromox`` and all contents shall be owned by user
+``gromox`` or ``grommunio``. The group owner shall be ``gromox`` with
+read-write permission. Others should not have any access whatsoever.
+
+.. code-block:: text
+
+        drwxrwx--- 5 gromox gromox 62 Feb 13 23:15 /var/lib/gromox
+
+The directory ``/etc/gromox`` and all contents are supposed to be owned by
+either user ``root`` or ``grommunio``, be owned by group ``gromoxcf``
+read-only, and be otherwise inaccessible. Gromox has no need to update config
+files at all, just read them. AAPI needs to write there (which it can via the
+``grommunio`` user ownership). Any other users ought not to be able to access
+this directory as it contains credentials for MySQL and LDAP.
+
+.. code-block:: text
+
+        drwxr-x--- 2 grommunio gromoxcf 125 Feb 20 21:47 /etc/gromox
 
 
 nginx support package for AAPI/AWEB
