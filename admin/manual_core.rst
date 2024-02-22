@@ -940,8 +940,8 @@ Permissions
 
 AAPI can and will write to certain system configuration files, such as
 ``/etc/gromox``. The AAPI uwsgi application server itself runs unprivileged too
-and needs write permission there. The recommendation is ``root:gromox`` with
-mode 0775 on ``/etc/gromox``. Individual files within that directory should be
+and needs write permission there. The recommendation is ``grommunio:gromox`` with
+mode 0755 on ``/etc/gromox``. Individual files within that directory should be
 0660 since they contain credentials sometimes.
 
 
