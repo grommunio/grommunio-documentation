@@ -88,7 +88,7 @@ client sends the Autodiscover request to the Autodiscover V2 URL endpoint. If
 the SRV record is not found, the email client falls back to the original
 Autodiscover URL endpoint.
 
-It's important to note that the DNS records should be created in the public DNS
+Note that the DNS records should be created in the public DNS
 zone for your domain. Once the DNS records have propagated, users can configure
 their email client settings automatically using Autodiscover or Autodiscover V2.
 
@@ -98,15 +98,14 @@ for example Microsoft Outlook uses Microsoft servers for discovery if the
 explicit endpoint request (``ExcludeExplicitO365Endpoint``) has not been
 disabled appropriately.
 
-.. important::
-   Please note that for successful discovery, the endpoint should be available
-   from any network segment where client devices could be accessing the
-   autodiscover as well as the service resolved by autodiscover as well. Depending
-   on your setup, you might want to use techniques such as `Split-horizon DNS
-   <https://en.wikipedia.org/wiki/Split-horizon_DNS>`_ or define your externally
-   available adresses to be accessible from the internal networks as well, known
-   as `NAT hairpinning or NAT reflection
-   <https://en.wikipedia.org/wiki/Network_address_translation#NAT_hairpinning>_`.
+For successful discovery, the endpoint should be available
+from any network segment where client devices could be accessing the
+autodiscover as well as the service resolved by autodiscover as well. Depending
+on your setup, you might want to use techniques such as `Split-horizon DNS
+<https://en.wikipedia.org/wiki/Split-horizon_DNS>`_ or define your externally
+available adresses to be accessible from the internal networks as well, known
+as `NAT hairpinning or NAT reflection
+<https://en.wikipedia.org/wiki/Network_address_translation#NAT_hairpinning>_`.
 
 Registry settings (MS Outlook)
 ------------------------------
