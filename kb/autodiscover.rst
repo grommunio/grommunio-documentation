@@ -199,13 +199,12 @@ other than ``ExcludeHttpsAutoDiscoverDomain`` and ``ExcludeHttpRedirect``.
 Gromox notes
 ------------
 
-The OXDISCO module uses the host_id setting when making references to itself in
-AutoDiscover responses. The host_id can be specified in ``http.cfg``, if not,
-the host_id will be filled in from the system hostname (kernel hostname), the
-latter of which can be inspected with the ``hostname`` or ``sysctl
-kernel.hostname`` commands. If the host_id is not fully-qualified, clients such
-as Outlook will likely not succeed in connecting if they do not happen to have a
-suitable domain search list.
+The OXDISCO module uses the oxdisco_exonym setting when making references to
+itself in AutoDiscover responses. This can be specified in ``gromox.cfg``, if
+not, it will default to the re-resolved kernel hostname, the latter of which
+can be inspected with the ``hostname --fqdn`` command. If the exonym is not
+fully-qualified, clients such as Outlook will likely not succeed in connecting
+if they do not happen to have a suitable domain search list.
 
 Because Outlook re-issues AutoDiscover requests every now and then and can
 potentially pick up a new bad hostname from a misconfigured AutoDiscover
