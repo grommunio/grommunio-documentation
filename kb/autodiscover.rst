@@ -50,6 +50,16 @@ HTTP requests are issued to the servers found via DNS (and/or AD-SCP), *even
 more* AutoDiscover server candidates may be collected if there are HTTP
 redirects.
 
+* Name: <domain>
+
+  Type: A & AAAA, or CNAME
+
+  Value: <address or canonical name of Autodiscover server>
+
+  That is, a client working with the identity ``user@example.com`` *may* try to
+  resolve ``example.com`` and request
+  ``https://example.com/Autodiscover/Autodiscover.xml`` next.
+
 * Name: autodiscover.<domain>
 
   Type: A & AAAA, or CNAME
