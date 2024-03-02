@@ -9,18 +9,21 @@ Introduction
 ------------
 
 Autodiscover is a HTTP-based discovery protocol that helps users configure their
-email client settings automatically. Autodiscover uses the Domain Name System
-(DNS) to locate the Mail server that hosts a user's mailbox, and then retrieves
-the necessary configuration settings.
+email client settings automatically.
+To locate the Autodiscover endpoint itself, a client can utilize the Domain
+Name System (DNS). When joined to an ActiveDirectory domain, it can also do AD
+queries for Service Connection Point objects.
 
 When a user sets up a new email account or changes their existing email client
-settings, the email client sends an Autodiscover request to the Mail server.
+settings, the email client sends an Autodiscover request to the Autodiscover server.
 The Autodiscover request is an HTTP POST request that contains the user's email
-address and domain name. The Exchange server then responds with an Autodiscover
-XML file that contains the necessary configuration settings.
+address. The Autodiscover server then responds with an
+XML response that contains the necessary configuration settings.
 
-The Autodiscover XML file contains information such as the Mail server name,
-server version, authentication methods, and SSL certificate information. The
+The Autodiscover XML response contains information such as the
+list of supported mail protocols and transports (e.g. MSRPC/RPCH/MAPIHTTP,
+IMAP, SMTP, etc.) and the connection parameters for those (e.g. name of the
+home server, HTTP endpoint URLs). The
 email client uses this information to configure the user's email account
 automatically.
 
@@ -60,7 +63,7 @@ support the Autodiscover V2 endpoint.
 
   Name: autodiscover.<domain>.<tld>
 
-  Value: <IP address of Mail server>
+  Value: <IP address of Autodiscover server>
 
   **or**
 
