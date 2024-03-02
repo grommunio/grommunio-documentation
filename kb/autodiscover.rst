@@ -43,54 +43,44 @@ application, such as Apple iOS, Android and other applications.
 DNS records
 -----------
 
-The first DNS record is an A record that maps the Autodiscover service to the IP
-address of the Mail server. This record is used by email clients that do not
-support the Autodiscover V2 endpoint.
+There are different DNS records that clients can attempt to resolve to locate
+AutoDiscover servers. Some clients may just try one, some may try multiple. The
+exact behavior depends on the client. There is no specific order required. When
+HTTP requests are issued to the servers found via DNS (and/or AD-SCP), *even
+more* AutoDiscover server candidates may be collected if there are HTTP
+redirects.
 
-* ``Autodiscover`` record
+* Name: autodiscover.<domain>
 
-  Type: A
+  Type: A & AAAA, or CNAME
 
-  Name: autodiscover.<domain>
+  Value: <address or canonical name of Autodiscover server>
 
-  Value: <IP address of Autodiscover server>
+  That is, a client working with the identity ``user@example.com`` *may* try to
+  resolve ``autodiscover.example.com`` and request
+  ``https://autodiscover.example.com/Autodiscover/Autodiscover.xml`` next.
 
-  **or**
-
-  Type: CNAME
-
-  Name: autodiscover.<domain>
-
-  Value: <alias>.<domain>
-
-
-The second DNS record is an SRV record that maps the Autodiscover V2 service to
-the Autodiscover URL endpoint. This record is used by email clients that support
-the Autodiscover V2 endpoint.
-
-* ``AutodiscoverV2`` record
+* Name: _autodiscover._tcp.<domain>
 
   Type: SRV
 
-  Name: _autodiscover._tcp.<domain>
+  Value:
 
-  Priority: 10
+    * Priority: 10
+    * Weight: 10
+    * Port: 443
+    * Target: autodiscover.<domain>
 
-  Weight: 10
+  That is, a client working with the identity ``user@example.com`` *may* try to
+  resolve ``_autodiscover._tcp.example.com``, and request
+  ``http://<target>/Autodiscover/Autodiscover.xml`` next.
 
-  Port: 443
-
-  Target: autodiscover.<domain>
-
-When an email client sends an Autodiscover request, it first looks for an SRV
-record for the Autodiscover V2 service. If the SRV record is found, the email
-client sends the Autodiscover request to the Autodiscover V2 URL endpoint. If
-the SRV record is not found, the email client falls back to the original
-Autodiscover URL endpoint.
+CNAME is mutually exclusive with other types, for a given name. Confer with
+your DNS manual.
 
 Note that the DNS records should be created in the public DNS
 zone for your domain. Once the DNS records have propagated, users can configure
-their email client settings automatically using Autodiscover or Autodiscover V2.
+their email client settings automatically using Autodiscover.
 
 If the DNS records are published only on private DNS servers without being
 publicly resolvable, most clients will fail to discover the endpoint correctly,
