@@ -51,7 +51,7 @@ support the Autodiscover V2 endpoint.
 
   Type: A
 
-  Name: autodiscover.<domain>.<tld>
+  Name: autodiscover.<domain>
 
   Value: <IP address of Autodiscover server>
 
@@ -59,9 +59,9 @@ support the Autodiscover V2 endpoint.
 
   Type: CNAME
 
-  Name: autodiscover.<domain>.<tld>
+  Name: autodiscover.<domain>
 
-  Value: <alias>.<domain>.<tld>
+  Value: <alias>.<domain>
 
 
 The second DNS record is an SRV record that maps the Autodiscover V2 service to
@@ -72,7 +72,7 @@ the Autodiscover V2 endpoint.
 
   Type: SRV
 
-  Name: _autodiscover._tcp.<domain>.<tld>
+  Name: _autodiscover._tcp.<domain>
 
   Priority: 10
 
@@ -80,7 +80,7 @@ the Autodiscover V2 endpoint.
 
   Port: 443
 
-  Target: autodiscover.<domain>.<tld>
+  Target: autodiscover.<domain>
 
 When an email client sends an Autodiscover request, it first looks for an SRV
 record for the Autodiscover V2 service. If the SRV record is found, the email
