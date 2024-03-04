@@ -368,3 +368,20 @@ ensuring that all messages reach their intended recipients. If requeuing does
 not resolve the delivery issues, further investigation into the cause of the
 failure might be necessary, including checking system logs for errors and
 reaching out to Grommunio Support for assistance.
+
+A simple loop to re-queue all failed messages can be achieved by the following
+snippet:
+
+.. code-block: bash
+
+   cd /var/lib/gromox/queue
+   for i in save/*; do 
+     cp "${i}" mess/0
+     while [ -e mess/0 ]; do 
+       echo -en "."
+       sleep 1 
+     done
+     rm "${i}"
+     echo "requeued ${i}"
+   done
+
