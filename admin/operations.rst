@@ -385,3 +385,43 @@ snippet:
      echo "requeued ${i}"
    done
 
+
+Size limits
+===========
+
+Grommunio operates using native MAPI storage, which imposes certain (soft)
+restrictions. Although these are primarily theoretical, client limitations when
+accessing grommunio are dictated more by the MAPI standard's guidance rather
+than by MAPI's inherent limitations.
+
+Most restrictions stem from the use of Microsoft Outlook as the primary client.
+Outlook imposes its own set of limits, which we advise adhering to in order to
+maintain compatibility and full functionality with Microsoft's suite of
+products.
+
+An object, in this context, could be an email, a calendar appointment, a task
+entry, a contact, or a note.
+
+We recommend observing the following limitations:
+
+* Maximum size per object (Message size limit): 150 MB
+* Maximum number of objects per folder (Message count limit): 1,000,000
+* Maximum parts in multipart messages (MIME): 250 parts
+* Maximum storage size: 100 GB (with a default of 50 GB)
+
+Registry path for adjusting max OST size in Microsoft Outlook:
+
+* ``HKEY_CURRENT_USER\Software\Microsoft\Office\<version>\Outlook\PST``
+  ``MaxLargeFileSize`` (DWORD(32-bit), Decimal: 102400)
+
+Please note:
+
+.. note::
+
+   These are not strict limitations set by grommunio; rather, they are
+   recommended for smooth integration with Microsoft Outlook. These guidelines
+   also align with those used in Microsoft Exchange On-premises and Exchange
+   Online environments. Should you opt not to use Microsoft Outlook as your
+   client, grommunio can support much larger limits. However, exceeding
+   these recommended limits may affect performance, depending on your
+   configuration.
