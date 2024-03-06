@@ -372,17 +372,14 @@ reaching out to Grommunio Support for assistance.
 A simple loop to re-queue all failed messages can be achieved by the following
 snippet:
 
-.. code-block: bash
+.. code-block: sh
 
-   cd /var/lib/gromox/queue
-   for i in save/*; do 
-     cp "${i}" mess/0
-     while [ -e mess/0 ]; do 
-       echo -en "."
-       sleep 1 
-     done
-     rm "${i}"
-     echo "requeued ${i}"
+   cd /var/lib/gromox/queue/
+   j=0
+   for i in save/*; do
+           mv "$i" "mess/0$j"
+           j=$(($j+1))
+           echo "requeued $i"
    done
 
 
