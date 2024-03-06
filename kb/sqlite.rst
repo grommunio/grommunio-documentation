@@ -45,7 +45,7 @@ When (just) indices are broken, the file may be recreated:
 .. code-block:: sh
 
 	cd /var/lib/gromox/domain/1/exmdb/
-	sqlite3 exchange.sqlite3 ".recover" | sqlite3 new.db
+	(echo "PRAGMA foreign_keys=0;"; sqlite3 exchange.sqlite3 ".recover") | sqlite3 new.db
 	chmod u=rw,g=rw new.db
 	chown grommunio:gromox new.db
 	mv exchange.sqlite3 exchange.sqlite3.old
