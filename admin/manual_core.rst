@@ -228,8 +228,8 @@ Create a new file in ``/etc/apt/sources.list.d/``, e.g. ``grommunio.sources``:
 .. code-block:: debcontrol
 
 	Types: deb
-	URIs: https://download.grommunio.com/community/Debian_11
-	Suites: Debian_11
+	URIs: https://download.grommunio.com/community/Debian_12
+	Suites: Debian_12
 	Components: main
 	Signed-By: /usr/share/keyrings/download.grommunio.com.gpg
 
