@@ -136,12 +136,6 @@ We are excited to announce the release of grommunio 2023.11.1. This update marks
 - Support for vCard 4.0 and improvements in 'oxvcard'
 - Refined Folder and Message Delivery including improved 'create_folder' and 'movecopy_folder' RPCs
 
-**Future Roadmap**
-
-- EWS Finalization Date: Planned for December 24, 2023
-- grommunio Next: Q1 2024
-- grommunio Graph API: Q2 2024
-
 **Notes on EWS**
 
 - To activate EWS Beta features, add ``ews_beta=1`` to ``/etc/gromox/ews.cfg``
@@ -167,12 +161,12 @@ We extend our heartfelt thanks to our customers, partners, and the community for
 
 - clique2015, robert-scheck, General-Aussie, steve, prandev01, crpb, rnagy, walter any many others
 
-grommunio 2024.12.1
+grommunio 2022.12.1
 ===================
 
 Release type: Major
 
-Release date: 24th of December 2024
+Release date: 24th of December 2022
 
 General availability: Yes
 
@@ -218,12 +212,12 @@ Thanks to customers, partners and the entire community - the community for their
 
 Special thanks to Microsoft Corporation for the productive cooperation on standards and protocols and to T-Systems International for the collaborative work on scale-out installations with highest enterprise demands.
 
-grommunio 2024.05.2
+grommunio 2022.05.2
 ===================
 
 Release type: Minor
 
-Release date: 31st of August 2024
+Release date: 31st of August 2022
 
 General availability: Yes
 
@@ -290,12 +284,12 @@ Thanks to customers, partners and the entire community - the community for their
 - ILS, for intense collaborative contributions to deliver grommunio in over 22 languages.
 - Artem, Milo, Hugel and many more for various language contributions.
 
-grommunio 2024.05.1
+grommunio 2022.05.1
 ===================
 
 Release type: Major
 
-Release date: 16th of May 2024
+Release date: 16th of May 2022
 
 General availability: Yes
 
@@ -378,7 +372,7 @@ grommunio 2021.08.3
 
 Release type: Minor
 
-Release date: 8th of February 2024
+Release date: 8th of February 2022
 
 General availability: Yes
 
