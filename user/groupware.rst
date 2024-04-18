@@ -1,6 +1,6 @@
 ..
-        SPDX-License-Identifier: CC-BY-SA-4.0 or-later
-        SPDX-FileCopyrightText: 2024 grommunio GmbH
+	SPDX-License-Identifier: CC-BY-SA-4.0 or-later
+	SPDX-FileCopyrightText: 2024 grommunio GmbH
 
 ###################
 grommunio Groupware
@@ -9,76 +9,78 @@ grommunio Groupware
 Microsoft Outlook
 =================
 
-grommunio Accounts can be easily configured with Microsoft Outlook, as
-grommunio natively supports the protocols used by Microsoft Outlook (RPC over
-HTTP and MAPI/HTTP).
+grommunio accounts can be configured for Microsoft Outlook, as grommunio
+natively supports the protocols used by Microsoft Outlook (RPC-over-HTTP and
+MAPI-HTTP).
 
-In this configuration setup, it is assumed no profiles have been setup so far.
-If E-Mail profiles already exist on the system, new profiles and accounts can
-easily be added by executing ``outlook /profiles``.
+In this configuration setup, it is assumed no profiles have been set up so far.
+If MAPI profiles already exist on the system, new profiles and accounts can be
+added by executing ``outlook /profiles``.
 
-1. To add your grommunio account to your Microsoft Outlook profile, select a
-   name for your profile, and select ``OK`` to confirm your profile name.
+1. Select a name for the new profile and confirm.
 
 .. image:: _static/img/user_outlook_1.png
    :alt: Outlook: New profile
 
-2. In the following dialog the Outlook profile assistant will request your
+2. In the following dialog, the Outlook profile assistant will request your
    email address. It is recommended to check "Let me set up my account
-   manually", to make sure the correct protocol is chosen. Depending on the
-   used Outlook version this might not be required, however depending on your
-   setup, Microsoft Outlook might automatically choose a non-native protocol
-   such as IMAP which comes with feature limitations.
+   manually", to ensure the correct protocol is chosen, as some Outlook
+   versions otherwise choose a non-native protocol like IMAP, which would incur
+   feature limitations.
 
 .. image:: _static/img/user_outlook_2.png
    :alt: Outlook: Account email address
 
-3. The following progress dialog might take a few seconds, since Outlook is now
-   busy preparing your profile based on your selection.
-
-.. image:: _static/img/user_outlook_3.png
-   :alt: Outlook: Account setup progress
-
-4. In the following dialog, you are requested to configure the account type,
-   which for grommunio is ``Exchange``, as it provides native
-   Exchange-compatible protocols.
+3. The account type / protocol choice dialog. For grommunio, select "Exchange".
 
 .. image:: _static/img/user_outlook_4.png
    :alt: Outlook: Exchange account type
 
-5. With the choice of ``Exchange``, Outlook now requests credentials to be able
-   to automatically discover your account settings (AutoDiscover). Enter
-   your credentials to continue account setup. Select ``Store login
-   credentials`` to save the login credentials anytime Outlook is requesting
-   access to your mailbox.
+4. The following progress dialog might take a few seconds, since Outlook is now
+   attempting to contact the mailbox for the first time and populate the
+   Outlook profile. In that process, it will ask for credentials. Select
+   "Remember my credentials" to save the password for this user identity in the
+   Windows system. Anytime Outlook requests access to the mailbox it can do so
+   without prompting again.
 
 .. image:: _static/img/user_outlook_5.png
-   :alt: Outlook: Entry of credentials
+   :alt: Outlook: Account setup in progress / Entry of credentials
 
-6. After completed setup of the account, Outlook has access to your mailbox and
-   is available at start of Microsoft Outlook.
+5. As part of the manual setup, the wizard will display another page with
+   Offline Settings. You can switch between Online Mode and Cached/Offline mode
+   here. When offline mode is enabled, Outlook keeps a copy of the mailbox
+   locally and uses forth-and-back synchronization. A slider is shown to
+   specify the timeframe of messages to synchronize. Older versions of Outlook
+   allow choosing from a handful of options for the timeframe, e.g. 1 day, 1
+   week, 2 weeks, ... 3 months and "All". Contemporary version of Outlook
+   (circa 2019 and onwards) are somehow defective, and the slider is greyed
+   out, leaving only full synchronizatino for the offline mode.
 
 .. image:: _static/img/user_outlook_6.png
+   :alt: Outlook: Settings for offline mode
+
+7. The profile has now been set up and ready for use.
+
+.. image:: _static/img/user_outlook_7.png
    :alt: Outlook: Account setup complete
 
 .. note::
-   Per default, the account setup will show ``Microsoft Exchange`` account
-   type. The setup procedure of Microsoft Outlook with grommunio Groupware does
-   not differ from a setup with Microsoft Exchange. Note as with
-   Microsoft Exchange, the default profile is set up with ``Cached Exchange
-   Mode``, which synchronizes your account for offline usage. grommunio
-   Groupware supports ``Cached Exchange Mode``, however in some use cases, this
-   might be unpreferrable and should be disabled (such as with Remote Desktop
-   Servers in most cases).
+   By default, the account setup will show "Microsoft Exchange" account type.
+   The setup procedure of Microsoft Outlook with grommunio Groupware does not
+   differ from a setup with Microsoft Exchange. As with Microsoft Exchange, the
+   default profile is set up for Offline/Cached Mode, which synchronizes the
+   mailbox for offline usage. grommunio Groupware supports Offline/Cached Mode.
+   However, this might not be preferred in some use cases and should be
+   disabled, e.g. with most Remote Desktop Server environments.
 
 .. important::
    For the groupware features of grommunio, no separate software needs to be
-   installed. Howevery, the exact Microsoft Outlook setup procedure might
-   differ from outlined above, depending on the version used. When setting up
-   your Outlook account with grommunio Groupware in use, proceed the client
-   installation as if it would be configured with Microsoft Exchange. For
-   automation purpose, third party software may be used for account and profile
-   creation, as long as the compatibility of the third party software includes
+   installed. However, the exact Microsoft Outlook setup procedure might
+   differ from what is depicted above, depending on the version used. When setting up
+   the Outlook account with grommunio Groupware in use, proceed with the client
+   installation as if it were to be configured with Microsoft Exchange. For
+   automation purposes, third-party software may be used for account and profile
+   creation, so long as the compatibility of the third party software includes
    Microsoft Exchange.
 
 Android
