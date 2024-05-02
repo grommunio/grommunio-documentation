@@ -66,6 +66,8 @@ The wipe strategy may also depend on the provisioning policies enforced by the
 domain administrator. Contact him or grommunio support if you have any doubts
 about this operation **before** performing it.
 
+.. _mdmresync:
+
 Full Resync
 ***********
 
