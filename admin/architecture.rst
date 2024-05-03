@@ -627,18 +627,18 @@ EAS-based connections are processed as follows:
 POP3
 ----
 
-.. image:: _static/img/diag_workflow_imap.png
-   :alt: IMAP workflow
-
-IMAP workflow
-
-IMAP
-----
-
 .. image:: _static/img/diag_workflow_pop3.png
    :alt: POP3 workflow
 
 POP3 workflow
+
+IMAP
+----
+
+.. image:: _static/img/diag_workflow_imap.png
+   :alt: IMAP workflow
+
+IMAP workflow
 
 Authentication
 --------------
