@@ -593,6 +593,9 @@ file ``/etc/gromox/mysql_adaptor.cfg``, whose contents could look like this::
 	mysql_dbname=grommunio
 	schema_upgrade=host:mail.example.net
 
+Make sure to set restrictive permissions on this file (cf. section
+`Permissions`_).
+
 The data stored in MariaDB is shared among all mailbox nodes in a clustered
 setup. Table schema (DDL) changes are necessary at times, but at most one node
 in such a cluster should perform these changes to avoid running the risk of
