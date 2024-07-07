@@ -87,7 +87,7 @@ for MANUAL in ${BUILD_MANUAL[@]}; do
 	if [ "${MANUAL}" != "main" ]; then
 		rm -rf $DOCU_ROOT/${MANUAL}
 		mkdir -p $DOCU_ROOT/${MANUAL}
-		rsync -av ${MANUAL}-build/html/* $DOCU_ROOT/${MANUAL}/
+		rsync -av ${MANUAL}-build/html/ $DOCU_ROOT/${MANUAL}/
 		if [[ -f ${MANUAL}-build/latex/grommunio.pdf ]]; then
 			rsync -av ${MANUAL}-build/latex/grommunio.pdf $DOCU_ROOT/grommunio${MANUAL^}Doc.pdf
 		fi
@@ -96,7 +96,7 @@ for MANUAL in ${BUILD_MANUAL[@]}; do
 		fi
 	else
 		mkdir -p $DOCU_ROOT
-		rsync -av ${MANUAL}-build/html/* $DOCU_ROOT/
+		rsync -av ${MANUAL}-build/html/ $DOCU_ROOT/
 	fi
 
 	METALINECOUNT=0
