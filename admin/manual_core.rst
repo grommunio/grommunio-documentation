@@ -1166,7 +1166,7 @@ Set up a few Postfix directives:
 
 	postconf -e virtual_mailbox_domains=mysql:/etc/postfix/grommunio-virtual-mailbox-domains.cf
 	postconf -e virtual_mailbox_maps=mysql:/etc/postfix/grommunio-virtual-mailbox-maps.cf
-	postconf -e virtual_alias_maps=mysql:/etc/postfix/grommunio-virtual-alias-maps.cf
+	postconf -e virtual_alias_maps=mysql:/etc/postfix/grommunio-virtual-alias-maps.cf,mysql:/etc/postfix/grommunio-virtual-mailbox-maps.cf
 	postconf -e virtual_transport="smtp:[localhost]:24"
 
 Filenames for these additional configuration fragments,
