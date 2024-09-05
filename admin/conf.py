@@ -88,6 +88,7 @@ html_theme_options = {
 	'prev_next_buttons_location' : 'None'
 }
 
+html_baseurl = '/admin/'
 html_logo = '_static/img/logolight.png'
 latex_logo = '_static/img/logo.png'
 latex_engine = 'xelatex'
