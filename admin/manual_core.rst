@@ -1167,14 +1167,15 @@ Set up a few Postfix directives:
 
 .. code-block:: sh
 
-	postconf -e virtual_alias_maps=mysql:/etc/postfix/g-alias.cf
-	postconf -e virtual_mailbox_domains=mysql:/etc/postfix/g-virt.cf
+	postconf -e virtual_mailbox_domains=mysql:/etc/postfix/mbxdom.cf
+	postconf -e virtual_mailbox_maps=mysql:/etc/postfix/mbxmaps.cf
+	postconf -e virtual_alias_maps=mysql:/etc/postfix/alias.cf,mysql:/etc/postfix/mbxmaps.cf
 	postconf -e virtual_transport="smtp:[localhost]:24"
 
-Filenames for these additional configuration fragments, ``g-alias.cf``,
-``g-virt.cf``, can be freely chosen. Add the MariaDB connection parameters to
-the alias resolution fragment that (here) goes into
-``/etc/postfix/g-alias.cf``:
+Filenames for these additional configuration fragments, ``mbxdom.cf``,
+``mbxmaps.cf`` and ``alias.cf``, can be freely chosen. Add the MariaDB
+parameters to the alias resolution fragment that (here) goes into
+``/etc/postfix/alias.cf``:
 
 .. code-block:: ini
 
@@ -1184,8 +1185,8 @@ the alias resolution fragment that (here) goes into
 	dbname = grommunio
 	query = SELECT mainname FROM aliases WHERE aliasname='%s'
 
-Furthermore, add the MariaDB parameters to the domain resolution fragment, here
-in ``/etc/postfix/g-virt.cf``:
+Then, add the MariaDB connection parameters to the domain resolution fragment
+that (here) goes into ``/etc/postfix/mbxdom.cf``:
 
 .. code-block:: ini
 
@@ -1194,6 +1195,26 @@ in ``/etc/postfix/g-virt.cf``:
 	hosts = localhost
 	dbname = grommunio
 	query = SELECT 1 FROM domains WHERE domain_status=0 AND domainname='%s'
+
+Furthermore, add the MariaDB parameters to the mailbox resolution fragment,
+here in ``/etc/postfix/mbxmaps.cf``:
+
+.. code-block:: ini
+
+	user = grommunio
+	password = freddledgruntbuggly
+	hosts = localhost
+	dbname = grommunio
+	query = SELECT username FROM users WHERE username='%s'
+
+If you plan to use ``reject_authenticated_sender_login_mismatch`` for SMTP
+submission, e.g. in the Postfix directive ``smtpd_sender_restrictions`` or
+``smtpd_recipient_restrictions`` to ensure that the SASL login name is an owner
+for the e-mail sender address, set another Postfix directive:
+
+.. code-block:: sh
+
+	postconf -e smtpd_sender_login_maps=mysql:/etc/postfix/mbxmaps.cf,mysql:/etc/postfix/alias.cf
 
 Finally, enable/restart the services so they can take their new places:
 
