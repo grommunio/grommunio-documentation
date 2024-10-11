@@ -1171,8 +1171,19 @@ Set up a few Postfix directives:
 
 Filenames for these additional configuration fragments, ``mbxdom.cf``,
 ``mbxmaps.cf`` and ``alias.cf``, can be freely chosen. Add the MariaDB
-connection parameters to the domain resolution fragment that (here) goes into
-``/etc/postfix/mbxdom.cf``:
+parameters to the alias resolution fragment that (here) goes into
+``/etc/postfix/alias.cf``:
+
+.. code-block:: ini
+
+	user = grommunio
+	password = freddledgruntbuggly
+	hosts = localhost
+	dbname = grommunio
+	query = SELECT mainname FROM aliases WHERE aliasname='%s'
+
+Then, add the MariaDB connection parameters to the domain resolution fragment
+that (here) goes into ``/etc/postfix/mbxdom.cf``:
 
 .. code-block:: ini
 
@@ -1182,8 +1193,8 @@ connection parameters to the domain resolution fragment that (here) goes into
 	dbname = grommunio
 	query = SELECT 1 FROM domains WHERE domain_status=0 AND domainname='%s'
 
-Then, add the MariaDB parameters to the mailbox resolution fragment, here in
-``/etc/postfix/mbxmaps.cf``:
+Furthermore, add the MariaDB parameters to the mailbox resolution fragment,
+here in ``/etc/postfix/mbxmaps.cf``:
 
 .. code-block:: ini
 
@@ -1192,17 +1203,6 @@ Then, add the MariaDB parameters to the mailbox resolution fragment, here in
 	hosts = localhost
 	dbname = grommunio
 	query = SELECT username FROM users WHERE username='%s'
-
-Furthermore, add the MariaDB parameters to the alias resolution fragment that
-(here) goes into ``/etc/postfix/alias.cf``:
-
-.. code-block:: ini
-
-	user = grommunio
-	password = freddledgruntbuggly
-	hosts = localhost
-	dbname = grommunio
-	query = SELECT mainname FROM aliases WHERE aliasname='%s'
 
 If you plan to use ``reject_authenticated_sender_login_mismatch`` for SMTP
 submission, e.g. in the Postfix directive ``smtpd_sender_restrictions`` or
