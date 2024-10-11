@@ -14,12 +14,12 @@ Active Sync
 
 __ _mdmresync:
 
-If you experience synchronization problems with your Mobile Device and a
+If you experience synchronization problems with your mobile device and a
 :ref:`resync`:
-didn't help you should do the following steps.
+did not help, you can attempt the following steps:
 
-* Remove the Account from your Device(s).
-* Goto the Webapp -> Settings -> Mobile Devices and remove your Device.
+* Remove the account from the mobile device(s).
+* Log in to grommunio-web, go to "Settings", "Mobile Devices" and remove the
+  device(s).
 * Wait for at least fifteen minutes.
-* Recreate the Account in your Device.
-
+* Recreate the account on the mobile device.
