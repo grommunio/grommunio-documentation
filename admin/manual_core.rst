@@ -1164,16 +1164,15 @@ Set up a few Postfix directives:
 
 .. code-block:: sh
 
-	postconf -e virtual_mailbox_domains=mysql:/etc/postfix/grommunio-virtual-mailbox-domains.cf
-	postconf -e virtual_mailbox_maps=mysql:/etc/postfix/grommunio-virtual-mailbox-maps.cf
-	postconf -e virtual_alias_maps=mysql:/etc/postfix/grommunio-virtual-alias-maps.cf,mysql:/etc/postfix/grommunio-virtual-mailbox-maps.cf
+	postconf -e virtual_mailbox_domains=mysql:/etc/postfix/mbxdom.cf
+	postconf -e virtual_mailbox_maps=mysql:/etc/postfix/mbxmaps.cf
+	postconf -e virtual_alias_maps=mysql:/etc/postfix/alias.cf,mysql:/etc/postfix/mbxmaps.cf
 	postconf -e virtual_transport="smtp:[localhost]:24"
 
-Filenames for these additional configuration fragments,
-``grommunio-virtual-mailbox-domains.cf``, ``grommunio-virtual-mailbox-maps.cf``
-and ``grommunio-virtual-alias-maps.cf``, can be freely chosen. Add the MariaDB
+Filenames for these additional configuration fragments, ``mbxdom.cf``,
+``mbxmaps.cf`` and ``alias.cf``, can be freely chosen. Add the MariaDB
 connection parameters to the domain resolution fragment that (here) goes into
-``/etc/postfix/grommunio-virtual-mailbox-domains.cf``:
+``/etc/postfix/mbxdom.cf``:
 
 .. code-block:: ini
 
@@ -1184,7 +1183,7 @@ connection parameters to the domain resolution fragment that (here) goes into
 	query = SELECT 1 FROM domains WHERE domain_status=0 AND domainname='%s'
 
 Then, add the MariaDB parameters to the mailbox resolution fragment, here in
-``/etc/postfix/grommunio-virtual-mailbox-maps.cf``:
+``/etc/postfix/mbxmaps.cf``:
 
 .. code-block:: ini
 
@@ -1195,7 +1194,7 @@ Then, add the MariaDB parameters to the mailbox resolution fragment, here in
 	query = SELECT username FROM users WHERE username='%s'
 
 Furthermore, add the MariaDB parameters to the alias resolution fragment that
-(here) goes into ``/etc/postfix/grommunio-virtual-alias-maps.cf``:
+(here) goes into ``/etc/postfix/alias.cf``:
 
 .. code-block:: ini
 
@@ -1212,7 +1211,7 @@ for the e-mail sender address, set another Postfix directive:
 
 .. code-block:: sh
 
-	postconf -e smtpd_sender_login_maps=mysql:/etc/postfix/grommunio-virtual-mailbox-maps.cf,mysql:/etc/postfix/grommunio-virtual-alias-maps.cf
+	postconf -e smtpd_sender_login_maps=mysql:/etc/postfix/mbxmaps.cf,mysql:/etc/postfix/alias.cf
 
 Finally, enable/restart the services so they can take their new places:
 
