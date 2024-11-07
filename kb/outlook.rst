@@ -24,6 +24,30 @@ When a softdeleted public (sub-)folder is restored, the name is truncated to
 one character, even with EXC2019 server.
 
 
+SRV redirection warning
+-----------------------
+
+Situation: Outlook shows a redirection warning when the SRV record has a
+hostname different from the domain.
+
+.. image:: _static/img/srv-record-redirect.png
+
+Text: “Allow this website to configure user@example.com server settings?
+https://mail.example.com/autodiscover/autodiscover.xml
+. Your account was redirected to this website for settings. You should only
+allow settings from sources you know and trust. [ ] Don't ask me about this
+website again.”
+
+Cause: Questionable programming in Outlook and/or Windows's networking
+libraries. A SRV record has the same security considerations as a CNAME record.
+(Outlook also ignores the port number in the SRV record.)
+
+Fixes/Workarounds: Report issues to Microsoft. Or use the always-accept
+checkbox. Deleting the DNS SRV record is a viable option too, because one can
+make a CNAME/A/AAAA-type ``autodiscover.example.com`` entry in the DNS zone
+instead.
+
+
 Passwords with umlauts
 ----------------------
 
