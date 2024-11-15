@@ -8,8 +8,29 @@ AutoDiscover
 Introduction
 ------------
 
-Autodiscover is a HTTP-based discovery protocol that helps users configure their
-email client settings automatically.
+AutoDiscover is a HTTP-based discovery protocol that helps users configure
+their email client settings automatically. The MS-OXDSCLI specification
+speaks about locating such AutoDiscover service, the MS-OXDISCO specification
+speaks about the XML exchange between such a service and a client. These terms
+are herein used to avoid ambiguity in the "AD" acronym (ActiveDirectory).
+
+Autodiscover V2 is not an improved version, it is an extra layer that warrants
+a disgruntled remark about questionable protocol design. Locating the
+AutoDiscover server still happens via DNS or AD-SCP query. The V2 request
+contains the user identity and the name of a next-level protocol that the
+client seeks, e.g. "ActiveSync", "EWS" or "AutoDiscoverV1". The response is now
+a JSON document and generally contains just one URL, namely for the service
+sought. Indeed there is no way to obtain MAPI, IMAP or SMTP information in
+Autodiscover V2.
+
+Note that Autodiscover is not used exclusively by Microsoft Outlook,
+Autodiscover is the main discovery protocol for any EAS-enabled device and
+application, such as Apple iOS, Android and other applications.
+
+
+OXDSCLI/OXDISCO
+---------------
+
 To locate the Autodiscover endpoint itself, a client can utilize the Domain
 Name System (DNS). When joined to an ActiveDirectory domain, it can also do AD
 queries for Service Connection Point objects.
@@ -31,19 +52,6 @@ The Autodiscover XML response contains information such as
 
 The email client uses this information to configure the user's email account
 automatically.
-
-Autodiscover V2 is not an improved version, it is an extra layer that warrants
-a disgruntled remark about questionable protocol design. Locating the
-AutoDiscover server still happens via DNS or AD-SCP query. The V2 request
-contains the user identity and the name of a next-level protocol that the
-client seeks, e.g. "ActiveSync", "EWS" or "AutoDiscoverV1". The response is now
-a JSON document and generally contains just one URL, namely for the service
-sought. Indeed there is no way to obtain MAPI, IMAP or SMTP information in
-Autodiscover V2.
-
-Please note that Autodiscover is not used exclusively by Microsoft Outlook,
-Autodiscover is the main discovery protocol for any EAS-enabled device and
-application, such as Apple iOS, Android and other applications.
 
 DNS records
 -----------
