@@ -20,11 +20,16 @@ The Autodiscover request is an HTTP POST request that contains the user's email
 address. The Autodiscover server then responds with an
 XML response that contains the necessary configuration settings.
 
-The Autodiscover XML response contains information such as the
-list of supported mail protocols and transports (e.g. MSRPC/RPCH/MAPIHTTP,
-IMAP, SMTP, etc.) and the connection parameters for those (e.g. name of the
-home server, HTTP endpoint URLs). The
-email client uses this information to configure the user's email account
+The Autodiscover XML response contains information such as
+
+* the list of supported mail protocols and transports (e.g.
+  MSRPC/RPCH/MAPIHTTP, IMAP, SMTP, etc.)
+* the connection parameters for those (e.g. name of the
+  home server, HTTP endpoint URLs)
+* for MAPI, any extra mailboxes that should be opened unconditionally
+  (e.g. delegators, public folder)
+
+The email client uses this information to configure the user's email account
 automatically.
 
 Autodiscover V2 is not an improved version, it is an extra layer that warrants
