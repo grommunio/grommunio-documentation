@@ -27,4 +27,5 @@ This section is a collection of unstructed notes.
 	sent_folder.rst
 	sqlite.rst
 	update_cycle.rst
+	virtualization.rst
 	legal_notice.rst
