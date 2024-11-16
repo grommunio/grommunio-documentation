@@ -24,6 +24,19 @@ When a softdeleted public (sub-)folder is restored, the name is truncated to
 one character, even with EXC2019 server.
 
 
+AutoDiscover diagnostics
+------------------------
+
+When Outlook is running, there is an Outlook icon in the Windows taskbar's
+notification area. By pressing Ctrl+RightMouseBtn, a service menu can be
+brought up, which offers a "Test AutoDiscover" command for diagnosing problems
+from Windows. Known bugs: The dialog may ignore the contents of the password
+field and instead use a saved password or SSO, leading to potentially
+unanticipated HTTP 401 (Unauthorized) responses. If in doubt, use gromox-dscli.
+
+.. image:: _static/img/oldisco.png
+
+
 SRV redirection warning
 -----------------------
 
