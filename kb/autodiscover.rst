@@ -5,9 +5,9 @@
 AutoDiscover
 ============
 
-As of 2024-11-16, the content of this page was moved into the
-Gromox manpage `https://docs.grommunio.com/man/autodiscover.7gx.html`_
-and Outlook KB page, `https://docs.grommunio.com/kb/outlook.html`_.
+As of 2024-11-16, the content of this page was moved into the Gromox manpage
+`autodiscover(7gx) <https://docs.grommunio.com/man/autodiscover.7gx.html>`_ and
+our `KB page on Outlook <https://docs.grommunio.com/kb/outlook.html>`_.
 
 
 M365 authentication dialog
@@ -42,5 +42,5 @@ authentication. This can be permanently disabled by setting
   # with grommunio if the AutoDiscover entries have been configured, and/or
   # when globally resolvable records are pointing to grommunio as the endpoint.
 
-For configuration via Group Policy, download the ADMX templates from
-`https://www.microsoft.com/en-us/download/details.aspx?id=49030`_.
+For configuration via Group Policy, ADMX templates can be found at
+`<https://www.microsoft.com/en-us/download/details.aspx?id=49030>`_.
