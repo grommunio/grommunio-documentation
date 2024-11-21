@@ -6,7 +6,7 @@ AutoDiscover
 ============
 
 As of 2024-11-16, the content of this page was moved into the Gromox manpage
-`autodiscover(7gx) <https://docs.grommunio.com/man/autodiscover.7gx.html>`_ and
+`autodiscover(7) <https://docs.grommunio.com/man/autodiscover.7.html>`_ and
 our `KB page on Outlook <https://docs.grommunio.com/kb/outlook.html>`_.
 
 
