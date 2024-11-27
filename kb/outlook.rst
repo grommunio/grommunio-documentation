@@ -83,9 +83,9 @@ authorization dialog cannot be represented in that encoding, *no*
 Exchange Server interprets passwords received via the Basic authorization
 header as UTF-8 at first and, should the password validation fail, it will
 retry using the codepage of the default locale of the *server* system. This
-means that a client with Japanese locale (with cp932) will never be able to
-connect to an Exchange Server running with English locale (with cp1252) with
-``Basic``-type authentication.
+means that a Windows client using Japanese locale (codepage 932) will never be
+able to connect to an Exchange Server running with English locale (Codepage
+1252) using ``Basic``-type authentication.
 
 Unlike Windows, installations of contemporary Linux systems exclusively use
 UTF-8. As such, there is no second charset that would make sense for a server
