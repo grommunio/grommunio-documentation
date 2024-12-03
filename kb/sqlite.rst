@@ -52,6 +52,9 @@ When (just) indices are broken, the file may be recreated:
 	mv new.db exchange.sqlite3
 	systemctl restart gromox-http
 
+We turn off foreign keys (FK) here temporarily because recovery can process
+tables in an order that is not supported by FK constraints.
+
 (There is also an alternate command for ``.recover``:)
 
 .. code-block:: sh
@@ -62,12 +65,5 @@ The efficacy of the recover/clone commands depends on the brokenness level of
 the database file. It will repair structural problems (as far as it is able to)
 at the SQLite level, but the recovered data may still contain logical problems
 as a whole, e.g. two users with the same ID.
-
-By default, foreign key constraints are by turned off for the sqlite
-command-line interface. *Do* check what the config setting is, as the
-command-line user may have changed it via ``~/.sqlitrc``. If FK is enabled,
-recovery could fail if the source data set is logically broken. If FK is
-disabled, recovery could succeed even though the result in ``new.db`` still is
-not consistent with the expectations of the Gromox data model.
 
 Consult with grommunio Support. Keep backups.
