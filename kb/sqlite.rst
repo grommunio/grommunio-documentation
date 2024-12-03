@@ -8,6 +8,11 @@ Database check
 When gromox-http is not running, an integrity check may be performed on SQLite
 databases.
 
+Timing anecdote: The entire exchange.sqlite3 file is read. On an AMD 5950X CPU
+with sqlite 3.46 (runs single-threaded), the processing speed from an in-memory
+file is about 104 MB/s. Thus, slow storage and huge mailboxes influence the
+time the operation takes in practice.
+
 .. code-block:: text
 
 	# sqlite3 /var/lib/gromox/domain/1/exmdb/exchange.sqlite3
