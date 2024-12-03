@@ -2,30 +2,11 @@
         SPDX-License-Identifier: CC-BY-SA-4.0 or-later
 
 
-SQLite Recovery
-===============
+Database check
+==============
 
-gromox-dbop and gromox-http may refuse a database schema upgrade when a
-consistency check is negative. Problems may also be reported if and when SQLite
-detects such during normal operation:
-
-.. code-block:: text
-
-	http[2557]: Upgrade of /var/lib/gromox/domain/1/exmdb/exchange.sqlite3 not started because of 6 integrity problems
-	http[2557]: dbop_sqlite upgrade /var/lib/gromox/domain/1/exmdb/exchange.sqlite3: Input/output error
-
-.. code-block:: text
-
-	[2023-08-30 12:34:20.626175]: dbop_sqlite: /var/lib/gromox/user/1/0/exmdb/exchange.sqlite3: current schema EV-11; upgrading to EV-12.
-	[2023-08-30 12:34:21.037629]: *** in database main ***
-	Tree 33990 page 33990 cell 260: invalid page number 4053928964
-	Tree 33990 page 33990 cell 259: invalid page number 4050783236
-	Tree 33990 page 33990 cell 255: invalid page number 333502732
-	Multiple uses for byte 1240 of page 33990
-	[2023-08-30 12:34:24.009145]: sqlite3_step(/var/lib/gromox/user/1/0/exmdb/exchange.sqlite3) "PRAGMA integrity_check": database disk image is malformed
-
-A few details may be obtained by rerunning the integrity checker in a sqlite3
-command line:
+When gromox-http is not running, an integrity check may be performed on SQLite
+databases.
 
 .. code-block:: text
 
@@ -39,6 +20,14 @@ command line:
 	row 208284 missing from index state_username_index
 	row 225182 missing from index state_username_index
 	row 226595 missing from index state_username_index
+	Tree 33990 page 33990 cell 260: invalid page number 4053928964
+	Tree 33990 page 33990 cell 259: invalid page number 4050783236
+	Tree 33990 page 33990 cell 255: invalid page number 333502732
+	Multiple uses for byte 1240 of page 33990
+
+
+Recovery
+========
 
 When (just) indices are broken, the file may be recreated:
 
