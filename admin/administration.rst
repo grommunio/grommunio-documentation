@@ -230,8 +230,9 @@ of a user.
 There are 10 main categories of user properties:
 
 - Account: RPC/HTTP (Outlook Anywhere), MAPI/HTTP, IMAP, POP3 etc.
-  configuration
-- User: MAPI props
+  configuration 
+- Alt names: Alternative usernames to log into mail-clients with (does not have to be an e-mail address)
+- Details: MAPI props
 - Contact: Additional MAPI props
 - Roles: Roles of the user
 - SMTP: Additional e-mails for this user (aliases) and forwarding rules
@@ -248,7 +249,7 @@ Account
 The following properties can be edited:
 
 - Username
-- Mode: Mailbox mode, toggle between a normal user and a shared mailbox
+- Mode: Mailbox mode, select between a normal user, a suspended user and a shared mailbox
 - Type: Type of user
 - Homeserver: Server on which the user's data is stored
 - Language: Store language of the user (does not effect the language of the UI)
@@ -259,6 +260,8 @@ The following properties can be edited:
      is blocked
    - Storage quota limit: Maximum size of the mailbox before storing (any kind
      of) objects is blocked
+- Hide user from: Hide user from specific user lists (e.g. the global address list)
+- Automatic processing of meeting requests: Trivial
 - Create grommunio-chat user: Creates a grommunio-chat account for this user. If this checkbox is disabled, there is no grommunio-chat team for this domain.
 - grommunio-chat admin permission: Gives administrative permissions for grommunio-chat to this user's grommunio-chat account.
 - grommunio-chat permissions: Grants grommunio-chat admin permissions
@@ -649,24 +652,20 @@ These values can be overwritten for each domain in the domain overviews:
 Settings
 --------
 
-To change global settings, click on the User icon and `Settings`
+Settings are split into server and user settings.
 
-.. image:: _static/img/user_icon.png
+To change language, darkmode or theme, use the respective buttons in the topbar or the user icon
+
+.. image:: _static/img/user_settings.png
    :alt: user icon
 
-Currently you can only change
+Server settings can be changed by clicking the settings icon in the topbar:
 
-- Language: Swap between English and German
-- Darkmode: Swap between light- and Darkmode
-
+.. image:: _static/img/server_settings.png
+   :alt: server settings
 
 License
 -------
-
-To see details on your grommunio license, click on the License icon in the Topbar.
-
-.. image:: _static/img/license_icon.png
-   :alt: license icon
 
 To use the full potential of grommunio you can upload your license by clicking
 `Upload` and selecting your purchased license.
@@ -691,9 +690,8 @@ If you click on the expansion icon next to the users count, you can see what use
 Design
 ------
 
-Admins have the ability to whitelabel the app for `all` users.
-There is a basic input mask located at the `License` page,
-which helps you set custom app icons and background images.
+Admins have the ability to whitelabel the grommunio-admin-web for `all` grommunio-admin-web users.
+There is a basic input mask, which helps you set custom app icons and background images.
 
 It is possible to create separate sets of images for different hostnames.
 Click the plus icon to create a new set of images for a hostname.
@@ -714,6 +712,18 @@ As you can see, it is not necessary to overwrite every image, but the hostnames 
 
 Click on the `Show config` button to display the ``customImages`` config object,
 which needs to be copied into ``/etc/grommunio-admin-common/config.json`` on the server.
+
+
+Updates
+-------
+
+It is possible to update and upgrade server packages within grommunio-admin-web.
+
+- Choose repository: Community (publicly available) or Supported (license required)
+- Check for updates, update or upgrade packages by clicking the respective buttons
+
+.. image:: _static/img/updates.png
+   :alt: updates
 
 
 LDAP
