@@ -20,9 +20,10 @@ and extend grommunio based on the developers own requirements.
 	:maxdepth: 4
 	:caption: Contents
 
-        intro.rst
-        adminapi.rst
-        legal_notice.rst
+	intro.rst
+	adminapi.rst
+	fiddler.rst
+	legal_notice.rst
 
 .. toctree::
 	:hidden:
