@@ -714,6 +714,36 @@ Click on the `Show config` button to display the ``customImages`` config object,
 which needs to be copied into ``/etc/grommunio-admin-common/config.json`` on the server.
 
 
+Application links
+-----------------
+
+.. image:: _static/img/topbar.png
+   :alt: topbar
+
+Links to external applications need to be configured in ``/etc/grommunio-admin-common/config.json`` on the server.
+
+Following attributes are available:
+
+- ``rspamdWebAddress:String``: Url of rspamd server (default: ``''``)
+- ``mailWebAddress:String``: Url of mail webapp (e.g. grommunio-web) (default: ``''``)
+- ``chatWebAddress:String``: Url of grommunio-chat (default: ``''``)
+- ``videoWebAddress:String``: Url of grommunio-meet (default: ``''``)
+- ``fileWebAddress:String``: Url of grommunio-files (default: ``''``)
+- ``archiveWebAddress:String``: Url of grommunio-archive (default: ``''``)
+
+
+Additional server-side configuration
+------------------------------------
+
+Following additional attributes can be configured at ``/etc/grommunio-admin-common/config.json`` on the server.
+
+- ``devMode:boolean``: For development, enables redux logger (default: ``false``)
+- ``tokenRefreshInterval:int``: Sets token refresh interval in seconds. (default: ``86400`` (24h))
+- ``defaultDarkMode:boolean``: If ``true``, the app will be set to dark mode, if not explicitly set by the user/browser (default: ``false``)
+- ``defaultTheme:string``: Name of the default theme to use. Available themes: grommunio, green, purple, magenta, teal, orange, brown, bluegrey (default: ``"grommunio"``)
+- ``loadAntispamData:boolean``: Whether or not to load antispam data in the dashboard (default: ``true``)
+- ``searchAttributes:Array<String>``: Array of strings, possible LDAP Search attributes (default: All attributes)
+
 Updates
 -------
 
