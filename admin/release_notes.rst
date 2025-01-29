@@ -6,6 +6,106 @@
 Release Notes
 #############
 
+grommunio 2025.01.1
+===================
+
+Release type: Major
+
+Release date: 29th of January 2025
+
+General availability: Yes
+
+Highlights
+
+**Appliances now based on openSUSE 15.6**
+The latest grommunio appliance releases ship with openSUSE 15.6 as their foundation, benefiting from up-to-date security patches, improved stability, and modern hardware support.
+
+**Performance Boost & Lower Resource Requirements**
+Thanks to extensive enhancements in parallelization (especially for single-store, highly parallelized scenarios), the overall performance of the grommunio stack has improved while resource requirements (RAM, CPU, disk) have decreased.
+
+**Keycloak 26.1 Integration**
+grommunio now ships with Keycloak 26.1, including:
+ - Refined SSO & identity management with expanded security controls.
+ - Improved user federation for large-scale deployments, simplifying integration with heterogeneous directory services.
+ - Advanced admin console features for streamlined configuration and audit trails.
+
+**TinyMCE Upgrade from 4.9.11 to 7.6.1**
+The grommunio Web’s email editor now leverages TinyMCE 7.6.1, providing:
+
+ - Modernized UI/UX, especially on mobile and touch devices.
+ - Enhanced performance and security, ensuring a smoother editing experience (like the content hover-bar).
+
+**PHP 8.2 and 8.3 Support**
+grommunio’s core and associated services are now fully compatible with PHP 8.2 and 8.3. Key benefits include:
+
+ - Better performance and memory optimization.
+ - Enhanced type and error-handling features for developers.
+ - Extended grommunio Stack Upgrades and compliance.
+
+**Enhanced Internet Mail Compliance**
+grommunio continues to refine support for Internet mail standards. This ensures more robust and accurate parsing and generation of emails across a variety of clients and mail servers.
+
+**New Features & Enhancements**
+**Share-Nothing Clusters**
+Expanded from the previous release, clusters can be scaled out without relying on shared storage. This provides maximum flexibility in multi-node deployments and reduces potential bottlenecks or single points of failure.
+
+**Parallelized Single Mailbox Access**
+A key promise fulfilled: significant performance gains when multiple users or processes access large mailboxes simultaneously. The new parallelization logic helps distribute loads more efficiently, avoiding lock contention scenarios.
+
+**Overhauled Indexing & Search**
+Building on recent indexing improvements, search across emails, contacts, and other items is now quicker and more accurate while requiring less storage overhead.
+
+**Massively Improved S/MIME**
+Updates include refined clear-signed message handling, upgraded certificate validation, and improved out-of-the-box interoperability with various device classes.
+
+**Per-User Feature Enablement**
+Administrators can continue to leverage granular toggles to enable or disable Web, Sync (ActiveSync), and DAV services on a per-user basis, helping organizations fine-tune resource access.
+
+**Timezone & Migration Compatibility**
+Ongoing refinements ensure consistent scheduling across multiple protocols (CalDAV, EWS, MAPI) and more accurate data migration from legacy systems (Exchange, Communigate Pro, Kerio, Kopano, Zarafa).
+
+**grommunio-Web Signature Templating**
+A new feature allowing administrators and end users to define, customize, and manage standardized email signatures across the organization. This includes variables (e.g., name, title, department) for dynamic insertion, ensuring a consistent brand identity while reducing manual signature maintenance.
+
+**EWS processing enhancements**
+
+With a growing number of EWS clients using grommunio, certain specific flavors of EWS client implementations show the need for adoption in our EWS server-side processing code for enhanced compatibility. For example, 2025.01.1 includes improved timezone management for example with Apple clients and further enhancements for enhanced compatibility with emClient and Evolution.
+
+**Development Process Updates**
+
+- Monthly Point Releases: Starting with 2025.01.1, grommunio will deliver monthly point releases (e.g., 2025.01.2 in February).
+- Annual Major Upgrade: There will be at least one major release each year, with larger feature overhauls and architectural improvements.
+
+**Certification Initiatives**
+With growing adoption by public sector and defense organizations, grommunio is actively pursuing certifications such as FedRAMP/NIST, FISMA, and BSI. This underscores the commitment to higher security standards and regulatory compliance.
+
+**Roadmap for 2021.01.2**
+
+- RFC 2184/2231: Enhanced handling of extended parameters in MIME headers.
+- Trashed Mailboxes & Migration: Improvements for advanced mailbox handling across multiple migrations, including x400 addressing and undocumented MAPI attributes.
+- grommunio Support v2: Expanding support for the setup stage for RHEL9, Debian 12, and Ubuntu 24.04.
+- grommunio-files: Updated version with group folder management and modern authentication.
+
+**Forthcoming in the next releases (previews available to selected partners)**
+
+- Modern Authentication (OAuth2) for Outlook, IMAP, and POP3.
+- Full HTML-based MR (Meeting Request) Processing in the Web UI.
+- AI-Powered Features for enhanced user productivity.
+- Extended rules & autoprocessing support
+
+**Supported Distributions**
+
+As of 2025.01.1, grommunio actively supports installation and operation on the following Linux distributions:
+
+- RHEL9 / EPEL9
+- openSUSE 15.5+ / SLES 15.5+
+- Debian 12
+- Ubuntu 24.04
+
+**Acknowledgements**
+
+We would like to extend our sincere gratitude to our community, customers, and partners for their continued support, feedback, and contributions. A special thanks goes out to our active contributors: crpb, dahan, brad0, kasperk81, robert-scheck, orandev01, rnagy, walter, liske, steve, milotype, clique2015 any many others. Your insights drive our roadmap and make grommunio more robust, secure, and performant with each release.
+
 grommunio 2023.11.3
 ===================
 
