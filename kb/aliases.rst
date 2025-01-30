@@ -17,7 +17,7 @@ limitation:
 Behavior in grommunio (and Exchange)
 ------------------------------------
 
-- Single Primary SMTP Address: In traditional Exchange environments (and by 
+- Single Primary SMTP Address: In traditional Exchange environments (and by  
 default in Exchange Online), each user mailbox has one "primary" SMTP address. 
 That address is the one used when you send an email.
 
@@ -25,7 +25,7 @@ That address is the one used when you send an email.
 but these aliases exist primarily for receiving email. By default, Exchange 
 does not allow you to send out through an alias.
 
-Why? From Microsoft’s standpoint, alias addresses are designed to ensure that 
+From Microsoft’s standpoint, alias addresses are designed to ensure that 
 a mailbox can receive email sent to multiple addresses or domains. Security 
 and administrative considerations also come into play: Exchange wants to be 
 explicit about which identity a user is sending from. Also, there are many
@@ -80,6 +80,8 @@ and use the appropriate header_checks file with (example):
 	/^(From:.*myuser@mydomain\.at)(\r?\n(.*\r?\n)*?^To:.*special@destination\.com)/m
 	    REPLACE From: alias@mydomain.at
 
+After that, do not forget to create the appropriate postfix map:
+
 .. code-block:: text
 
 	postmap /etc/postfix/header_checks
@@ -88,7 +90,7 @@ How it works: When Postfix processes the headers of an outgoing email, it
 checks for a From line matching myuser@mydomain.at. It then looks ahead in 
 the next lines for a To line matching special@destination.com. If both 
 conditions are met in that single message header, it rewrites the From header 
-to alias@mydomain.com. If the message is going to any other recipient, no 
+to alias@mydomain.at. If the message is going to any other recipient, no 
 rewriting occurs.
 
 Of course, this is just an example, there are many possibilities to extend this
