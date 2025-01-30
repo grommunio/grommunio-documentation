@@ -6,25 +6,25 @@
 Roadmap
 #######
 
-Current roadmap of grommunio (as of 5th of January, 2024):
+Current roadmap of grommunio (as of 29th of January, 2025):
 
-- The **Current Stable** stable release of grommunio has been released on the
+- The **Current Stable** release of grommunio has been released on the
   29th of January 2025, with a support lifecycle of 3 years and optional extended
   lifecycle extensions available with grommunio's subscription program.
 
-- The **Next point release** is planned for release on 28th of 2025 with the
-  following features:
+- The **Next point release** is planned for release in the last week of
+  February 2025 with the following features:
 
   - RFC 2184/2231: Enhanced handling of extended parameters in MIME headers.
   - Trashed Mailboxes & Migration: Improvements for advanced mailbox handling
     across multiple migrations, including x400 addressing and undocumented MAPI
     attributes.
-  - grommunio Support v2: Expanding support for the setup stage for RHEL9,
+  - grommunio Setup v2: Expanding support for the setup stage for RHEL9,
     Debian 12, and Ubuntu 24.04.
   - grommunio-files: Updated version with group folder management and modern
     authentication.
 
-- Following 2025.01.2 the following following features are in the upcoming
+- Following 2025.01.2 the following features are in the upcoming
   release funnel (in QA and/or deployed already in pilot-installations):
 
   - Modern Authentication (OAuth2) for Outlook, IMAP, and POP3.
@@ -40,9 +40,9 @@ customer-friendly and predictable way.
 
 The release model of grommunio is divided into 2 different chains:
 
-- Major releases (e.g. 2025.01.1, 2023.12.1, 2021.08.1, 2023.05.1)
+- Major releases (e.g. 2025.01.1, 2023.11.1, 2022.12.1)
 
-- Minor releases (e.g. 2025.01.2, 2023.12.2, 2021.08.3, 2023.05.2)
+- Minor releases (e.g. 2025.01.2, 2023.11.3, 2022.12.2)
 
 Major releases contain are determined to larger feature sets as well as
 including potential architectural changes whereas minor releases are focused

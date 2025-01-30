@@ -18,13 +18,17 @@ General availability: Yes
 Highlights
 
 **Appliances now based on openSUSE 15.6**
+
 The latest grommunio appliance releases ship with openSUSE 15.6 as their foundation, benefiting from up-to-date security patches, improved stability, and modern hardware support.
 
 **Performance Boost & Lower Resource Requirements**
+
 Thanks to extensive enhancements in parallelization (especially for single-store, highly parallelized scenarios), the overall performance of the grommunio stack has improved while resource requirements (RAM, CPU, disk) have decreased.
 
 **Keycloak 26.1 Integration**
+
 grommunio now ships with Keycloak 26.1, including:
+
  - Refined SSO & identity management with expanded security controls.
  - Improved user federation for large-scale deployments, simplifying integration with heterogeneous directory services.
  - Advanced admin console features for streamlined configuration and audit trails.
@@ -43,28 +47,36 @@ grommunio’s core and associated services are now fully compatible with PHP 8.2
  - Extended grommunio Stack Upgrades and compliance.
 
 **Enhanced Internet Mail Compliance**
+
 grommunio continues to refine support for Internet mail standards. This ensures more robust and accurate parsing and generation of emails across a variety of clients and mail servers.
 
 **New Features & Enhancements**
 **Share-Nothing Clusters**
+
 Expanded from the previous release, clusters can be scaled out without relying on shared storage. This provides maximum flexibility in multi-node deployments and reduces potential bottlenecks or single points of failure.
 
 **Parallelized Single Mailbox Access**
+
 A key promise fulfilled: significant performance gains when multiple users or processes access large mailboxes simultaneously. The new parallelization logic helps distribute loads more efficiently, avoiding lock contention scenarios.
 
 **Overhauled Indexing & Search**
+
 Building on recent indexing improvements, search across emails, contacts, and other items is now quicker and more accurate while requiring less storage overhead.
 
 **Massively Improved S/MIME**
+
 Updates include refined clear-signed message handling, upgraded certificate validation, and improved out-of-the-box interoperability with various device classes.
 
 **Per-User Feature Enablement**
+
 Administrators can continue to leverage granular toggles to enable or disable Web, Sync (ActiveSync), and DAV services on a per-user basis, helping organizations fine-tune resource access.
 
 **Timezone & Migration Compatibility**
+
 Ongoing refinements ensure consistent scheduling across multiple protocols (CalDAV, EWS, MAPI) and more accurate data migration from legacy systems (Exchange, Communigate Pro, Kerio, Kopano, Zarafa).
 
 **grommunio-Web Signature Templating**
+
 A new feature allowing administrators and end users to define, customize, and manage standardized email signatures across the organization. This includes variables (e.g., name, title, department) for dynamic insertion, ensuring a consistent brand identity while reducing manual signature maintenance.
 
 **EWS processing enhancements**
@@ -77,6 +89,7 @@ With a growing number of EWS clients using grommunio, certain specific flavors o
 - Annual Major Upgrade: There will be at least one major release each year, with larger feature overhauls and architectural improvements.
 
 **Certification Initiatives**
+
 With growing adoption by public sector and defense organizations, grommunio is actively pursuing certifications such as FedRAMP/NIST, FISMA, and BSI. This underscores the commitment to higher security standards and regulatory compliance.
 
 **Roadmap for 2021.01.2**
