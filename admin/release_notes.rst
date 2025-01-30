@@ -9,13 +9,11 @@ Release Notes
 grommunio 2025.01.1
 ===================
 
-Release type: Major
+- Release type: Major
+- Release date: 29th of January 2025
+- General availability: Yes
 
-Release date: 29th of January 2025
-
-General availability: Yes
-
-Highlights
+**Highlights**
 
 **Appliances now based on openSUSE 15.6**
 
@@ -34,12 +32,14 @@ grommunio now ships with Keycloak 26.1, including:
  - Advanced admin console features for streamlined configuration and audit trails.
 
 **TinyMCE Upgrade from 4.9.11 to 7.6.1**
+
 The grommunio Web’s email editor now leverages TinyMCE 7.6.1, providing:
 
  - Modernized UI/UX, especially on mobile and touch devices.
  - Enhanced performance and security, ensuring a smoother editing experience (like the content hover-bar).
 
 **PHP 8.2 and 8.3 Support**
+
 grommunio’s core and associated services are now fully compatible with PHP 8.2 and 8.3. Key benefits include:
 
  - Better performance and memory optimization.
@@ -122,11 +122,9 @@ We would like to extend our sincere gratitude to our community, customers, and p
 grommunio 2023.11.3
 ===================
 
-Release type: Minor
-
-Release date: 16th of February 2024
-
-General availability: Yes
+- Release type: Minor
+- Release date: 16th of February 2024
+- General availability: Yes
 
 **Highlights**
 
@@ -176,11 +174,9 @@ The development, QA, and release teams, apologize that our public communication 
 grommunio 2023.11.2
 ===================
 
-Release type: Minor
-
-Release date: 28th of December 2023
-
-General availability: Yes
+- Release type: Minor
+- Release date: 28th of December 2023
+- General availability: Yes
 
 **Highlights**
 
@@ -221,11 +217,9 @@ Since the number of contributors keeps growing with each release, we now refrain
 grommunio 2023.11.1
 ===================
 
-Release type: Major
-
-Release date: 18th of November 2023
-
-General availability: Yes
+- Release type: Major
+- Release date: 18th of November 2023
+- General availability: Yes
 
 **Highlights**
 
@@ -277,11 +271,9 @@ We extend our heartfelt thanks to our customers, partners, and the community for
 grommunio 2022.12.1
 ===================
 
-Release type: Major
-
-Release date: 24th of December 2022
-
-General availability: Yes
+- Release type: Major
+- Release date: 24th of December 2022
+- General availability: Yes
 
 **Highlights**
 
@@ -328,11 +320,9 @@ Special thanks to Microsoft Corporation for the productive cooperation on standa
 grommunio 2022.05.2
 ===================
 
-Release type: Minor
-
-Release date: 31st of August 2022
-
-General availability: Yes
+- Release type: Minor
+- Release date: 31st of August 2022
+- General availability: Yes
 
 **Highlights**
 
@@ -400,11 +390,9 @@ Thanks to customers, partners and the entire community - the community for their
 grommunio 2022.05.1
 ===================
 
-Release type: Major
-
-Release date: 16th of May 2022
-
-General availability: Yes
+- Release type: Major
+- Release date: 16th of May 2022
+- General availability: Yes
 
 - grommunio: Support for Ubuntu 22.04
 - grommunio: Support for NetIQ eDirectory
@@ -483,11 +471,9 @@ We would like to thank the community for their ongoing contributions, but especi
 grommunio 2021.08.3
 ===================
 
-Release type: Minor
-
-Release date: 8th of February 2022
-
-General availability: Yes
+- Release type: Minor
+- Release date: 8th of February 2022
+- General availability: Yes
 
 - grommunio: Support for Univention Corporate Server 5
 - grommunio: Support for Red Hat Directory Server
@@ -544,11 +530,9 @@ The `official Documentation <https://docs.grommunio.com/admin/operations.html#up
 grommunio 2021.08.2
 ===================
 
-Release type: Minor
-
-Release date: 24th of November 2021
-
-General availability: Yes
+- Release type: Minor
+- Release date: 24th of November 2021
+- General availability: Yes
 
 Major changes:
 
@@ -601,11 +585,9 @@ If the configuration file has been replaced by a package update, the minimal app
 grommunio 2021.08.1
 ===================
 
-Release type: Major
-
-Release date: 17th of August 2021
-
-General availability: Yes
+- Release type: Major
+- Release date: 17th of August 2021
+- General availability: Yes
 
 Major changes:
 
