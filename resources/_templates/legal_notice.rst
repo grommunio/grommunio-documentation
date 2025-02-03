@@ -72,4 +72,4 @@ Legal Notice
 
 All other trademarks, trade names, service marks, and companies referenced herein belong to their respective companies, foundations, or development communities.
 
-Copyright 2020-2024 grommunio GmbH
+Copyright 2020-2025 grommunio GmbH

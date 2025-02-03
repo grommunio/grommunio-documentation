@@ -1,6 +1,6 @@
 ..
         SPDX-License-Identifier: CC-BY-SA-4.0 or-later
-        SPDX-FileCopyrightText: 2024 grommunio GmbH
+        SPDX-FileCopyrightText: 2025 grommunio GmbH
 
 Fiddler installs itself as a system proxy, i.e. when Fiddler is set to capture
 traffic, the system proxy setting is changed to point to 127.0.0.1:8888.
