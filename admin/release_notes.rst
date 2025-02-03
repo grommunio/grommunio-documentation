@@ -92,7 +92,7 @@ With a growing number of EWS clients using grommunio, certain specific flavors o
 
 With growing adoption by public sector and defense organizations, grommunio is actively pursuing certifications such as FedRAMP/NIST, FISMA, and BSI. This underscores the commitment to higher security standards and regulatory compliance.
 
-**Roadmap for 2021.01.2**
+**Roadmap for 2025.01.2**
 
 - RFC 2184/2231: Enhanced handling of extended parameters in MIME headers.
 - Trashed Mailboxes & Migration: Improvements for advanced mailbox handling across multiple migrations, including x400 addressing and undocumented MAPI attributes.
