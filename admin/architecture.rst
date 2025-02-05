@@ -35,6 +35,141 @@ To understand the component architecture and the interconnectivity of these
 components, the following chapters show the single components and how they
 interoperate with other components in the entire component stack.
 
+Multi-Server architecture
+=========================
+
+Scaling grommunio across multiple instances ("Multi-Server") requires a
+fundamental understanding of scale-out solutions. For most users, the Single
+Point of Entry (SPOE) approach is preferable, as it eliminates the need to
+remember which specific server their profile resides on. However, in large-scale
+environments with tens of thousands of users, even the most advanced server
+systems require distribution across multiple nodes to handle the load
+efficiently.
+
+**The role of Autodiscover, Autoconfig and Load Balancers**
+
+Autodiscover, in combination with load balancers, provides a unified access
+point, ensuring that users can seamlessly connect to their mailboxes without
+concern for backend distribution. To make this work, the system must know where
+each user’s data is stored—whether they are using an IMAP client or the web
+interface.
+
+When a request arrives at a load balancer, it may be directed to Node A, even
+though the user's data resides on Node B. Depending on the protocol in use, the
+component handling the request will either:
+
+Proxy the request to the appropriate backend node, or access the data directly
+through RPC calls (exmdb traffic).
+
+Setting up Multi-Server
+-----------------------
+
+To ensure smooth operation across multiple nodes, the following configurations
+must be in place:
+
+- Defining Servers in grommunio Admin:
+  - The internal hostname should reflect the actual hostname of the server.
+  - The external hostname should match the name communicated in client requests
+    (e.g., for AutoDiscover).
+- User Assignment:
+  - Users must be associated with specific servers. If multiple servers are
+    configured, the system’s selection policy will determine automatic
+    placement.
+- Network Service Configuration:
+  - Core services must be configured to listen for network requests based on the
+    architecture.
+
+.. important::
+   Functional redirects require that internal hostnames remain accessible even
+in a proxied environment. Load balancers must respond to both internal and
+external hostnames. Additionally, inter-component traffic must resolve correctly
+via internal hostnames. A proper TLS certificate setup is critical for secure
+traffic exchange between components. A multi-SAN or wildcard certificate is
+recommended.
+
+.. important::
+   Depending on your environment, additional tuning may be required. Parameters
+like notify_stub_threads_num or rpc_proxy_connection_num should be adjusted
+based on your specific scale and workload. Refer to the man pages for details on
+these settings.
+
+Shared storage
+--------------
+
+To configure gromox for multi-server operation, follow these steps for a
+three-node setup (with IPv4 traffic enabled):
+
+**Configuration Files**
+
+.. code-block:: text
+
+	# /etc/gromox/exmdb.cfg
+	exmdb_hosts_allow=:: ::ffff:10.10.10.20 ::ffff:10.10.10.30 ::ffff:10.10.10.40 ::1
+	exmdb_listen_ip=::
+
+	# /etc/gromox/exmdb_list.txt
+	/var/lib/gromox/user/mail1.gro.at ::ffff:10.10.10.20 5000
+	/var/lib/gromox/user/mail2.gro.at ::ffff:10.10.10.30 5000
+	/var/lib/gromox/user/mail3.gro.at ::ffff:10.10.10.40 5000
+	/var/lib/gromox/domain/ ::ffff:10.10.10.20 5000
+
+	# /etc/gromox/midb.cfg
+	midb_hosts_allow=:: ::ffff:10.10.10.20 ::ffff:10.10.10.30 ::ffff:10.10.10.40 ::1
+	midb_listen_ip=::
+
+	# /etc/gromox/midb_list.txt
+	/var/lib/gromox/user/mail1.gro.at ::ffff:10.10.10.20 5555
+	/var/lib/gromox/user/mail2.gro.at ::ffff:10.10.10.30 5555
+	/var/lib/gromox/user/mail3.gro.at ::ffff:10.10.10.40 5555
+	/var/lib/gromox/domain/ ::ffff:10.10.10.20 5555
+
+	# /etc/gromox/event.cfg
+	event_hosts_allow=:: ::ffff:10.10.10.20 ::ffff:10.10.10.30 ::ffff:10.10.10.40 ::1
+	event_listen_ip=::
+
+	# /etc/gromox/timer.cfg
+	timer_hosts_allow=:: ::ffff:10.10.10.20 ::ffff:10.10.10.30 ::ffff:10.10.10.40 ::1
+	timer_listen_ip=::
+
+**Storage Structure**
+
+This setup distributes user directories across multiple nodes while maintaining
+a unified logical structure. Traditionally, shared-storage clusters use a
+clustered filesystem, ensuring efficient replication by storing different user
+directories as separate inode entries. This reduces filesystem load and improves
+performance.
+
+.. note::
+   Before the release of 2025.01.1 it was required for all nodes to have access to
+/var/lib/gromox/user in this example, because some components (especially IMAP
+and POP3) were accessing the object files via direct IO.
+
+Share-nothing clusters
+----------------------
+
+With grommunio 2025.01.1, components no longer require direct I/O access to mailbox storage. Instead, requests are handled as follows:
+
+- If a request does not belong to the local node, the system will:
+  - Retrieve data via RPC from the node where the mailbox resides, or
+  - Use proxy mode to forward the request and return the response.
+
+**Key Benefits of Share-Nothing Clusters**
+
+- No shared storage required:
+  Each node operates independently, eliminating the need for a common filesystem.
+- Improved high availability:
+  Nodes can be distributed across different locations without centralized storage dependencies.
+- Compatibility with modern HA solutions:
+
+This architecture natively supports cloud-native environments such as
+Kubernetes, other containerized environments, and various replication techniques
+for failover scenarios.
+
+From a configuration standpoint, share-nothing clusters remain identical to
+shared-storage setups, except that nodes do not need access to each other’s
+mailboxes. Production deployments may benefit from additional replication
+techniques for high availability.
+
 Protocol / Component Flow
 =========================
 
