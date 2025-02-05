@@ -68,30 +68,36 @@ To ensure smooth operation across multiple nodes, the following configurations
 must be in place:
 
 - Defining Servers in grommunio Admin:
+
   - The internal hostname should reflect the actual hostname of the server.
+
   - The external hostname should match the name communicated in client requests
     (e.g., for AutoDiscover).
+
 - User Assignment:
+
   - Users must be associated with specific servers. If multiple servers are
     configured, the system’s selection policy will determine automatic
     placement.
+
 - Network Service Configuration:
+
   - Core services must be configured to listen for network requests based on the
     architecture.
 
 .. important::
    Functional redirects require that internal hostnames remain accessible even
-in a proxied environment. Load balancers must respond to both internal and
-external hostnames. Additionally, inter-component traffic must resolve correctly
-via internal hostnames. A proper TLS certificate setup is critical for secure
-traffic exchange between components. A multi-SAN or wildcard certificate is
-recommended.
+   in a proxied environment. Load balancers must respond to both internal and
+   external hostnames. Additionally, inter-component traffic must resolve correctly
+   via internal hostnames. A proper TLS certificate setup is critical for secure
+   traffic exchange between components. A multi-SAN or wildcard certificate is
+   recommended.
 
 .. important::
    Depending on your environment, additional tuning may be required. Parameters
-like notify_stub_threads_num or rpc_proxy_connection_num should be adjusted
-based on your specific scale and workload. Refer to the man pages for details on
-these settings.
+   like notify_stub_threads_num or rpc_proxy_connection_num should be adjusted
+   based on your specific scale and workload. Refer to the man pages for details on
+   these settings.
 
 Shared storage
 --------------
@@ -141,24 +147,29 @@ performance.
 
 .. note::
    Before the release of 2025.01.1 it was required for all nodes to have access to
-/var/lib/gromox/user in this example, because some components (especially IMAP
-and POP3) were accessing the object files via direct IO.
+   ``/var/lib/gromox/user`` in this example, because some components (especially IMAP
+   and POP3) were accessing the object files via direct IO.
 
 Share-nothing clusters
 ----------------------
 
-With grommunio 2025.01.1, components no longer require direct I/O access to mailbox storage. Instead, requests are handled as follows:
+With grommunio 2025.01.1, components no longer require direct I/O access to
+mailbox storage. Instead, requests are handled as follows:
 
 - If a request does not belong to the local node, the system will:
+
   - Retrieve data via RPC from the node where the mailbox resides, or
+
   - Use proxy mode to forward the request and return the response.
 
 **Key Benefits of Share-Nothing Clusters**
 
 - No shared storage required:
   Each node operates independently, eliminating the need for a common filesystem.
+
 - Improved high availability:
   Nodes can be distributed across different locations without centralized storage dependencies.
+
 - Compatibility with modern HA solutions:
 
 This architecture natively supports cloud-native environments such as
