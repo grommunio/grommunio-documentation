@@ -6,13 +6,12 @@
 grommunio Documentation Home
 ############################
 
-Welcome! On this site, you can find almost everything you need to know about
-grommunio, how it works, how you can use it. This site is backed by `an open
-Git repository <https://github.com/grommunio/grommunio-documentation>`_. where
-you can propose edits. If you have questions, or want to make a report about
-information you are missing, or something else that you would like to see here,
-do not hesitate and relay us a message on `our homepage
-<https://grommunio.com/contact/>`_.
+Welcome! On this site, you can find everything you need to know about grommunio,
+how it works, how you can use it. This site is backed by `an open Git repository
+<https://github.com/grommunio/grommunio-documentation>`_. where you can propose
+edits. If you have questions, or want to make a report about information you are
+missing, or something else that you would like to see here, do not hesitate and
+relay us a message on `our homepage <https://grommunio.com/contact/>`_.
 
 .. toctree::
 	:caption: Administrator Documentation
