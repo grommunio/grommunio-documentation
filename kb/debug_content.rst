@@ -1,9 +1,48 @@
 ..
         SPDX-License-Identifier: CC-BY-SA-4.0 or-later
-        SPDX-FileCopyrightText: 2025 grommunio GmbH
+        SPDX-FileCopyrightText: 2024–2025 grommunio GmbH
 
 Debug Content
 =============
+
+Determining internal message id
+-------------------------------
+
+**Issue:** You need to figure out the internal ID of a folder/message object
+that already exists in a Gromox store.
+
+**Actions:** In MFCMAPI, navigate to the particular profile / store / folder /
+message, and open the PR_ENTRYID property in detail by using mouse-doubleclick
+or the ENTER key. In the lower-right grey-backed panel, the ID is shown in
+hexadecimal next to the _Folder Global Counter_/_Message Global Counter_ label
+(highlighted in the screenshot). Make sure that the profile is in Online Mode
+to get a usable value.
+
+.. image:: _static/img/mfcmapi_entryid1.png
+
+.. image:: _static/img/mfcmapi_entryid2.png
+
+In grommunio-web, right click the message and call up the Options dialog. There
+will be a field for Object ID.
+
+.. image:: _static/img/gweb-messageid.png
+
+
+Extracting objects
+------------------
+
+**Issue:** You wish to extract a MAPI message object for further diagnosis.
+
+**Action:** Using the message ID as obtained earlier, the exporter utility can
+be invoked with the exm2eml command. exm2eml offers various output formats,
+depending on user/developer needs. The conversion from MAPI to RFC5322 Internet
+Mail format and back is not necessarily idempotent, so it may be sensible to
+use the Gromox Message Transfer stream format (GXMT) or TNEF.
+
+.. code-block:: sh
+
+	gromox-exm2eml --mt -u test@host.example.net 0x314cc
+
 
 Messages in delivery
 --------------------
@@ -91,14 +130,15 @@ narrowing the set of files as should the use of ``grep``. (The binary tags from
 the delivery stage are not present.)
 
 The hostname portion may be ``.midb``. If so, that file was synthesized from a
-MAPI object, and *not the original EML form* from delivery/IMAP.
+MAPI object, and does *not constitute the original EML form* from
+delivery/IMAP.
 
 
 Messages imported from a MAPI source
 ------------------------------------
 
 **Observation:** A message appears incomplete in any MUA after import
-from gromox-kdb2mt, gromox-pff2mt or gromox-oxm2mt.
+from gromox-{kdb2mt,pff2mt,oxm2mt,mt2exm}.
 
 **Observation:** A message has missing metadata, mangled metadata, mangled
 body, or has substantial differences in how it is rendered between Outlook,
@@ -129,9 +169,11 @@ file is not informative enough.
 
 For gromox-oxm2mt: Send the .msg file to the support team.
 
+For gromox-tnef2mt: Send the .tnef file to the support team.
 
-Messages imported from RFC5322/5545/6350 files
-----------------------------------------------
+
+Messages converted from RFC5322/5545/6350 files
+-----------------------------------------------
 
 **Observation:** A message appears incomplete in any MUA after import
 from gromox-eml2mt, gromox-ical2mt or gromox-vcf2mt.
@@ -157,12 +199,13 @@ does not work as expected. Example use cases that would fall under this:
 
 **Cause:** To be individually determined.
 
-**Action to take:** Grommunio Support may require the sqlite mailbox, which is
-located in ``/var/lib/gromox/X/exmdb/exchange.sqlite3`` to reproduce.
+**Action to take:** Grommunio Support may require the message object (cf.
+"Extracting objects"), or the entire sqlite file, located at e.g.
+``/var/lib/gromox/X/exmdb/exchange.sqlite3``, for reproduction.
 
 
-Message export
---------------
+Messages converted to RFC5322/5545/6350 files
+---------------------------------------------
 
 **Observation:** gromox-http or gromox-zcore emits a log message about failed
 MAPI-to-RFC5322 conversion such as the following.
@@ -194,17 +237,12 @@ Grommunio Support.
 
 **Procedure:**
 
-On the sender side, open grommunio-web, right click the message in "Sent Items"
-and call up the Options dialog. The 16th-last to 5th-last nibble is the
-GCV/message id. (Screenshot example: 0x1fe647)
-
-.. image:: _static/img/gweb-messageid.png
-
-With this ID, the MAPI-to-RFC5322 conversion can be re-enacted:
+Determine the internal message ID (see top of page). The screenshot example
+has 0x314cc. With this ID, the MAPI-to-RFC5322 conversion can be re-enacted:
 
 .. code-block:: sh
 
-	gromox-exm2eml -u test@host.example.net 0x1fe647
+	gromox-exm2eml -u test@host.example.net 0x314cc
 
 If this EML looks bad: Export routine is broken. Confer with section "Messages at rest".
 
