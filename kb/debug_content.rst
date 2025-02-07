@@ -23,7 +23,9 @@ to get a usable value.
 .. image:: _static/img/mfcmapi_entryid2.png
 
 In grommunio-web, right click the message and call up the Options dialog. There
-will be a field for Object ID.
+will be a field for Object ID. (g-web does not offer this for e.g.
+Calendar/Contact items yet; the Options dialog for those mail items is still
+missing the field.)
 
 .. image:: _static/img/gweb-messageid.png
 
@@ -35,13 +37,19 @@ Extracting objects
 
 **Action:** Using the message ID as obtained earlier, the exporter utility can
 be invoked with the exm2eml command. exm2eml offers various output formats,
-depending on user/developer needs. The conversion from MAPI to RFC5322 Internet
-Mail format and back is not necessarily idempotent, so it may be sensible to
-use the Gromox Message Transfer stream format (GXMT) or TNEF.
+depending on user/developer needs. By default, it generates RFC5322 Internet
+Mail format. The conversion from MAPI to RFC5322 Internet Mail format and back
+is not necessarily idempotent/lossless, so the use of the Gromox Message
+Transfer stream format (GXMT) (with ``--mt``) or TNEF (``--tnef``) may be
+warranted.
 
 .. code-block:: sh
 
-	gromox-exm2eml --mt -u test@host.example.net 0x314cc
+	gromox-exm2eml --mt -u test@host.example.net 0x314cc >0x314cc.eml
+
+	gromox-exm2eml --mt -u test@host.example.net 0x314cc >0x314cc.mt
+
+Moving a message to another folder assigns new a object ID.
 
 
 Messages in delivery
