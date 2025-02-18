@@ -372,7 +372,7 @@ reaching out to Grommunio Support for assistance.
 A simple loop to re-queue all failed messages can be achieved by the following
 snippet:
 
-.. code-block: sh
+.. code-block:: sh
 
    cd /var/lib/gromox/queue/
    j=0
