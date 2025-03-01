@@ -377,6 +377,7 @@ snippet:
    cd /var/lib/gromox/queue/
    j=0
    for i in save/*; do
+           [ -f "$i" ] || continue
            mv "$i" "mess/0$j"
            j=$(($j+1))
            echo "requeued $i"
