@@ -1,14 +1,15 @@
 ..
         SPDX-License-Identifier: CC-BY-SA-4.0 or-later
 
-Cleaner
-=======
+Mailbox maintenance
+===================
 
-Empty Trashbin
---------------
+Periodic clearing of Trash folder
+---------------------------------
 
-To automatically empty the trashbin of all mailboxes you can extend the
-``gromox-cleaner.service`` with the following override:
+To automatically empty the trash folder (a.k.a. wastebasket) of all
+mailboxes, you can extend the cleaner service unit with the
+following override (``systemctl edit gromox-cleaner.service``):
 
 .. code-block::
 
