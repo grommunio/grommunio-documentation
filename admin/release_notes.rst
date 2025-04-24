@@ -6,6 +6,49 @@
 Release Notes
 #############
 
+grommunio 2025.01.2
+===================
+
+- Release type: Minor
+- Release date: 18th of April 2025
+- General availability: Yes
+
+**Highlights**
+
+- Polished grommunio Web with updated editors (TinyMCE 7.8.0) and viewers (PDF.js 5.1.91), plus improved handling of shared distribution lists.
+- Per-user service controls are now fully enforceable – administrators can enable/disable Web, ActiveSync, and CalDAV/CardDAV access per user via Admin API/CLI, and these restrictions are honored across all components.
+- Enhanced mobile and CalDAV synchronization reliability, including better compatibility with iOS all-day calendar events and support for alternate login names.
+- Licensing improvement: Only active (non-disabled) user accounts count toward license limits now, aligning license usage with actual active users.
+- Numerous stability and performance fixes across the stack (mail processing, logging, memory management, etc.) further improve reliability.
+- grommunio Setup for DEB: Shipping through the package grommunio-setup, first semi-automatic installations can be made on DEB-based distributions (Debian, Ubuntu)
+- EWS: Further improvements in our EWS improve interoperability, especially with eM Client.
+
+**Enhancements**
+
+- User Service Management: Introduced support for per-user service enablement toggles. The Admin API/CLI now allows toggling user access to Web, EAS (ActiveSync), and DAV services, and the groupware components respect these settings (enforcing service restrictions for disabled users).
+- Licensing: Improved licensing logic by counting only active users against license limits. Disabled or archived users no longer consume a license slot, providing more accurate license utilization for organizations.
+- Web Interface Updates: Upgraded grommunio Web’s third-party components for a better user experience. The rich text editor was updated to TinyMCE 7.8.0, the PDF viewer to pdf.js 5.1.91, and the HTML sanitizer to DomPurify 3.2.5, bringing performance, security, and functionality improvements. Additionally, the calendar’s monthly view now once again displays the recurring-event icon, and the Web UI can show details of public and shared distribution lists (making it easier to view members of shared contacts lists).
+- Plugin and Compatibility Improvements: The optional Kendox plugin is now disabled by default to streamline the Web interface and avoid issues with unused integrations. Also, grommunio Web and related services have officially dropped support for PHP 7.x, requiring PHP 8+ — this update aligns the platform with modern PHP versions for better performance and security.
+- Mailing List and Address Book: Gromox now supports nested groups in permission checks. This enhancement means distribution lists can contain other lists and still resolve correctly, improving flexibility in complex group permissions. Furthermore, internal address-book handling was improved for internationalized entries – additional UTF-16/32 codepage variants are recognized, enhancing support for contacts or attachments with non-Latin characters and internationalized domain names.
+- CalDAV/CardDAV (grommunio DAV): Refined the DAV service for better performance and interoperability. Logging verbosity has been reduced by removing overly extensive debug output (resulting in cleaner logs and lower overhead), and the default fastcgi_read_timeout for the DAV web service was extended (to 360 seconds) to accommodate lengthy calendar or address book operations without timing out. The DAV service also now passes through error responses to clients correctly (ensuring CalDAV/CardDAV clients receive proper error codes), and its dependency stack was updated for stability.
+- General Performance & Stability: Numerous low-level enhancements were made in the core services (Gromox). Memory management was improved in several modules (e.g., automatic buffer reallocation and proper out-of-memory signaling in zcore and exmdb components) to increase scalability under high load. These changes, along with other under-the-hood optimizations, reduce the likelihood of service crashes and improve overall system efficiency.
+
+**Bug Fixes**
+
+- Shared Mailbox Distribution Lists: Fixed issues with shared and public distribution lists in grommunio Web. Users can now successfully send emails to a shared distribution list, and the UI properly expands and displays members of shared/public distribution lists. (Previously, attempts to use or view members of these lists could fail.)
+- Alternate Login Name Fixes: Resolved multiple problems related to alternate user login names (aliases). Users who log in with an alternate email/username can now change their password from the user portal (this was not possible before). In addition, synchronization issues in grommunio Sync when using alternate logins have been addressed, so mobile devices and EAS clients will sync correctly even if the user is logged in via an alias.
+- Calendar All-Day Events: Corrected an ActiveSync calendaring bug that affected Apple iOS clients. All-day events created on one day would sometimes appear spanning two days on iOS devices – this has been fixed to ensure all-day events consistently show on the intended single day across all clients.
+- IMAP Protocol Compliance: Fixed a minor formatting error in IMAP responses – the BODYSTRUCTURE response now includes a needed space that was previously omitted. This compliance fix improves compatibility with IMAP email clients and ensures no parsing issues due to the missing whitespace.
+- Email Content Conversion: Fixed an issue in the email conversion library that could cause HTML-formatted emails to be converted incorrectly. Email content (HTML to plain text or other formats) now converts as expected, preserving formatting and ensuring the message is readable in all clients.
+- Stability Fixes: Addressed rare crashes in the mail processing backend. In particular, issues in the rule processor and mail delivery modules caused by memory allocator mismatches have been resolved. These fixes eliminate certain intermittent crashes (for example, when processing server-side mail rules or delivering messages under high load), resulting in a more robust and reliable server.
+- PST Export: Resolved a problem that prevented Outlook PST exports in certain scenarios. Gromox no longer includes an unintended PR_MESSAGE_SIZE property in export streams, which means exporting mailboxes to PST format will now complete successfully (the extra data that caused PST exports to fail has been removed).
+
+**General Notes**
+
+This version is the last version to include builds for openSUSE 15.5. Any future updates demand strict PHP 8.1+ compatibility. Please update installations still running on openSUSE 15.5 accordingly (for example by use of ``grommunio-update upgrade``)
+
+The above lists cover the most significant changes in grommunio 2025.01.2. Dozens of smaller fixes and improvements are included in this release to refine overall functionality and security.
+
 grommunio 2025.01.1
 ===================
 
