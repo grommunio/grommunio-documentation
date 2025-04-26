@@ -1,0 +1,11 @@
+# these are the python libraries required for building the docs.
+# note that when doing pip freeze, the list of files will be much longer,
+# because all dependencies from below will get added too - which is not required.
+# they are installed automatically with the packages defined.
+#
+packaging==25.0
+setuptools==79.0.1
+Sphinx==8.2.3
+sphinx-rtd-theme==3.0.2
+sphinxcontrib-redoc==1.6.0
+
