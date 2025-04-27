@@ -7,7 +7,7 @@ Microsoft Exchange
 ##################
 
 PFF (cf. `summary from the Forensics Wiki
-<https://forensicswiki.xyz/wiki/index.php?title=Personal_Folder_File_(PAB,_PST,_OST)>`_)
+<https://forensics.wiki/personal_folder_file_%28pab%2C_pst%2C_ost%29/>`_)
 is a format exportable from Outlook and Exchange. Outlook makes use of this
 format for different scenarios, and calls them different names (`.pst`,
 `.ost`), but it is just one file type.
