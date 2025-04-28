@@ -111,13 +111,13 @@ three-node setup (with IPv4 traffic enabled):
 
 	# /etc/gromox/exmdb.cfg
 	exmdb_hosts_allow=:: ::ffff:10.10.10.20 ::ffff:10.10.10.30 ::ffff:10.10.10.40 ::1
-	exmdb_listen_ip=::
+	listen_ip=::
 
 	# /etc/gromox/exmdb_list.txt
-	/var/lib/gromox/user/mail1.gro.at ::ffff:10.10.10.20 5000
-	/var/lib/gromox/user/mail2.gro.at ::ffff:10.10.10.30 5000
-	/var/lib/gromox/user/mail3.gro.at ::ffff:10.10.10.40 5000
-	/var/lib/gromox/domain/ ::ffff:10.10.10.20 5000
+	/var/lib/gromox/user/mail1.gro.at/ private ::ffff:10.10.10.20 5000
+	/var/lib/gromox/user/mail2.gro.at/ private ::ffff:10.10.10.30 5000
+	/var/lib/gromox/user/mail3.gro.at/ private ::ffff:10.10.10.40 5000
+	/var/lib/gromox/domain/ public ::ffff:10.10.10.20 5000
 
 	# /etc/gromox/midb.cfg
 	midb_hosts_allow=:: ::ffff:10.10.10.20 ::ffff:10.10.10.30 ::ffff:10.10.10.40 ::1
@@ -137,6 +137,41 @@ three-node setup (with IPv4 traffic enabled):
 	timer_hosts_allow=:: ::ffff:10.10.10.20 ::ffff:10.10.10.30 ::ffff:10.10.10.40 ::1
 	timer_listen_ip=::
 
+.. important::
+   Please note that the *.txt files include the ACLs and are named as such (not *.cfg)
+
+.. important::
+   Please make sure that your firewall configuration enables the additional ports used:
+   exmdb(tcp/5000), midb (5555/tcp), timer (6666/tcp) and event (33333/tcp).
+
+**Central Admin API control**
+
+Since using multiple servers requires some logic also for the mailbox store creation
+process, using the topology of Share-nothing clusters still would require the
+``gromox-mbop`` mailbox creation process to be able to access the nodes storage.
+
+Generally, in multi-server environments, it is recommended to use the hostname prefixing
+technique as outlined in the above section. This way, the mailbox is "pinned" as per its
+directory to the mailbox directory it has defined. This only means that this mailbox
+is associated with the hostname (primarily), however the real "processing" hostname is
+defined by the user<>mailbox relation.
+
+To create the mailboxes with the hostname-included pathname, this setting is required for
+grommunio-admin API to create the mailbox appropriately:
+
+.. code-block:: text
+
+	options:
+	  serverExplicitMount: true
+
+Ideally, this configuration block would be included in the grommunio Admin API config
+tree, for example as a new yaml under ``/etc/grommunio-admin-api/conf.d/multiserver.yaml``.
+
+.. important::
+   Just because your nodes have shared access to all the nodes configured does not mean
+   that the applications serving the mailboxes are strictly tied to the hostname. The
+   effective processing is determined by the relationship of the user<>server association.
+
 **Storage Structure**
 
 This setup distributes user directories across multiple nodes while maintaining
@@ -149,6 +184,12 @@ performance.
    Before the release of 2025.01.1 it was required for all nodes to have access to
    ``/var/lib/gromox/user`` in this example, because some components (especially IMAP
    and POP3) were accessing the object files via direct IO.
+
+.. note::
+   Depending on the type of setup for the Admin API, it might still be viable to have
+   shared storage access available. If the Admin API is a headless node (for example),
+   you might want to have access to the storage so that the API is able to create
+   the stores for you.
 
 Share-nothing clusters
 ----------------------
@@ -180,6 +221,55 @@ From a configuration standpoint, share-nothing clusters remain identical to
 shared-storage setups, except that nodes do not need access to each other’s
 mailboxes. Production deployments may benefit from additional replication
 techniques for high availability.
+
+Failover
+--------
+
+A cluster can also have strictly high availability requirements (e.g. five nines >99.999%). This
+level of availability does require some cluster suite software to be able to failover in these
+second-level failover switches. For implementing such scenarios covered by the enterprise
+subscription, the workflow is roughly:
+
+- Detect application/container/VM fail
+- Activate standy application/container/VM
+- Switch over application-level requests to new standby system
+
+Failing over the entire cluster-stack of grommunio requires in its core a simple mysql-query to
+be executed as well as a reload signal (SIGHUP) to main services (gromox-*). As per example:
+
+.. code-block:: sql
+
+	UPDATE users SET homeserver=8 WHERE homeserver=4;
+
+and a subsequent following reload signal to reload any application caches.
+
+All of this can be well controlled by well-established cluster services, such as Pacemaker or
+similar products.
+
+Switching "back" to normal operation can be done by for example re-balancing all users to all
+available nodes in your installation:
+
+.. code-block:: sql
+
+	-- prepare environment
+	SET @rownum = 0;
+	SELECT COUNT(*) INTO @server_count FROM servers;
+
+	-- reassign homeservers evenly
+	UPDATE users
+	JOIN (
+	    SELECT
+		maildir,
+		(@rownum := @rownum + 1) AS rownum
+	    FROM users
+	    WHERE homeserver != 0
+	    ORDER BY maildir
+	) AS u_ordered
+	ON users.maildir = u_ordered.maildir
+	SET users.homeserver = (u_ordered.rownum - 1) % @server_count + 1
+	WHERE users.homeserver != 0;
+
+and again, followed by a subsequent reload of the core services (gromox-*).
 
 Protocol / Component Flow
 =========================
