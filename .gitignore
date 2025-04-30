@@ -1,3 +1,7 @@
 *Corel*
 *-build
 */legal_notice.rst
+
+# exclude python venv related files and folders
+# the name is intentionally to differenciate from other venv's
+grommunio-venv
