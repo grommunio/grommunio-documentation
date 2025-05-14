@@ -109,7 +109,7 @@ three-node setup (with IPv4 traffic enabled):
 
 .. code-block:: text
 
-	# /etc/gromox/exmdb.cfg
+	# /etc/gromox/exmdb_provider.cfg
 	exmdb_hosts_allow=:: ::ffff:10.10.10.20 ::ffff:10.10.10.30 ::ffff:10.10.10.40 ::1
 	listen_ip=::
 
