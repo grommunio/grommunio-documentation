@@ -312,12 +312,21 @@ E-Mail forward: Select forward type (CC or Redirect) and the destination e-mail.
 Permissions
 ^^^^^^^^^^^
 
-Granting other users access to this mailbox.
-Available permissions:
+This dialog allows giving other user identities certain permissions at the
+mailbox level.
 
-- Delegates: Permission to send 'on behalf of' this user
-- Send as: Permission to set this user as the sender of an email
-- Full permissions: Grants full mailbox permission
+* Delegates: Users in the delegate list may exercise the "send on behalf"
+  feature, i.e. send messages with a ``From:`` line containing the delegator's
+  identity. *The use of delegation is recorded in messages.*
+* Send As (also known as Impersonation): Users in the send-as list may send
+  messages with a ``From:`` line containing the delegator's identity. It is
+  similar to delegation, but the use of delegation is *not* recorded in
+  messages. Send-As overrides and masks Send-On-Behalf, because SA/SOB
+  permission is only known server-side and MAPI clients have no way to choose
+  between the two.
+* “Full permissions”: Users in this list will be treated like the mailbox
+  owner and not be subject to permission checks when reading or writing
+  folder or message objects.
 
 .. image:: _static/img/user_permissions.png
    :alt: editing a user
