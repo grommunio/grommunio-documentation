@@ -300,13 +300,27 @@ Roles of the user, which can be edited with the autocompleting textfield
 SMTP
 ^^^^
 
-User aliases:. Edit the textfield to edit an alias, click `ADD E-MAIL` to add or
-click the delete icon to delete an alias.
+User aliases: The textfield(s) can be used to set aliases for the current user.
+Use the "Add E-Mail" button to add, or the trashcan icon to delete an alias.
 
-E-Mail forward: Select forward type (CC or Redirect) and the destination e-mail.
+E-Mail forward: This can be used to enforce a redirect or message cloning
+action irrespective of the Inbox Rules configured by a mailbox owner. The mail
+transfer agent used in your mail system must support this and must be
+configured accordingly to evaluate the SQL table where the forward info has
+been stored (see below).
 
 .. image:: _static/img/user_smtp.png
    :alt: editing a user
+
+Configuration fragments to implement CC mode (forward_type 0) for e.g. Postfix:
+
+1. File ``/etc/postfix/main.cf``: setting ``recipient_bcc_maps =
+   mysql:/etc/postfix/grommunio-bcc-forwards.cf``
+2. File ``grommunio-bcc-forwards.cf``: setting ``user = ...``, ``password =
+   ...``, ``hosts = localhost``, ``dbname = grommunio``, ``query = SELECT
+   destination FROM forwards WHERE username='%s' AND forward_type = 0``
+
+Redirect mode (forward_type 1) is left as an exercise to the administrator.
 
 
 Permissions
