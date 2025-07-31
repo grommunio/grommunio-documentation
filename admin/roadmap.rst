@@ -6,29 +6,30 @@
 Roadmap
 #######
 
-Current roadmap of grommunio (as of 29th of January, 2025):
+Current roadmap of grommunio (as of 31th of July, 2025):
 
 - The **Current Stable** release of grommunio has been released on the
   29th of January 2025, with a support lifecycle of 3 years and optional extended
   lifecycle extensions available with grommunio's subscription program.
 
 - The **Next point release** is planned for release in the last week of
-  February 2025 with the following features:
+  Q3 2025 with the following features:
 
   - RFC 2184/2231: Enhanced handling of extended parameters in MIME headers.
   - Trashed Mailboxes & Migration: Improvements for advanced mailbox handling
     across multiple migrations, including x400 addressing and undocumented MAPI
     attributes.
-  - grommunio Setup v2: Expanding support for the setup stage for RHEL9,
-    Debian 12, and Ubuntu 24.04.
-  - grommunio-files: Updated version with group folder management and modern
+  - Extended distribution support with EL10 and Debian 13.
+  - grommunio-files: Updated version with group folder management, modern
     authentication.
-
-- Following 2025.01.2 the following features are in the upcoming
-  release funnel (in QA and/or deployed already in pilot-installations):
-
   - Modern Authentication (OAuth2) for Outlook, IMAP, and POP3.
   - Full HTML-based MR (Meeting Request) Processing in the Web UI.
+
+- Following the next point release in Q4/2025 the following features are in
+  the upcoming release funnel (in QA and/or deployed already in pilot-installations):
+
+  - A complete rewrite of grommunio-Desktop for Windows, MacOS and Linux.
+  - Modern Authentication (OAuth2) for IMAP (XOAUTH2).
   - AI-Powered Features for enhanced user productivity.
   - Extended rules & autoprocessing support.
 
@@ -49,7 +50,7 @@ including potential architectural changes whereas minor releases are focused
 on bugfixes, security updates and smaller features.
 
 grommunio provides a major release annually with patch-level releases in
-monthly cycles.
+quarterly cycles.
 
 Supported Distributions
 =======================
