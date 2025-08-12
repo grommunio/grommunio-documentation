@@ -15,7 +15,7 @@ support for analysis to `support@grommunio.com
 <mailto:support@grommunio.com?subject=%5Bgrommunio%5D%20support%20request%3A%20TOPIC&body=License%3A%0D%0A%0D%0ASteps%20to%20reproduce%3A%0D%0A%0D%0AActual%20result%3A%0D%0A%0D%0AExpected%20result%3A%0D%0A%0D%0A---%0D%0A%0D%0AIf%20supplied%20with%20grommunio-support%20archive%20the%20following%20information%20is%20optional%3A%0D%0A%0D%0AEnvironment%20(Platform%2FOS)%3A%0D%0A%0D%0Agrommunio%20version%3A%0D%0A%0D%0AComponent%20(if%20known)%3A%0D%0A%0D%0ALogs%20(if%20applicable)%3A%0D%0A%0D%0A---%0D%0A%0D%0ACustom%20notes%3A%0D%0A%0D%0A---%0D%0A%0D%0AContact%20information%3A>`_.
 
 The archive generated is made available under the web root of grommunio admin
-archive, which is why it is stongly recommended to remove the generated support
+archive, which is why it is strongly recommended to remove the generated support
 archive as soon as it has been transmitted to grommunio support. The support
 archive can be removed by accessing the console and executing the command ``rm
 -f /usr/share/grommunio-admin-web/grommunio-support.txz``.

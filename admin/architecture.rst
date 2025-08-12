@@ -231,7 +231,7 @@ second-level failover switches. For implementing such scenarios covered by the e
 subscription, the workflow is roughly:
 
 - Detect application/container/VM fail
-- Activate standy application/container/VM
+- Activate standby application/container/VM
 - Switch over application-level requests to new standby system
 
 Failing over the entire cluster-stack of grommunio requires in its core a simple mysql-query to
@@ -837,7 +837,7 @@ Exchange ActiveSync (EAS)
 The main protocol used for mobile devices and tablets is Exchange ActiveSync
 (EAS). EAS is a synchronization state-based protocol which uses state data to
 determine its current synchronization status. EAS is often synonymously
-refered to as "Push Mail", since it is permanently connected to its service
+referred to as "Push Mail", since it is permanently connected to its service
 and listening for updates. As such, EAS is recommended as protocol for mobile
 devices especially over unreliable networks, such as cellular networks. While
 it is possible to connect certain clients, including Microsoft Mail and

@@ -2,8 +2,8 @@
         SPDX-License-Identifier: CC-BY-SA-4.0 or-later
         SPDX-FileCopyrightText: 2024–2025 grommunio GmbH
 
-Debuggin message content
-========================
+Debugging message content
+=========================
 
 Determining internal message id
 -------------------------------
@@ -102,7 +102,7 @@ event. In these cases, redelivery will be attempted and the messages placed in
 version of Gromox, because Postfix is already capable of handling this.)
 
 The message can be found by matching up the
-timestamp in the log with the timstamp of the file object or, in fact, the
+timestamp in the log with the timestamp of the file object or, in fact, the
 timestamp in the filename itself. The filename usually consists of a Unix
 timestamp, a boot-time monotonically-increasing counter (QID), and the
 hostname. This file may contain small binary tags, so if looking for the exact

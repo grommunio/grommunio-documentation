@@ -167,7 +167,7 @@ most-significant permitted device class (microphone, camera, in that order).
 That icon can then be used to call up a mini dialog to enable/disable the set
 of previously granted permissions. In other words, this
 dialog may show any of three outcomes: “Camera allowed/blocked” *or*
-“Microphone allowed/blocked” *or* “Camera and microphone allowd/blocked”.
+“Microphone allowed/blocked” *or* “Camera and microphone allowed/blocked”.
 
 .. image:: _static/img/chromium-settings-cmurl.png
 

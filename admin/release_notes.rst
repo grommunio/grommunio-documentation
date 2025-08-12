@@ -345,7 +345,7 @@ grommunio 2022.12.1
 - Centralized MAPI header files for PHP consumers
 - Default integration of grommunio-dbconf
 - Implementation of hierarchy and permission model (ACLs) for public folders in Admin
-- Mail-Queue mangement in grommunio Admin
+- Mail-Queue management in grommunio Admin
 - Large documentation updates, launch of Knowledge Base in Documentation Portal
 
 The above list is not conclusive. As usual, numerous bug fixes and features have been included. The release notes just highlight major changes; Feel free to check out the detailed logs at GitHub (`https://github.com/grommunio <https://github.com/grommunio>`_).
@@ -549,7 +549,7 @@ grommunio 2021.08.3
 - grommunio Web: Enhance search result limit to 1000 results
 - grommunio Web: Editor upgrade to TinyMCE 4.9.11 with preparation to Tiny 5+
 - grommunio Web: Language updates (English, German, Russian, Hungarian, Danish, ...)
-- grommunio Web: Enhancements to user experience (style, compatbility, performance)
+- grommunio Web: Enhancements to user experience (style, compatibility, performance)
 - grommunio Web: Fix missing font definition for new mails and inline comments
 - grommunio Web: Fix Task requests with Outlook interoperability
 - grommunio Web: Fingerprinting fixes (Firefox ESR)
@@ -1104,10 +1104,10 @@ Bugfixes
 - Fix that only one time logging is needed
 - Fix wrong 'NOTHING' message if only enter being pressed
 - Fix wrong admin interface url
-- Fix wrong color switching in menues
+- Fix wrong color switching in menus
 - Fix wrong current window setting on input boxes
 - Fix wrong explaining text on first menu start
-- Fix wrong logging formating
+- Fix wrong logging formatting
 - getty: do set up stderr as well
 
 Removed
@@ -2130,7 +2130,7 @@ Bugfixes
 - misc: fix two overlapping copy operations
 - misc: fix unbounded strcpy calls
 - misc: fix uninitialized pointers/scalars
-- mod_cache: fix spello "defualt"
+- mod_cache: fix spello "default"
 - mod_proxy: fix out-of-bounds access parsing proxy.txt
 - mra: fix occasional compile error
 - mt2exm: add small prefix to log messages
@@ -2268,7 +2268,7 @@ New (Improvements)
 
 - log: redirect ssl self-generation to log file
 - move fullca function to separate script
-- move logfile to /var/log/ for persitence
+- move logfile to /var/log/ for persistence
 - mysql_adaptor: set schema_upgrade in the right file
 - new SQL setup
 - new TLS setup dialog

@@ -41,7 +41,7 @@ following minimal requirements apply:
 - A TLS certificate with all included DNS names, alternatively a wildcard
   certificate for the entire domain. (Let's Encrypt can be configured by
   grommunio-setup.)
-  If you already own a certificate, it can be re-used provided it is in PEM
+  If you already own a certificate, it can be reused provided it is in PEM
   format, with one file containing the certificate chain and server
   certificate, as well as a separate key file.
 
