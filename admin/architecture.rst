@@ -756,6 +756,314 @@ available CPU cores is a good starting point.
 	 location / { proxy_pass https://be_gromoxnodes/; }
 	}
 
+Node-aware load balancing
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The above example does not take into account largely distributed installations.
+With the example below, and a few automations done, haproxy can be instructed
+to select the appropriate backend node directly, eliminating the requirement
+for backend nodes to distribute the requests by doin RPC redirects and/or
+cross-node traffic. For this to work, a special `mailbox.map` file needs to
+be generated. This can be done in various ways, including interfacing the
+grommunio-admin-api.
+
+On low level - by accessing the grommunio database directly - this can be
+done by this query for example:
+
+.. code-block:: sh
+
+	mysql -N -e "
+	SELECT u.username, s.hostname
+	FROM users u
+	JOIN servers s ON s.id = u.homeserver
+	UNION ALL
+	SELECT a.aliasname, s.hostname
+	FROM aliases a
+	JOIN users u ON u.username = a.mainname
+	JOIN servers s ON s.id = u.homeserver;
+	" > /etc/haproxy/mailbox.map
+
+Please note that for this to work, the appropriate relation of mailboxes to
+servers must be configured. This example requires the haproxy installation to
+be able to be resolved appropriately (when "extname" hostnames are not set
+to be publicly available throughout the haproxy configuration.
+
+This configuration takes 2 assumptions:
+
+- All backend nodes also serve web requests (grommunio-(web|sync), etc.).
+
+- Gromox nodes are appropriately configured as per multi-server documentation.
+
+.. code-block:: haproxy
+
+	global
+	 chroot /var/lib/haproxy
+	 daemon
+	 log /dev/log local0
+	 group haproxy
+	 user haproxy
+	 maxconn 80000
+	 stats timeout 30s
+	 ulimit-n 165000
+	 ca-base /etc/ssl/certs
+	 crt-base /etc/ssl/private
+	 ssl-default-bind-ciphers AES128-GCM-SHA256:AES128-SHA:AES128-SHA256:AES256-GCM-SHA384:AES256-SHA:AES256-SHA256:DES-CBC3-SHA:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-SHA256:DHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-CHACHA20-POLY1305:TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
+	 ssl-default-bind-options ssl-min-ver TLSv1.2 no-tls-tickets
+	 tune.ssl.default-dh-param 2048
+
+	defaults
+	 log global
+	 mode http
+	 option httplog
+	 option dontlognull
+	 retries 3
+	 timeout connect 5s
+	 timeout queue 30s
+	 timeout client 300s
+	 timeout server 300s
+
+	frontend fe_http
+	 bind :80
+	 http-response set-header Strict-Transport-Security max-age=31536000
+	 http-response set-header X-Content-Type-Options nosniff
+	 http-response set-header X-Forwarded-Proto https
+	 http-response set-header X-Frame-Options SAMEORIGIN
+
+	 acl whitelist-ip src -f /etc/haproxy/ha_whitelist_main.txt
+	 http-request silent-drop if HTTP_1.0
+	 acl blacklist-ip src -f /etc/haproxy/ha_blacklist_main.txt
+	 http-request deny if blacklist-ip
+
+	 mode http
+	 maxconn 80000
+
+	 bind *:443 ssl crt /etc/haproxy/proxy.pem alpn h2,http/1.1
+	 no option httpclose
+	 option forwardfor
+	 redirect scheme https code 301 if !{ ssl_fc }
+
+	 # --- extract mailbox for direct routing ---
+	 acl web_login path_beg /web/?login
+	 http-request set-var(txn.mbox) req.body_param(username) if web_login
+	 http-request set-var(txn.mbox) urlp(MailboxId) if autodiscover or ews or mapi or rpc
+
+	 acl fe_haproxy hdr(host) -i mail.grommunio.at
+	 acl admin dst_port 8443
+	 acl auth path_beg /auth
+	 acl autodiscover path_beg -i /autodiscover
+	 acl chat path_beg /chat
+	 acl colibri path_beg /colibri-ws
+	 acl dav path_beg /dav
+	 acl default path_beg /
+	 acl eas path_beg /Microsoft-Server-ActiveSync
+	 acl ews path_beg /EWS
+	 acl files path_beg /files
+	 acl hdr_connection_upgrade hdr(Connection) -i upgrade
+	 acl hdr_upgrade_websocket hdr(Upgrade) -i websocket
+	 acl mapi path_beg /mapi
+	 acl meet path_beg /meet
+	 acl oab path_beg /OAB
+	 acl office path_beg /office
+	 acl rpc path_beg /rpc/rpcproxy.dll
+	 acl web path_beg /web
+
+	 use_backend be_adminnodes if admin fe_haproxy
+	 use_backend be_authnodes if auth fe_haproxy
+	 use_backend be_chatnodes if chat fe_haproxy
+	 use_backend be_filesnodes if files fe_haproxy
+	 use_backend be_gromoxnodes if autodiscover
+	 use_backend be_gromoxnodes if ews fe_haproxy
+	 use_backend be_gromoxnodes if mapi fe_haproxy
+	 use_backend be_gromoxnodes if rpc fe_haproxy
+	 use_backend be_meetnodes if colibri fe_haproxy
+	 use_backend be_meetnodes if hdr_connection_upgrade hdr_upgrade_websocket meet fe_haproxy
+	 use_backend be_meetnodes if meet fe_haproxy
+	 use_backend be_officenodes if office fe_haproxy
+	 use_backend be_webnodes if dav fe_haproxy
+	 use_backend be_webnodes if default fe_haproxy
+	 use_backend be_webnodes if eas fe_haproxy
+	 use_backend be_webnodes if web fe_haproxy
+
+	frontend fe_imaps
+	 mode tcp
+	 option tcplog
+	 bind :993 name imaps
+	 acl blocklist-imap src -f /etc/haproxy/ha_blacklist_imap.txt
+	 tcp-request connection reject if blocklist-imap
+	 default_backend be_imaps
+
+	frontend fe_pop3s
+	 mode tcp
+	 option tcplog
+	 bind :995 name pop3s
+	 acl blocklist-pop3s src -f /etc/haproxy/ha_blacklist_pop3.txt
+	 tcp-request connection reject if blocklist-pop3s
+	 default_backend be_pop3s
+
+	frontend fe_smtp
+	 mode tcp
+	 option tcplog
+	 bind :25 name smtp
+	 acl blocklist-smtp src -f /etc/haproxy/ha_blacklist_smtp.txt
+	 tcp-request connection reject if blocklist-smtp
+	 default_backend be_smtp
+
+	frontend fe_submission
+	 mode tcp
+	 option tcplog
+	 bind :587 name submission
+	 acl blocklist-submission src -f /etc/haproxy/ha_blacklist_submission.txt
+	 tcp-request connection reject if blocklist-submission
+	 default_backend be_submission
+
+	frontend fe_admin
+	 mode http
+	 option httplog
+	 option forwardfor
+	 bind *:8443 ssl crt /etc/haproxy/proxy.pem alpn h2,http/1.1
+	 acl whitelist-admin src -f /etc/haproxy/ha_whitelist_admin.txt
+	 http-request deny if !whitelist-admin
+	 default_backend be_adminnodes
+
+	backend be_gromoxnodes
+	 stick-table type ip size 10240k expire 60m
+	 stick on src
+	 balance roundrobin
+	 option forwardfor
+	 option redispatch
+	 server gromox01 mail01.grommunio.at:443 check ssl verify none
+	 server gromox02 mail02.grommunio.at:443 check ssl verify none
+	 server gromox03 mail03.grommunio.at:443 check ssl verify none
+	 server gromox04 mail04.grommunio.at:443 check ssl verify none
+	 server gromox05 mail05.grommunio.at:443 check ssl verify none
+	 # pick correct gromox node when mailbox is known
+	 use-server %[var(txn.mbox),map(/etc/haproxy/mailbox.map)] if { var(txn.mbox) -m found }
+
+	backend be_chatnodes
+	 stick-table type ip size 10240k expire 60m
+	 stick on src
+	 balance roundrobin
+	 option forwardfor
+	 option http-server-close
+	 option redispatch
+	 server chat01 chat01.grommunio.at:443 check ssl verify none
+	 server chat02 chat02.grommunio.at:443 check ssl verify none
+
+	backend be_webnodes
+	 stick-table type ip size 10240k expire 60m
+	 stick on src
+	 balance roundrobin
+	 option forwardfor
+	 option http-server-close
+	 option redispatch
+	 server web01 web01.grommunio.at:443 check ssl verify none
+	 server web02 web02.grommunio.at:443 check ssl verify none
+	 # route login requests to the mailbox's home node (if web servers share names with gromox nodes)
+	 use-server %[var(txn.mbox),map(/etc/haproxy/mailbox.map)] if { var(txn.mbox) -m found }
+
+	backend be_meetnodes
+	 stick-table type ip size 10240k expire 60m
+	 stick on src
+	 balance url_param room
+	 hash-type consistent
+	 option forwardfor
+	 option http-server-close
+	 option redispatch
+	 server meet01 meet01.grommunio.at:443 check ssl verify none
+	 server meet02 meet02.grommunio.at:443 check ssl verify none
+
+	backend be_filesnodes
+	 stick-table type ip size 10240k expire 60m
+	 stick on src
+	 balance roundrobin
+	 option forwardfor
+	 option http-server-close
+	 option redispatch
+	 server files01 files01.grommunio.at:443 check ssl verify none
+	 server files02 files02.grommunio.at:443 check ssl verify none
+
+	backend be_officenodes
+	 stick-table type ip size 10240k expire 60m
+	 stick on src
+	 balance roundrobin
+	 option forwardfor
+	 option http-server-close
+	 option redispatch
+	 server office01 office01.grommunio.at:443 check ssl verify none
+
+	backend be_authnodes
+	 stick-table type ip size 10240k expire 60m
+	 stick on src
+	 balance roundrobin
+	 option forwardfor
+	 option http-server-close
+	 option redispatch
+	 server auth01 auth01.grommunio.at:443 check ssl verify none
+
+	backend be_adminnodes
+	 stick-table type ip size 10240k expire 60m
+	 stick on src
+	 balance roundrobin
+	 option forwardfor
+	 option http-server-close
+	 option redispatch
+	 server admin01 admin01.grommunio.at:8443 check ssl verify none
+
+	backend be_imaps
+	 stick-table type ip size 10240k expire 60m
+	 mode tcp
+	 balance source
+	 stick on src
+	 server imap01 classic01.grommunio.at:993 check
+	 server imap02 classic02.grommunio.at:993 check
+
+	backend be_pop3s
+	 stick-table type ip size 10240k expire 60m
+	 mode tcp
+	 balance source
+	 stick on src
+	 server pop01 classic01.grommunio.at:995 check
+	 server pop02 classic02.grommunio.at:995 check
+
+	backend be_smtp
+	 mode tcp
+	 balance source
+	 server smtp01 classic01.grommunio.at:25 send-proxy
+	 server smtp02 classic02.grommunio.at:25 send-proxy
+
+	backend be_submission
+	 mode tcp
+	 balance source
+	 server submission01 classic01.grommunio.at:587 send-proxy
+	 server submission02 classic02.grommunio.at:587 send-proxy
+
+
+How this works:
+
+- Frontend fe_http captures the mailbox from AutoDiscover/EWS/MAPI requests or from the grommunio‑web login POST.
+
+- Backend be_gromoxnodes uses use-server with mailbox.map to pick the correct gromox node when a mapping exists; otherwise it falls back to round‑robin.
+
+- Backend be_webnodes can apply the same lookup if the web servers share server names with the gromox nodes (otherwise keep round‑robin).
+
+- This keeps gromox requests and grommunio‑web sessions on the mailbox’s home server, avoiding unnecessary redirects or proxy hops.
+
+.. important::
+   Please note that this configuration example does not cover pure TCP
+   connections (such as e.g. submission) nor does it take OIDC into account.
+
+With OIDC/keycloak, a different approach is recommended - we recommend here to
+set a cookie at login time and evaluate this in haproxy to match the usermap,
+e.g. extending the IdP's nginx by reading the appropriate header and setting
+a cookie containing the username:
+
+.. code-block:: nginx
+
+	proxy_set_header Authorization $http_authorization;
+
+	# After successful login, extract username from ID token (needs lua/openresty or auth_request)
+	add_header Set-Cookie "kc_username=$jwt_claim_preferred_username; Path=/; HttpOnly";
+
 
 SMTP
 ----
