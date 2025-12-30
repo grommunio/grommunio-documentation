@@ -1,7 +1,5 @@
 /.aapi/
 /.gromox/
-/gromox*.rst
-/*.[0-9]gx.rst
-/kdb-uidex*.8.rst
+/*.[1-9]gx.rst
+/*.[1-9].rst
 /grommunio-admin*.rst
-
