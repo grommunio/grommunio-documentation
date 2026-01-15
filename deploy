@@ -110,4 +110,4 @@ for MANUAL in ${BUILD_MANUAL[@]}; do
 	#rm -rf "${MANUAL}-build"
 done
 
-service nginx restart
+systemctl restart nginx
