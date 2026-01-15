@@ -20,7 +20,12 @@ else
 	git clone --depth=1 https://github.com/grommunio/gromox.git .gromox
 fi
 
-rm -f gromox.7.rst *gx*.rst gromox-*.rst grommunio-admin-*.rst
+for i in *.rst; do
+	if [ "$i" = "index.rst" ] || [ "$i" = "legal_notice.rst" ]; then
+		continue
+	fi
+	rm -fv "$i"
+done
 pushd .gromox/doc/
 	for i in *.[0-9]*; do
 	       pandoc -s -f man -t rst -o "$OLDPWD/$i.rst" "$i";

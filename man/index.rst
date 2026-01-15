@@ -35,11 +35,11 @@ experience to install and operate grommunio:
 	:glob:
 
 	gromox.7.rst
-	*grommunio*
-	*gromox-*
-	*gx*
-	kdb-uid*
-	legal_notice.rst
+	[a-f]*
+	gromm*
+	gromox-*
+	gromox.cfg.5.rst
+	[h-z]*
 
 .. toctree::
         :caption: Docs Navigation
