@@ -348,7 +348,7 @@ command. For example, to move a specific message, use:
 
 .. code-block:: bash
 
-   mv <filename> /var/lib/gromox/queue/mess/
+   mv -vn <filename> /var/lib/gromox/queue/mess/
 
 Replace ``<filename>`` with the name of the message file you intend to requeue.
 If you wish to requeue multiple messages, you can use wildcards or specify
@@ -374,12 +374,13 @@ snippet:
 
 .. code-block:: sh
 
-   cd /var/lib/gromox/queue/
-   j=0
+   cd /var/lib/gromox/queue/ || exit 1
    for i in save/*; do
-           mv "$i" "mess/0$j"
-           j=$(($j+1))
-           echo "requeued $i"
+     test -e "$i" || continue
+     while [ -f mess/0 ]; do
+       sleep 1
+     done
+     mv -vn "$i" mess/0
    done
 
 
