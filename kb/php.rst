@@ -9,9 +9,11 @@ opcache
 -------
 
 The ``opcache`` extension mis-executes the ZEND_TYPE_CHECK opcode in at least
-PHP 8.0.25 and causes a vital PHP expression, ``is_resource($x)``, to
-spuriously yield ``false`` even when ``$x`` is a valid resource. Spurious as
-in: we do not know why, but it is reproducibly the same line in grommunio-web.
+PHP 8.0.25 and causes a vital PHP expression, ``is_resource($x)``, to curiously
+yield ``false`` even when ``$x`` is a valid resource. The issue occurs in the
+same spot in grommunio-web, and is reliably reproducible, but we do not know
+_why_ exactly. g-web is a big program and attempts to replicate the problem
+with a smaller program have been unsuccessful to date.
 
 mapi.so checks whether opcache.so is loaded and refuses operation if this is
 the case. (This is in lieu of blocking opcache at the distribution packaging
