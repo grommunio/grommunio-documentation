@@ -5,9 +5,6 @@
 Database check
 ==============
 
-When gromox-http is not running, an integrity check may be performed on SQLite
-databases.
-
 Timing anecdote: The entire exchange.sqlite3 file is read. On an AMD 5950X CPU
 with sqlite 3.46 (runs single-threaded), the processing speed from an in-memory
 file is about 104 MB/s. Thus, slow storage and huge mailboxes influence the
@@ -34,10 +31,12 @@ time the operation takes in practice.
 Recovery
 ========
 
-When (just) indices are broken, the file may be recreated:
+When (just) indices are broken, the file may be recreated when gromox-http
+is not actively using the database:
 
 .. code-block:: sh
 
+	systemctl stop gromox-http
 	cd /var/lib/gromox/domain/1/exmdb/
 	(echo "PRAGMA foreign_keys=0;"; sqlite3 exchange.sqlite3 ".recover") | sqlite3 new.db
 	chmod u=rw,g=rw new.db
