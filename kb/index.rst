@@ -30,4 +30,5 @@ This section is a collection of unstructed notes.
 	sqlite.rst
 	update_cycle.rst
 	virtualization.rst
+	authentik_sso.rst
 	legal_notice.rst
