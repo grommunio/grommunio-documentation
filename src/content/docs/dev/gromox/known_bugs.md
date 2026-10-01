@@ -1,21 +1,22 @@
 ---
 title: "Known bugs"
-description: "Known incompatibilities involving third-party software."
+description: "Known incompatibilities involving third-party software, plus gaps in Gromox itself that are understood but not yet closed."
 sidebar:
   order: 130
 ---
 
-Known incompatibilities involving third-party software.
-
-## Noteworthy issues for users
-
-- Outlook for Mac simply loses track of subscriptions after a while. <https://github.com/grommunio/gromox/pull/311#issuecomment-5253085314>
+Known incompatibilities involving third-party software, plus gaps in Gromox itself that are understood but not yet closed.
 
 ## Noteworthy issues for administrators and packagers
 
 - Due to <https://gitlab.gnome.org/GNOME/libxml2/-/issues/508>, libxml2 versions 2.9.11 \<= v \< 2.11.0 cause HTML e-mail message bodies to change \<o:p\> to \<p\>, which causes the insertion of extraneous empty lines upon reception of e-mail.
 - Due to "optimizations" in various <span class="title-ref">malloc</span> implementations – and thus nothing that Gromox can control directly – certain allocations are not always returned back to the operating system. This makes gromox-imap appear to have high memory consumption (and possibly dying when not enough system memory is installed) after obtaining the listview for a folder with 70000 messages. <https://github.com/grommunio/gromox/issues/214>
 - Some C++ shared libraries can not be unloaded (when <span class="title-ref">readelf -aW</span> outputs "UNIQUE"-type symbols). Components like libgromox_common.so.0, once loaded into a process, stay resident across dlclose-dlopen calls. This generally affects programs that use pam_gromox.so. These programs (e.g. keycloak) need to be restarted after a Gromox update.
+
+## Gaps in Gromox
+
+- The MessageCopyForSentAs and MessageCopyForSendOnBehalf mailbox settings (see gromox-mbop(8)) are evaluated by emsmdb and zcore only. Messages submitted over <strong>EWS</strong> never produce a copy in the represented mailbox, because `EWSContext::send` performs no delegation checks.
+- Likewise for <strong>deferred sends</strong>. When a client requests delayed delivery, RopSubmitMessage and zs_submitmessage hand the message to the timer daemon and return before the code that would deposit the copy. The deferred path completes through `submit_command` and it has not been established whether a copy results.
 
 ## Noteworthy issues for developers
 

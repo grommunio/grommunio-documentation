@@ -12,13 +12,13 @@ grommunio-admin domain — Domain management
 
 ### Synopsis
 
-<strong>grommunio-admin domain</strong> <strong>create</strong> \[<em>--create-role</em>\] \[<em>--homeserver HOMESERVER</em>\] \[<em>--no-defaults</em>\] \[<em>--skip-adaptor-reload</em>\] \[<em>\<FIELDS\></em>\] <em>-u MAXUSER</em> <em>DOMAINNAME</em>  
-<strong>grommunio-admin domain</strong> <strong>delete</strong> <em>DOMAINSPEC</em>  
-<strong>grommunio-admin domain</strong> <strong>list</strong> \[<em>-f FIELD=\<value\></em>\] \[<em>-s FIELD</em>\] \[<em>DOMAINSPEC</em>\]  
-<strong>grommunio-admin domain</strong> <strong>modify</strong> \[<em>\<FIELDS\></em>\] <em>DOMAINSPEC</em>  
-<strong>grommunio-admin domain</strong> <strong>purge</strong> \[<em>--files</em>\] \[<em>-y</em>\] <em>DOMAINSPEC</em>  
-<strong>grommunio-admin domain</strong> <strong>query</strong> \[<em>-f ATTRIBUTE=\<value\></em>\] \[<em>--format FORMAT</em>\] \[<em>--separator SEPARATOR</em>\] \[<em>-s FIELD</em>\] \[<em>ATTRIBUTE</em> …\]  
-<strong>grommunio-admin domain</strong> <strong>recover</strong> <em>DOMAINSPEC</em>  
+<strong>grommunio-admin domain</strong> <strong>create</strong> \[<em>--create-role</em>\] \[<em>--homeserver HOMESERVER</em>\] \[<em>--no-defaults</em>\] \[<em>--skip-adaptor-reload</em>\] \[<em>\<FIELDS\></em>\] <em>-u MAXUSER</em> <em>DOMAINNAME</em>\
+<strong>grommunio-admin domain</strong> <strong>delete</strong> <em>DOMAINSPEC</em>\
+<strong>grommunio-admin domain</strong> <strong>list</strong> \[<em>-f FIELD=\<value\></em>\] \[<em>-s FIELD</em>\] \[<em>DOMAINSPEC</em>\]\
+<strong>grommunio-admin domain</strong> <strong>modify</strong> \[<em>\<FIELDS\></em>\] <em>DOMAINSPEC</em>\
+<strong>grommunio-admin domain</strong> <strong>purge</strong> \[<em>--files</em>\] \[<em>-y</em>\] <em>DOMAINSPEC</em>\
+<strong>grommunio-admin domain</strong> <strong>query</strong> \[<em>-f ATTRIBUTE=\<value\></em>\] \[<em>--format FORMAT</em>\] \[<em>--separator SEPARATOR</em>\] \[<em>-s FIELD</em>\] \[<em>ATTRIBUTE</em> …\]\
+<strong>grommunio-admin domain</strong> <strong>recover</strong> <em>DOMAINSPEC</em>\
 <strong>grommunio-admin domain</strong> <strong>show</strong> \[<em>-f FIELD=\<value\></em>\] \[<em>-s FIELD</em>\] <em>DOMAINSPEC</em>
 
 ### Description

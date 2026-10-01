@@ -12,14 +12,14 @@ grommunio-admin — grommunio admin CLI
 
 ### Synopsis
 
-<strong>grommunio-admin</strong> <em>-h</em>  
+<strong>grommunio-admin</strong> <em>-h</em>\
 <strong>grommunio-admin</strong> <em>COMMAND</em> \[<em>-h</em> \| <em>ARGS…</em>\]
 
 ### Description
 
 Command line interface of the grommunio Admin API.
 
-The CLI is not intended to provide the full functionality of the REST interface, but rather a low level administrative tool.  
+The CLI is not intended to provide the full functionality of the REST interface, but rather a low level administrative tool.\
 As the CLI is still under development, usage in automated scripts is generally discouraged.
 
 The <em>-h</em>/\*--help\* option is not documented separately for each subcommand, but is valid at any point and prints usage information for the current subcommand.
@@ -31,6 +31,10 @@ The CLI supports color output if the <em>termcolor</em> module is installed.
 #### config
 
 Configuration introspection. See <em>grommunio-admin-config(1)</em>.
+
+#### chat
+
+Chat management. See <em>grommunio-admin-chat(1)</em>.
 
 #### connect
 

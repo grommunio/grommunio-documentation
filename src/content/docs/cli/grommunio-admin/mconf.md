@@ -12,11 +12,11 @@ grommunio-admin mconf — Managed configuration manipulation
 
 ### Synopsis
 
-<strong>grommunio-admin mconf</strong> <strong>dump</strong> \[<em>-c</em>\] <em>CONFIG</em>  
-<strong>grommunio-admin mconf</strong> <strong>modify</strong> <em>CONFIG</em> <em>unset</em> <em>KEY</em>  
-<strong>grommunio-admin mconf</strong> <strong>modify</strong> <em>CONFIG</em> <em>ACTION</em> \[<em>-i</em> \| <em>-b</em>\] <em>KEY</em> <em>VALUE</em>  
-<strong>grommunio-admin mconf</strong> <strong>print</strong> <em>CONFIG</em>  
-<strong>grommunio-admin mconf</strong> <strong>reload</strong> <em>CONFIG</em>  
+<strong>grommunio-admin mconf</strong> <strong>dump</strong> \[<em>-c</em>\] <em>CONFIG</em>\
+<strong>grommunio-admin mconf</strong> <strong>modify</strong> <em>CONFIG</em> <em>unset</em> <em>KEY</em>\
+<strong>grommunio-admin mconf</strong> <strong>modify</strong> <em>CONFIG</em> <em>ACTION</em> \[<em>-i</em> \| <em>-b</em>\] <em>KEY</em> <em>VALUE</em>\
+<strong>grommunio-admin mconf</strong> <strong>print</strong> <em>CONFIG</em>\
+<strong>grommunio-admin mconf</strong> <strong>reload</strong> <em>CONFIG</em>\
 <strong>grommunio-admin mconf</strong> <strong>save</strong> <em>CONFIG</em>
 
 ### Description
@@ -45,9 +45,9 @@ Save configuration file to disk
 `ACTION`  
 Modification action:
 
-<em>add</em> - Add entry to list  
-<em>remove</em> - Remove entry from list  
-<em>set</em> - Add key  
+<em>add</em> - Add entry to list\
+<em>remove</em> - Remove entry from list\
+<em>set</em> - Add key\
 <em>unset</em> - Remove key
 
 `CONFIG`  

@@ -24,11 +24,11 @@ The usual config file location is /etc/gromox/exchange_nsp.cfg.
 <span class="gx-deflabel">Default:</span> <span class="gx-default">3000</span>
 
 <dfn class="gx-param">nsp_trace</dfn>  
-Level 1: Log entry into and exit out of NSP functions, with their parameter values to stderr (not http_log_file!). Log data dumps of select calls. Level 2: Dump more data.  
+Level 1: Log entry into and exit out of NSP functions, with their parameter values to stderr (not http_log_file!). Log data dumps of select calls. Level 2: Dump more data.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">0</span>
 
 <dfn class="gx-param">x500_org_name</dfn>  
-<span class="gx-deflabel">Default:</span> <span class="gx-default">(unspecified)</span>
+See [gromox.cfg(5)](/man/gromox-cfg-5/):x500_org_name.
 
 ## Notes
 

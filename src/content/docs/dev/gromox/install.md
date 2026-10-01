@@ -1,14 +1,16 @@
 ---
 title: "Dependency installation"
-description: "A pre-built version of Gromox is readily available by way of the grommunio Linux distribution. If you choose to build from source nevertheless, a number…"
+description: "A pre-built version of Gromox is readily available by way of the grommunio Linux distribution."
 sidebar:
   order: 150
 ---
 
-A pre-built version of Gromox is readily available by way of the grommunio Linux distribution. If you choose to build from source nevertheless, a number of dependencies are needed:
+A pre-built version of Gromox is readily available by way of the grommunio Linux distribution.
+
+Gromox is a C++ codebase with some scripted helpers sprinkled in. (It can be built with different language revisions. The minimum is C++2020. Some C++2023 features are exercised when available.) If you choose to build from source nevertheless, a number of dependencies are needed:
 
 - autotools
-- C and C++20 compiler
+- C++2020 compiler (gcc \>= 12 / clang++)
 - fmt \>= 8
 - jsoncpp
 - libHX \>= 4.28
@@ -70,7 +72,7 @@ The rest of the documentation assumes that Gromox was configured with `--prefix=
 ### FreeBSD/OpenBSD
 
 ``` 
-PKG_CONFIG_PATH=/usr/local/lib/pkgconfig ./configure CC=cc CXX=c++ CPPFLAGS=-I/usr/local/include LDFLAGS=-L/usr/local/lib --with-php=/usr/local/bin/php-config-8.4
+PKG_CONFIG_PATH=/usr/local/lib/pkgconfig ./configure CC=cc CXX=c++ CPPFLAGS=-I/usr/local/include LDFLAGS=-L/usr/local/lib --with-php=/usr/local/bin/php-config-8.5
 ```
 
 - FreeBSD uses /usr/local/libdata/pkgconfig, but some software packages might, when built from source, install to /usr/local/lib/pkgconfig instead. (wmime does this.) Therefore, specifying PKG_CONFIG_PATH may become necessary.

@@ -1,9 +1,155 @@
 ---
 title: "Release Notes"
-description: "Release notes for grommunio, newest first. The current release, 2026.06.1, is the largest to date — introducing grommunio AI, a lighter gromox engine with IMAP4rev2 and expanded EWS, native Debian packages, and a platform rebuilt on openSUSE Leap 16.0."
+description: "Release notes for grommunio, newest first. The current release, 2026.06.2, brings single sign-on across the whole suite, grommunio Web 5.1 with dark mode and OpenPGP, and gromox 3.11."
 sidebar:
   order: 100
 ---
+
+## grommunio 2026.06.2
+
+- Release type: Minor
+- Release date: 30th of September 2026
+- General availability: Yes
+
+grommunio 2026.06.2 is the first big update to 2026.06.1. Two things stand out. First, single sign-on now covers the whole suite: one grommunio login gets you into Web, Admin, Chat, Files, Meet and Archive. Second, grommunio Web 5 is here, with a new look, full dark mode, OpenPGP, a real document viewer and a lot more. Underneath, gromox moves to 3.11, and pretty much every other component got updated too.
+
+**Highlights**
+
+- **One login for everything** — grommunio Auth now sets up the Keycloak clients for Chat, Files, Meet, Archive and Admin for you, and keeps them up to date when packages are installed or upgraded. No more clicking through the Keycloak console per component.
+- **grommunio Web 5.0 and 5.1** — redesigned interface with dark mode everywhere, a command palette (Ctrl+K), undo and redo, OpenPGP next to S/MIME, in-browser previews for almost any attachment, and Outlook-compatible categories.
+- **gromox 3.11** — IMAP keywords and FETCH BINARY, better delegate and meeting handling, Sent Items copies for shared mailboxes, and a long list of Outlook and EWS fixes.
+- **grommunio Files 34** with grommunio branding and SSO login.
+
+**Single sign-on across the suite**
+
+Until now, getting SSO to work for every component meant a fair amount of manual work in Keycloak. grommunio Auth now creates the clients for Chat, Files, Meet, Archive and Admin on its own, using a dedicated service account, and runs again automatically whenever one of those packages is installed or updated. Roles added later with grommunio-setup are hooked into SSO as well.
+
+- **grommunio Admin** has a "Sign in with single sign-on" button on its login page (offered over HTTPS only). Local admin logins still work.
+- **grommunio Chat** logs users in through Keycloak. The new `grommunio-admin chat sso enable|disable` command moves existing chat accounts between password login and SSO, for all domains or just one (`-d DOMAIN`).
+- **grommunio Files** skips its own login form and sends users straight to Keycloak. The local form remains reachable at `/files/index.php/login?direct=1`.
+- **grommunio Meet** authenticates through Keycloak too.
+- **grommunio Archive** gained OpenID Connect login.
+- **grommunio Web** talks to Files with the Keycloak access token, so there is no second login when opening files.
+
+**grommunio Web 5.1**
+
+The biggest update the web client has ever had, with more than 460 changes since 3.19. The major version jump is deliberate: the code, plugin interfaces and settings now carry the grommunio name throughout, and the last leftovers from the Zarafa days are gone.
+
+- **New look** — redesigned interface with larger controls and a new sign-in screen; dark mode for the whole client, the bundled plugins and the document viewer, switchable from the top bar without a reload; JSON themes colour the entire client, including a separate logo for dark mode; two-tone folder icons, full-row folder highlighting and visible keyboard focus.
+- **Getting around faster** — command palette on Ctrl+K to jump to any folder, view or settings page, or create new items; Ctrl+F goes straight to the search box (macOS users get Cmd and Option); undo and redo (Ctrl+Z / Ctrl+Y) for delete, move, copy, flag, read state, categories and calendar moves, enabled under Settings › General.
+- **Mail** — OpenPGP (sign, encrypt, decrypt, verify) right next to S/MIME, with all cryptography in the browser and private keys stored in the user's mailbox, protected by their passphrase; a real document viewer for PDF, Word (including .doc), Excel and CSV, PowerPoint, OpenDocument, RTF, Markdown, code, images, audio, video and attached .eml messages; dragging several attachments into another compose window or onto the desktop as a ZIP; removing attachments from stored messages (can be switched off by admins); pictures pasted from Word; BIMI logos for senders that publish one and pass DMARC; sticky notes on mails, visible to everyone sharing the mailbox.
+- **Works like Outlook** — categories are stored in the mailbox's master category list, so Web, Outlook and phones show the same names and colours (existing categories are carried over automatically); safe and blocked senders use the same Junk Email rule as Outlook.
+- **Shared mailboxes, search and notifications** — conversation view in shared mailboxes; shared mailboxes can be reordered by drag and drop; search covers public folders and their subfolders, and search prefixes work in the user's language (German: *von:*, *an:*, *betreff:*); notifications can be limited to the own mailbox or chosen folders, show sender and subject, and can be silenced; the Copy/Move dialog suggests folders where mail from that sender was filed before.
+- **New in 5.1** — profile pictures from a file, Gravatar or Libravatar, with a crop dialog; the appointment dialog shows which calendar a new appointment goes into; the scheduling view adapts to the attendee list; all delegates are listed in the settings; fully translated into 34 languages; pasted content no longer drags its fonts and colours into the editor; fixes for broken recurrences stopping the calendar from loading, links in mails opening relative to grommunio Web, printing images, timezone shifts on some appointments, and a batch of dark mode and layout issues.
+- **Speed** — requests from the same login run in parallel, so a slow folder in one tab does not freeze the others; scripts, styles and translations are cached by the browser and shipped pre-compressed; the Files folder tree loads in under a tenth of a second for 40 folders (previously more than three seconds).
+- **Security and the Cyber Resilience Act** — every release ships a software bill of materials in CycloneDX and SPDX format, all source files carry SPDX headers, and a published security policy covers how vulnerabilities are handled and reported. On top of that: stricter checks against cross-site requests on login, token and logout, one-time state for Keycloak logins, a per-mailbox limit on messages sent per minute, and a systemd timer that cleans up expired sessions.
+- **For plugin developers** — the `Zarafa` namespace is now `Grommunio`, and `zarafa.*` xtypes, CSS classes and the settings root were renamed accordingly. 5.0 keeps compatibility aliases for now (except for CSS classes); `doc/plugin-namespace-migration.rst` explains the details.
+
+**gromox 3.11**
+
+New:
+
+- IMAP keywords; IMAP flags are now stored in the mailbox, so they survive the loss of `midb.sqlite3`
+- IMAP FETCH BINARY and BINARY.SIZE
+- Shared mailboxes can keep a copy of mail sent as or on behalf of them in their own Sent Items (MessageCopyForSentAs / MessageCopyForSendOnBehalf, set with the new `gromox-mbop` commands `get-msgcopy`, `set-msgcopy` and `clear-msgcopy`; not honoured by EWS yet)
+- New `lda_relay_unknown_recipients` option hands autoreplies and bounces for local addresses without a mailbox to the MTA, for split-domain setups
+- EWS supports the Outlook for Mac reply, reply-all and forward drafts; EWS FindPeople and GetUserPhoto also look in personal contacts
+- A .pst file can be imported into a public folder
+- Short-lived cache for user and group lookups, which takes load off MariaDB/MySQL
+- OpenPGP and GpgOL messages are recognised when converting mail
+- The rule processor logs how its conditions were evaluated, which makes debugging rules a lot easier
+
+Fixed:
+
+- When a delegate answers a meeting request, the organiser now sees the invited person respond, not the delegate; meeting replies include the ORGANIZER property and name the delegate in SENT-BY
+- Delegates who should not receive meeting copies still get proper delegate permissions
+- Outlook's conversation view is faster again (its index was restored)
+- 32-bit Outlook no longer crashes on a greyed-out out-of-office dialog
+- Search folders no longer repopulate over and over
+- More reliable reconnects to exmdb and LDAP after network trouble
+- HTML bodies are detected correctly even when attachments come first
+- Several recurring meeting fixes in the rule processor
+- Folders no longer show fewer messages than they contain in some cases
+- Much faster kdb2mt import of deeply nested messages
+- A crash in the HTTP server on shutdown, and a number of EWS fixes (MoveItem/CopyItem, FindFolder, FindItem, meeting request handling)
+
+Changed:
+
+- RTF to HTML conversion runs in a separate process
+- When importing from PST or Kopano, the root folder is no longer anchored to the top of the mailbox automatically; use `gromox-import -B` to place it
+
+**grommunio Sync 2.6**
+
+- Drafts from ActiveSync 16 clients with an empty Send element no longer abort the sync
+- Saving a draft no longer messes up its attendees
+- Messages can be sent straight from a sync when the client asks for it
+- Chinese mail in codepage 936 is decoded as GB18030
+
+**grommunio DAV 1.8**
+
+- User impersonation
+- Calendars that can only be read are offered read-only to clients; calendars that cannot be read are not listed at all
+- Private appointments and tasks of other users are hidden, except for delegates; everyone else only sees free/busy
+- Failed writes are reported back to the client instead of being silently dropped
+- Fixed missing folders when browsing another user's mailbox
+
+**grommunio Admin**
+
+Web interface:
+
+- New dashboard and login screen, matching grommunio Web
+- Single sign-on login
+- Folder permissions can be edited per user, straight from the user's folder tree
+- A step-by-step DKIM guide, with the key output in the format you need
+- Custom logo, favicon and title
+- Works when served from a subpath
+- Many smaller fixes: storage bars with no quota, user status editing, job title mapping, DMARC in the DNS check
+
+API and CLI:
+
+- OpenID Connect login (configured by grommunio Auth)
+- `passwd --password-stdin` sets a password without it showing up in the process list
+- Store owner, send-as and delegate management in the CLI; `user show` lists them
+- Duplicate aliases are cleaned up automatically
+- License and domain limits are checked when a user is reactivated
+- More reliable LDAP group imports (case sensitivity) and a fix for AD user logins
+- Permission checks on the user folder permission endpoints
+- The web statistics and host status configuration moved into its own optional package, `grommunio-admin-api-mod-vts`
+
+**Other components**
+
+- **grommunio Files** — version 34, with grommunio branding and SSO. Fixed the ONLYOFFICE connection check when running from cron or occ and the X-Robots-Tag header warning, and turned off the OPcache setup warning that clashed with gromox. Files is now also packaged for Debian.
+- **grommunio Keycloak** — 26.7.4. The update to 26.7.2 fixed CVE-2026-18963 (CVSS 9.1), so please do not skip this one. Non-interactive Debian installs no longer get stuck in a loop.
+- **grommunio Meet** — SSO; conferencing secrets are generated properly instead of derived; a duplicate lobby component was dropped; updated theme.
+- **grommunio Office** — fixed "ONLYOFFICE cannot be reached" caused by a missing `api.js` with Document Server 9.x.
+- **grommunio Archive** — SSO support and an upgrade fix.
+- **grommunio Antispam** — updated to 4.1.5.
+- **grommunio Index 1.7** — indexes public folders as well (new `-P` option, included in `-A`; turn it off with `index_public=no`), and rebuilds a damaged index instead of failing every run.
+- **mapi-header-php 2.3** — fixes yearly recurrences and some Keycloak token handling, and now carries the shared MAPI helpers that Web, Sync and DAV use. Web 5.1, Sync 2.6 and DAV 1.8 require it.
+- **grommunio CUI** — no longer passes the admin password on the command line.
+- **grommunio-setup** — creates credential files with tight permissions and connects newly added roles to SSO.
+
+**Packaging and platforms**
+
+- The new `grommunio-triggers` package bundles service restarts during upgrades. Before, a big upgrade could restart php-fpm so often that systemd gave up on it.
+- Log rotation for php-fpm and DAV
+- Builds for Ubuntu 26.04
+- Plenty of Debian fixes: non-interactive installs, config file cleanup on purge, and permission issues in grommunio-setup-deb
+- Branding for partners: logos, colours and titles can be set consistently across Web, Admin, the Keycloak login, Files, Meet, Archive and Antispam
+
+**Before you upgrade**
+
+- Check third-party grommunio Web plugins against the namespace change in 5.0. Most keep working thanks to the compatibility aliases, but plugin stylesheets using `zarafa-*` classes need to be renamed.
+- User settings in grommunio Web move to the new format on first login. Nothing to do for administrators or users.
+- If you script PST or Kopano imports, note the root folder change (introduced with gromox 3.10, included in this release) and use `gromox-import -B` where needed.
+
+**Update**
+
+Existing installations update through the usual grommunio update process; see [Updating grommunio](/admin/operations/#updating-grommunio).
+
+**Acknowledgements**
+
+Thanks to everyone who reported bugs, tested pre-releases and sent patches. Join the conversation in the [grommunio community](https://community.grommunio.com/).
 
 ## grommunio 2026.06.1
 

@@ -16,7 +16,7 @@ sidebar:
 ## Auf einen Blick
 
 - Bietet standardisierte CalDAV- und CardDAV-Schnittstellen für Groupware-Daten (Kontakte, Kalender und Aufgaben).
-- Die plattformübergreifende Unterstützung umfasst verschiedene CalDAV- und CardDAV-Clients, wie beispielsweise den macOS-Kalender, macOS Kontakte, Thunderbird/Lightning, Evolution und viele andere CalDAV/CardDAV-Clients sowie weitere verwendete Anwendungen wie [Dash](https://get-dash.com)].
+- Die plattformübergreifende Unterstützung umfasst verschiedene CalDAV- und CardDAV-Clients, wie beispielsweise den macOS-Kalender, macOS Kontakte, Thunderbird/Lightning, Evolution und viele andere CalDAV/CardDAV-Clients sowie weitere verwendete Anwendungen wie [Dash](https://get-dash.com).
 - Kompatibel, funktioniert mit verschiedenen Webservern wie nginx, Apache und anderen; die Verwendung von nginx wird empfohlen.
 - Hocheffizient, mit einem durchschnittlichen Speicherverbrauch von 4 MB pro Verbindung und Gerät (bei Verwendung von nginx mit PHP-FPM).
 - Verteilbar, kompatibel mit Load-Balancern wie HAProxy, Apisix, KEMP und anderen.
@@ -77,8 +77,8 @@ Für direkten Kontakt und die Übermittlung von Informationen zu einer sicherhei
 ## Mitwirken
 
 - <https://docs.github.com/en/get-started/quickstart/contributing-to-projects>
-- Alternativ können Sie die Commits in einen Git-Speicher Ihrer Wahl hochladen oder die Serie mithilfe von [git format-patch](https://git-scm.com/docs/git-format-patch)] als Patchset exportieren und uns den Git-Link bzw. die Patches dann über unsere direkte Kontaktadresse (siehe oben) zukommen lassen.
+- Alternativ können Sie die Commits in einen Git-Speicher Ihrer Wahl hochladen oder die Serie mithilfe von [git format-patch](https://git-scm.com/docs/git-format-patch) als Patchset exportieren und uns den Git-Link bzw. die Patches dann über unsere direkte Kontaktadresse (siehe oben) zukommen lassen.
 
 ### Programmierstil
 
-Dieses Repository folgt einem benutzerdefinierten Programmierstil, der jederzeit mithilfe der im Repository bereitgestellten [Konfigurationsdatei](.phpcs)] überprüft werden kann.
+Dieses Repository folgt einem benutzerdefinierten Programmierstil, der jederzeit mithilfe der im Repository bereitgestellten [Konfigurationsdatei](.phpcs) überprüft werden kann.

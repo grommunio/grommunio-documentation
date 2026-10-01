@@ -31,7 +31,7 @@ The default entrypoint paths for the gromox_t domain are the following:
 
 SELinux defines process types (domains) for each process running on the system
 
-You can see the context of a process using the <strong>-Z</strong> option to <strong>psP</strong>
+You can see the context of a process using the <strong>-Z</strong> option to <strong>ps</strong>.
 
 Policy governs the access confined processes have to files. SELinux gromox policy is very flexible allowing users to setup their gromox processes in as secure a method as possible.
 
@@ -57,66 +57,66 @@ If you want to allow all domains to execute in fips_mode, you must turn on the f
 
 The SELinux process type gromox_t can manage files labeled with the following file types. The paths listed are the default paths for these file types. Note the processes UID still need to have DAC permissions.
 
-  
+\
 <dfn class="gx-param">cluster_conf_t</dfn>
 
-/etc/cluster(/.\*)?  
+/etc/cluster(/.\*)?\
 
-  
+\
 <dfn class="gx-param">cluster_var_lib_t</dfn>
 
-/var/lib/pcsd(/.\*)?  
-/var/lib/cluster(/.\*)?  
-/var/lib/openais(/.\*)?  
-/var/lib/pengine(/.\*)?  
-/var/lib/corosync(/.\*)?  
-/usr/lib/heartbeat(/.\*)?  
-/var/lib/heartbeat(/.\*)?  
-/var/lib/pacemaker(/.\*)?  
+/var/lib/pcsd(/.\*)?\
+/var/lib/cluster(/.\*)?\
+/var/lib/openais(/.\*)?\
+/var/lib/pengine(/.\*)?\
+/var/lib/corosync(/.\*)?\
+/usr/lib/heartbeat(/.\*)?\
+/var/lib/heartbeat(/.\*)?\
+/var/lib/pacemaker(/.\*)?\
 
-  
+\
 <dfn class="gx-param">cluster_var_run_t</dfn>
 
-/var/run/crm(/.\*)?  
-/var/run/cman\_.\*  
-/var/run/rsctmp(/.\*)?  
-/var/run/aisexec.\*  
-/var/run/heartbeat(/.\*)?  
-/var/run/pcsd-ruby.socket  
-/var/run/corosync-qnetd(/.\*)?  
-/var/run/corosync-qdevice(/.\*)?  
-/var/run/corosync.pid  
-/var/run/cpglockd.pid  
-/var/run/rgmanager.pid  
-/var/run/cluster/rgmanager.sk  
+/var/run/crm(/.\*)?\
+/var/run/cman\_.\*\
+/var/run/rsctmp(/.\*)?\
+/var/run/aisexec.\*\
+/var/run/heartbeat(/.\*)?\
+/var/run/pcsd-ruby.socket\
+/var/run/corosync-qnetd(/.\*)?\
+/var/run/corosync-qdevice(/.\*)?\
+/var/run/corosync.pid\
+/var/run/cpglockd.pid\
+/var/run/rgmanager.pid\
+/var/run/cluster/rgmanager.sk\
 
-  
+\
 <dfn class="gx-param">gromox_log_t</dfn>
 
-/var/log/gromox(/.\*)?  
+/var/log/gromox(/.\*)?\
 
-  
+\
 <dfn class="gx-param">gromox_var_lib_t</dfn>
 
-/var/lib/gromox(/.\*)?  
+/var/lib/gromox(/.\*)?\
 
-  
+\
 <dfn class="gx-param">gromox_var_run_t</dfn>
 
-/var/run/gromox(/.\*)?  
+/var/run/gromox(/.\*)?\
 
-  
+\
 <dfn class="gx-param">root_t</dfn>
 
-/sysroot/ostree/deploy/.\*-atomic/deploy(/.\*)?  
-/  
-/initrd  
+/sysroot/ostree/deploy/.\*-atomic/deploy(/.\*)?\
+/\
+/initrd\
 
 ## FILE CONTEXTS
 
 SELinux requires files to have an extended attribute to define the file type.
 
-You can see the context of a file using the <strong>-Z option to lsP</strong>
+You can see the context of a file using the <strong>-Z</strong> option to <strong>ls</strong>.
 
 Policy governs the access confined processes have to these files. SELinux gromox policy is very flexible allowing users to setup their gromox processes in as secure a method as possible.
 
@@ -124,7 +124,7 @@ Policy governs the access confined processes have to these files. SELinux gromox
 
 SELinux defines the file context types for the gromox, if you wanted to store files with these types in a different paths, you need to execute the semanage command to specify alternate labeling and then use restorecon to put the labels on disk.
 
-<strong>semanage fcontext -a -t gromox_var_run_t '/srv/mygromox_content(/.\*)?'</strong>  
+<strong>semanage fcontext -a -t gromox_var_run_t '/srv/mygromox_content(/.\*)?'</strong>\
 <dfn class="gx-param">restorecon -R -v /srv/mygromox_content</dfn>
 
 Note: SELinux often uses regular expressions to specify labels that match multiple files.

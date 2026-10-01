@@ -41,7 +41,7 @@ In gromox-zcore, this is treated as an alias for zcore_fd_limit.
 See [gromox.cfg(5)](/man/gromox-cfg-5/):outgoing_smtp_url.
 
 <dfn class="gx-param">zcore_fd_limit</dfn>  
-Request that the file descriptor table be at least this large. The magic value 0 indicates that the system default hard limit (rlim_max, cf. setrlimit(2)) should be used.  
+Request that the file descriptor table be at least this large. The magic value 0 indicates that the system default hard limit (rlim_max, cf. setrlimit(2)) should be used.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">0</span>
 
 ## Configuration directives (zcore.cfg)
@@ -55,15 +55,15 @@ The following directives are recognized when reading from /etc/gromox/zcore.cfg,
 <span class="gx-deflabel">Default:</span> <span class="gx-default">3000</span>
 
 <dfn class="gx-param">config_file_path</dfn>  
-Colon-separated list of directories which will be scanned when locating further configuration files, especially those used by subcomponent instances. (For example, [mysql_adaptor(4gx)](/man/mysql_adaptor-4gx/) would be directed to look at /etc/gromox/zcore/mysql_adaptor.cfg before /etc/gromox/mysql_adaptor.cfg.)  
+Colon-separated list of directories which will be scanned when locating further configuration files, especially those used by subcomponent instances. (For example, [mysql_adaptor(4gx)](/man/mysql_adaptor-4gx/) would be directed to look at /etc/gromox/zcore/mysql_adaptor.cfg before /etc/gromox/mysql_adaptor.cfg.)\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">/etc/gromox/zcore:/etc/gromox</span>
 
 <dfn class="gx-param">data_file_path</dfn>  
-Colon-separated list of directories which will be scanned when locating data files.  
+Colon-separated list of directories which will be scanned when locating data files.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">/usr/share/gromox/zcore</span>
 
 <dfn class="gx-param">host_id</dfn>  
-A unique identifier for this system. It is used for the HELO line of outgoing SMTP connections, and as an unused identifier within muidStoreWrap entryids. The identifier should only use characters allowed for hostnames.  
+A unique identifier for this system. It is used for the HELO line of outgoing SMTP connections, and as an unused identifier within muidStoreWrap entryids. The identifier should only use characters allowed for hostnames.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">(system hostname)</span>
 
 <dfn class="gx-param">mailbox_ping_interval</dfn>  
@@ -76,48 +76,48 @@ A unique identifier for this system. It is used for the HELO line of outgoing SM
 <span class="gx-deflabel">Default:</span> <span class="gx-default">510K</span>
 
 <dfn class="gx-param">max_rcpt_num</dfn>  
-The maximum number of recipients that an e-mail is allowed to have.  
+The maximum number of recipients that an e-mail is allowed to have.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">256</span>
 
 <dfn class="gx-param">rpc_proxy_connection_num</dfn>  
-The maximum number of (idle) connections towards Information Store homeservers that are kept alive for rapid re-use.  
+The maximum number of (idle) connections towards Information Store homeservers that are kept alive for rapid re-use.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">10</span>
 
 <dfn class="gx-param">submit_command</dfn>  
 <span class="gx-deflabel">Default:</span> <span class="gx-default">/usr/bin/php /usr/share/gromox/submit.php</span>
 
 <dfn class="gx-param">user_cache_interval</dfn>  
-Sets the time how long the MAPI profile is cached before it is written to disk.  
+Sets the time how long the MAPI profile is cached before it is written to disk.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">1 hour</span>
 
 <dfn class="gx-param">user_table_size</dfn>  
 <span class="gx-deflabel">Default:</span> <span class="gx-default">5000</span>
 
 <dfn class="gx-param">x500_org_name</dfn>  
-<span class="gx-deflabel">Default:</span> <span class="gx-default">(unspecified)</span>
+See [gromox.cfg(5)](/man/gromox-cfg-5/):x500_org_name.
 
 <dfn class="gx-param">zcore_listen</dfn>  
-The named path for the AF_LOCAL socket that zcore will listen on.  
+The named path for the AF_LOCAL socket that zcore will listen on.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">/run/gromox/zcore.sock</span>
 
 <dfn class="gx-param">zcore_log_file</dfn>  
-Target for log messages here. Special values: "<em>-</em>" (stderr/syslog depending on parent PID) or "<em>syslog</em>" are recognized.  
+Target for log messages here. Special values: "<em>-</em>" (stderr/syslog depending on parent PID) or "<em>syslog</em>" are recognized.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default"><em>-</em> (auto)</span>
 
 <dfn class="gx-param">zcore_log_level</dfn>  
-Maximum verbosity of logging. 1=crit, 2=error, 3=warn, 4=notice, 5=info, 6=debug.  
+Maximum verbosity of logging. 1=crit, 2=error, 3=warn, 4=notice, 5=info, 6=debug.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default"><em>4</em> (notice)</span>
 
 <dfn class="gx-param">zcore_max_obh_per_session</dfn>  
-The maximum number of object handles each session can have at any one time (e.g. folders/messages/etc. open simultaneously). Use 0 to indicate unlimited. There is one session for each time a mailbox is opened.  
+The maximum number of object handles each session can have at any one time (e.g. folders/messages/etc. open simultaneously). Use 0 to indicate unlimited. There is one session for each time a mailbox is opened.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">500</span>
 
 <dfn class="gx-param">zcore_threads_num</dfn>  
-The minimum number of client processing threads to keep around.  
+The minimum number of client processing threads to keep around.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">10</span>
 
 <dfn class="gx-param">zrpc_debug</dfn>  
-Log every incoming zcore RPC and the return code of the operation in a minimal fashion to stdout. Level 1 emits RPCs with a failure return code, level 2 emits all RPCs. Note the daemon log level needs to be "debug" (6), too.  
+Log every incoming zcore RPC and the return code of the operation in a minimal fashion to stdout. Level 1 emits RPCs with a failure return code, level 2 emits all RPCs. Note the daemon log level needs to be "debug" (6), too.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">0</span>
 
 ## Network protocol

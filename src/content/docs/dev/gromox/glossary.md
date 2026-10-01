@@ -196,7 +196,7 @@ PR_SOURCE_KEY
 Internal/global identifier (GID) for the object (folder/message). 16-byte dbguid + 6-byte GCV. When Outlook creates new objects in a mailbox, it allocates a GCV number from the <em>primary mailbox of the profile</em> rather than the mailbox where the object is created. As a result, the dbguid of PR_SOURCE_KEY need not match the dbguid of the mailbox where the object is created.
 
 PR_RECORD_KEY  
-In Exchange, similar to EX entryid. 4-byte flags, 16-byte PR_STORE_RECORD_KEY, 2-byte type, 16-byte dbguid, 6-byte GCV, 2-byte pad.
+In Exchange, similar to EX entryid. 4-byte flags, 16-byte PR_STORE_RECORD_KEY, 2-byte type, 16-byte dbguid, 6-byte GCV, 2-byte pad. For attachments, Gromox emits a 0xA2 byte followed by the 8-byte big-endian position of the attachment within its message.
 
 PR_MDB_PROVIDER  
 When emsmdb32.dll is the provider, the 16-byte value is 549a34683d32384a9aa9e00a683131ba.

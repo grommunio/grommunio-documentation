@@ -18,7 +18,7 @@ gromox-cleaner.service is a systemd unit that invokes [gromox-mbop(8)](/man/grom
 /etc/gromox/gromox.cfg is read for the following directives:
 
 <dfn class="gx-param">softpurge_purgetime</dfn>  
-Controls the lifetime of soft-deleted messages. Messages which have the soft-delete flag (a.k.a. "hidden flag" in Exchange) and which have their PR_LAST_MODIFICATION_TIME older than this interval are hard-deleted.  
+Controls the lifetime of soft-deleted messages. Messages which have the soft-delete flag (a.k.a. "hidden flag" in Exchange) and which have their PR_LAST_MODIFICATION_TIME older than this interval are hard-deleted.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">30days</span>
 
 ## See also

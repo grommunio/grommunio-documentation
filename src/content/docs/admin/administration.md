@@ -9,7 +9,7 @@ This chapter includes details on how to administrate components of grommunio wit
 
 ## grommunio admin UI (AUI)
 
-After successfully installing the grommunio Appliance, you can access the UI through your browser on port 8443 (HTTPS). During initial provisioning the Admin API is also reachable unencrypted on port 8080; switch it to TLS as described in [Admin API TLS configuration](/admin/operations/#admin-api-tls-configuration) before exposing it.
+After successfully installing the grommunio Appliance, you can access the UI through your browser on port 8443 (HTTPS). The Admin UI is also reachable unencrypted on port 8080; close or restrict that port before exposing the appliance. On manual installations, enable TLS for the Admin UI as described in [Admin API TLS configuration](/admin/operations/#admin-api-tls-configuration).
 
 Since you most likely set a password for admin UI while installing the Appliance, you can immediately use these credentials to login.
 

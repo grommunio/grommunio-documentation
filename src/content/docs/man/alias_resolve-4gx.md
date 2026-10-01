@@ -16,11 +16,11 @@ alias_resolve is a component of the delivery agent which rewrites the Envelope F
 ## Configuration directives (gromox.cfg)
 
 <dfn class="gx-param">lda_alias_cache_lifetime</dfn>  
-Interval between refreshes of the alias and contact object cache.  
+Interval between refreshes of the alias and contact object cache.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">1h</span>
 
 <dfn class="gx-param">lda_recipient_delimiter</dfn>  
-The set of characters that separate an email address into localpart and extension. This mirrors the "recipient_delimiter" directive from postconf(5).  
+The set of characters that separate an email address into localpart and extension. This mirrors the "recipient_delimiter" directive from postconf(5).\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">(empty)</span>
 
 ## Signals

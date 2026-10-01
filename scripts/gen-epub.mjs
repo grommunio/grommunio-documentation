@@ -9,7 +9,7 @@
  *
  * Usage: node scripts/gen-epub.mjs [book ...]   (default: all books)
  */
-import { chromium } from 'playwright';
+import { launchChromium } from './lib/browser.mjs';
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
@@ -39,7 +39,7 @@ if (haveDist) fs.mkdirSync(DIST_EPUB, { recursive: true });
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'gx-epub-'));
 
 await withPreview(ROOT, async (BASE) => {
-  const browser = await chromium.launch();
+  const browser = await launchChromium();
   const page = await browser.newPage();
   for (const book of books) {
     const pages = pagesFor(book, DOCS);

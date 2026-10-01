@@ -12,15 +12,15 @@ grommunio-admin service — grommunio-admin external service interface control
 
 ### Synopsis
 
-<strong>grommunio-admin service</strong> \[<em>-r</em>\] <em>load</em> <em>SERVICE</em> \[<em>ARGS</em> …\]  
+<strong>grommunio-admin service</strong> \[<em>-r</em>\] <em>load</em> <em>SERVICE</em> \[<em>ARGS</em> …\]\
 <strong>grommunio-admin service</strong> \[<em>-v</em>\] <em>status</em> \[<em>SERVICE</em> \[<em>SERVICE</em> \[…\]\]\]
 
 ### Description
 
-grommunio-admin connects to several external services to either provide means of configuration via API (e.g. grommunio chat) or to retrieve additional information (e.g. LDAP).  
-<em>grommunio-admin service</em> can be used to introspect the connection status of these services.  
-Note that the CLI runs separately from the API backend. If introspection of the running server instance is required, use the <em>connect</em> command to access the server instance.  
-As of version 1.9, each service acts as a blueprint for parameterized instances. Currently only the LDAP service supports parameters, allowing for organization-specific ldap connections.  
+grommunio-admin connects to several external services to either provide means of configuration via API (e.g. grommunio chat) or to retrieve additional information (e.g. LDAP).\
+<em>grommunio-admin service</em> can be used to introspect the connection status of these services.\
+Note that the CLI runs separately from the API backend. If introspection of the running server instance is required, use the <em>connect</em> command to access the server instance.\
+As of version 1.9, each service acts as a blueprint for parameterized instances. Currently only the LDAP service supports parameters, allowing for organization-specific ldap connections.\
 Each instance has a state, reflecting the connection status. The following states are used:
 
 `UNLOADED`  
@@ -45,7 +45,7 @@ The service has been manually disabled (either by configuration or command).
 
 #### load
 
-Load or reload services.  
+Load or reload services.\
 Only services in UNLOADED or SUSPENDED state will be affected unless the <em>--reload</em> option is given.
 
 #### status

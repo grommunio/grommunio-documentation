@@ -21,16 +21,15 @@ gromox-eml2mbox reads one or more RFC5322-formated e-mail messages and re-export
 
 When <strong>-</strong> is given as an argument, standard input is expected to contain a <strong>list of filenames</strong> (i.e. indirection). This can help when \*.eml leads to an expansion the system cannot handle:
 
-> gromox-eml2mbox <em>.eml >all.mbox</em>
+> gromox-eml2mbox \*.eml \>all.mbox
 
 May result in a "Argument list too long" error in sh. Remedy for that:
 
-> find . -maxdepth 1 -type f -name "<em>.eml" | gromox-eml2mbox -</em>
->     >all.mbox
+> find . -maxdepth 1 -type f -name "\*.eml" \| gromox-eml2mbox - \>all.mbox
 
 To convert a single message coming from elsewhere via pipe:
 
-> gromox-exm2mbox <1.eml >1.mbox
+> gromox-exm2mbox \<1.eml \>1.mbox
 
 ## See also
 

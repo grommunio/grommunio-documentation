@@ -61,7 +61,7 @@ For kdb2mt --mbox-user lookup, the "sv", "id" and "st" attributes are needed.
 
 ## Example Kopano user map
 
-> [
+>     [
 >
 >      {"em": "boss@example.domain", "na": "boss", "sv":
 >       "0123456789abcdef0123456789abcdef", "st": "0123456789abcdef0123456789abcdef",
@@ -75,7 +75,7 @@ For kdb2mt --mbox-user lookup, the "sv", "id" and "st" attributes are needed.
 
 ## Example Exchange user map
 
-> [
+>     [
 >      {"dn": "/o=foobar/ou=Gobbledygook/cn=00000000-boss",
 >       "to": "boss@domain.example"}
 >     ]

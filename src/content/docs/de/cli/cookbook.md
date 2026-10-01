@@ -211,7 +211,7 @@ grommunio appliances erstellen regelmäßig platzsparende Snapshots des Postfach
 ```
 
 Planen Sie dies über einen systemd-Timer, um regelmäßige, ressourcenschonende
-Zeitpunkt-Backups durchzuführen. Einzelheiten zur Aufbewahrungsdauer finden Sie unter [`gromox-snapshot`](/man/gromox-snapshot-8/)].
+Zeitpunkt-Backups durchzuführen. Einzelheiten zur Aufbewahrungsdauer finden Sie unter [`gromox-snapshot`](/man/gromox-snapshot-8/).
 
 ## Diagnose und Fehlerbehebung
 

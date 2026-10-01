@@ -39,11 +39,11 @@ Splice objects from the PFF into existing folders. Specifically, the PFF root is
 Show a diagnostic tree view of the source data as it is being read.
 
 <dfn class="gx-param">--loglevel</dfn> <em>n</em> Maximum verbosity of general logging (not connected  
-to <strong>-p</strong>, <strong>-t</strong> or <strong>-v</strong>). 1=crit, 2=error, 3=warn, 4=notice, 5=info, 6=debug.  
+to <strong>-p</strong>, <strong>-t</strong> or <strong>-v</strong>). 1=crit, 2=error, 3=warn, 4=notice, 5=info, 6=debug.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default"><em>4</em> (notice)</span>
 
 <dfn class="gx-param">--with-hidden</dfn>, <strong>--without-hidden</strong>  
-This option controls the import of folders that have PR_ATTR_HIDDEN=1.  
+This option controls the import of folders that have PR_ATTR_HIDDEN=1.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">skip hidden folders</span>
 
 <dfn class="gx-param">--only-obj</dfn> <em>nid</em>  
@@ -61,7 +61,7 @@ gromox-import has more target options. See its manpage.
 
 Embedded messages are treated as subitems by libpff. Luckily, the only consequence is that the tree view (-t) shows duplicate NID visits.
 
-> \_ [id=21cee4h ntyp=unknown-4h type=appointment nset=1 nent=161]
+>     \_ [id=21cee4h ntyp=unknown-4h type=appointment nset=1 nent=161]
 >         \_ [id=8005h ntyp=atx type=attachment nset=1 nent=19]
 >             \_ [attachment type=i embedded_msg]
 >                 \_ [id=21cf04h ntyp=unknown-4h type=appointment nset=1

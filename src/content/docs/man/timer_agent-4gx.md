@@ -20,15 +20,15 @@ In practice, this is used by [exchange_emsmdb(4gx)](/man/exchange_emsmdb-4gx/) a
 The usual config file location is /etc/gromox/timer_agent.cfg.
 
 <dfn class="gx-param">connection_num</dfn>  
-Number of connections to keep active.  
+Number of connections to keep active.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">8</span>
 
 <dfn class="gx-param">timer_host</dfn>  
-The hostname/IP address for contacting the timer daemon.  
+The hostname/IP address for contacting the timer daemon.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">::1</span>
 
 <dfn class="gx-param">timer_port</dfn>  
-The TCP port number for contacting the timer daemon.  
+The TCP port number for contacting the timer daemon.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">6666</span>
 
 ## See also

@@ -31,6 +31,18 @@ export DOC_VERSION="${DOC_VERSION:-}"
 echo "==> Installing dependencies"
 if [ -f package-lock.json ]; then npm ci; else npm install; fi
 
+echo "==> Checking for a headless Chromium (diagrams, PDF, EPUB)"
+# npm ci does not download Playwright's browser. browser.mjs uses it if present,
+# else a system Chromium/Chrome ($CHROMIUM_PATH or $PATH), else downloads
+# Playwright's build — never with --with-deps, which requires apt-get.
+if ! node scripts/lib/browser.mjs --ensure; then
+  if [ -n "${MAKE_PDF:-}${MAKE_EPUB:-}" ]; then
+    echo "!! PDF/EPUB export needs Chromium: install the chromium package or set CHROMIUM_PATH." >&2
+    exit 1
+  fi
+  echo "   no browser — diagrams keep their committed SVGs"
+fi
+
 echo "==> Refreshing auto-generated content (man pages, admin CLI, OpenAPI)"
 npm run gen:all
 
@@ -42,9 +54,6 @@ fi
 echo "==> Building static site (version $(node src/version.mjs))"
 npm run build
 
-echo "==> Checking internal links"
-npm run check:links
-
 if [ -n "${MAKE_PDF:-}" ]; then
   echo "==> Generating per-book PDFs"
   npm run pdf
@@ -53,6 +62,10 @@ if [ -n "${MAKE_EPUB:-}" ]; then
   echo "==> Generating per-book EPUBs"
   npm run epub
 fi
+
+# After the exports: the book pages link the PDF/EPUB files they produce.
+echo "==> Checking internal links"
+npm run check:links
 
 if [ -z "${PUBLISH:-}" ]; then
   echo "==> Build complete -> dist/  (set PUBLISH=1 to publish to ${DOCU_ROOT})"

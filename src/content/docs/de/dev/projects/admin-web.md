@@ -184,4 +184,4 @@ Dieses Repository folgt einem Programmierstil, der sich lose am PEP8-Standard or
 
 Dieses Projekt unterliegt der <strong>GNU Affero General Public License v3</strong>.
 
-Weitere Informationen finden Sie unter [LICENSE](LICENSE.txt)].
+Weitere Informationen finden Sie unter [LICENSE](LICENSE.txt).

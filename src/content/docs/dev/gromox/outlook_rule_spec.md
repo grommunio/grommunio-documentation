@@ -1075,7 +1075,7 @@ or
 {RES_PROPERTY, RELOP_LE, PR_MESSAGE_DELIVERY_TIME, yy}
 ```
 
-both combined via `RES_AND`.
+If both are used, they are combined via `RES_AND`.
 
 `test_after`  
 Boolean indicating whether or not to run a comparison `NOW > ts_after`.
@@ -1853,6 +1853,8 @@ SSRT:
 ``` c
 PR_RULE_STATE |= ST_EXIT_LEVEL
 ```
+
+When the stop action is not used, OL produces a client-side only rule.
 
 ## Action 324 (0x144): Redirect
 

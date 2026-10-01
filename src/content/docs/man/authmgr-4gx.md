@@ -18,12 +18,12 @@ authmgr is a component that, for mail account authentication, dynamically select
 The following directives are recognized when they are in /etc/gromox/gromox.cfg:
 
 <dfn class="gx-param">auth_fail_delay</dfn>  
-The amount of time to wait after a failed authentication attempt (unknown user or rejected password). When the MySQL database itself is unavailable, the delay is also added, which mitigates a little what could otherwise be an authentication storm. Users which are externally managed (e.g. in LDAP) are exempt from auth_fail_delay in Gromox, since the expectation is that the LDAP Bind operation already inserts a delay of its own. Setting the value to 0 disables the delay. Per-username banning by <strong>user_filter</strong>(4gx) applies regardless of this setting. Subsecond resolution is available.  
+The amount of time to wait after a failed authentication attempt (unknown user or rejected password). When the MySQL database itself is unavailable, the delay is also added, which mitigates a little what could otherwise be an authentication storm. Users which are externally managed (e.g. in LDAP) are exempt from auth_fail_delay in Gromox, since the expectation is that the LDAP Bind operation already inserts a delay of its own. Setting the value to 0 disables the delay. Per-username banning by <strong>user_filter</strong>(4gx) applies regardless of this setting. Subsecond resolution is available.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">1s</span>
 
 <dfn class="gx-param">auth_backend_selection</dfn>  
-This controls how authmgr will verify passwords supplied with login operations. See the "Authentication modes" section below for details.  
-Available: <em>deny_all</em>, <em>allow_all</em>, <em>ldap</em>, <em>pam</em>  
+This controls how authmgr will verify passwords supplied with login operations. See the "Authentication modes" section below for details.\
+Available: <em>deny_all</em>, <em>allow_all</em>, <em>ldap</em>, <em>pam</em>\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">ldap</span>
 
 ## Authentication modes

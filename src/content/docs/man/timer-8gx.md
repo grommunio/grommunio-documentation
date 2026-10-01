@@ -41,34 +41,34 @@ All time-based command-line options and configuration file directives are subjec
 The usual config file location is /etc/gromox/timer.cfg.
 
 <dfn class="gx-param">running_identity</dfn>  
-An unprivileged user account to switch the process to after startup. To inhibit the switch, assign the empty value.  
+An unprivileged user account to switch the process to after startup. To inhibit the switch, assign the empty value.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">gromox</span>
 
 <dfn class="gx-param">timer_hosts_allow</dfn>  
-A space-separated list of individual IPv6 or v4-mapped IPv6 host addresses that are allowed to converse with the timer service. No networks and no CIDR notations are permitted.  
+A space-separated list of individual IPv6 or v4-mapped IPv6 host addresses that are allowed to converse with the timer service. No networks and no CIDR notations are permitted.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">::1</span>
 
 <dfn class="gx-param">timer_listen_ip</dfn>  
-An IPv6 address (or v4-mapped address) for exposing the timer service on.  
+An IPv6 address (or v4-mapped address) for exposing the timer service on.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">::1</span>
 
 <dfn class="gx-param">timer_listen_port</dfn>  
-The TCP port number for exposing the timer service on.  
+The TCP port number for exposing the timer service on.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">6666</span>
 
 <dfn class="gx-param">timer_log_file</dfn>  
-Target for log messages here. Special values: "<em>-</em>" (stderr/syslog depending on parent PID) or "<em>syslog</em>" are recognized.  
+Target for log messages here. Special values: "<em>-</em>" (stderr/syslog depending on parent PID) or "<em>syslog</em>" are recognized.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default"><em>-</em> (auto)</span>
 
 <dfn class="gx-param">timer_log_level</dfn>  
-Maximum verbosity of logging. 1=crit, 2=error, 3=warn, 4=notice, 5=info, 6=debug.  
+Maximum verbosity of logging. 1=crit, 2=error, 3=warn, 4=notice, 5=info, 6=debug.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default"><em>4</em> (notice)</span>
 
 <dfn class="gx-param">timer_state_path</dfn>  
 <span class="gx-deflabel">Default:</span> <span class="gx-default">/var/lib/gromox/timer.txt</span>
 
 <dfn class="gx-param">timer_threads_num</dfn>  
-The minimum number of client processing threads to keep around.  
+The minimum number of client processing threads to keep around.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">50</span>
 
 ## Timer protocol

@@ -18,7 +18,7 @@ grommunio-admin run — Start a stand-alone HTTP server
 
 Run REST API in a stand-alone HTTP server.
 
-<dfn class="gx-param">—–DO NOT USE IN PRODUCTION!—–</dfn>  
+<strong>—–DO NOT USE IN PRODUCTION!—–</strong>\
 This command is intended for development and testing. A production instance should use an external WSGI server like <em>uwsgi</em>.
 
 ### Options

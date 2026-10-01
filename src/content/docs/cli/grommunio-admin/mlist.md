@@ -12,9 +12,9 @@ grommunio-admin mlist — Mailing/distribution list management
 
 ### Synopsis
 
-<strong>grommunio-admin mlist</strong> <strong>add</strong> <em>MLISTSPEC</em> (<em>sender</em>\|<em>recipient</em>) <em>ENTRY</em> <strong>grommunio-admin mlist</strong> <strong>create</strong> \[<em>-p PRIVILEGE</em>\] \[<em>-r RECIPIENT</em>\] \[<em>-s SENDER</em>\] \[<em>-t TYPE</em>\] NAME  
-<strong>grommunio-admin mlist</strong> <strong>delete</strong> \[<em>-y</em>\] <em>MLISTSPEC</em>  
-<strong>grommunio-admin mlist</strong> <strong>list</strong> \[<em>-f FIELD=\<value\></em>\] \[<em>-s FIELD</em>\] \[<em>MLISTSPEC</em>\]  
+<strong>grommunio-admin mlist</strong> <strong>add</strong> <em>MLISTSPEC</em> (<em>sender</em>\|<em>recipient</em>) <em>ENTRY</em> <strong>grommunio-admin mlist</strong> <strong>create</strong> \[<em>-p PRIVILEGE</em>\] \[<em>-r RECIPIENT</em>\] \[<em>-s SENDER</em>\] \[<em>-t TYPE</em>\] NAME\
+<strong>grommunio-admin mlist</strong> <strong>delete</strong> \[<em>-y</em>\] <em>MLISTSPEC</em>\
+<strong>grommunio-admin mlist</strong> <strong>list</strong> \[<em>-f FIELD=\<value\></em>\] \[<em>-s FIELD</em>\] \[<em>MLISTSPEC</em>\]\
 <strong>grommunio-admin mlist</strong> <strong>modify</strong> \[<em>-p PRIVILEGE</em>\] \[<em>-r RECIPIENT</em>\] <em>MLISTSPEC</em> <strong>grommunio-admin mlist</strong> <strong>remove</strong> <em>MLISTSPEC</em> (<em>sender</em>\|<em>recipient</em>) <em>ENTRY</em> <strong>grommunio-admin mlist</strong> <strong>show</strong>
 
 ### Description

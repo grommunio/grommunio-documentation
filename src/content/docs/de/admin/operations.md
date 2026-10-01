@@ -1,6 +1,6 @@
 ---
 title: "Betrieb"
-description: "Da der Prozess des Admin API für die erste Einrichtungsphase relevant ist, wird er standardmäßig über Port 8080 und unverschlüsselt bereitgestellt. Daher…"
+description: "Betrieb von grommunio: TLS für die Admin-API, Zertifikatsverwaltung, Updates, Backup und Notfallwiederherstellung, erneutes Einreihen von E-Mails und Größenbeschränkungen."
 sidebar:
   order: 80
 ---
@@ -9,7 +9,7 @@ sidebar:
 
 ### Konfiguration von Admin API und TLS
 
-Da der Prozess des Admin API für die erste Einrichtungsphase relevant ist, wird er standardmäßig über Port 8080 und unverschlüsselt bereitgestellt. Sobald der Einrichtungsprozess abgeschlossen ist, wird empfohlen, auf eine TLS-basierte Konfiguration umzustellen.
+Das Paket der Admin-API stellt die Admin-UI unverschlüsselt auf Port 8080 bereit. Auf der grommunio Appliance führt grommunio-setup die folgenden Schritte automatisch aus, sodass die Admin-UI nach der Einrichtung per TLS auf Port 8443 erreichbar ist; dort ist nur Port 8080 zu schließen oder einzuschränken. Bei manuellen Installationen stellen Sie auf eine TLS-basierte Konfiguration um, sobald der Einrichtungsprozess abgeschlossen ist.
 
 Die mitgelieferten grommunio-Konfigurationsdateien dienen dazu, die TLS-Konfiguration auf der Grundlage der bestehenden Konfiguration einzurichten. Um die TLS-Konfiguration des grommunio-admin zu aktivieren, führen Sie die folgenden Schritte aus:
 
@@ -49,7 +49,7 @@ Beachten Sie, dass durch einen Neustart des Webservers bestehende Verbindungen b
 
 Für den Betrieb des grommunio ist die Verwendung von Sicherheitsmaßnahmen auf Basis des TLS zwingend erforderlich. Bei Vorhandensein von TLS-Zertifikaten wird jegliche Kommunikation mit den Diensten des grommunio durch modernste Verschlüsselung geschützt, was für viele Clients und Protokolle zwingend vorgeschrieben ist.
 
-Wenn Sie den Einrichtungsweg für grommunio befolgen, lesen Sie bitte auch [TLS-Konfiguration](/admin/installation/#tls-configuration)]. Während des gesamten Installationsprozesses stehen dem Administrator mehrere Optionen für eine TLS-basierte Installation zur Verfügung. Für einen reibungslosen Betrieb wird empfohlen, über grundlegende Kenntnisse der PKI-Konzepte und des X.509-Standards für Zertifikate zu verfügen. Im Allgemeinen verwendet grommunio PEM-kodierte Zertifikate.
+Wenn Sie den Einrichtungsweg für grommunio befolgen, lesen Sie bitte auch [TLS-Konfiguration](/admin/installation/#tls-configuration). Während des gesamten Installationsprozesses stehen dem Administrator mehrere Optionen für eine TLS-basierte Installation zur Verfügung. Für einen reibungslosen Betrieb wird empfohlen, über grundlegende Kenntnisse der PKI-Konzepte und des X.509-Standards für Zertifikate zu verfügen. Im Allgemeinen verwendet grommunio PEM-kodierte Zertifikate.
 
 Falls Zertifikate ersetzt werden müssen, befinden sich die von grommunio verwendeten Zertifikate standardmäßig an folgenden Speicherorten:
 

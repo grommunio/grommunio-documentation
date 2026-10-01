@@ -13,9 +13,9 @@ Gromox ist die zentrale Groupware-Serverkomponente von grommunio. Es kann als di
 
    
 
-Gromox ist modular aufgebaut und besteht aus einer Reihe von Komponenten und Programmen, die den Funktionsumfang des Systems bereitstellen. Dieses Repository enthält eine Reihe von Handbuchseiten, deren gerenderte Version unter [docs.grommunio.com](https://docs.grommunio.com/man/gromox.7.html)] zu finden ist.
+Gromox ist modular aufgebaut und besteht aus einer Reihe von Komponenten und Programmen, die den Funktionsumfang des Systems bereitstellen. Dieses Repository enthält eine Reihe von Handbuchseiten, deren gerenderte Version unter [docs.grommunio.com](https://docs.grommunio.com/man/gromox.7.html) zu finden ist.
 
-Anweisungen zur Kompilierung finden Sie in [doc/install.rst](doc/install.rst)]. Im Verzeichnis [doc/](doc/)] befindet sich außerdem weitere, überwiegend technische Dokumentation.
+Anweisungen zur Kompilierung finden Sie in [doc/install.rst](doc/install.rst). Im Verzeichnis [doc/](doc/) befindet sich außerdem weitere, überwiegend technische Dokumentation.
 
 Gromox ist auf andere Komponenten angewiesen, um ein sinnvolles, vollständiges E-Mail-System bereitzustellen,
 
@@ -39,12 +39,12 @@ Für direkten Kontakt und die Übermittlung von Informationen zu einer sicherhei
 
 ## Standards und Protokolle
 
-Eine Erläuterung dazu finden Sie unter [doc/protocols.rst](doc/protocols.rst)].
+Eine Erläuterung dazu finden Sie unter [doc/protocols.rst](doc/protocols.rst).
 
 ## Mitwirken
 
 - <https://docs.github.com/en/get-started/quickstart/contributing-to-projects>
-- Alternativ können Sie die Commits in einen Git-Speicher Ihrer Wahl hochladen oder die Serie mithilfe von [git format-patch](https://git-scm.com/docs/git-format-patch)] als Patchset exportieren und uns den Git-Link bzw. die Patches dann über unsere direkte Kontaktadresse (siehe oben) zukommen lassen.
+- Alternativ können Sie die Commits in einen Git-Speicher Ihrer Wahl hochladen oder die Serie mithilfe von [git format-patch](https://git-scm.com/docs/git-format-patch) als Patchset exportieren und uns den Git-Link bzw. die Patches dann über unsere direkte Kontaktadresse (siehe oben) zukommen lassen.
 
 ### Programmieren und Sozialverhalten
 

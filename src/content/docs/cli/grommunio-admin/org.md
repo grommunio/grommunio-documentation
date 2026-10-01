@@ -12,10 +12,10 @@ grommunio-admin org — Organization management
 
 ### Synopsis
 
-<strong>grommunio-admin org</strong> <strong>create</strong> \[<em>--description DESCRIPTION</em>\] \[<em>--domain DOMAIN</em> …\] <em>ORGNAME</em>  
-<strong>grommunio-admin org</strong> <strong>delete</strong> <em>ORGSPEC</em>  
-<strong>grommunio-admin org</strong> <strong>modify</strong> \[<em>\<FIELDS\></em>\] <em>ORGSPEC</em>  
-<strong>grommunio-admin org</strong> <strong>query</strong> \[<em>-f ATTRIBUTE=\<value\></em>\] \[<em>--format FORMAT</em>\] \[<em>--separator SEPARATOR</em>\] \[<em>-s FIELD</em>\] \[<em>ATTRIBUTE</em> …\]  
+<strong>grommunio-admin org</strong> <strong>create</strong> \[<em>--description DESCRIPTION</em>\] \[<em>--domain DOMAIN</em> …\] <em>ORGNAME</em>\
+<strong>grommunio-admin org</strong> <strong>delete</strong> <em>ORGSPEC</em>\
+<strong>grommunio-admin org</strong> <strong>modify</strong> \[<em>\<FIELDS\></em>\] <em>ORGSPEC</em>\
+<strong>grommunio-admin org</strong> <strong>query</strong> \[<em>-f ATTRIBUTE=\<value\></em>\] \[<em>--format FORMAT</em>\] \[<em>--separator SEPARATOR</em>\] \[<em>-s FIELD</em>\] \[<em>ATTRIBUTE</em> …\]\
 <strong>grommunio-admin org</strong> <strong>show</strong> \[<em>-f FIELD=\<value\></em>\] \[<em>-s FIELD</em>\] <em>ORGSPEC</em>
 
 ### Description

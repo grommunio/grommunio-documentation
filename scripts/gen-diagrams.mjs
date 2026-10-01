@@ -10,7 +10,7 @@
  *
  * Usage: node scripts/gen-diagrams.mjs [name ...]   (default: all)
  */
-import { chromium } from 'playwright';
+import { launchChromium } from './lib/browser.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -72,7 +72,15 @@ if (want.length) names = names.filter((n) => want.includes(n));
 fs.mkdirSync(OUT, { recursive: true });
 const mermaidSrc = fs.readFileSync(MERMAID, 'utf8');
 
-const browser = await chromium.launch();
+// The SVGs are committed, so a host without a browser keeps the existing ones
+// instead of failing the whole deploy.
+let browser;
+try {
+  browser = await launchChromium();
+} catch (e) {
+  console.warn(`! diagrams not re-rendered, keeping the committed SVGs: ${e.message}`);
+  process.exit(0);
+}
 const page = await browser.newPage();
 await page.setContent('<!doctype html><html><body><div id="x"></div></body></html>');
 

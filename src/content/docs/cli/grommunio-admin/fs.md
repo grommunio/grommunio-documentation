@@ -12,7 +12,7 @@ grommunio-admin fs — Filesystem operations
 
 ### Synopsis
 
-<strong>grommunio-admin fs</strong> <strong>clean</strong> \[<em>-d</em>\] \[<em>-s</em>\] \[<em>PARTITION</em>\]  
+<strong>grommunio-admin fs</strong> <strong>clean</strong> \[<em>-d</em>\] \[<em>-s</em>\] \[<em>PARTITION</em>\]\
 <strong>grommunio-admin fs</strong> <strong>du</strong> \[<em>PARTITION</em>\]
 
 ### Description

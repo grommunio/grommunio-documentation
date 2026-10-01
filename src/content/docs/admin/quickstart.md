@@ -46,32 +46,34 @@ Optional requirements:
 
 1.  Download of the bootable x86 image from download.grommunio.com: <https://download.grommunio.com/appliance/grommunio.x86_64-latest.install.iso>
 2.  Load the file for installation into the server on which grommunio should be installed on.
-3.  Run the installer and choose "Install grommunio_Appliance" from the boot menu to install the appliance.
+3.  Boot from the installation medium and choose **"Install grommunio"** from the boot menu before the 10-second countdown expires (the default entry, *Boot from Hard Disk*, boots an existing installation).
 
 :::caution
-Note that the installer asks for confirmation to delete and overwrite the installation target!
+Note that the installer asks for confirmation to delete and overwrite the **entire** installation target disk!
 :::
 
-![grommunio Appliance installer boot screen](/img/admin_quickstart_boot.png)
+![grommunio Appliance installer boot screen](/img/appliance_boot_menu.png)
 
-After the image has been copied to disk, the appliance is ready for boot and upcoming setup.
+After the image has been copied to disk, the appliance boots into the installed system and is ready for the upcoming setup. See [Installing the appliance](/admin/installation/#installing-the-appliance) for screenshots of every step.
 
 ## Setup
 
 After installation, the appliance displays the grommunio console user interface (CUI). For more detailed instructions of the setup process, refer to [grommunio Appliance configuration with CUI/setup](/admin/installation/#grommunio-appliance-configuration-with-cuisetup).
 
 :::caution
-The initial root password is unset (empty). When asked for password, just press "Enter".
+The initial root password is unset (empty). As long as no password is set, `F2` opens the CUI main menu without asking for credentials.
 :::
 
 To configure grommunio, proceed as follows:
 
-1.  Choose **"Change system password"** to set a new root password.
-2.  Choose **"Network configuration"** to set up networking of the appliance.
-3.  Choose **"Timezone configuration"** to set up the correct timezone for the appliance.
-4.  Choose **"Timesync configuration"** to set up the correct timeservers (NTP) for accurate date and time settings.
-5.  Choose **"grommunio setup wizard"** to guide through subsequent configuration interactively.
-6.  (Optionally) choose **"Change Admin Web UI password"** to reset the password after setup to your liking.
+1.  Press `F2` to open the main menu. If the console keyboard layout does not match your keyboard, change it first with **"Keyboard configuration"** (or `F5`).
+2.  Choose **"Change system password"** to set a new root password.
+3.  Choose **"Network interface configuration"** to set up networking of the appliance (address, gateway, DNS servers).
+4.  Choose **"Change hostname"** to set the fully qualified domain name, e.g. `mail.example.com`. Make sure it resolves to the appliance (DNS or `/etc/hosts`).
+5.  Choose **"Timezone configuration"** to set up the correct timezone for the appliance.
+6.  Choose **"timesyncd configuration"** to set up the correct timeservers (NTP) for accurate date and time settings.
+7.  Choose **"grommunio setup wizard"** to guide through subsequent configuration interactively.
+8.  (Optionally) choose **"Change admin-web password"** to reset the Admin UI password after setup to your liking.
 
 The "grommunio setup wizard" invokes *grommunio-setup*, which can be started from the CUI or any other terminal of the appliance.
 
@@ -83,6 +85,7 @@ To navigate within the grommunio setup wizard (grommunio-setup), use the followi
 
 - *\<TAB\>* navigates through dialog elements
 - *\<ARROW-UP\>* or *\<ARROW-DOWN\>* navigate within form elements (such as when entering subscription details) or menu selections (during database setup)
+- *\<SPACE\>* toggles checkboxes (such as the optional roles in the feature selection)
 - *\<j\>* or *\<k\>* keys for scrolling longer content-heavy dialogs (as in the finalization dialog)
 - *\<ESC\>* to terminate grommunio-setup at any given stage of the configuration
 
@@ -131,7 +134,7 @@ grommunio-setup offers four ways to provision the TLS certificate used by all se
 - **Import an existing certificate** — bring your own PEM certificate/key pair (a SAN or wildcard certificate is recommended). The most flexible option for publicly trusted CAs.
 - **Let's Encrypt** — free, automatic issuance and renewal; requires port 80 reachable from the Internet for every domain during validation (and renewal). Recommended for most simple installations.
 
-Certificates are placed in `/etc/grommunio/ssl` and referenced automatically by the appliance services. See [TLS configuration](/admin/installation/#tls-configuration) for the detailed walkthrough of each option.
+Certificates are placed in `/etc/grommunio-common/ssl` and referenced automatically by the appliance services. See [TLS configuration](/admin/installation/#tls-configuration) for the detailed walkthrough of each option.
 
 ## Firewall
 
@@ -142,15 +145,14 @@ For seamless operation, the grommunio appliance opens different ports so that cl
 - 110 (pop3)
 - 143 (imap)
 - 443 (https)
-- 465 (smtps — implicit-TLS mail submission)
 - 587 (submission — STARTTLS mail submission)
 - 993 (imaps)
 - 995 (pop3s)
-- 8080 (admin, unencrypted — used during initial provisioning)
+- 8080 (admin, unencrypted)
 - 8443 (admin https)
 
 :::note
-The Admin API is served unencrypted on port 8080 during initial provisioning. Once setup has finished, switch it to TLS so the Admin UI is reachable over HTTPS on port 8443 — see [Admin API TLS configuration](/admin/operations/#admin-api-tls-configuration).
+grommunio-setup enables TLS for the Admin UI on port 8443 with the certificate configured during setup. The unencrypted port 8080 stays open as well; once you have confirmed that `https://<FQDN>:8443/` works, close port 8080 on the firewall or restrict it to administrative networks. Port 465 (SMTPS, implicit-TLS submission) is not enabled by default; mail clients submit via 587 (STARTTLS).
 :::
 
 Generally, it is recommended to only make available the ports that are required for service access. Note that grommunio's major protocols, RPC over HTTP, MAPI/HTTP, EWS (Exchange Web Services) and EAS (Exchange ActiveSync) are all accessed via port 443 (HTTPS).
@@ -161,7 +163,7 @@ When operating with proxies and load balancers, note that for successful operati
 
 Once grommunio-setup finishes, you have a configured — but still empty — system. Confirm it is working:
 
-- Open the **Admin UI** at `https://<FQDN>:8443/` and sign in as **`admin`** with the password you set (or the one generated by grommunio-setup, recorded in `/var/log/grommunio-setup.log`).
+- Open the **Admin UI** at `https://<FQDN>:8443/` and sign in as **`admin`** with the password you set (or the one generated by grommunio-setup, shown in the setup summary and recorded in `/var/log/grommunio-setup.log`). The CUI status screen lists the Admin UI addresses of the appliance as well.
 - Open **grommunio Web** at `https://<FQDN>/` — the user webmail and groupware interface.
 
 If both load over HTTPS and the Admin UI signs in, the appliance is ready.
@@ -176,5 +178,5 @@ A fresh appliance has no mail domains or users yet. Continue with:
 - [Migration](/migration/) — import mailboxes from Exchange, Kopano and other systems.
 
 :::note[Before going to production]
-Define a **backup** strategy covering the mail stores, databases and configuration — see [Operations → Backup & Disaster Recovery](/admin/operations/#backup--disaster-recovery) — and review hardening beyond the firewall (TLS for the Admin API, fail2ban, 2FA/SSO).
+Define a **backup** strategy covering the mail stores, databases and configuration — see [Operations → Backup & Disaster Recovery](/admin/operations/#backup--disaster-recovery) — and review hardening beyond the firewall (closing the unencrypted Admin port 8080, fail2ban, 2FA/SSO).
 :::

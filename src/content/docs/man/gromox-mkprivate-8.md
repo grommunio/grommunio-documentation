@@ -20,7 +20,7 @@ mkprivate is used to generate the exchange.sqlite3 file for a private store. mkp
 ## Options
 
 <dfn class="gx-param">-T</dfn> <em>path</em>  
-This option can be used to override the built-in data path for folder name translations and prepoulated named properties.  
+This option can be used to override the built-in data path for folder name translations and prepoulated named properties.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">/usr/share/gromox</span>
 
 <dfn class="gx-param">-U</dfn>  

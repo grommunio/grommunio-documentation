@@ -18,8 +18,8 @@ dnsbl_filter is a module which will query a Domain Name System Realtime Blackhol
 The config file location is /etc/gromox/gromox.cfg; service specific locations are /etc/gromox/http/gromox.cfg, /etc/gromox/imap/gromox.cfg and /etc/gromox/pop3/gromox.cfg.
 
 <dfn class="gx-param">dnsbl_client</dfn>  
-This sets the zone suffix to use for queries. If no zone is set, no DNSBL checking takes place.  
-<span class="gx-deflabel">Example:</span> <span class="gx-default">xbl.spamhaus.org</span>  
+This sets the zone suffix to use for queries. If no zone is set, no DNSBL checking takes place.\
+<span class="gx-deflabel">Example:</span> <span class="gx-default"><em>xbl.spamhaus.org</em>\</span>
 <span class="gx-deflabel">Default:</span> <span class="gx-default">(unset)</span>
 
 ## See also

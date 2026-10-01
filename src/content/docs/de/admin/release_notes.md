@@ -1,11 +1,157 @@
 ---
 title: "Release Notes"
-description: "Versionshinweise für grommunio, beginnend mit der neuesten Version. Die aktuelle Version 2026.06.1 ist die bislang umfangreichste – sie führt grommunio AI, eine schlankere gromox-Engine mit IMAP4rev2 und erweitertem EWS, native Debian-Pakete sowie eine auf openSUSE Leap 16.0 neu aufgesetzte Plattform."
+description: "Versionshinweise für grommunio, beginnend mit der neuesten Version. Die aktuelle Version 2026.06.2 bringt Single Sign-On für die gesamte Suite, grommunio Web 5.1 mit Dunkelmodus und OpenPGP sowie gromox 3.11."
 sidebar:
   order: 100
 ---
 
-## grommunio 01.06.2026
+## grommunio 2026.06.2
+
+- Art der Veröffentlichung: Minor-Release
+- Veröffentlichungsdatum: 30. September 2026
+- Allgemeine Verfügbarkeit: Ja
+
+grommunio 2026.06.2 ist das erste große Update zu 2026.06.1. Zwei Dinge stechen besonders hervor. Erstens umfasst Single Sign-On nun die gesamte Suite: Mit einer einzigen grommunio-Anmeldung erhalten Sie Zugriff auf Web, Admin, Chat, Files, Meet und Archive. Zweitens ist grommunio Web 5 da – mit neuem Design, vollständigem Dunkelmodus, OpenPGP, einem echten Dokumentenbetrachter und vielem mehr. Im Unterbau wurde gromox auf Version 3.11 aktualisiert, und so gut wie jede andere Komponente ebenfalls.
+
+**Highlights**
+
+- **Ein Login für alles** – grommunio Auth richtet die Keycloak-Clients für Chat, Files, Meet, Archive und Admin selbst ein und hält sie aktuell, wenn Pakete installiert oder aktualisiert werden. Das Durchklicken der Keycloak-Konsole für jede Komponente entfällt.
+- **grommunio Web 5.0 und 5.1** – neu gestaltete Oberfläche mit durchgängigem Dunkelmodus, Befehlspalette (Strg+K), Rückgängig und Wiederherstellen, OpenPGP neben S/MIME, Vorschau im Browser für fast alle Anhänge sowie Outlook-kompatible Kategorien.
+- **gromox 3.11** – IMAP-Schlüsselwörter und FETCH BINARY, verbesserte Behandlung von Stellvertretern und Besprechungen, Kopien in „Gesendete Elemente“ für freigegebene Postfächer sowie eine lange Liste von Korrekturen für Outlook und EWS.
+- **grommunio Files 34** mit grommunio-Branding und SSO-Anmeldung.
+
+**Single Sign-On für die gesamte Suite**
+
+Bisher war es mit erheblichem manuellem Aufwand in Keycloak verbunden, SSO für jede Komponente einzurichten. grommunio Auth erstellt die Clients für Chat, Files, Meet, Archive und Admin nun selbstständig über ein eigenes Dienstkonto und läuft automatisch erneut, sobald eines dieser Pakete installiert oder aktualisiert wird. Rollen, die später mit grommunio-setup hinzugefügt werden, werden ebenfalls in SSO eingebunden.
+
+- **grommunio Admin** bietet auf der Anmeldeseite die Schaltfläche „Mit Single Sign-On anmelden“ (nur über HTTPS). Die lokale Admin-Anmeldung funktioniert weiterhin.
+- **grommunio Chat** meldet Benutzer über Keycloak an. Der neue Befehl `grommunio-admin chat sso enable|disable` stellt bestehende Chat-Konten zwischen Passwort-Anmeldung und SSO um, für alle Domänen oder nur für eine (`-d DOMAIN`).
+- **grommunio Files** überspringt das eigene Anmeldeformular und leitet direkt zu Keycloak weiter. Das lokale Formular bleibt unter `/files/index.php/login?direct=1` erreichbar.
+- **grommunio Meet** authentifiziert ebenfalls über Keycloak.
+- **grommunio Archive** unterstützt die Anmeldung über OpenID Connect.
+- **grommunio Web** greift mit dem Keycloak-Zugriffstoken auf Files zu, sodass beim Öffnen von Dateien keine zweite Anmeldung nötig ist.
+
+**grommunio Web 5.1**
+
+Das umfangreichste Update, das der Web-Client je erhalten hat – mit mehr als 460 Änderungen seit Version 3.19. Der große Versionssprung ist bewusst gewählt: Code, Plugin-Schnittstellen und Einstellungen tragen nun durchgehend den Namen grommunio, und die letzten Überbleibsel aus der Zarafa-Zeit sind entfernt.
+
+- **Neues Design** – überarbeitete Oberfläche mit größeren Bedienelementen und neuem Anmeldebildschirm; Dunkelmodus für den gesamten Client, die mitgelieferten Plugins und den Dokumentenbetrachter, umschaltbar über die obere Leiste ohne Neuladen; JSON-Themes färben den gesamten Client ein, einschließlich eines eigenen Logos für den Dunkelmodus; zweifarbige Ordnersymbole, Hervorhebung ganzer Ordnerzeilen und sichtbarer Tastaturfokus.
+- **Schneller ans Ziel** – Befehlspalette mit Strg+K, um zu jedem Ordner, jeder Ansicht oder Einstellungsseite zu springen oder neue Elemente anzulegen; Strg+F springt direkt ins Suchfeld (unter macOS mit Cmd und Option); Rückgängig und Wiederherstellen (Strg+Z / Strg+Y) für Löschen, Verschieben, Kopieren, Kennzeichnen, Lesestatus, Kategorien und Verschieben im Kalender, zu aktivieren unter Einstellungen › Allgemein.
+- **Mail** – OpenPGP (Signieren, Verschlüsseln, Entschlüsseln, Prüfen) direkt neben S/MIME; die gesamte Kryptografie läuft im Browser, private Schlüssel bleiben passphrasengeschützt im Postfach des Benutzers. Ein vollwertiger Dokumentenbetrachter für PDF, Word (auch .doc), Excel und CSV, PowerPoint, OpenDocument, RTF, Markdown, Quellcode, Bilder, Audio, Video und angehängte .eml-Nachrichten; mehrere Anhänge per Drag & Drop in ein anderes Verfassen-Fenster oder als ZIP auf den Desktop ziehen; Anhänge aus bereits abgelegten Nachrichten entfernen (durch Administratoren abschaltbar); aus Word eingefügte Bilder kommen nun tatsächlich an; BIMI-Logos neben Absendern, die eines veröffentlichen und DMARC bestehen; Haftnotizen an E-Mails, sichtbar für alle, die das Postfach gemeinsam nutzen.
+- **Funktioniert wie Outlook** – Kategorien werden in der Master-Kategorienliste des Postfachs gespeichert, sodass Web, Outlook und Mobilgeräte dieselben Namen und Farben zeigen (vorhandene Kategorien werden automatisch übernommen); sichere und blockierte Absender verwenden dieselbe Junk-E-Mail-Regel wie Outlook.
+- **Freigegebene Postfächer, Suche und Benachrichtigungen** – Unterhaltungsansicht in freigegebenen Postfächern; freigegebene Postfächer lassen sich per Drag & Drop anordnen; die Suche umfasst öffentliche Ordner samt Unterordnern, und Suchpräfixe funktionieren in der Sprache des Benutzers (Deutsch: *von:*, *an:*, *betreff:*); Benachrichtigungen lassen sich auf das eigene Postfach oder ausgewählte Ordner beschränken, zeigen Absender und Betreff und können stumm geschaltet werden; der Dialog „Kopieren/Verschieben“ schlägt Ordner vor, in denen E-Mails dieses Absenders zuvor abgelegt wurden.
+- **Neu in 5.1** – Profilbilder aus einer Datei, von Gravatar oder Libravatar, mit Zuschneidedialog; der Termindialog zeigt, in welchen Kalender ein neuer Termin eingetragen wird; die Terminplanungsansicht passt sich der Teilnehmerliste an; alle Stellvertreter werden in den Einstellungen aufgelistet; vollständig in 34 Sprachen übersetzt; eingefügte Inhalte übertragen ihre Schriften und Farben nicht mehr in den Editor; Korrekturen für fehlerhafte Serien, die das Laden des Kalenders verhinderten, für Links in E-Mails, die relativ zu grommunio Web geöffnet wurden, für das Drucken von Bildern, für Zeitzonenverschiebungen bei einigen Terminen sowie für eine Reihe von Darstellungsproblemen im Dunkelmodus.
+- **Geschwindigkeit** – Anfragen derselben Anmeldung laufen parallel, sodass ein langsamer Ordner in einem Tab die anderen nicht blockiert; Skripte, Stile und Übersetzungen werden vom Browser zwischengespeichert und vorkomprimiert ausgeliefert; der Ordnerbaum von Files lädt bei 40 Ordnern in unter einer Zehntelsekunde (zuvor über drei Sekunden).
+- **Sicherheit und Cyber Resilience Act** – jedes Release enthält eine Software-Stückliste (SBOM) im CycloneDX- und SPDX-Format, alle Quelldateien tragen SPDX-Header, und eine veröffentlichte Sicherheitsrichtlinie beschreibt, wie Schwachstellen behandelt und gemeldet werden. Dazu kommen strengere Prüfungen gegen Cross-Site-Anfragen bei Anmeldung, Token und Abmeldung, ein Einmal-State für Keycloak-Anmeldungen, eine Begrenzung der pro Minute gesendeten Nachrichten je Postfach und ein systemd-Timer, der abgelaufene Sitzungen bereinigt.
+- **Für Plugin-Entwickler** – der Namensraum `Zarafa` heißt nun `Grommunio`; `zarafa.*`-xtypes, CSS-Klassen und der Einstellungsstamm wurden entsprechend umbenannt. 5.0 behält vorerst Kompatibilitätsaliase (außer für CSS-Klassen); Details beschreibt `doc/plugin-namespace-migration.rst`.
+
+**gromox 3.11**
+
+Neu:
+
+- IMAP-Schlüsselwörter; IMAP-Flags werden nun im Postfach gespeichert und überstehen so den Verlust von `midb.sqlite3`
+- IMAP FETCH BINARY und BINARY.SIZE
+- Freigegebene Postfächer können eine Kopie der als oder im Auftrag des Postfachs gesendeten E-Mails in ihren eigenen „Gesendeten Elementen“ ablegen (MessageCopyForSentAs / MessageCopyForSendOnBehalf, einstellbar mit den neuen `gromox-mbop`-Befehlen `get-msgcopy`, `set-msgcopy` und `clear-msgcopy`; von EWS noch nicht berücksichtigt)
+- Die neue Option `lda_relay_unknown_recipients` übergibt automatische Antworten und Unzustellbarkeitsberichte für lokale Adressen ohne Postfach an den MTA – für Split-Domain-Szenarien
+- EWS unterstützt die Antwort-, Allen-antworten- und Weiterleitungs-Entwürfe von Outlook für Mac; EWS FindPeople und GetUserPhoto durchsuchen auch die persönlichen Kontakte
+- Eine .pst-Datei kann in einen öffentlichen Ordner importiert werden
+- Kurzlebiger Cache für Benutzer- und Gruppenabfragen, der MariaDB/MySQL entlastet
+- OpenPGP- und GpgOL-Nachrichten werden bei der Mail-Konvertierung erkannt
+- Der Regelprozessor protokolliert, wie seine Bedingungen ausgewertet wurden, was die Fehlersuche bei Regeln deutlich erleichtert
+
+Korrigiert:
+
+- Beantwortet ein Stellvertreter eine Besprechungsanfrage, sieht der Organisator nun die Antwort der eingeladenen Person statt die des Stellvertreters; Besprechungsantworten enthalten die Eigenschaft ORGANIZER und nennen den Stellvertreter in SENT-BY
+- Stellvertreter, die keine Besprechungskopien erhalten sollen, erhalten dennoch korrekte Stellvertreterberechtigungen
+- Die Unterhaltungsansicht in Outlook ist wieder schneller (der zugehörige Index wurde wiederhergestellt)
+- 32-Bit-Outlook stürzt bei einem ausgegrauten Abwesenheitsdialog nicht mehr ab
+- Suchordner werden nicht mehr fortlaufend neu befüllt
+- Zuverlässigere Wiederverbindung zu exmdb und LDAP nach Netzwerkproblemen
+- HTML-Textkörper werden auch dann korrekt erkannt, wenn Anhänge zuerst kommen
+- Mehrere Korrekturen für Serienbesprechungen im Regelprozessor
+- Ordner zeigen in manchen Fällen nicht mehr weniger Nachrichten an, als sie enthalten
+- Deutlich schnellerer kdb2mt-Import tief verschachtelter Nachrichten
+- Ein Absturz des HTTP-Servers beim Herunterfahren sowie eine Reihe von EWS-Korrekturen (MoveItem/CopyItem, FindFolder, FindItem, Verarbeitung von Besprechungsanfragen)
+
+Geändert:
+
+- Die Konvertierung von RTF nach HTML läuft in einem separaten Prozess
+- Beim Import aus PST oder Kopano wird der Stammordner nicht mehr automatisch an der Spitze des Postfachs verankert; verwenden Sie `gromox-import -B`, um ihn zu platzieren
+
+**grommunio Sync 2.6**
+
+- Entwürfe von ActiveSync-16-Clients mit leerem Send-Element brechen die Synchronisierung nicht mehr ab
+- Das Speichern eines Entwurfs bringt dessen Teilnehmer nicht mehr durcheinander
+- Nachrichten können direkt aus einer Synchronisierung heraus gesendet werden, wenn der Client dies anfordert
+- Chinesische E-Mails in Codepage 936 werden als GB18030 dekodiert
+
+**grommunio DAV 1.8**
+
+- Identitätswechsel (Impersonation)
+- Nur lesbare Kalender werden Clients schreibgeschützt angeboten; nicht lesbare Kalender werden gar nicht aufgelistet
+- Private Termine und Aufgaben anderer Benutzer werden ausgeblendet, außer für Stellvertreter; alle anderen sehen nur Frei/Gebucht-Informationen
+- Fehlgeschlagene Schreibvorgänge werden an den Client gemeldet, statt stillschweigend verworfen zu werden
+- Fehlende Ordner beim Durchsuchen des Postfachs eines anderen Benutzers behoben
+
+**grommunio Admin**
+
+Weboberfläche:
+
+- Neues Dashboard und neuer Anmeldebildschirm, passend zu grommunio Web
+- Anmeldung per Single Sign-On
+- Ordnerberechtigungen pro Benutzer direkt aus dessen Ordnerbaum bearbeiten
+- Eine Schritt-für-Schritt-Anleitung für DKIM mit der Schlüsselausgabe im benötigten Format
+- Eigenes Logo, Favicon und eigener Titel
+- Funktioniert auch unter einem Unterpfad
+- Viele kleinere Korrekturen: Speicherbalken ohne Kontingent, Bearbeitung des Benutzerstatus, Zuordnung der Berufsbezeichnung, DMARC in der DNS-Prüfung
+
+API und CLI:
+
+- Anmeldung über OpenID Connect (eingerichtet durch grommunio Auth)
+- `passwd --password-stdin` setzt ein Passwort, ohne dass es in der Prozessliste erscheint
+- Verwaltung von Store-Besitzern, Senden-als-Berechtigungen und Stellvertretern in der CLI; `user show` listet sie auf
+- Doppelte Aliase werden automatisch bereinigt
+- Lizenz- und Domänenlimits werden bei der Reaktivierung eines Benutzers geprüft
+- Zuverlässigere LDAP-Gruppenimporte (Groß-/Kleinschreibung) und eine Korrektur für AD-Benutzeranmeldungen
+- Berechtigungsprüfungen an den Endpunkten für Benutzer-Ordnerberechtigungen
+- Die Konfiguration für Web-Statistiken und Host-Status wurde in ein eigenes, optionales Paket verschoben: `grommunio-admin-api-mod-vts`
+
+**Weitere Komponenten**
+
+- **grommunio Files** – Version 34 mit grommunio-Branding und SSO. Korrigiert wurden die ONLYOFFICE-Verbindungsprüfung bei Ausführung über cron oder occ sowie die Warnung zum X-Robots-Tag-Header; die OPcache-Einrichtungswarnung, die mit gromox kollidierte, wurde abgeschaltet. Files gibt es nun auch als Debian-Paket.
+- **grommunio Keycloak** – 26.7.4. Das Update auf 26.7.2 behob CVE-2026-18963 (CVSS 9.1) – bitte nicht überspringen. Nicht-interaktive Debian-Installationen bleiben nicht mehr in einer Schleife hängen.
+- **grommunio Meet** – SSO; Konferenz-Geheimnisse werden ordnungsgemäß erzeugt statt abgeleitet; eine doppelte Lobby-Komponente entfällt; aktualisiertes Theme.
+- **grommunio Office** – Fehler „ONLYOFFICE cannot be reached“ behoben, der durch eine fehlende `api.js` bei Document Server 9.x entstand.
+- **grommunio Archive** – SSO-Unterstützung und eine Korrektur für Upgrades.
+- **grommunio Antispam** – aktualisiert auf 4.1.5.
+- **grommunio Index 1.7** – indiziert nun auch öffentliche Ordner (neue Option `-P`, in `-A` enthalten; abschaltbar mit `index_public=no`) und baut einen beschädigten Index neu auf, statt bei jedem Lauf zu scheitern.
+- **mapi-header-php 2.3** – korrigiert jährliche Serien und die Verarbeitung einiger Keycloak-Token und enthält nun die gemeinsamen MAPI-Hilfsfunktionen von Web, Sync und DAV. Web 5.1, Sync 2.6 und DAV 1.8 setzen es voraus.
+- **grommunio CUI** – übergibt das Admin-Passwort nicht mehr auf der Befehlszeile.
+- **grommunio-setup** – legt Dateien mit Zugangsdaten mit restriktiven Berechtigungen an und bindet neu hinzugefügte Rollen in SSO ein.
+
+**Paketierung und Plattformen**
+
+- Das neue Paket `grommunio-triggers` bündelt Dienst-Neustarts während Upgrades. Zuvor konnte ein großes Upgrade php-fpm so oft neu starten, dass systemd aufgab.
+- Logrotation für php-fpm und DAV
+- Builds für Ubuntu 26.04
+- Zahlreiche Debian-Korrekturen: nicht-interaktive Installationen, Bereinigung von Konfigurationsdateien beim Purge und Berechtigungsprobleme in grommunio-setup-deb
+- Branding für Partner: Logos, Farben und Titel lassen sich einheitlich für Web, Admin, die Keycloak-Anmeldung, Files, Meet, Archive und Antispam festlegen
+
+**Vor dem Upgrade**
+
+- Prüfen Sie Web-Plugins von Drittanbietern auf die Namensraum-Änderung in 5.0. Die meisten funktionieren dank der Kompatibilitätsaliase weiter, Plugin-Stylesheets mit `zarafa-*`-Klassen müssen jedoch umbenannt werden.
+- Benutzereinstellungen in grommunio Web werden bei der ersten Anmeldung in das neue Format überführt. Weder Administratoren noch Benutzer müssen etwas tun.
+- Wenn Sie PST- oder Kopano-Importe skripten, beachten Sie die geänderte Behandlung des Stammordners (eingeführt mit gromox 3.10, in diesem Release enthalten) und verwenden Sie bei Bedarf `gromox-import -B`.
+
+**Aktualisierung**
+
+Bestehende Installationen werden über den üblichen grommunio-Update-Prozess aktualisiert; siehe [Aktualisierung von grommunio](/admin/operations/#updating-grommunio).
+
+**Danksagungen**
+
+Vielen Dank an alle, die Fehler gemeldet, Vorabversionen getestet und Patches eingesendet haben. Beteiligen Sie sich an der Diskussion in der [grommunio-Community](https://community.grommunio.com/).
+
+## grommunio 2026.06.1
 
 - Art der Veröffentlichung: Hauptversion
 - Veröffentlichungsdatum: 30. Juni 2026
@@ -79,7 +225,7 @@ docs.grommunio.com wurde von Grund auf auf einer modernen Plattform für statisc
 
 **Unterstützte Distributionen**
 
-Seit dem 1. Juni 2026 unterstützt grommunio die Installation und den Betrieb auf folgenden Systemen:
+Ab Version 2026.06.1 unterstützt grommunio die Installation und den Betrieb auf folgenden Systemen:
 
 - openSUSE Leap 16.0 / SLES 16 (appliance-Basis)
 - Debian 13
@@ -87,13 +233,13 @@ Seit dem 1. Juni 2026 unterstützt grommunio die Installation und den Betrieb au
 
 **Aktualisierung**
 
-Bestehende Installationen werden über den üblichen grommunio-Update-Prozess aktualisiert; siehe [Aktualisierung von grommunio](/admin/operations/#updating-grommunio)].
+Bestehende Installationen werden über den üblichen grommunio-Update-Prozess aktualisiert; siehe [Aktualisierung von grommunio](/admin/operations/#updating-grommunio).
 
 **Danksagungen**
 
 Ein großes Dankeschön an die Kunden und Partner, deren Feedback diese Version geprägt hat, sowie an alle, die offen an der Entwicklung von grommunio mitwirken. Beteiligen Sie sich an der Diskussion in der [grommunio-Community](https://community.grommunio.com/).
 
-## grommunio 01.01.2025
+## grommunio 2025.01.2
 
 - Art der Veröffentlichung: Minor-Release
 - Veröffentlichungsdatum: 18. April 2025
@@ -135,7 +281,7 @@ Diese Version ist die letzte, die Builds für openSUSE 15.5 enthält. Alle zukü
 
 Die oben aufgeführten Listen enthalten die wichtigsten Änderungen in grommunio 2025.01.2. Diese Version umfasst Dutzende kleinerer Fehlerbehebungen und Verbesserungen, die der Optimierung der allgemeinen Funktionalität und Sicherheit dienen.
 
-## grommunio 01.01.2025
+## grommunio 2025.01.1
 
 - Art der Veröffentlichung: Hauptversion
 - Veröffentlichungsdatum: 29. Januar 2025
@@ -219,7 +365,7 @@ Angesichts der wachsenden Zahl von EWS-Clients, die grommunio nutzen, erfordern 
 
 Angesichts der zunehmenden Verbreitung im öffentlichen Sektor und bei Verteidigungsorganisationen strebt grommunio aktiv Zertifizierungen wie FedRAMP/NIST, FISMA und BSI an. Dies unterstreicht das Bekenntnis zu höheren Sicherheitsstandards und zur Einhaltung gesetzlicher Vorschriften.
 
-**Roadmap für 01.01.2025**
+**Roadmap für 2025.01.2**
 
 - RFC 2184/2231: Verbesserte Verarbeitung erweiterter Parameter in MIME-Headern.
 - Gelöschte Postfächer und Migration: Verbesserungen bei der erweiterten Postfachverwaltung über mehrere Migrationen hinweg, einschließlich x400-Adressierung und undokumentierter MAPI-Attribute.
@@ -246,7 +392,7 @@ Seit dem 1. Januar 2025 unterstützt grommunio aktiv die Installation und den Be
 
 Wir möchten unserer Community, unseren Kunden und Partnern unseren aufrichtigen Dank für ihre anhaltende Unterstützung, ihr Feedback und ihre Beiträge aussprechen. Ein besonderer Dank gilt unseren aktiven Mitwirkenden: crpb, dahan, brad0, kasperk81, robert-scheck, orandev01, rnagy, walter, liske, steve, milotype, clique2015 und vielen anderen. Ihre Erkenntnisse bestimmen unsere Roadmap und machen grommunio mit jeder neuen Version robuster, sicherer und leistungsfähiger.
 
-## grommunio 03.11.2023
+## grommunio 2023.11.3
 
 - Art der Veröffentlichung: Kleinere Version
 - Veröffentlichungsdatum: 16. Februar 2024
@@ -297,7 +443,7 @@ Wir möchten uns ganz besonders bei der Community für das überwältigende Feed
 
 Die Entwicklungs-, Qualitätssicherungs- und Release-Teams entschuldigen sich dafür, dass sich unsere öffentliche Kommunikation gelegentlich verzögert hat. Wir waren sehr damit beschäftigt, euch nicht nur ein besseres Produkt mit einer Vielzahl von Fehlerbehebungen und neuen Funktionen zu liefern, sondern auch neue Ressourcen in die gesamte Organisation und Infrastruktur zu integrieren. Es ist erstaunlich, wie viele Installationen gerade in der Weihnachtszeit in den Produktivbetrieb gegangen sind, was eine zusätzliche Priorisierung erforderlich machte. Seid versichert: Es stehen große Neuigkeiten von grommunio an, und ihr werdet davon erfahren.
 
-## grommunio 2. November 2023
+## grommunio 2023.11.2
 
 - Art der Veröffentlichung: Kleinere Version
 - Veröffentlichungsdatum: 28. Dezember 2023
@@ -339,7 +485,7 @@ Die Entwicklungs-, Qualitätssicherungs- und Release-Teams entschuldigen sich da
 
 Da die Zahl der Mitwirkenden mit jeder neuen Version weiter wächst, verzichten wir nun darauf, eine manuell zusammengestellte Liste zu erstellen, und bitten stattdessen alle Interessierten, einen Blick in unsere Git-Repositorys zu werfen und sich selbst ein Bild von der sich ständig weiterentwickelnden Community zu machen. Seien Sie versichert: grommunio bedankt sich bei allen Beteiligten – Kunden, Partnern und der Community gleichermaßen.
 
-## grommunio 01.11.2023
+## grommunio 2023.11.1
 
 - Art der Veröffentlichung: Hauptversion
 - Veröffentlichungsdatum: 18. November 2023
@@ -388,7 +534,7 @@ Wir bedanken uns von ganzem Herzen bei unseren Kunden, Partnern und der Communit
 
 - clique2015, robert-scheck, General-Aussie, steve, prandev01, crpb, rnagy, walter und viele andere
 
-## grommunio 01.12.2022
+## grommunio 2022.12.1
 
 - Art der Veröffentlichung: Hauptversion
 - Veröffentlichungsdatum: 24. Dezember 2022
@@ -436,7 +582,7 @@ Vielen Dank an unsere Kunden, Partner und die gesamte Community – insbesondere
 
 Ein besonderer Dank gilt der Microsoft Corporation für die fruchtbare Zusammenarbeit bei der Entwicklung von Standards und Protokollen sowie T-Systems International für die gemeinsame Arbeit an Scale-Out-Installationen, die höchsten Unternehmensanforderungen gerecht werden.
 
-## grommunio 02.05.2022
+## grommunio 2022.05.2
 
 - Art der Veröffentlichung: Kleinere Version
 - Veröffentlichungsdatum: 31. August 2022
@@ -505,7 +651,7 @@ Vielen Dank an unsere Kunden, Partner und die gesamte Community – insbesondere
 - ILS für die intensive Zusammenarbeit bei der Bereitstellung von grommunio in über 22 Sprachen.
 - Artem, Milo, Hugel und viele weitere für verschiedene sprachliche Beiträge.
 
-## grommunio 01.05.2022
+## grommunio 2022.05.1
 
 - Art der Veröffentlichung: Hauptversion
 - Veröffentlichungsdatum: 16. Mai 2022
@@ -584,7 +730,7 @@ Wir möchten der Community für ihre kontinuierlichen Beiträge danken, insbeson
 - Robert Nagy, der verschiedene Beiträge zur Unterstützung von OpenBSD geleistet hat
 - Walter Hofstädtler, der verschiedene Beiträge zur Automatisierung von Importen aus MS Exchange und Kopano geleistet hat.
 
-## grommunio 03.08.2021
+## grommunio 2021.08.3
 
 - Art der Veröffentlichung: Kleinere Version
 - Veröffentlichungsdatum: 8. Februar 2022
@@ -641,7 +787,7 @@ Nur für Kunden/Partnerzugang verfügbar (Beta-Freigabe):
 
 In der [offiziellen Dokumentation](/admin/operations/#updating-grommunio) werden die erforderlichen Schritte für den Aktualisierungsvorgang beschrieben.
 
-## grommunio 02.08.2021
+## grommunio 2021.08.2
 
 - Art der Veröffentlichung: Kleinere Version
 - Veröffentlichungsdatum: 24. November 2021
@@ -692,7 +838,7 @@ cp /etc/prosody/prosody.cfg.lua.rpmsave /etc/prosody/prosody.cfg.lua
 systemctl restart prosody
 ```
 
-## grommunio 01.08.2021
+## grommunio 2021.08.1
 
 - Art der Veröffentlichung: Hauptversion
 - Veröffentlichungsdatum: 17. August 2021
@@ -719,7 +865,7 @@ Aufgrund von <https://grommunio.com/en/news-en/aus-grommunio-wird-grommuniogromm
 
 Aufgrund der Art der Umstellung von `grammm` auf `grommunio` wurde kein einfacher, automatisierter Upgrade-Mechanismus eingerichtet. Abonnenten, bei denen die Update-Dienste aktiviert sind, haben automatisch Zugriff auf die Dienste, die im Rahmen des Distributions-Upgrade-Prozesses verfügbar sind. Die Konfigurationsumstellung (Konfiguration, Daten) hat sich kaum verändert, sodass die Migration mithilfe der entsprechenden Konfigurations-Dumps möglich ist.
 
-Die Version vom 01.08.2021 brachte zudem in allen Komponenten erhebliche Fortschritte mit sich. Die wichtigsten Neuerungen nach Bereichen:
+Die Version 2021.08.1 brachte zudem in allen Komponenten erhebliche Fortschritte mit sich. Die wichtigsten Neuerungen nach Bereichen:
 
 - **grommunio Core (gromox)** — vollständige Unterstützung für S/MIME und GPG bei MAPI/HTTP, MAPI/RPC sowie IMAP/POP/SMTP; automatische Zuordnung gemeinsam genutzter Postfächer über AutoDiscover mit vollständigen Eigentümerrechten; sprachenunabhängige Zuordnung bei der Ordnermigration; ein Exchange-Migrationsskript (online/vor Ort); erweiterte Verarbeitung von Eigenschaften mit mehreren Werten und variabler Länge; sowie sprachbasierte Speichererstellung (mkprivate/mkpublic).
 - **grommunio Admin (API & Web)** — Organisationen und rollenbasierte Berechtigungen (einschließlich schreibgeschützter Rollen), Hierarchie öffentlicher Ordner und ACLs, LDAP-Server-Pooling und Import von Aliasen, Fetchmail-Verwaltung, datenbankgestützte Konfiguration (dbconf), eine Live-Statusseite, Protokoll- und Mail-Queue-Anzeigen, benutzerspezifische Verwaltung von Synchronisierungsrichtlinien sowie ein neu gestaltetes Dashboard.
@@ -728,6 +874,6 @@ Die Version vom 01.08.2021 brachte zudem in allen Komponenten erhebliche Fortsch
 - **grommunio-Einrichtung** — vereinfachte, integrierte Einrichtung von „Files“, „Meet“, „Chat“ und „Archive“.
 - **grommunio Web** – S/MIME-Schlüsselverwaltung, Integration von „Files“, „Office“ und „Archive“, OpenStreetMap-Karten für Kontakte, mehrstufige Suche und Suche nach Präfixen sowie umfassende Leistungs- und Editorverbesserungen.
 
-Die vollständige Commit-Historie für jedes Repository dieser Version ist auf [GitHub](https://github.com/grommunio)] verfügbar.
+Die vollständige Commit-Historie für jedes Repository dieser Version ist auf [GitHub](https://github.com/grommunio) verfügbar.
 
 In der [offiziellen Dokumentation](/admin/operations/#updating-grommunio) werden die erforderlichen Schritte für das Update-Verfahren beschrieben.

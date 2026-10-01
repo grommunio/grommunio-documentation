@@ -32,13 +32,11 @@ Compression level to use. Defaults to 6.
 
 Compress some:
 
-> gromox-compress --cid /var/lib/gromox/user/0/1/cid
->     /var/lib/gromox/user/0/2/cid
+> gromox-compress --cid /var/lib/gromox/user/foo@example.com/cid /var/lib/gromox/user/bar@example.com/cid
 
 Or string that further to compress cid directories of all mailboxes:
 
-> find /var/lib/gromox/{user,domain} -type d -name cid -exec gromox-compress
->     --cid {} +
+> find /var/lib/gromox/{user,domain} -type d -name cid -exec gromox-compress --cid {} +
 
 ## Formats
 

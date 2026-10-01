@@ -56,13 +56,13 @@ Für direkten Kontakt und die Übermittlung von Informationen zu einer sicherhei
 ## Mitwirken
 
 - <https://docs.github.com/en/get-started/quickstart/contributing-to-projects>
-- Alternativ können Sie die Commits in einen Git-Speicher Ihrer Wahl hochladen oder die Serie mithilfe von [git format-patch](https://git-scm.com/docs/git-format-patch)] als Patchset exportieren und uns den Git-Link bzw. die Patches dann über unsere direkte Kontaktadresse (siehe oben) zukommen lassen.
+- Alternativ können Sie die Commits in einen Git-Speicher Ihrer Wahl hochladen oder die Serie mithilfe von [git format-patch](https://git-scm.com/docs/git-format-patch) als Patchset exportieren und uns den Git-Link bzw. die Patches dann über unsere direkte Kontaktadresse (siehe oben) zukommen lassen.
 
 ## Entwicklung
 
 ### Programmierstil
 
-Dieses Repository folgt einem benutzerdefinierten Programmierstil, der jederzeit mithilfe der im Repository bereitgestellten [Konfigurationsdatei](.phpcs)] überprüft werden kann.
+Dieses Repository folgt einem benutzerdefinierten Programmierstil, der jederzeit mithilfe der im Repository bereitgestellten [Konfigurationsdatei](.phpcs) überprüft werden kann.
 
 ### Einrichtung der Entwicklungsumgebung
 

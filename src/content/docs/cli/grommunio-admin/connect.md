@@ -16,7 +16,7 @@ grommunio-admin connect — Connect to remote CLI
 
 ### Description
 
-Connect to a remote server to invoke CLI commands on.  
+Connect to a remote server to invoke CLI commands on.\
 Requires a running admin API with active remote CLI and a user with `SystemAdminPermission`.
 
 Note that the remote CLI currently uses a REST interface which does not provide a standard input, rendering commands that rely on user interaction useless.
@@ -35,9 +35,9 @@ User to use for authentication. Default is <em>admin</em>.
 `--auto-save ACTION`  
 Choose automatic action for received files when filesystem redirection is enabled. Possible actions are:
 
-<em>discard</em> - discard any received file  
-<em>local</em> - save at local path  
-<em>print</em> - print file contents to stdout and discard  
+<em>discard</em> - discard any received file\
+<em>local</em> - save at local path\
+<em>print</em> - print file contents to stdout and discard\
 <em>remote</em> - save at path reported from remote server
 
 `-c`, `--command`  

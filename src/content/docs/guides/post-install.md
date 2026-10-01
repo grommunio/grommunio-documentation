@@ -55,9 +55,9 @@ Expected results:
 
 - `systemctl --failed` lists no units.
 - The running services include `grommunio-admin-api`, `grommunio-antispam`, the `gromox-*` daemons from the table above, `mariadb`, `nginx`, `php-fpm`, `postfix`, `redis@grommunio` and `saslauthd`.
-- `ss -tulpn` shows listeners on 25, 80, 443, 587, 110, 143, 993, 995 and on the Admin ports (8080; 8443 in addition after the TLS switch in step 2). Internal listeners on 24 (`delivery-queue`), 11332/11334 (`rspamd`), 3306 (`mysqld`) and 6379 (`redis-server`) are bound to localhost only.
+- `ss -tulpn` shows listeners on 25, 80, 443, 587, 110, 143, 993, 995 and on the Admin ports 8080 (HTTP) and 8443 (HTTPS). Internal listeners on 24 (`delivery-queue`), 11332/11334 (`rspamd`), 3306 (`mysqld`) and 6379 (`redis-server`) are bound to localhost only.
 - `hostname -f` returns the FQDN, not `localhost` or a short name; `timedatectl` reports a synchronised clock and the intended time zone.
-- `getent hosts download.grommunio.com` resolves and `zypper refresh` succeeds. If it does not, fix the resolver first: a broken resolver is the most common reason for failing repository access and, later, for failing outbound mail. Hostname, resolver and time settings are changed through the CUI, see [Guided Installation](/admin/installation/#grommunio-appliance-configuration-with-cuisetup).
+- `getent hosts download.grommunio.com` resolves and `zypper refresh` succeeds. If it does not, fix the resolver first: a broken resolver is the most common reason for failing repository access and, later, for failing outbound mail. On the appliance, `/etc/resolv.conf` is written by the CUI from the DNS servers entered in the network dialog; name servers handed out by DHCP are not used. Hostname, resolver and time settings are changed through the CUI, see [Guided Installation](/admin/installation/#grommunio-appliance-configuration-with-cuisetup).
 
 The appliance ships with `firewalld`, and `grommunio-setup` opens the service ports listed in the [Quickstart](/admin/quickstart/#firewall) in the `public` zone. Confirm the rule set and close what you do not offer:
 
@@ -70,7 +70,7 @@ Expected result: the services and ports from the Quickstart list, nothing more. 
 
 ## 2. Open the Admin UI and grommunio Web
 
-Open the Admin UI at `https://<FQDN>:8443/` and sign in as `admin`. The Admin UI is served on its own ports, not below the `/web/` path of grommunio Web. If the page does not load on 8443, the Admin API is still served unencrypted on port 8080 only, as it is during provisioning; switch it to TLS as described in [Admin API TLS configuration](/admin/operations/#admin-api-tls-configuration) before exposing it anywhere.
+Open the Admin UI at `https://<FQDN>:8443/` and sign in as `admin`. The Admin UI is served on its own ports, not below the `/web/` path of grommunio Web. On the appliance, grommunio-setup enables TLS for the Admin UI on 8443 with the certificate chosen during setup. If the page does not load on 8443 (for example on a manual installation), the Admin API is served unencrypted on port 8080 only; switch it to TLS as described in [Admin API TLS configuration](/admin/operations/#admin-api-tls-configuration) before exposing it anywhere.
 
 On the [Dashboard](/admin/administration/#dashboard), the services panel must show all grommunio and Gromox services as running, and the versions panel lists the installed components. Then open grommunio Web at `https://<FQDN>/web/`; the login page must load over HTTPS without an error other than the expected certificate warning if you chose a self-signed certificate.
 
@@ -286,8 +286,8 @@ Work from the symptom to the cause: check the service state, read the relevant j
 
 | Symptom | Likely cause | What to check / fix |
 | --- | --- | --- |
-| `zypper refresh` fails, repositories unreachable | Resolver or gateway not configured on the appliance | `getent hosts download.grommunio.com`, `ip route`; correct DNS and gateway via the CUI network configuration |
-| Admin UI does not answer on 8443 | Admin API still served unencrypted on 8080 | Follow [Admin API TLS configuration](/admin/operations/#admin-api-tls-configuration); `nginx -t`, `systemctl restart nginx` |
+| `zypper refresh` fails, repositories unreachable | Resolver or gateway not configured on the appliance; `/etc/resolv.conf` missing because DNS servers were only provided by DHCP | `getent hosts download.grommunio.com`, `ip route`, `cat /etc/resolv.conf`; enter gateway and DNS servers in the CUI network configuration |
+| Admin UI does not answer on 8443 | Admin TLS not enabled (manual installation) or nginx not running | Follow [Admin API TLS configuration](/admin/operations/#admin-api-tls-configuration); `nginx -t`, `systemctl restart nginx` |
 | Browser or client rejects the certificate | Self-signed certificate, or `autodiscover.example.com` missing from the SAN list | Import a proper certificate or re-issue it with all names, see [Certificate management](/admin/operations/#certificate-management) |
 | Let's Encrypt issuance failed during setup | Port 80 not reachable from the Internet, or DNS not yet pointing to the appliance | `/var/log/grommunio-setup.log`; fix DNS/firewall and request the certificate again as shown in [TLS configuration](/admin/installation/#tls-configuration) |
 | User cannot log in to grommunio Web | Wrong password, `privWeb` not set, or user status not `normal` | `grommunio-admin user login`, `grommunio-admin user query username privWeb status`, `grommunio-admin passwd` |
@@ -296,7 +296,7 @@ Work from the symptom to the cause: check the service state, read the relevant j
 | No `DKIM-Signature` header on outgoing mail | Key not readable by `groas`, key file name does not match `<domain>.<selector>.key`, or locally submitted mail bypasses the milter | Repeat the commands from step 6; `ls -l /var/lib/grommunio-antispam/dkim/`; `postconf non_smtpd_milters`; `journalctl -u grommunio-antispam` |
 | Mail from the Internet never arrives | MX record wrong, port 25 blocked by the provider or firewall, or domain not created in grommunio | `dig MX example.com`; `ss -tulpn` for port 25; `journalctl -u postfix`; `grommunio-admin domain list` |
 | Outlook or mobile device cannot auto-configure | `autodiscover` record missing in the public zone, or certificate does not cover the name | `gromox-dscli -e user@example.com`; [autodiscover(7)](/man/autodiscover-7/); [Outlook KB](/kb/outlook/) |
-| Login or TLS errors after a reboot, timestamps wrong | Time not synchronised | `timedatectl`; configure NTP via the CUI timesync dialog |
+| Login or TLS errors after a reboot, timestamps wrong | Time not synchronised | `timedatectl`; configure NTP via the CUI timesyncd dialog; `timedatectl timesync-status` shows the server in use |
 | `gromox-cleaner.service` fails to start | `gromox-http` not running (the unit requires it) | `systemctl status gromox-http`; then `systemctl start gromox-cleaner.service` |
 
 ## Operating notes
@@ -305,7 +305,7 @@ Work from the symptom to the cause: check the service state, read the relevant j
 - Queues: watch `postqueue -p` and `gromox-mailq`, or the Mail queue view in the Admin UI. A growing queue is the earliest sign of a delivery problem.
 - Certificates: with Let's Encrypt, `grommunio-certbot-renew.timer` renews weekly; port 80 must stay reachable. With imported certificates, track the expiry date yourself and restart the services after replacing the files.
 - Monitoring: service state, queue length, disk usage of `/var/lib/gromox`, certificate expiry and the DMARC aggregate reports are the minimum set to watch.
-- Firewall: `firewalld` on the appliance opens every service port after setup. Keep the Admin ports (8080/8443) restricted to administrative networks, on the host firewall (`firewall-cmd --remove-port=8080/tcp --zone=public --permanent`, then `firewall-cmd --reload`, once the TLS switch is done) and on the perimeter, and expose only 25, 80, 443, 587 and the IMAP/POP3 ports you need.
+- Firewall: `firewalld` on the appliance opens every service port after setup. Keep the Admin ports (8080/8443) restricted to administrative networks, on the host firewall (`firewall-cmd --remove-port=8080/tcp --zone=public --permanent`, then `firewall-cmd --reload`, once you have confirmed that 8443 works) and on the perimeter, and expose only 25, 80, 443, 587 and the IMAP/POP3 ports you need.
 
 ## Related pages
 

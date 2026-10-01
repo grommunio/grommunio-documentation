@@ -46,34 +46,36 @@ Optionale Anforderungen:
 
 1.  Herunterladen des bootfähigen x86-Images von download.grommunio.com: <https://download.grommunio.com/appliance/grommunio.x86_64-latest.install.iso>
 2.  Laden Sie die Installationsdatei auf den Server, auf dem grommunio installiert werden soll.
-3.  Starten Sie das Installationsprogramm und wählen Sie im Startmenü „Install grommunio_Appliance“, um appliance zu installieren.
+3.  Starten Sie vom Installationsmedium und wählen Sie im Bootmenü **„Install grommunio“**, bevor der 10-Sekunden-Countdown abläuft (der voreingestellte Eintrag *Boot from Hard Disk* startet eine bestehende Installation).
 
 :::caution
-Beachten Sie, dass das Installationsprogramm Sie um Bestätigung bittet, bevor das Installationsziel gelöscht und überschrieben wird!
+Beachten Sie, dass das Installationsprogramm um Bestätigung bittet, bevor die **gesamte** Zielfestplatte gelöscht und überschrieben wird!
 :::
 
-![grommunio Appliance installer boot screen](/img/admin_quickstart_boot.png)
+![Bootmenü des grommunio-Appliance-Installers](/img/appliance_boot_menu.png)
 
-Nachdem das Image auf die Festplatte kopiert wurde, ist der appliance startbereit und kann nun eingerichtet werden.
+Nachdem das Image auf die Festplatte kopiert wurde, startet die Appliance das installierte System und ist bereit für die Einrichtung. Screenshots aller Schritte finden Sie unter [Installation der Appliance](/admin/installation/#installing-the-appliance).
 
 ## Einrichtung
 
-Nach der Installation zeigt das appliance die Konsolenbenutzeroberfläche (CUI) des grommunio an. Ausführlichere Anweisungen zum Einrichtungsprozess finden Sie unter [grommunio Appliance-Konfiguration mit CUI/Einrichtung](/admin/installation/#grommunio-appliance-configuration-with-cuisetup)].
+Nach der Installation zeigt die Appliance die grommunio-Konsolenoberfläche (CUI) an. Ausführlichere Anweisungen zum Einrichtungsprozess finden Sie unter [grommunio Appliance-Konfiguration mit CUI/Einrichtung](/admin/installation/#grommunio-appliance-configuration-with-cuisetup).
 
 :::caution
-Das ursprüngliche Root-Passwort ist nicht festgelegt (leer). Wenn Sie zur Eingabe des Passworts aufgefordert werden, drücken Sie einfach die Eingabetaste.
+Das Root-Passwort ist anfangs nicht gesetzt (leer). Solange kein Passwort gesetzt ist, öffnet `F2` das Hauptmenü der CUI ohne Abfrage von Zugangsdaten.
 :::
 
-Um den grommunio zu konfigurieren, gehen Sie wie folgt vor:
+Um grommunio zu konfigurieren, gehen Sie wie folgt vor:
 
-1.  Wählen Sie **„Systemkennwort ändern“**, um ein neues Root-Kennwort festzulegen.
-2.  Wählen Sie **„Netzwerkkonfiguration“**, um die Netzwerkverbindung des appliance einzurichten.
-3.  Wählen Sie **„Zeitzonenkonfiguration“**, um die richtige Zeitzone für den appliance einzurichten.
-4.  Wählen Sie **„Zeitsynchronisationskonfiguration“**, um die richtigen Zeitserver (NTP) für genaue Datums- und Uhrzeiteinstellungen einzurichten.
-5.  Wählen Sie **„grommunio-Einrichtungsassistent“**, um interaktiv durch die weitere Konfiguration geführt zu werden.
-6.  (Optional) Wählen Sie **„Admin-Web-UI-Passwort ändern“**, um das Passwort nach der Einrichtung nach Ihren Wünschen zurückzusetzen.
+1.  Drücken Sie `F2`, um das Hauptmenü zu öffnen. Passt das Tastaturlayout der Konsole nicht zu Ihrer Tastatur, ändern Sie es zuerst mit **„Keyboard configuration“** (oder `F5`).
+2.  Wählen Sie **„Change system password“**, um ein neues Root-Passwort festzulegen.
+3.  Wählen Sie **„Network interface configuration“**, um das Netzwerk der Appliance einzurichten (Adresse, Gateway, DNS-Server).
+4.  Wählen Sie **„Change hostname“**, um den vollqualifizierten Domänennamen festzulegen, z. B. `mail.example.com`. Stellen Sie sicher, dass er auf die Appliance auflöst (DNS oder `/etc/hosts`).
+5.  Wählen Sie **„Timezone configuration“**, um die richtige Zeitzone einzustellen.
+6.  Wählen Sie **„timesyncd configuration“**, um die richtigen Zeitserver (NTP) für genaue Datums- und Uhrzeiteinstellungen einzurichten.
+7.  Wählen Sie **„grommunio setup wizard“**, um interaktiv durch die weitere Konfiguration geführt zu werden.
+8.  (Optional) Wählen Sie **„Change admin-web password“**, um das Passwort der Admin-UI nach der Einrichtung nach Ihren Wünschen zurückzusetzen.
 
-Der „grommunio-Setup-Assistent“ ruft *grommunio-setup* auf, das über die CUI oder ein beliebiges anderes Terminal des appliance gestartet werden kann.
+Der „grommunio setup wizard“ ruft *grommunio-setup* auf, das über die CUI oder ein beliebiges anderes Terminal der Appliance gestartet werden kann.
 
 :::note
 SSH ist standardmäßig aktiviert, daher kann grommunio-setup auch über eine SSH-Sitzung ausgeführt werden. Beachten Sie, dass Sie zunächst ein Passwort festlegen müssen, bevor Sie sich über SSH anmelden können.
@@ -83,6 +85,7 @@ Um innerhalb des grommunio-Setup-Assistenten (grommunio-setup) zu navigieren, be
 
 - *\<TAB\>* dient zur Navigation durch Dialogelemente
 - *\<ARROW-UP\>* oder *\<ARROW-DOWN\>* dienen zur Navigation innerhalb von Formularelementen (z. B. bei der Eingabe von Abonnementdaten) oder Menüauswahlen (bei der Datenbankeinrichtung)
+- *\<LEERTASTE\>* schaltet Kontrollkästchen um (etwa bei den optionalen Rollen in der Funktionsauswahl)
 - Die Tasten *\<j\>* oder *\<k\>* dienen zum Scrollen in längeren, inhaltsreichen Dialogen (wie im Abschlussdialog)
 - *\<ESC\>* beendet grommunio-setup in jeder beliebigen Phase der Konfiguration
 
@@ -91,7 +94,7 @@ Weitere Tastenkombinationen werden bei Anzeige von „grommunio-cui“ am untere
 grommunio-setup gibt für die meisten Dialogfelder automatisch Standardwerte vor; diese können nach Belieben überschrieben werden. Beispielsweise generiert grommunio-setup automatisch Passwörter, die nach der Installation auch in der grommunio-setup-Protokolldatei */var/log/grommunio-setup.log* verfügbar sind.
 
 :::caution
-Sollte die Konfiguration aus irgendeinem Grund fehlschlagen, kann grommunio-setup erneut ausgeführt werden. Eine Neukonfiguration von Grund auf ist jedoch **destruktiv** und führt zu einer Neuinitialisierung der Installation. Wenn Sie systembezogene Parameter ändern möchten, verwenden Sie stattdessen die Verwaltungsschnittstelle grommunio. Bei jedem erneuten Aufruf von grommunio-setup wird eine Warnung angezeigt und eine Bestätigung angefordert, bevor Daten gelöscht werden.
+Sollte die Konfiguration aus irgendeinem Grund fehlschlagen, kann grommunio-setup erneut ausgeführt werden. Aktuelle Versionen erkennen eine bestehende Installation und bieten an, sie zu **behalten**: Die Grundkonfiguration bleibt unverändert, und die optionalen Rollen (Chat, Meet, Files, Office, Archive) können hinzugefügt oder entfernt werden, wobei die Daten einer entfernten Rolle für ein späteres erneutes Hinzufügen erhalten bleiben. Die Alternative, eine Neukonfiguration **von Grund auf**, ist destruktiv und initialisiert die Installation neu; grommunio-setup warnt und verlangt eine Bestätigung, bevor Daten gelöscht werden. Um systembezogene Parameter eines laufenden Systems zu ändern, verwenden Sie stattdessen die grommunio-Verwaltungsoberfläche.
 :::
 
 :::caution
@@ -131,7 +134,7 @@ grommunio-setup bietet vier Möglichkeiten zur Bereitstellung des von allen Dien
 - **Vorhandenes Zertifikat importieren** – Verwenden Sie Ihr eigenes PEM-Zertifikat bzw. Schlüsselpaar (ein SAN- oder Wildcard-Zertifikat wird empfohlen). Die flexibelste Option für öffentlich vertrauenswürdige Zertifizierungsstellen.
 - **Let's Encrypt** – kostenlose, automatische Ausstellung und Erneuerung; erfordert während der Validierung (und Erneuerung) für jede Domain einen vom Internet aus erreichbaren Port 80. Empfohlen für die meisten einfachen Installationen.
 
-Die Zertifikate werden in `/etc/grommunio/ssl` abgelegt und von den appliance-Diensten automatisch referenziert. Eine detaillierte Anleitung zu den einzelnen Optionen finden Sie unter [TLS-Konfiguration](/admin/installation/#tls-configuration)].
+Die Zertifikate werden in `/etc/grommunio-common/ssl` abgelegt und von den appliance-Diensten automatisch referenziert. Eine detaillierte Anleitung zu den einzelnen Optionen finden Sie unter [TLS-Konfiguration](/admin/installation/#tls-configuration).
 
 ## Firewall
 
@@ -142,15 +145,14 @@ Um einen reibungslosen Betrieb zu gewährleisten, öffnet das grommunio applianc
 - 110 (POP3)
 - 143 (IMAP)
 - 443 (HTTPS)
-- 465 (SMTPS – implizite TLS-E-Mail-Übermittlung)
 - 587 (Submission – STARTTLS-E-Mail-Übermittlung)
 - 993 (IMAPS)
 - 995 (POP3S)
-- 8080 (Admin, unverschlüsselt – wird bei der Erstkonfiguration verwendet)
+- 8080 (Admin, unverschlüsselt)
 - 8443 (Admin HTTPS)
 
 :::note
-Der Admin-Server API wird während der Erstkonfiguration unverschlüsselt auf Port 8080 bereitgestellt. Sobald die Einrichtung abgeschlossen ist, wechseln Sie zu TLS, damit die Admin-Benutzeroberfläche über HTTPS auf Port 8443 erreichbar ist – siehe [Konfiguration von Admin API und TLS](/admin/operations/#admin-api-tls-configuration).
+grommunio-setup aktiviert TLS für die Admin-UI auf Port 8443 mit dem bei der Einrichtung gewählten Zertifikat. Der unverschlüsselte Port 8080 bleibt ebenfalls geöffnet; sobald `https://<FQDN>:8443/` funktioniert, schließen Sie Port 8080 in der Firewall oder beschränken ihn auf Administrationsnetze. Port 465 (SMTPS, Übermittlung mit implizitem TLS) ist standardmäßig nicht aktiviert; Mailprogramme übermitteln über Port 587 (STARTTLS).
 :::
 
 Generell wird empfohlen, nur die Ports freizugeben, die für den Zugriff auf die Dienste erforderlich sind. Beachten Sie, dass die wichtigsten Protokolle des grommunio, RPC over HTTP, MAPI/HTTP, EWS (Exchange Web Services) und EAS (Exchange ActiveSync) alle über Port 443 (HTTPS) erreichbar sind.
@@ -161,19 +163,20 @@ Beachten Sie beim Einsatz von Proxys und Load Balancern, dass für den erfolgrei
 
 Sobald grommunio-setup abgeschlossen ist, verfügen Sie über ein konfiguriertes – aber noch leeres – System. Überprüfen Sie, ob es funktioniert:
 
-- Öffnen Sie die **Admin-Benutzeroberfläche** unter `https://<FQDN>:8443/` und melden Sie sich als **`admin`** mit dem von Ihnen festgelegten Passwort (oder dem von grommunio-setup generierten Passwort, das unter `/var/log/grommunio-setup.log` vermerkt ist) an.
+- Öffnen Sie die **Admin-Benutzeroberfläche** unter `https://<FQDN>:8443/` und melden Sie sich als **`admin`** mit dem von Ihnen festgelegten Passwort (oder dem von grommunio-setup generierten Passwort, das in der Zusammenfassung angezeigt und in `/var/log/grommunio-setup.log` vermerkt ist) an. Der Statusbildschirm der CUI listet die Adressen der Admin-UI ebenfalls auf.
 - Öffnen Sie **grommunio Web** unter `https://<FQDN>/` – die Webmail- und Groupware-Oberfläche für Benutzer.
 
-Wenn beide über HTTPS geladen sind und die Admin-Benutzeroberfläche sich anmeldet, ist das appliance betriebsbereit.
+Wenn beide über HTTPS laden und die Anmeldung an der Admin-UI gelingt, ist die Appliance betriebsbereit.
 
 ## Nächste Schritte
 
-Ein neu eingerichtetes appliance-System enthält noch keine E-Mail-Domänen und keine Benutzer. Fahren Sie fort mit:
+Eine neu eingerichtete Appliance enthält noch keine E-Mail-Domänen und keine Benutzer. Fahren Sie fort mit:
 
+- [Checkliste nach der Installation](/guides/post-install/) — Dienste und Ports prüfen, die erste Domäne und den ersten Benutzer anlegen, MX/SPF/DKIM/DMARC veröffentlichen und den Mailfluss Ende-zu-Ende nachweisen.
 - [Administration](/admin/administration/) — Erstellen Sie Ihre erste E-Mail-**Domain** und Ihren ersten **Benutzer** und verwalten Sie anschließend Rollen, öffentliche Ordner und Einstellungen.
-- [Betrieb](/admin/operations/) — Day-2-Aufgaben, Updates und Umstellung des Admin-Servers von API auf TLS.
+- [Betrieb](/admin/operations/) — Day-2-Aufgaben, Updates und TLS für die Admin-API.
 - [Migration](/migration/) — Importieren Sie Postfächer aus Exchange, Kopano und anderen Systemen.
 
 :::note[Vor der Inbetriebnahme]
-Legen Sie eine **Backup**-Strategie fest, die die E-Mail-Speicher, Datenbanken und Konfigurationen abdeckt – siehe [Betrieb → Backup & Notfallwiederherstellung](/admin/operations/#backup--disaster-recovery) – und überprüfen Sie die Sicherheitsmaßnahmen jenseits der Firewall (TLS für den Admin API, fail2ban, 2FA/SSO).
+Legen Sie eine **Backup**-Strategie fest, die die E-Mail-Speicher, Datenbanken und Konfigurationen abdeckt – siehe [Betrieb → Backup & Notfallwiederherstellung](/admin/operations/#backup--disaster-recovery) – und überprüfen Sie die Sicherheitsmaßnahmen jenseits der Firewall (Schließen des unverschlüsselten Admin-Ports 8080, fail2ban, 2FA/SSO).
 :::

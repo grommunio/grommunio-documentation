@@ -29,7 +29,7 @@ Show properties in detail (enhances <strong>-t</strong>).
 Show a diagnostic tree view of the source data as it is being read.
 
 <dfn class="gx-param">--loglevel</dfn> <em>n</em> Maximum verbosity of general logging (not connected  
-to <strong>-p</strong>, <strong>-t</strong> or <strong>-v</strong>). 1=crit, 2=error, 3=warn, 4=notice, 5=info, 6=debug.  
+to <strong>-p</strong>, <strong>-t</strong> or <strong>-v</strong>). 1=crit, 2=error, 3=warn, 4=notice, 5=info, 6=debug.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default"><em>4</em> (notice)</span>
 
 ## Examples

@@ -12,18 +12,18 @@ grommunio-admin user — User management
 
 ### Synopsis
 
-<strong>grommunio-admin user</strong> <strong>create</strong> \[<em>--no-defaults</em>\] \[<em>--no-maildir</em>\] \[<em>\<FIELDS\></em>\] <em>USERNAME</em>  
-<strong>grommunio-admin user</strong> <strong>delegate</strong> <em>USERSPEC</em> (<em>clear</em> \| <em>list</em>)  
-<strong>grommunio-admin user</strong> <strong>delegate</strong> <em>USERSPEC</em> (<em>add</em> \| <em>remove</em>) <em>USERNAME</em> …  
-<strong>grommunio-admin user</strong> <strong>delete</strong> \[<em>-c</em>\] \[<em>-k</em>\] \[<em>-y</em>\] <em>USERSPEC</em>  
-<strong>grommunio-admin user</strong> <strong>devices</strong> <em>USERSPEC</em> (<em>list</em> \| <em>resync</em> \| <em>remove</em> \| <em>show</em>) \[<em>DEVICE</em> …\]  
-<strong>grommunio-admin user</strong> <strong>devices</strong> <em>USERSPEC</em> wipe \[<em>--mode MODE</em>\] <em>DEVICE</em>  
-<strong>grommunio-admin user</strong> <strong>list</strong> \[<em>-f ATTRIBUTE=\<value\></em>\] \[<em>-s FIELD</em>\] \[<em>USERSPEC</em>\]  
-<strong>grommunio-admin user</strong> <strong>login</strong> \[<em>--nopass</em>\] \[<em>--password PASSWORD</em>\] \[<em>--token</em>\] <em>USERNAME</em>  
-<strong>grommunio-admin user</strong> <strong>modify</strong> \[<em>\<FIELDS\></em>\] \[<em>--delete-chat-user</em>\] \[<em>--no-ldap</em>\] \[<em>--remove-alias ALIAS</em>\] \[<em>--remove-altname ALTNAME</em>\] \[<em>--remove-property PROPSPEC</em>\] \[<em>--remove-storeprop PROPSPEC</em>\] <em>USERSPEC</em>  
-<strong>grommunio-admin user</strong> <strong>query</strong> \[<em>-f ATTRIBUTE=\<value\></em>\] \[<em>--format FORMAT</em>\] \[<em>--separator SEPARATOR</em>\] \[<em>-s FIELD</em>\] \[<em>ATTRIBUTE</em> …\]  
-<strong>grommunio-admin user</strong> <strong>sendas</strong> <em>USERSPEC</em> (<em>clear</em> \| <em>list</em>)  
-<strong>grommunio-admin user</strong> <strong>sendas</strong> <em>USERSPEC</em> (<em>add</em> \| <em>remove</em>) <em>USERNAME</em> …  
+<strong>grommunio-admin user</strong> <strong>create</strong> \[<em>--no-defaults</em>\] \[<em>--no-maildir</em>\] \[<em>\<FIELDS\></em>\] <em>USERNAME</em>\
+<strong>grommunio-admin user</strong> <strong>delegate</strong> <em>USERSPEC</em> (<em>clear</em> \| <em>list</em>)\
+<strong>grommunio-admin user</strong> <strong>delegate</strong> <em>USERSPEC</em> (<em>add</em> \| <em>remove</em>) <em>USERNAME</em> …\
+<strong>grommunio-admin user</strong> <strong>delete</strong> \[<em>-c</em>\] \[<em>-k</em>\] \[<em>-y</em>\] <em>USERSPEC</em>\
+<strong>grommunio-admin user</strong> <strong>devices</strong> <em>USERSPEC</em> (<em>list</em> \| <em>resync</em> \| <em>remove</em> \| <em>show</em>) \[<em>DEVICE</em> …\]\
+<strong>grommunio-admin user</strong> <strong>devices</strong> <em>USERSPEC</em> wipe \[<em>--mode MODE</em>\] <em>DEVICE</em>\
+<strong>grommunio-admin user</strong> <strong>list</strong> \[<em>-f ATTRIBUTE=\<value\></em>\] \[<em>-s FIELD</em>\] \[<em>USERSPEC</em>\]\
+<strong>grommunio-admin user</strong> <strong>login</strong> \[<em>--nopass</em>\] \[<em>--password PASSWORD</em>\] \[<em>--token</em>\] <em>USERNAME</em>\
+<strong>grommunio-admin user</strong> <strong>modify</strong> \[<em>\<FIELDS\></em>\] \[<em>--delete-chat-user</em>\] \[<em>--no-ldap</em>\] \[<em>--remove-alias ALIAS</em>\] \[<em>--remove-altname ALTNAME</em>\] \[<em>--remove-property PROPSPEC</em>\] \[<em>--remove-storeprop PROPSPEC</em>\] <em>USERSPEC</em>\
+<strong>grommunio-admin user</strong> <strong>query</strong> \[<em>-f ATTRIBUTE=\<value\></em>\] \[<em>--format FORMAT</em>\] \[<em>--separator SEPARATOR</em>\] \[<em>-s FIELD</em>\] \[<em>ATTRIBUTE</em> …\]\
+<strong>grommunio-admin user</strong> <strong>sendas</strong> <em>USERSPEC</em> (<em>clear</em> \| <em>list</em>)\
+<strong>grommunio-admin user</strong> <strong>sendas</strong> <em>USERSPEC</em> (<em>add</em> \| <em>remove</em>) <em>USERNAME</em> …\
 <strong>grommunio-admin user</strong> <strong>show</strong> \[<em>-f ATTRIBUTE=\<value\></em>\] \[<em>-s FIELD</em>\] <em>USERSPEC</em>
 
 ### Description

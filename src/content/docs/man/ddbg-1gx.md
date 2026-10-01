@@ -15,7 +15,7 @@ ddbg — MAPI data debugger
 
 ## Description
 
-ddbg can be used to analyze various binary blobs. If no arguments are given, input is read from stdin. If arguments are given, they are treated as immediate values (i.e. content, never the name of a file to read).
+ddbg can be used to analyze binary blobs, convert between data formats, or query various text/ID mappings commonly used in MAPI. If no arguments are given, input is read from stdin. If arguments are given, they are treated as immediate values (i.e. content, never the name of a file to read).
 
 ## Options
 
@@ -32,6 +32,12 @@ Convert all bytes to hexnibble representation.
 
 <dfn class="gx-param">--bin2txt</dfn>  
 Convert all bytes to a textual representation. The environment variable BIN2TXT_MODE can be used to influence the output. Possible values are <strong>cstr</strong> (output as a C string literal without surrounding quotes), <strong>hex</strong> (hex nibbles like bin2hex), <strong>txt</strong> (custom compact encoding).
+
+<dfn class="gx-param">--cpidtocset</dfn>  
+For a given character set identified by numeric IBM/Microsoft codepage identifier, show the corresponding IANA name.
+
+<dfn class="gx-param">--csettocpid</dfn>  
+For a given character set identified by its IANA name, show the corresponding numeric IBM/Microsoft codepage identifer.
 
 <dfn class="gx-param">-d</dfn>, <strong>--decode</strong>  
 Try all decoders.
@@ -54,11 +60,29 @@ Decode restriction blob (e.g. rule condition).
 <dfn class="gx-param">--decode-unixtime</dfn>  
 Decode an Unix timestamp and show the equivalent NT time and calendar-based date.
 
+<dfn class="gx-param">--exttomime</dfn>  
+For a given filename extension (e.g. "bmp"), show the most likely MIME type (IANA Media Type) that it represents.
+
 <dfn class="gx-param">--htmltortf</dfn>  
 Convert a HTML document to RTF.
 
 <dfn class="gx-param">--htmltotext</dfn>  
 Convert a HTML document to plaintext.
+
+<dfn class="gx-param">--langtocset</dfn>  
+Show the preferred 8-bit character set associated with a given language tag (identifier in the style of XPG4 locales, but only a few well-known fixed strings are accepted, e.g. "zh_TW").
+
+<dfn class="gx-param">--langtolcid</dfn>  
+For a given language tag (RFC 5646 form, e.g. "en-US"), show the corresponding numeric Windows locale identifier (LCID).
+
+<dfn class="gx-param">--lcidtolang</dfn>  
+For a given numeric Windows locale identifier, show the corresponding langauge tag.
+
+<dfn class="gx-param">--mdigest</dfn>  
+Produce an MJSON digest object for a RFC5322 message.
+
+<dfn class="gx-param">--mimetoext</dfn>  
+For a given MIME type (IANA Media Type), show the typical filename extension used for it.
 
 <dfn class="gx-param">--lzxdec</dfn>  
 Uncompress an lzxpress data stream.
@@ -97,6 +121,10 @@ GROMOX_RTFTOHTML can be set to "pandoc", "internal" or "internal.asi" to pick a 
 - ddbg -p --decode-guid 38a1bb1005e5101aa1bb08002b2a56c2
 
 - ddbg --unrtfcp \<body.bin \>body.rtf
+
+- ddbg --proptag 0x3001001f
+
+- ddbg --exttomime bmp
 
 ## See also
 

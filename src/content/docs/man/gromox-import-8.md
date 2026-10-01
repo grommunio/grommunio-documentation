@@ -24,8 +24,8 @@ Note that messages are always owned by the store they are in. Note that, when im
 ## Options
 
 <dfn class="gx-param">-B</dfn> <em>name</em>  
-Place unanchored objects (loose objects that do not request placement in any particular folder) in the folder specified by -B. The accepted names are documented in the [gromox-mbop(8)](/man/gromox-mbop-8/) manpage under section "Folder specification". Unanchored messages can be produced by e.g. gromox-eml2mt, gromox-tnef2mt, gromox-pff2mt --only-obj, gromox-kdb2mt --only-obj. (Many MUAs do not support viewing messages located at the IPM_SUBTREE level and only viewing folders at IPM_SUBTREE. For this reason, the default is DRAFTS instead. But this also means that imports of hierarchical data, e.g. from .pst files, will by default land in DRAFTS too.) Public stores do not have a folder that could reliably be offered as a default choice.  
-<span class="gx-deflabel">Default:</span> <span class="gx-default"><em>DRAFTS</em> (if target is a private store)</span>  
+Place unanchored objects (loose objects that do not request placement in any particular folder) in the folder specified by -B. The accepted names are documented in the [gromox-mbop(8)](/man/gromox-mbop-8/) manpage under section "Folder specification". Unanchored messages can be produced by e.g. gromox-eml2mt, gromox-tnef2mt, gromox-pff2mt --only-obj, gromox-kdb2mt --only-obj. (Many MUAs do not support viewing messages located at the IPM_SUBTREE level and only viewing folders at IPM_SUBTREE. For this reason, the default is DRAFTS instead. But this also means that imports of hierarchical data, e.g. from .pst files, will by default land in DRAFTS too.) Public stores do not have a folder that could reliably be offered as a default choice.\
+<span class="gx-deflabel">Default:</span> <span class="gx-default"><em>DRAFTS</em> (if target is a private store)\</span>
 <span class="gx-deflabel">Default:</span> <span class="gx-default">fail-import (if target is a public store)</span>
 
 <dfn class="gx-param">-D</dfn>  
@@ -50,7 +50,7 @@ Verbose mode: report individual FID/MIDs for newly created objects.
 When importing an MT stream that does not request message splicing, the utility will raise an error if a to-be-created folder already exists. This behavior can be turned off with -x. This option can be thought of what mkdir's -p option would do.
 
 <dfn class="gx-param">--loglevel</dfn> <em>n</em> <strong>Maximum verbosity of general logging (not connected</strong>  
-to <strong>-p, -t or -v). 1=crit, 2=error, 3=warn, 4=notice,</strong> 5=info, 6=debug.  
+to <strong>-p, -t or -v). 1=crit, 2=error, 3=warn, 4=notice,</strong> 5=info, 6=debug.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">4<em> </em><em>(notice)</em></span>
 
 <dfn class="gx-param">--skip-notif</dfn>  

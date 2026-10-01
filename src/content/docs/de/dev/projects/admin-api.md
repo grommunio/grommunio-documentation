@@ -55,7 +55,7 @@ grommunio Admin API ist die zentrale API-Komponente von grommunio, die appliance
 #### Voraussetzungen
 
 - `uwsgi` Anwendungsserver mit `uwsgi-python3` Plugin
-- `MySQL` oder `MariaDB` Datenbankserver als zentraler Speicher (wie von [gromox](https://github.com/grommunio/gromox)] verwendet und eingerichtet)
+- `MySQL` oder `MariaDB` Datenbankserver als zentraler Speicher (wie von [gromox](https://github.com/grommunio/gromox) verwendet und eingerichtet)
 - `python3-pyexmdb` für die gromox-Speicherverwaltung (bereitgestellt von [libexmdbpp](https://github.com/grommunio/libexmdbpp))
 - Empfohlen: ein Webserver mit einer funktionierenden TLS-Konfiguration (z. B. `nginx`)
 
@@ -103,4 +103,4 @@ Dieses Repository folgt einem Programmierstil, der sich lose am PEP8-Standard or
 
 Dieses Projekt unterliegt der GNU Affero General Public License v3.
 
-Weitere Informationen finden Sie unter [LICENSE](LICENSE.txt)].
+Weitere Informationen finden Sie unter [LICENSE](LICENSE.txt).

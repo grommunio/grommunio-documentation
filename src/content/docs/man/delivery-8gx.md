@@ -31,7 +31,7 @@ The following directives are recognized when reading from /etc/gromox/gromox.cfg
 In gromox-delivery, this is treated as an alias for lda_fd_limit.
 
 <dfn class="gx-param">lda_fd_limit</dfn>  
-Request that the file descriptor table be at least this large. The magic value 0 indicates that the system default hard limit (rlim_max, cf. setrlimit(2)) should be used.  
+Request that the file descriptor table be at least this large. The magic value 0 indicates that the system default hard limit (rlim_max, cf. setrlimit(2)) should be used.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">0</span>
 
 <dfn class="gx-param">outgoing_smtp_url</dfn>  
@@ -42,15 +42,15 @@ See [gromox.cfg(5)](/man/gromox-cfg-5/):outgoing_smtp_url.
 The following directives are recognized when reading from /etc/gromox/delivery.cfg, or when the <strong>-c</strong> option is used to specify a custom file:
 
 <dfn class="gx-param">admin_mailbox</dfn>  
-An e-mail address where to send reports from the "net_failure" code component.  
+An e-mail address where to send reports from the "net_failure" code component.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">(empty)</span>
 
 <dfn class="gx-param">config_file_path</dfn>  
-Colon-separated list of directories which will be scanned when locating further configuration files, especially those used by subcomponent instances. (For example, [mysql_adaptor(4gx)](/man/mysql_adaptor-4gx/) would be directed to look at /etc/gromox/delivery/mysql_adaptor.cfg before /etc/gromox/mysql_adaptor.cfg.)  
+Colon-separated list of directories which will be scanned when locating further configuration files, especially those used by subcomponent instances. (For example, [mysql_adaptor(4gx)](/man/mysql_adaptor-4gx/) would be directed to look at /etc/gromox/delivery/mysql_adaptor.cfg before /etc/gromox/mysql_adaptor.cfg.)\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">/etc/gromox/delivery:/etc/gromox</span>
 
 <dfn class="gx-param">data_file_path</dfn>  
-Colon-separated list of directories in which static data files will be searched.  
+Colon-separated list of directories in which static data files will be searched.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">/usr/share/gromox/delivery</span>
 
 <dfn class="gx-param">dequeue_max_mem</dfn>  
@@ -63,23 +63,23 @@ Colon-separated list of directories in which static data files will be searched.
 <span class="gx-deflabel">Default:</span> <span class="gx-default">512</span>
 
 <dfn class="gx-param">host_id</dfn>  
-A unique identifier for this system. It is used for the DSN text of bounce messages. It is used as the value for the EHLO command if and when connecting to an SMTP service (e.g. inbox rules that do forwarding).  
+A unique identifier for this system. It is used for the DSN text of bounce messages. It is used as the value for the EHLO command if and when connecting to an SMTP service (e.g. inbox rules that do forwarding).\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">(system hostname)</span>
 
 <dfn class="gx-param">lda_log_file</dfn>  
-Target for log messages here. Special values: "<em>-</em>" (stderr/syslog depending on parent PID) or "<em>syslog</em>" are recognized.  
+Target for log messages here. Special values: "<em>-</em>" (stderr/syslog depending on parent PID) or "<em>syslog</em>" are recognized.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default"><em>-</em> (auto)</span>
 
 <dfn class="gx-param">lda_log_level</dfn>  
-Maximum verbosity of logging. 1=crit, 2=error, 3=warn, 4=notice, 5=info, 6=debug.  
+Maximum verbosity of logging. 1=crit, 2=error, 3=warn, 4=notice, 5=info, 6=debug.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default"><em>4</em> (notice)</span>
 
 <dfn class="gx-param">running_identity</dfn>  
-An unprivileged user account to switch the process to after startup.  
+An unprivileged user account to switch the process to after startup.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">gromox</span>
 
 <dfn class="gx-param">work_threads_max</dfn>  
-The number of threads that gromox-delivery may spawn to process incoming messages. This number must be less-or-equal to the exmdb_local(4) exmdb_connection_num directive to avoid rejection of messages in a message storm.  
+The number of threads that gromox-delivery may spawn to process incoming messages. This number must be less-or-equal to the exmdb_local(4) exmdb_connection_num directive to avoid rejection of messages in a message storm.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">5</span>
 
 <dfn class="gx-param">work_threads_min</dfn>  

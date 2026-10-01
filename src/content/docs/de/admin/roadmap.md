@@ -11,11 +11,12 @@ Diese Roadmap gibt den Stand von grommunio im Juni 2026 wieder. Termine und Umfa
 
 | Version | Typ | Geplantes Datum | Status |
 | --- | --- | --- | --- |
-| **01.06.2026** | Hauptversion | 30. Juni 2026 | Aktuelle stabile Version – allgemein verfügbar |
-| **02.06.2026** | Nebenversion | 11. August 2026 | Geplant – Wartungsupdate |
+| **2026.06.1** | Hauptversion | 30. Juni 2026 | Aktuelle stabile Version – allgemein verfügbar |
+| **2026.06.2** | Nebenversion | 30. September 2026 | Geplant – Wartungsupdate |
+| **2026.06.3** | Nebenversion | 17. Dezember 2026 | Geplant – Wartungsupdate |
 | Nächste Hauptversion | Hauptversion | 6. Juli 2027 | Geplant – Details folgen |
 
-Die **derzeitige stabile** Version 2026.06.1 hat einen dreijährigen Support-Lebenszyklus, wobei optionale Verlängerungen über das Abonnementprogramm von grommunio verfügbar sind. Die **nächste Minor-Version**, 2026.06.2, ist ein Wartungsupdate, dessen Schwerpunkt auf Fehlerbehebungen, Sicherheitsupdates und kleineren Funktionen liegt. Die **nächste Major-Version** ist für den 6. Juli 2027 geplant; der Funktionsumfang wird kurz vor dem Termin bekannt gegeben.
+Die **derzeitige stabile** Version 2026.06.2 hat einen dreijährigen Support-Lebenszyklus, wobei optionale Verlängerungen über das Abonnementprogramm von grommunio verfügbar sind. Die **nächste Minor-Version**, 2026.06.3, ist ein Wartungsupdate, dessen Schwerpunkt auf Fehlerbehebungen, Sicherheitsupdates und kleineren Funktionen liegt. Die **nächste Major-Version** ist für den 6. Juli 2027 geplant; der Funktionsumfang wird kurz vor dem Termin bekannt gegeben.
 
 ## Veröffentlichungsstrategie
 

@@ -25,7 +25,7 @@ Gromox accounts are not mapped from or to any Unix accounts, so the pam_unix.so 
 ## PAM module arguments
 
 <strong>service=</strong><em>s</em>  
-Check for a specific privilege bit on the user account. Possible values for <em>s</em> are: <strong>exch</strong>, <strong>smtp</strong>, <strong>imap</strong>, <strong>pop3</strong>, <strong>chat</strong>, <strong>video</strong>, <strong>files</strong>, <strong>archive</strong>.  
+Check for a specific privilege bit on the user account. Possible values for <em>s</em> are: <strong>exch</strong>, <strong>smtp</strong>, <strong>imap</strong>, <strong>pop3</strong>, <strong>chat</strong>, <strong>video</strong>, <strong>files</strong>, <strong>archive</strong>.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default"><em>smtp</em></span>
 
 ## Configuration directives
@@ -33,11 +33,11 @@ Check for a specific privilege bit on the user account. Possible values for <em>
 The usual config file location is /etc/gromox/pam.cfg.
 
 <dfn class="gx-param">config_file_path</dfn>  
-Colon-separated list of directories in which further configuration files.  
+Colon-separated list of directories in which further configuration files.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">/etc/gromox/pam:/etc/gromox</span>
 
 <dfn class="gx-param">pam_prompt</dfn>  
-If pam_gromox detects the absence of a password but presence of a PAM conversation function, it will attempt to retrieve the password that way, and in doing so, will show this label just ahead of the nonechoing password prompt.  
+If pam_gromox detects the absence of a password but presence of a PAM conversation function, it will attempt to retrieve the password that way, and in doing so, will show this label just ahead of the nonechoing password prompt.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">Password:</span>
 
 ## See also

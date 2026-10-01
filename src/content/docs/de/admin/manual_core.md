@@ -226,7 +226,7 @@ Der Schlüssel des Zertifikats darf kein Passwort enthalten, da keine interaktiv
 
 Wenn Sie vorhaben, mehrere Subdomains für Ihre Bereitstellung zu verwenden, z. B. `meet.example.net` für *grommunio-meet* und `mail.example.net` für *grommunio-web*, kann die Erstellung eines Zertifikats mit einem *subjectAltName*-Feld (SAN) oder sogar eines Wildcard-Zertifikats gegenüber einzelnen Zertifikaten vorteilhaft sein. Nicht alle Netzwerkprotokolle verfügen über eine Funktion wie Server Name Indication (SNI), und noch weniger Systemdienste unterstützen mehrere einzelne Zertifikate, selbst wenn sie mehrere IP-Adressen bedienen.
 
-Autodiscover-Clients versuchen im Rahmen ihrer Routine, neben `example.net` auch `autodiscover.example.net` aufzulösen und zu verwenden. Da mehrere Namen ausprobiert werden, ist ein SAN-Eintrag für die Subdomain `autodiscover.` nicht unbedingt erforderlich. Weitere Einzelheiten finden Sie unter [MS-OXDISCO §3.1.5](https://docs.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxdisco/d56ae3c6-bf29-4712-b274-2e4cc5fdaa64)].
+Autodiscover-Clients versuchen im Rahmen ihrer Routine, neben `example.net` auch `autodiscover.example.net` aufzulösen und zu verwenden. Da mehrere Namen ausprobiert werden, ist ein SAN-Eintrag für die Subdomain `autodiscover.` nicht unbedingt erforderlich. Weitere Einzelheiten finden Sie unter [MS-OXDISCO §3.1.5](https://docs.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxdisco/d56ae3c6-bf29-4712-b274-2e4cc5fdaa64).
 
 Die folgenden Dienste benötigen Zugriff auf das/die Zertifikat(e):
 

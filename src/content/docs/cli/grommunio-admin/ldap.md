@@ -12,12 +12,12 @@ grommunio-admin ldap — LDAP tools
 
 ### Synopsis
 
-<strong>grommunio-admin ldap</strong> <strong>check</strong> \[<em>-o ORGSPEC</em>\] \[<em>-r</em> \[<em>-m</em>\] \[<em>-y</em>\]\]  
-<strong>grommunio-admin ldap</strong> <strong>configure</strong> \[<em>-d</em>\] \[<em>-o ORGSPEC</em>\]  
-<strong>grommunio-admin ldap</strong> <strong>downsync</strong> \[<em>-c</em>\] \[<em>-f</em>\] \[<em>-l</em>\] \[<em>-o ORGSPEC</em>\] \[<em>-p PAGE_SIZE</em>\] \[<em>USER</em> \[<em>USER</em> …\]\]  
-<strong>grommunio-admin ldap</strong> <strong>dump</strong> \[<em>-o ORGSPEC</em>\] <em>USER</em>  
-<strong>grommunio-admin ldap</strong> <strong>info</strong> \[<em>-o ORGSPEC</em>\]  
-<strong>grommunio-admin ldap</strong> <strong>reload</strong> \[<em>-o ORGSPEC</em>\]  
+<strong>grommunio-admin ldap</strong> <strong>check</strong> \[<em>-o ORGSPEC</em>\] \[<em>-r</em> \[<em>-m</em>\] \[<em>-y</em>\]\]\
+<strong>grommunio-admin ldap</strong> <strong>configure</strong> \[<em>-d</em>\] \[<em>-o ORGSPEC</em>\]\
+<strong>grommunio-admin ldap</strong> <strong>downsync</strong> \[<em>-c</em>\] \[<em>-f</em>\] \[<em>-l</em>\] \[<em>-o ORGSPEC</em>\] \[<em>-p PAGE_SIZE</em>\] \[<em>USER</em> \[<em>USER</em> …\]\]\
+<strong>grommunio-admin ldap</strong> <strong>dump</strong> \[<em>-o ORGSPEC</em>\] <em>USER</em>\
+<strong>grommunio-admin ldap</strong> <strong>info</strong> \[<em>-o ORGSPEC</em>\]\
+<strong>grommunio-admin ldap</strong> <strong>reload</strong> \[<em>-o ORGSPEC</em>\]\
 <strong>grommunio-admin ldap</strong> <strong>search</strong> \[<em>-a</em>\] \[<em>--format FORMAT</em>\] \[<em>-n MAX_RESULTS</em>\] \[<em>-o ORGSPEC</em>\] \[<em>-p PAGE_SIZE</em>\] \[<em>USER</em>\]
 
 ### Description

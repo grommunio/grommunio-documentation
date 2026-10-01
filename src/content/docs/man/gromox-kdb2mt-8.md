@@ -40,26 +40,26 @@ Show a diagnostic tree view of the source data as it is being read.
 Print message count progress while processing larger folders. This option has no effect if (the even more verbose) <strong>-t</strong> option was used.
 
 <dfn class="gx-param">--loglevel</dfn> <em>n</em> Maximum verbosity of general logging (not connected  
-to <strong>-p</strong>, <strong>-t</strong> or <strong>-v</strong>). 1=crit, 2=error, 3=warn, 4=notice, 5=info, 6=debug.  
+to <strong>-p</strong>, <strong>-t</strong> or <strong>-v</strong>). 1=crit, 2=error, 3=warn, 4=notice, 5=info, 6=debug.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default"><em>4</em> (notice)</span>
 
 <dfn class="gx-param">--user-map</dfn> <em>file</em>  
 Use the given file to perform ACL mapping and ZARAFA Address Type rewriting. See sections "ACL Extraction" and "ZARAFA Address Type" below for details. The file format is described in [kdb-uidextract(8)](/man/kdb-uidextract-8/).
 
 <dfn class="gx-param">--sql-host</dfn> <em>hostname</em>  
-Hostname for the source SQL connection.  
+Hostname for the source SQL connection.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">(MySQL default; <em>localhost</em>)</span>
 
 <dfn class="gx-param">--sql-port</dfn> <em>number</em>  
-Port for the source SQL connection.  
+Port for the source SQL connection.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">(MySQL default; automatic)</span>
 
 <dfn class="gx-param">--sql-user</dfn> <em>identity</em>  
-Username for the source SQL connection.  
+Username for the source SQL connection.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">root</span>
 
 <dfn class="gx-param">--sql-db</dfn> <em>dbname</em>  
-Database name.  
+Database name.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">kopano</span>
 
 <dfn class="gx-param">--src-attach</dfn> <em>directory</em>  
@@ -161,7 +161,7 @@ When more than one store matches in any way, kdb2mt will print the result set wi
 
 Because kdb2mt works completely LDAP-less, it knows nothing about users except for their numeric user object ID on the homeserver and a reference to an LDAP object (the so-called "Extern id", e.g. objectUUID/uidNumber). The user object ID is local to a kopano-server instance. The composition of the object ID and server instance GUID forms a unique token. ACEs are carried over such that that permissions for user with a given <em>objid</em> are transformed to the synthetic identity <em>objid</em>@<em>serverguid</em>.kopano.invalid.
 
-> sqlite3 /var/lib/gromox/user/1/1/exmdb/exchange.sqlite3
+>     sqlite3 /var/lib/gromox/user/abc@example.com/exmdb/exchange.sqlite3
 >     sqlite> select <em> from permissions;</em>
 >     member_id  folder_id  username                                             permission
 >     ---------  ---------  ---------------------------------------------------  ----------

@@ -22,7 +22,7 @@ gromox-mbop can be used to perform various administrative tasks on mailboxes. Te
 <dfn class="gx-param">-c</dfn>  
 Continuous operation mode. If a command in a series (e.g. with foreach.\*) fails, do not stop.
 
-<dfn class="gx-param">-d</dfn> <em>/var/lib/gromox/user/1/2</em>  
+<dfn class="gx-param">-d</dfn> <em>/var/lib/gromox/user/abc@example.com</em>  
 Lookup the mailbox parameters from the associated filesystem location.
 
 <dfn class="gx-param">-u</dfn> \[<em>user</em>\]<strong>@example.com</strong>  
@@ -59,6 +59,10 @@ Verbose mode.
 
 - get-freebusy: test FB schedule lookups
 
+- clear-msgcopy: unset the sent-as/on-behalf copy settings
+
+- get-msgcopy: show whether sent-as/on-behalf copies are retained
+
 - get-photo: retrieve user image from store and print to stdout
 
 - get-websettings, get-websettings-persistent, get-websettings-recipients: retrieve settings for grommunio-web
@@ -74,6 +78,8 @@ Verbose mode.
 - recalc-sizes: recalculate store size
 
 - set-locale: reset UI language and special folders' names
+
+- set-msgcopy: control retention of sent-as/on-behalf copies
 
 - set-photo: read user image from stdin and save to store
 
@@ -269,7 +275,7 @@ There is no "all" filter. Security objects and Contacts are so vastly different 
 ### Options
 
 <dfn class="gx-param">-j</dfn> <em>jobs</em>  
-Maximum parallel execution factor. (Experimental.) 0 means autosizing. Only ping/vacuum/unload support this, and the option is otherwise ignored. Use external tools like parallel(1) or make(1) for guaranteed parallelization.  
+Maximum parallel execution factor. (Experimental.) 0 means autosizing. Only ping/vacuum/unload support this, and the option is otherwise ignored. Use external tools like parallel(1) or make(1) for guaranteed parallelization.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">1</span>
 
 ### Examples
@@ -326,8 +332,8 @@ Reads the user photo from the store and dumps it to stdout. If stdout is a termi
 
 ### Synopsis
 
-<strong>get-websettings \></strong><em>file.json</em>  
-<strong>get-websettings-persistent \></strong><em>file.json</em>  
+<strong>get-websettings \></strong><em>file.json</em>\
+<strong>get-websettings-persistent \></strong><em>file.json</em>\
 <strong>get-websettings-recipients \></strong><em>autocomplete.json</em>
 
 ### Description
@@ -396,7 +402,7 @@ This command hard-deletes all messages from a folder which are marked as soft-de
 Recurse into subfolders.
 
 <dfn class="gx-param">-t</dfn> <em>timespec</em>  
-Specifies the minimum time to the last modification that soft-deleted messages must have before they are hard-deleted. See [gromox(7)](/man/gromox-7/), section "Duration specification" for timespec's syntax.  
+Specifies the minimum time to the last modification that soft-deleted messages must have before they are hard-deleted. See [gromox(7)](/man/gromox-7/), section "Duration specification" for timespec's syntax.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default"><em>0</em> (immediate deletion)</span>
 
 ### Examples
@@ -405,7 +411,65 @@ Specifies the minimum time to the last modification that soft-deleted messages m
 
 ## recalc-sizes
 
-Recalculates the store size.
+### Synopsis
+
+<dfn class="gx-param">recalc-sizes</dfn>
+
+### Description
+
+Rebuilds the mailbox's stored size totals by summing the message sizes recorded in its database. It updates the total, normal message and associated message (FAI) size properties, including soft-deleted messages. Associated messages hold hidden folder data such as rules and settings.
+
+Use this command when mailbox size accounting is inconsistent, for example after a database repair that changed message records without updating the store totals. It prints the old and new totals in bytes, with separate normal and FAI values, so the result can be compared.
+
+The command uses existing per-message sizes. It does not recalculate those sizes from message content, measure filesystem usage, nor reclaim disk space.
+
+### Example
+
+    gromox-mbop -u abc@example.com recalc-sizes
+
+## get-msgcopy, set-msgcopy, clear-msgcopy
+
+### Synopsis
+
+<dfn class="gx-param">get-msgcopy</dfn>
+
+<strong>set-msgcopy</strong> \[<strong>-v</strong>\] \[<strong>-a</strong> <em>boolean</em>\] \[<strong>-b</strong> <em>boolean</em>\] \[<strong>-x</strong> <em>boolean</em>\]
+
+<strong>clear-msgcopy</strong> \[<strong>-abvx</strong>\]
+
+### Description
+
+When set on a mailbox, these settings make the server file a copy of every message sent as, or on behalf of, that mailbox into that mailbox's Sent Items folder, so that everyone with access to a shared mailbox can see what was sent in its name. The sender keeps their own copy as well. The settings correspond to the Exchange mailbox settings MessageCopyForSentAsEnabled and MessageCopyForSendOnBehalfEnabled and belong on the <em>represented</em> mailbox, not on the account doing the sending.
+
+get-msgcopy prints the state of the settings. A setting that was never set behaves as if switched off and is reported as such. clear-msgcopy returns a setting to that state, as opposed to setting it to a recorded 0.
+
+The <strong>exclusive</strong> setting says what happens to the sender's own copy once one of the other two has placed a copy here. With it set, the submitted message is discarded instead of being filed anywhere in the sender's own mailbox, so the represented mailbox holds the only copy. A folder the client asked for by <strong>PR_TARGET_ENTRYID</strong> is overridden, since honouring it would put a copy back into the mailbox this setting exists to keep clear. It has no effect on its own, and none unless this mailbox's copy was written, so a mailbox that is over quota or unreachable cannot cause a sent message to be filed nowhere. This is the outcome Exchange produces from the client setting DelegateSentItemsStyle=1 together with MessageCopyForSentAsEnabled=0.
+
+A copy is deposited even if the sender holds no permission on the represented mailbox's Sent Items folder, matching Exchange behaviour. A failure to deposit one only produces a log warning and never fails the send. Messages submitted over EWS, and deferred sends, produce no copy.
+
+### Options
+
+<dfn class="gx-param">-a</dfn> <em>boolean</em>  
+Selects the setting governing messages sent <strong>as</strong> this mailbox. Under set-msgcopy the option takes a value, one of 0/1, no/yes, off/on or false/true. Under clear-msgcopy it takes no value and merely selects the setting for removal.
+
+<dfn class="gx-param">-b</dfn> <em>boolean</em>  
+As <strong>-a</strong>, but for messages sent <strong>on behalf of</strong> this mailbox.
+
+<dfn class="gx-param">-x</dfn> <em>boolean</em>  
+As <strong>-a</strong>, but for the <strong>exclusive</strong> setting.
+
+<dfn class="gx-param">-v</dfn>  
+Verbose mode. (Same as global -v.)
+
+### Examples
+
+- gromox-mbop -u shared@example.com set-msgcopy -a 1
+
+- gromox-mbop -u shared@example.com set-msgcopy -a 1 -x 1
+
+- gromox-mbop -u shared@example.com get-msgcopy
+
+- gromox-mbop -u shared@example.com clear-msgcopy
 
 ## set-locale
 
@@ -448,8 +512,8 @@ Reads a new user photo from standard input and writes it to the store.
 
 ### Synopsis
 
-<strong>set-websettings \<</strong><em>file.json</em>  
-<strong>set-websettings-persistent \<</strong><em>file.json</em>  
+<strong>set-websettings \<</strong><em>file.json</em>\
+<strong>set-websettings-persistent \<</strong><em>file.json</em>\
 <strong>set-websettings-recipients \<</strong><em>autocomplete.json</em>
 
 ### Description

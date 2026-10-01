@@ -65,14 +65,14 @@ As the source message is read, print a diagnostic tree view of the MAPI properti
 Source mail store from which to load the message from. For the public folder of a domain, leave out the local part, i.e. use <strong>@</strong><em>domain.example</em><strong>.</strong>
 
 <dfn class="gx-param">--loglevel</dfn> <em>n</em>  
-Maximum verbosity of general logging (not connected to <strong>-p, -t or</strong> <strong>-v). 1=crit, 2=error, 3=warn, 4=notice, 5=info, 6=debug.</strong>  
+Maximum verbosity of general logging (not connected to <strong>-p, -t or</strong> <strong>-v). 1=crit, 2=error, 3=warn, 4=notice, 5=info, 6=debug.</strong>\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">4<em> </em><em>(notice)</em></span>
 
 ## Examples
 
 - Export entire mailbox: gromox-exm2mt -u user@example.com -ar / \>dump.mt
 
-- Export most of the mailbox (as Outlook would): gromox-exm2mt -u u@e.xz -r IPM_SUBTREE \>dump.mt  
+- Export most of the mailbox (as Outlook would): gromox-exm2mt -u u@e.xz -r IPM_SUBTREE \>dump.mt\
   Note: Favorites, Shortcuts, Quick Steps, Search Folders, some view settings, grommunio-sync states are all stored outside of IPM_SUBTREE. In Exchange, softdeleted items are stored outside of IPM_SUBTREE as regular messages; in Gromox 3.6, they are stored as invisible items with the actual folder and never part of an export (this might change in the future, though).
 
 - Export two folders without subordinates: gromox-exm2mt -u u@e.xz IPM_SUBTREE/Foo IPM_SUBTREE/Bar \>dump.mt

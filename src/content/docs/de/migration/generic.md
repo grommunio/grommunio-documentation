@@ -9,7 +9,7 @@ Dieses Kapitel befasst sich mit der allgemeinen Migration auf grommunio unter Ve
 
 ## Einzelne E-Mails
 
-Mit den Befehlszeilenprogrammen [gromox-eml2mt](/man/gromox-eml2mt-8/), gromox-ical2mt, gromox-vcf2mt und [gromox-mt2exm](/man/gromox-mt2exm-8/)]-Befehlszeilenprogramme verfügt grommunio über Dienstprogramme, mit denen einzelne E-Mails, Kalender oder Kontaktkartendateien gelesen und importiert werden können. Weitere Informationen zur Aufrufsyntax finden Sie auf den verlinkten Handbuchseiten.
+Mit den Befehlszeilenprogrammen [gromox-eml2mt](/man/gromox-eml2mt-8/), gromox-ical2mt, gromox-vcf2mt und [gromox-mt2exm](/man/gromox-mt2exm-8/)-Befehlszeilenprogramme verfügt grommunio über Dienstprogramme, mit denen einzelne E-Mails, Kalender oder Kontaktkartendateien gelesen und importiert werden können. Weitere Informationen zur Aufrufsyntax finden Sie auf den verlinkten Handbuchseiten.
 
 ## Migration über IMAP
 

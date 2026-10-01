@@ -12,12 +12,12 @@ grommunio-admin fetchmail — Manage fetchmail settings and generate rc file
 
 ### Synopsis
 
-<strong>grommunio-admin fetchmail</strong> <strong>create</strong> \[<em>\<FIELDS\></em>\] <em>--srcPassword PASSWORD</em> <em>--srcServer SERVER</em> <em>--srcUser USER</em> <em>USERSPEC</em> \[<em>MAILBOX</em>\]  
-<strong>grommunio-admin fetchmail</strong> <strong>delete</strong> \[<em>-y</em>\] <em>MBSPEC</em>  
-<strong>grommunio-admin fetchmail</strong> <strong>list</strong> \[<em>-f FILTER</em>\] \[<em>-s SORT</em>\] \[<em>MBSPEC</em>\]  
-<strong>grommunio-admin fetchmail</strong> <strong>modify</strong> \[<em>\<FIELDS\></em>\] <em>MBSPEC</em>  
-<strong>grommunio-admin fetchmail</strong> <strong>print</strong> \[<em>-q</em>\] <em>MBSPEC</em>  
-<strong>grommunio-admin fetchmail</strong> <strong>show</strong> \[<em>--password</em>\] <em>MBSPEC</em>  
+<strong>grommunio-admin fetchmail</strong> <strong>create</strong> \[<em>\<FIELDS\></em>\] <em>--srcPassword PASSWORD</em> <em>--srcServer SERVER</em> <em>--srcUser USER</em> <em>USERSPEC</em> \[<em>MAILBOX</em>\]\
+<strong>grommunio-admin fetchmail</strong> <strong>delete</strong> \[<em>-y</em>\] <em>MBSPEC</em>\
+<strong>grommunio-admin fetchmail</strong> <strong>list</strong> \[<em>-f FILTER</em>\] \[<em>-s SORT</em>\] \[<em>MBSPEC</em>\]\
+<strong>grommunio-admin fetchmail</strong> <strong>modify</strong> \[<em>\<FIELDS\></em>\] <em>MBSPEC</em>\
+<strong>grommunio-admin fetchmail</strong> <strong>print</strong> \[<em>-q</em>\] <em>MBSPEC</em>\
+<strong>grommunio-admin fetchmail</strong> <strong>show</strong> \[<em>--password</em>\] <em>MBSPEC</em>\
 <strong>grommunio-admin fetchmail</strong> <strong>write-rc</strong> \[<em>--force</em>\] \[<em>-o FILE</em>\] \[<em>-p</em>\] \[<em>-t MINUTES</em>\] \[<em>-v</em>\]
 
 ### Description

@@ -56,7 +56,7 @@ The SQL `user_properties` table has a `propval_bin` and a `propval_str` column; 
 
 The following table lists the different Exchange objects that can be created, and what values the GAB objects exhibit in `PR_DISPLAY_TYPE`, `PR_DISPLAY_TYPE_EX`, `PR_OBJECT_TYPE` and the `EMSAB_ENTRYID::type` fields.
 
-Thing DT DTX OT etype ===================== ======= ========== == ===== GAL container 0x20000 - 4 -"All Address Lists" 0x30000 - 4 -"Outlook Addres Book" 0x50000 - 4 -Normal user 0 0x40000000 6 0 Shared mailbox 0 0 6 0 User without EX mbox 0 unset 6 6 Distribution group 1 1 8 1 Dynamic dist.group 3 3 6 3 Security group 1 0x40000009 8 1 Room 0 7 6 0 Equipment 0 8 6 0 Mail user 0 6 6 6 Mail contact 6 6 6 6 Personal DistList 5 - 8 -===================== ======= ========== == =====
+Thing DT DTX OT etype ===================== ======= ========== == ===== GAL container 0x20000 - 4 - "All Address Lists" 0x30000 - 4 - "Outlook Addres Book" 0x50000 - 4 - Normal user 0 0x40000000 6 0 Shared mailbox 0 0 6 0 User without EX mbox 0 unset 6 6 Distribution group 1 1 8 1 Dynamic dist.group 3 3 6 3 Security group 1 0x40000009 8 1 Room 0 7 6 0 Equipment 0 8 6 0 Mail user 0 6 6 6 Mail contact 6 6 6 6 Personal DistList 5 - 8 - ===================== ======= ========== == =====
 
 `PR_OBJECT_TYPE` tells whether to use `` IID_IMailUser` or ``IID_IDistList`with e.g.`IMAPIContainer::OpenEntry\`\`.
 

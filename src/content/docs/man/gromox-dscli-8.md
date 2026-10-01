@@ -20,26 +20,26 @@ This utility facilitates sending/receiving AutoDiscover request/responses to/fro
 ## Options
 
 <dfn class="gx-param">-H</dfn> <em>https://host/Autodiscover/Autodiscover.xml</em>  
-The full URL for making the request. Useful when the request URI is non-standard. Use of -H disables DNS SRV lookup.  
+The full URL for making the request. Useful when the request URI is non-standard. Use of -H disables DNS SRV lookup.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">https://localhost/Autodiscover/Autodiscover.xml</span>
 
 <dfn class="gx-param">-e</dfn> <em>user@domain.example</em>  
-Username to send along in the request.  
+Username to send along in the request.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">(none)</span>
 
 <dfn class="gx-param">-h</dfn> <em>host</em>  
-The hostname to use for making the request. From this, the full URL is constructed as "https://<em>host</em>/Autodiscover/Autodiscover.xml". Use of -h disables DNS SRV lookup.  
+The hostname to use for making the request. From this, the full URL is constructed as "https://<em>host</em>/Autodiscover/Autodiscover.xml". Use of -h disables DNS SRV lookup.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">derived from -e argument, or <em>localhost</em> (when -x is used)</span>
 
 <dfn class="gx-param">-u</dfn> <em>username</em>  
-Use a distinct username for authentication.  
+Use a distinct username for authentication.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">inherited from -e argument</span>
 
 <dfn class="gx-param">-v</dfn>  
 Be verbose. Log messages are emitted to stderr, the HTTP/XML request is emitted to stderr, and the HTTP/XML response (if any) is emitted to standard output. (These choices allow the output XML to be fed to e.g. xmllint for pretty-printing).
 
 <dfn class="gx-param">-x</dfn> <em>/o=1234578/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=username</em>  
-LegacyDN field to send along in the request.  
+LegacyDN field to send along in the request.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default">(none)</span>
 
 <dfn class="gx-param">--eas</dfn>  

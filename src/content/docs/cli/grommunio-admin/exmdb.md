@@ -12,14 +12,14 @@ grommunio-admin exmdb — User or domain store management
 
 ### Synopsis
 
-<strong>grommunio-admin</strong> <strong>exmdb</strong> <em>TARGET</em> <em>folder</em> <em>create</em> \[<em>--comment COMMENT</em>\] \[<em>-t TYPE</em>\] NAME \[<em>PARENTID</em>\]  
-<strong>grommunio-admin</strong> <strong>exmdb</strong> <em>TARGET</em> <em>folder</em> <em>delete</em> \[<em>-a</em>\] \[--clear\] <em>FOLDERSPEC</em>  
-<strong>grommunio-admin</strong> <strong>exmdb</strong> <em>TARGET</em> <em>folder</em> <em>find</em> \[<em>-x</em>\] <em>NAME</em> \[<em>ID</em>\]  
-<strong>grommunio-admin</strong> <strong>exmdb</strong> <em>TARGET</em> <em>folder</em> <em>grant</em> \[<em>-f</em>\] \[<em>-r</em>\] <em>ID</em> <em>USERNAME</em> <em>PERMISSION</em> \[<em>PERMISSION</em> …\]  
-<strong>grommunio-admin</strong> <strong>exmdb</strong> <em>TARGET</em> <em>folder</em> <em>list</em> \[<em>-r</em>\] \[<em>--format FORMAT</em>\] \[<em>ID</em>\]  
-<strong>grommunio-admin</strong> <strong>exmdb</strong> <em>TARGET</em> <em>folder</em> <em>revoke</em> \[<em>-r</em>\] <em>ID</em> <em>USERNAME</em> \[<em>PERMISSION</em> …\]  
-<strong>grommunio-admin</strong> <strong>exmdb</strong> <em>TARGET</em> <em>store</em> <em>delete</em> <em>PROPSPEC</em> \[<em>PROPSPEC</em> ...\]  
-<strong>grommunio-admin</strong> <strong>exmdb</strong> <em>TARGET</em> <em>store</em> <em>get</em> \[<em>--format FORMAT</em>\] \[<em>--separator SEPARATOR</em>\] \[<em>PROPSPEC</em> ...\]  
+<strong>grommunio-admin</strong> <strong>exmdb</strong> <em>TARGET</em> <em>folder</em> <em>create</em> \[<em>--comment COMMENT</em>\] \[<em>-t TYPE</em>\] NAME \[<em>PARENTID</em>\]\
+<strong>grommunio-admin</strong> <strong>exmdb</strong> <em>TARGET</em> <em>folder</em> <em>delete</em> \[<em>-a</em>\] \[--clear\] <em>FOLDERSPEC</em>\
+<strong>grommunio-admin</strong> <strong>exmdb</strong> <em>TARGET</em> <em>folder</em> <em>find</em> \[<em>-x</em>\] <em>NAME</em> \[<em>ID</em>\]\
+<strong>grommunio-admin</strong> <strong>exmdb</strong> <em>TARGET</em> <em>folder</em> <em>grant</em> \[<em>-f</em>\] \[<em>-r</em>\] <em>ID</em> <em>USERNAME</em> <em>PERMISSION</em> \[<em>PERMISSION</em> …\]\
+<strong>grommunio-admin</strong> <strong>exmdb</strong> <em>TARGET</em> <em>folder</em> <em>list</em> \[<em>-r</em>\] \[<em>--format FORMAT</em>\] \[<em>ID</em>\]\
+<strong>grommunio-admin</strong> <strong>exmdb</strong> <em>TARGET</em> <em>folder</em> <em>revoke</em> \[<em>-r</em>\] <em>ID</em> <em>USERNAME</em> \[<em>PERMISSION</em> …\]\
+<strong>grommunio-admin</strong> <strong>exmdb</strong> <em>TARGET</em> <em>store</em> <em>delete</em> <em>PROPSPEC</em> \[<em>PROPSPEC</em> ...\]\
+<strong>grommunio-admin</strong> <strong>exmdb</strong> <em>TARGET</em> <em>store</em> <em>get</em> \[<em>--format FORMAT</em>\] \[<em>--separator SEPARATOR</em>\] \[<em>PROPSPEC</em> ...\]\
 <strong>grommunio-admin</strong> <strong>exmdb</strong> <em>TARGET</em> <em>store</em> <em>set</em> \[<em>PROPSPEC=VALUE</em> ...\]
 
 ### Description

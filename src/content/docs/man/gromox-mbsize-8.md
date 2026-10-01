@@ -20,7 +20,7 @@ Shows a detailed view of how a mailbox size translates to on-disk usage. Explana
 ## Options
 
 <dfn class="gx-param">-B</dfn> {<strong>B</strong>\|<strong>K</strong>\|<strong>M</strong>\|<strong>G</strong>\|<strong>T</strong>}  
-Selects the display unit.  
+Selects the display unit.\
 <span class="gx-deflabel">Default:</span> <span class="gx-default"><em>M</em></span>
 
 <dfn class="gx-param">--orphans</dfn>  

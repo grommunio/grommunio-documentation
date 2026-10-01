@@ -16,7 +16,7 @@ grommunio-admin taginfo — Show information about proptags
 
 ### Description
 
-Display information about a property tag, as defined in the Microsoft Exchange Server Protocols Master Property List.  
+Display information about a property tag, as defined in the Microsoft Exchange Server Protocols Master Property List.\
 Note that property names used by grommunio may differ from the names defined by Microsoft.
 
 ### Options

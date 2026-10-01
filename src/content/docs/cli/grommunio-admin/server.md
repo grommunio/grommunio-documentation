@@ -12,10 +12,10 @@ grommunio-admin server — Multi-server management
 
 ### Synopsis
 
-<strong>grommunio-admin server</strong> <strong>create</strong> <em>-H HOSTNAME</em> <em>-e EXTNAME</em>\]  
-<strong>grommunio-admin server</strong> <strong>delete</strong> <em>SERVERSPEC</em>  
-<strong>grommunio-admin server</strong> <strong>list</strong> \[<em>-f FIELD=\<value\></em>\] \[<em>-s FIELD</em>\] \[<em>SERVERSPEC</em>\]  
-<strong>grommunio-admin server</strong> <strong>modify</strong> \[<em>\<FIELDS\></em>\] <em>SERVERSPEC</em>  
+<strong>grommunio-admin server</strong> <strong>create</strong> <em>-H HOSTNAME</em> <em>-e EXTNAME</em>\]\
+<strong>grommunio-admin server</strong> <strong>delete</strong> <em>SERVERSPEC</em>\
+<strong>grommunio-admin server</strong> <strong>list</strong> \[<em>-f FIELD=\<value\></em>\] \[<em>-s FIELD</em>\] \[<em>SERVERSPEC</em>\]\
+<strong>grommunio-admin server</strong> <strong>modify</strong> \[<em>\<FIELDS\></em>\] <em>SERVERSPEC</em>\
 <strong>grommunio-admin server</strong> <strong>show</strong> \[<em>-f FIELD=\<value\></em>\] \[<em>-s FIELD</em>\] <em>SERVERSPEC</em>
 
 ### Description

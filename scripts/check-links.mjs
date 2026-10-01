@@ -48,6 +48,14 @@ function resolves(href) {
   return files.has(`${noSlash}/index.html`) || files.has(`${noSlash}.html`) || noSlash === '';
 }
 
+// The book pages link the PDF/EPUB downloads, which only exist after
+// `npm run pdf` / `npm run epub` (MAKE_PDF / MAKE_EPUB in ./deploy). When an
+// export has not been built at all, its links are reported but not counted as
+// broken; once any file of that export exists, every link to it is checked.
+const EXPORTS = ['/pdf/', '/epub/'];
+const exportBuilt = (prefix) => [...files].some((f) => f.startsWith(prefix));
+const skippedExports = new Map(); // prefix -> count
+
 const HREF = /\b(?:href|src)="(\/[^"]*)"/g;
 const broken = new Map(); // target -> Set(pages)
 let pagesScanned = 0;
@@ -61,6 +69,11 @@ for (const rel of files) {
     // Protocol-relative URLs are external.
     if (target.startsWith('//')) continue;
     if (resolves(target)) continue;
+    const exp = EXPORTS.find((prefix) => target.startsWith(prefix));
+    if (exp && !exportBuilt(exp)) {
+      skippedExports.set(exp, (skippedExports.get(exp) || 0) + 1);
+      continue;
+    }
     if (!broken.has(target)) broken.set(target, new Set());
     broken.get(target).add(rel);
   }
@@ -71,6 +84,10 @@ if (pagesScanned === 0) {
   // directory) must not pass as "no broken links".
   console.error('✗ links: no HTML pages found in dist/ — run `npm run build` first.');
   process.exit(2);
+}
+
+for (const [prefix, n] of skippedExports) {
+  console.warn(`! links: ${n} link(s) to ${prefix} not checked — that export has not been built`);
 }
 
 if (broken.size === 0) {

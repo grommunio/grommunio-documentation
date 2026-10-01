@@ -10,7 +10,7 @@
  *
  * Usage: node scripts/gen-pdf.mjs [book ...]   (default: all books)
  */
-import { chromium } from 'playwright';
+import { launchChromium } from './lib/browser.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -114,7 +114,7 @@ const haveDist = fs.existsSync(path.join(ROOT, 'dist'));
 if (haveDist) fs.mkdirSync(DIST_PDF, { recursive: true });
 
 await withPreview(ROOT, async (BASE) => {
-  const browser = await chromium.launch();
+  const browser = await launchChromium();
   const page = await browser.newPage();
   for (const book of books) {
     const pages = pagesFor(book, DOCS);

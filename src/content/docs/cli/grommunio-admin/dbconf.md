@@ -12,14 +12,14 @@ grommunio-admin dbconf — Database-stored configuration management.
 
 ### Synopsis
 
-<strong>grommunio-admin dbconf</strong> (<em>commit</em> \| <em>delete</em>) <em>SERVICE</em> \[<em>FILE</em> \[<em>KEY</em>\]\]  
-<strong>grommunio-admin dbconf</strong> <em>get</em> <em>SERVICE</em> <em>FILE</em> \[<em>KEY</em>\]  
-<strong>grommunio-admin dbconf</strong> <em>list</em> \[<em>SERVICE</em> \[<em>FILE</em> \[<em>KEY</em>\]\]\]  
+<strong>grommunio-admin dbconf</strong> (<em>commit</em> \| <em>delete</em>) <em>SERVICE</em> \[<em>FILE</em> \[<em>KEY</em>\]\]\
+<strong>grommunio-admin dbconf</strong> <em>get</em> <em>SERVICE</em> <em>FILE</em> \[<em>KEY</em>\]\
+<strong>grommunio-admin dbconf</strong> <em>list</em> \[<em>SERVICE</em> \[<em>FILE</em> \[<em>KEY</em>\]\]\]\
 <strong>grommunio-admin dbconf</strong> <em>set</em> \[<em>-b</em>\] \[<em>-i</em>\] \[--\] <em>SERVICE</em> <em>FILE</em> <em>KEY</em> <em>VALUE</em>
 
 ### Description
 
-<em>grommunio dbconf</em> provides the ability to store and manage configurations at a single location while making it available across distributed systems. The configurations are stored in the central MySQL database and can be accessed via <em>grommunio-dbconf(1)</em> and <em>grommunio-admin-dbconf(1)</em>.  
+<em>grommunio dbconf</em> provides the ability to store and manage configurations at a single location while making it available across distributed systems. The configurations are stored in the central MySQL database and can be accessed via <em>grommunio-dbconf(1)</em> and <em>grommunio-admin-dbconf(1)</em>.\
 While both tools essentially provide the same functionality, <em>grommunio-dbconf(1)</em> provides far better performance and is intended to be used for quickly accessing the configuration.
 
 Configurations consist of key/value pairs organized in files, grouped by service. Each service can have an arbitrary number of configuration files, which in turn can contain an arbitrary number of unique keys.
@@ -99,7 +99,7 @@ The following commands are available:
 
 #### Service
 
-`systemctl reload $SERVICE`  
+`systemctl reload $SERVICE`\
 `systemctl restart $SERVICE`
 
 ### Macros
@@ -118,7 +118,7 @@ The following macros are defined:
 
 #### Service
 
-`#RELOAD` -\> `systemctl reload $SERVICE`  
+`#RELOAD` -\> `systemctl reload $SERVICE`\
 `#RESTART` -\> `systemctl restart $SERVICE`
 
 ### Command Variable Expansion

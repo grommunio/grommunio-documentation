@@ -1,6 +1,6 @@
 ---
 title: "Operations"
-description: "Since the process of the Admin API is relevant for the initial provisioning stage, it is per default made available via port 8080 and unencrypted. As so…"
+description: "Day-2 operations for grommunio: Admin API TLS, certificate management, updates, backup and disaster recovery, mail requeueing and size limits."
 sidebar:
   order: 80
 ---
@@ -9,7 +9,7 @@ sidebar:
 
 ### Admin API TLS configuration
 
-Since the process of the Admin API is relevant for the initial provisioning stage, it is per default made available via port 8080 and unencrypted. As soon as the setup process has finished, it is advised to switch to a TLS-based configuration.
+The Admin API package makes the Admin UI available unencrypted on port 8080. On the grommunio Appliance, grommunio-setup performs the steps below automatically, so the Admin UI is available via TLS on port 8443 after the setup; only close or restrict port 8080 there. On manual installations, switch to a TLS-based configuration as soon as the setup process has finished.
 
 The shipped grommunio configuration files are prepared for setting up TLS configuration with the existing configuration. To activate the TLS configuration of grommunio-admin, execute the following steps:
 

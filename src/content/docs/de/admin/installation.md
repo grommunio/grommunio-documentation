@@ -1,6 +1,6 @@
 ---
 title: "Installationsanleitung (grommunio Appliance)"
-description: "grommunio liefert einsatzbereite Appliances für:"
+description: "Die grommunio Appliance vom ISO installieren, mit der Konsolenoberfläche (CUI) vorbereiten und mit dem grommunio-Einrichtungsassistenten konfigurieren."
 sidebar:
   label: "Geführte Installation"
   order: 30
@@ -20,206 +20,335 @@ Für grommunio stehen verschiedene Möglichkeiten zur Automatisierung und Bereit
 
 Um grommunio über ISO bereitzustellen, müssen Sie das Installationsmedium auf Ihrem Installationsziel bereitstellen. Das ISO ist ein generisches, bootfähiges Installationsmedium, das in den meisten Szenarien funktioniert. Um das ISO auf einem Bare-Metal-System bereitzustellen, kann das ISO zur Vereinfachung der Installation auf USB-Sticks kopiert werden.
 
-Das grommunio Appliance ist eine universell einsetzbare Installationsplattform, die alle für den erfolgreichen Betrieb des grommunio erforderlichen Komponenten enthält. Es umfasst bereits das Betriebssystem für eine vereinfachte Verwaltung und ermöglicht einen universellen Einsatz. Bei jeder appliance-Installation werden automatisch vorkonfigurierte Update-Server bereitgestellt und Dienste für die Nutzung vorbereitet. Wenn Sie eine universelle und einfache Bereitstellung suchen, ist das grommunio Appliance genau das Richtige für Sie. Dank vereinfachter Update-Verwaltung, Backups und vollständiger Portabilität kann das appliance auf jeder Zielinstallation mit 1 bis 2000 Benutzern bei entsprechender Hardwareausstattung betrieben werden. Für größere Installationen oder Installationen mit besonderen Anforderungen, wie beispielsweise – aber nicht beschränkt auf – geografisch verteilte, Cluster- oder Hyperscale-Installationen, wenden Sie sich bitte an unsere Partner und/oder unser Support-/Professional-Services-Team. Alternativ reichen die kombinierten Informationen aus der manuellen Installation in diesem Kapitel zusammen mit den Abschnitten der Man-Page aus, um die grommunio-Konfiguration nach Ihren Anforderungen einzurichten.
+Die grommunio Appliance ist eine universell einsetzbare Installationsplattform, die alle für den erfolgreichen Betrieb von grommunio erforderlichen Komponenten enthält. Sie basiert auf openSUSE Leap 16.0 und umfasst bereits das Betriebssystem für eine vereinfachte Verwaltung. Bei jeder Appliance-Installation werden automatisch vorkonfigurierte Update-Server bereitgestellt und Dienste für die Nutzung vorbereitet. Wenn Sie eine universelle und einfache Bereitstellung suchen, ist die grommunio Appliance genau das Richtige für Sie. Dank vereinfachter Update-Verwaltung, Backups und vollständiger Portabilität kann die Appliance bei entsprechender Hardwareausstattung für 1 bis 2000 Benutzer betrieben werden. Für größere Installationen oder Installationen mit besonderen Anforderungen, wie beispielsweise – aber nicht beschränkt auf – geografisch verteilte, Cluster- oder Hyperscale-Installationen, wenden Sie sich bitte an unsere Partner und/oder unser Support-/Professional-Services-Team. Alternativ reichen die kombinierten Informationen aus der manuellen Installation in diesem Kapitel zusammen mit den Man-Pages aus, um grommunio nach Ihren Anforderungen einzurichten.
 
-## Konfiguration des grommunio Appliance über CUI/Setup
+Die geführte Installation besteht aus drei Schritten:
 
-Die Benutzeroberfläche der grommunio-Konsole (`grommunio-cui`) bietet eine Konsolenschnittstelle, über die der Administrator grundlegende Aufgaben ausführen kann, um das appliance für die Admin-UI (Admin-Weboberfläche) oder die Admin-CLI (Admin-Befehlszeilenschnittstelle) vorzubereiten, wie beispielsweise die Netzwerkkonfiguration und die Zeitsynchronisation.
+1. [Installation der Appliance](#installation-der-appliance) vom ISO auf das Zielsystem.
+2. Vorbereitung des Betriebssystems mit der [Konsolenoberfläche](#konfiguration-der-grommunio-appliance-über-cuisetup) (`grommunio-cui`): Root-Passwort, Netzwerk, Hostname, Zeit.
+3. Konfiguration von grommunio mit dem [grommunio-Einrichtungsassistenten](#grommunio-einrichtungsassistent) (`grommunio-setup`): Rollen, Datenbank, Admin-Passwort, Domäne und TLS.
 
-![Main screen of grommunio-cui](/img/cui_1_main.png)
+## Installation der Appliance
 
-## Hauptbildschirm
+Starten Sie das Zielsystem vom ISO. Das Bootmenü bietet drei Einträge:
 
-Nach dem Start von `grommunio-cui` befinden Sie sich auf dem Hauptbildschirm. Nach der Anmeldung können Sie Änderungen an der Systemkonfiguration vornehmen.
+- **Boot from Hard Disk** – die Voreinstellung, die nach 10 Sekunden automatisch startet. Sie bootet ein bereits installiertes System; wählen Sie den Installer daher vor Ablauf des Countdowns.
+- **Install grommunio 2026.06.2** – installiert die Appliance.
+- **Failsafe -- Install grommunio 2026.06.2** – derselbe Installer mit konservativen Kernel-Optionen, für Hardware, auf der der reguläre Eintrag nicht startet.
 
-Auf dem Hauptbildschirm stehen folgende Funktionen zur Verfügung:
+![Bootmenü des grommunio-Appliance-Installers](/img/appliance_boot_menu.png)
 
-- F1: Umschalten des Farbschemas (heller vs. dunkler Modus)
-- F2: Anmelden, um den Systemkonfigurationsmodus freizuschalten
-- F5: Umschalten des Tastaturlayouts
-- L: Systemprotokoll-Viewer öffnen
+Der Installer fragt vor dem Schreiben auf die Zielfestplatte nach einer Bestätigung. Die Appliance verwendet immer die **gesamte** Festplatte; alle Daten darauf werden gelöscht.
 
-## Anmelden
+![Bestätigung vor dem Überschreiben der Zielfestplatte](/img/appliance_install_confirm.png)
 
-![Login](/img/cui_2_login.png)
+Anschließend kopiert der Installer das Appliance-Image auf die Festplatte und startet das installierte System. Weitere Fragen gibt es nicht: Partitionierung, Bootloader und Grundkonfiguration sind Teil des Images.
 
-Um in den Systemkonfigurationsmodus zu wechseln, drücken Sie `F2` und melden Sie sich mit dem Superuser-Konto des Systems (`root`) an.
+![Der Installer kopiert das Appliance-Image](/img/appliance_install_progress.png)
 
 :::caution
-Das ursprüngliche Root-Passwort ist nicht festgelegt (leer). Wenn Sie bei der ersten Anmeldung zur Passworteingabe aufgefordert werden, geben Sie einfach kein Passwort ein.
+Entfernen Sie nach der Installation das Installationsmedium (oder ändern Sie die Bootreihenfolge). Andernfalls startet das System erneut in das Bootmenü des ISO; es fällt zwar nach dem Countdown auf **Boot from Hard Disk** zurück, verzögert aber jeden Neustart.
 :::
 
-## Hauptkonfigurationsbildschirm
+## Konfiguration der grommunio Appliance über CUI/Setup
 
-Das Hauptmenü bietet `grommunio-cui` folgende Funktionen:
+Die grommunio-Konsolenoberfläche (`grommunio-cui`) läuft auf der ersten Konsole (tty1) der Appliance. Über sie erledigt der Administrator die grundlegenden Aufgaben, um die Appliance für die Admin-UI (Admin-Weboberfläche) oder die Admin-CLI (Admin-Befehlszeile) vorzubereiten – etwa Netzwerkkonfiguration und Zeitsynchronisation – und startet den grommunio-Einrichtungsassistenten.
 
-- Systemkennwort ändern
-- Netzwerkkonfiguration
-- Zeitzonenkonfiguration
-- Zeitsynchronisationskonfiguration
-- grommunio-Einrichtungsassistent
-- Kennwort für die Admin-Weboberfläche ändern
+Die CUI konfiguriert das System mit den systemd-Standardwerkzeugen – `localectl`, `hostnamectl`, `timedatectl`, `systemd-timesyncd` – und bearbeitet die Netzwerkkonfiguration des jeweils aktiven Netzwerk-Backends (`systemd-networkd` auf der Appliance; NetworkManager oder wicked auf anderen Systemen). YaST wird nicht mehr verwendet.
+
+### Statusbildschirm
+
+Nach dem Start zeigt die CUI einen Statusbildschirm. Die obere Hälfte zeigt die Version der Appliance, die CPU und die Speicherauslastung. Die untere Hälfte listet noch offene Aufgaben auf – bei einer frisch installierten Appliance sind das:
+
+- *System password is not set.* (Kein Systempasswort gesetzt.)
+- *grommunio-setup has not been run yet.* (grommunio-setup wurde noch nicht ausgeführt.)
+- *nginx is not running.* (nginx läuft nicht.)
+
+![Statusbildschirm einer frisch installierten Appliance](/img/appliance_cui_status_initial.png)
+
+Nach abgeschlossener Einrichtung zeigt die untere Hälfte stattdessen die Adressen, unter denen die Admin-UI erreichbar ist.
+
+![Statusbildschirm nach abgeschlossener Einrichtung](/img/appliance_cui_status.png)
+
+Die Kopfzeile zeigt das aktive Tastaturlayout und den Farbsatz. Die Fußleiste zeigt die aktuelle Uhrzeit, die Systemlast und folgende Tastenkürzel:
+
+- `F1`: Farbsatz wechseln
+- `F2`: Anmelden, um das Hauptmenü freizuschalten
+- `F5`: Tastaturlayout auswählen
+- `L`: Protokollanzeige öffnen
+
+### Protokollanzeige
+
+Die Protokollanzeige (`L`) zeigt das Journal der grommunio-Dienste. Mit den Pfeiltasten `LINKS` und `RECHTS` wechseln Sie zwischen den Diensten (gromox-http, gromox-imap, gromox-delivery, grommunio-antispam, …), mit `+`/`-` ändern Sie die Anzahl der angezeigten Zeilen. `ESC` kehrt zum Statusbildschirm zurück.
+
+![Protokollanzeige](/img/appliance_cui_logs.png)
+
+### Anmelden
+
+Um das Hauptmenü zu öffnen, drücken Sie `F2`.
+
+Solange kein Root-Passwort gesetzt ist, öffnet `F2` das Hauptmenü direkt. Sobald ein Root-Passwort gesetzt ist, fragt die CUI nach den Zugangsdaten des System-Superusers (`root`).
+
+![Anmeldedialog](/img/appliance_cui_login.png)
+
+:::caution
+Das Root-Passwort ist anfangs nicht gesetzt (leer). Setzen Sie als allerersten Schritt ein Root-Passwort. SSH ist auf der Appliance aktiviert, eine Anmeldung per SSH ist aber erst möglich, nachdem ein Passwort gesetzt wurde.
+:::
+
+:::tip
+Die CUI lässt sich auch aus einer SSH-Sitzung mit `grommunio-cui` starten. In diesem Fall enthält das Hauptmenü zusätzlich den Eintrag `Exit` (sowie `F10`), um zur Shell zurückzukehren.
+:::
+
+## Hauptmenü
+
+Das Hauptmenü bietet folgende Funktionen:
+
+- Language configuration (Sprache)
+- Keyboard configuration (Tastatur)
+- Change system password (Systempasswort ändern)
+- Network interface configuration (Netzwerkschnittstellen)
+- Change hostname (Hostname ändern)
+- Timezone configuration (Zeitzone)
+- timesyncd configuration (Zeitsynchronisation)
+- Select software repositories (Software-Repositories)
+- Update the system (System aktualisieren)
+- grommunio setup wizard (grommunio-Einrichtungsassistent)
+- Change admin-web password (Admin-Web-Passwort ändern)
 - Terminal
-- Neustart
-- Herunterfahren
+- Reboot (Neustart)
+- Shutdown (Herunterfahren)
 
-![Main configuration screen of grommunio-cui](/img/cui_3_mainconfig.png)
+Navigieren Sie mit den Pfeiltasten und bestätigen Sie mit `ENTER`. In Dialogen wechselt `TAB` zwischen Feldern und Schaltflächen, `ESC` bricht den Dialog ab. Die rechte Bildschirmhälfte beschreibt den gerade ausgewählten Eintrag.
 
-## Systemkennwort ändern
+![Hauptmenü von grommunio-cui](/img/appliance_cui_mainmenu.png)
 
-Der Menüpunkt `Change system password` öffnet ein Fenster zur Festlegung des Passworts für das Superuser-Konto (`root`). Führen Sie diesen Schritt direkt nach der Installation durch. Verwenden Sie ein sicheres Passwort. Wir empfehlen ein Passwort, das aus mindestens vier Wörtern besteht.
+Arbeiten Sie bei einer neuen Appliance das Menü von oben nach unten ab: Root-Passwort setzen, Netzwerk, Hostname und Zeit konfigurieren, dann den grommunio-Einrichtungsassistenten starten.
 
-![Changing the superuser password with grommunio-cui](/img/cui_4_change_sys_pass.png)
+### Sprache
 
-## Netzwerkkonfiguration
+Wählt die Systemsprache (Locale) über `localectl`. Dies ändert die Sprache der CUI und der Systemmeldungen; die Sprache von grommunio Web wählen die Benutzer selbst.
 
-Der Menüeintrag `Network configuration` startet das Netzwerkkonfigurationsprogramm (`yast2 lan`), das alle gängigen Netzwerkkonfigurationseinstellungen unterstützt. Ausführliche Informationen zur Konfiguration des Netzwerks mit dem Dienstprogramm `yast` finden Sie in der Online-Dokumentation zu YaST unter <https://documentation.suse.com/sles/15-SP6/html/SLES-all/cha-network.html#sec-network-yast>
+![Auswahl der Systemsprache](/img/appliance_cui_language.png)
 
-![Network configuration with YaST](/img/cui_5_network.png)
+### Tastatur
+
+Wählt das Tastaturlayout der Konsole über `localectl`. Das Layout gilt an der Konsole der Appliance, etwa bei der Eingabe von Passwörtern in der CUI. `F5` öffnet denselben Dialog von jedem Bildschirm aus, auch ohne vorherige Anmeldung – nützlich, wenn das Konsolenlayout bei der Eingabe des Root-Passworts nicht zu Ihrer Tastatur passt.
+
+![Auswahl des Tastaturlayouts](/img/appliance_cui_keyboard.png)
+
+### Systempasswort ändern
+
+Setzt das Passwort des System-Superusers (`root`). Erledigen Sie dies direkt nach der Installation. Verwenden Sie ein sicheres Passwort; wir empfehlen eine Passphrase aus mindestens vier Wörtern. Danach können Sie sich per SSH anmelden und `grommunio-cui` oder `grommunio-setup` von dort ausführen.
+
+![Root-Passwort ändern](/img/appliance_cui_rootpw.png)
+
+### Netzwerkschnittstellen
+
+Listet die Netzwerkschnittstellen der Appliance mit ihren aktuellen Adressen sowie das aktive Netzwerk-Backend (`networkd` auf der Appliance). Wählen Sie eine Schnittstelle und dann **Edit**, um sie zu konfigurieren, oder *Create new bond device*, um mehrere Schnittstellen zu einem Bond zusammenzufassen.
+
+![Liste der Netzwerkschnittstellen](/img/appliance_cui_network_list.png)
+
+Der Schnittstellendialog konfiguriert:
+
+- **DHCPv4 / DHCPv6** – automatische Konfiguration von Adressen, Gateway und DNS-Servern
+- **Addresses** – statische Adressen in CIDR-Notation (`192.0.2.10/24`, `2001:db8::10/64`), eine pro Zeile
+- **Default gw v4 / v6** – die Standard-Gateways
+- **Static routes** – zusätzliche Routen, eine pro Zeile, in der Form `<Ziel> via <Gateway>`
+- **DNS servers** – die Nameserver, einer pro Zeile
+
+![Bearbeiten einer Netzwerkschnittstelle](/img/appliance_cui_network_edit.png)
+
+Auf einer frisch installierten Appliance ist jede Ethernet-Schnittstelle über ein generisches `systemd-networkd`-Profil für DHCP konfiguriert; der Dialog zeigt dann die aktuell verwendeten Adressen, wobei beide DHCP-Kästchen nicht angehakt sind. Für den Produktivbetrieb konfigurieren Sie eine statische Adresse, das Standard-Gateway und die DNS-Server. Beim Speichern schreibt der Dialog ein schnittstellenspezifisches Profil, `/etc/systemd/network/50-grommunio-<Schnittstelle>.network`, das Vorrang vor dem generischen hat, und wendet es sofort an.
+
+Die Appliance betreibt keinen lokalen DNS-Resolver-Dienst. Die in diesem Dialog eingetragenen DNS-Server schreibt die CUI nach `/etc/resolv.conf`. Per DHCP gelieferte Nameserver werden **nicht** übernommen; tragen Sie daher immer **DNS servers** ein, auch wenn die Adressen per DHCP bezogen werden.
 
 :::caution
-Zu den Konfigurationseinstellungen, deren Änderung empfohlen wird, gehören: Hostname, Netzwerkadressierung (IP-Adresse), DNS (Nameserver), Routing (Standard-Gateway).
+Mindestens anzupassen sind: Netzwerkadressierung (IP-Adresse), DNS (Nameserver) und Routing (Standard-Gateway). Prüfen Sie anschließend die Namensauflösung, zum Beispiel mit `getent hosts download.grommunio.com` im [Terminal](#terminal): Der grommunio-Einrichtungsassistent benötigt funktionierendes DNS, um die Software-Repositories zu erreichen.
 :::
+
+### Hostname ändern
+
+Setzt den System-Hostnamen über `hostnamectl` (`/etc/hostname`). Geben Sie den vollqualifizierten Domänennamen (FQDN) der Appliance ein, zum Beispiel `mail.example.com`.
+
+![Hostname setzen](/img/appliance_cui_hostname.png)
 
 :::caution
-Beachten Sie, dass die Verwendung der Domäne `localhost` kein gültiger Hostname ist und/oder `local` kein gültiger Domänenname ist. Stellen Sie sicher, dass Sie den Hostnamen und den FQDN in allen Einrichtungs- und Installationsphasen korrekt festlegen, um mit einer gültigen Konfiguration arbeiten zu können.
+`localhost` ist kein gültiger Hostname und `local` kein gültiger Domänenname. Setzen Sie Hostname und FQDN korrekt, bevor Sie den grommunio-Einrichtungsassistenten ausführen, und stellen Sie sicher, dass der FQDN auf die Appliance auflöst – entweder per DNS oder über einen Eintrag in `/etc/hosts`:
+
+``` text
+192.0.2.10   mail.example.com mail
+```
+
+Zur Überprüfung sollte der Befehl `hostname -f` den FQDN des Systems ausgeben. Eine korrekte Hostname-/DNS-Konfiguration ist zwingend erforderlich, insbesondere bei Setups mit mehreren Hosts.
 :::
 
-### Einrichtung von Hostname und FQDN
+### Zeitzone
 
-Es ist erforderlich, den Hostnamen und den Domänennamen des Systems korrekt einzurichten.
+Setzt die Zeitzone über `timedatectl`. Die Zeitzone wird unter anderem in Serverprotokollen verwendet. Auf E-Mails hat sie praktisch keinen Einfluss, da Mailprogramme wie grommunio Web Zeitstempel ohnehin in die Zeitzone des jeweiligen Geräts umrechnen. Die Hardware-Uhr läuft in UTC – das empfohlene, zeitzonenunabhängige Verhalten für Dienste.
 
-Zweitens sollten für eine ordnungsgemäße lokale Namensauflösung von Diensten die entsprechenden Einträge entweder in DNS vorhanden sein und/oder in `/etc/hosts` festgelegt werden.
+![Auswahl der Zeitzone](/img/appliance_cui_timezone.png)
 
-Um dies mit dem appliance zu erreichen, legen Sie den vollqualifizierten Domänennamen (FQDN) in den Schnittstelleneinstellungen (die auf `/etc/hosts` gespiegelt werden) **und** auf der Registerkarte „Hostname/DNS“ fest (der statische Hostname bezieht sich auf `/etc/hostname`). Auf diese Weise können alle Dienste des appliance die korrekte Adressierung basierend auf der Domäne und dem Host verwenden. Eine korrekte Konfiguration von Hostname/DNS ist zwingend erforderlich, insbesondere bei Setups mit mehreren Hosts.
+### Zeitsynchronisation
 
-![Hostname setting (affects \0/etc/hostname\1)](/img/yast_hostname_interface.png)
+Konfiguriert `systemd-timesyncd`, den schlanken NTP-Client der Appliance, und aktiviert die Zeitsynchronisation über das Netzwerk. Tragen Sie die zu verwendenden NTP-Server durch Leerzeichen getrennt im Feld **NTP** ein; die Server unter **FallbackNTP** werden verwendet, wenn keiner der primären Server erreichbar ist. Verwenden Sie, falls vorhanden, die Zeitserver Ihres Netzwerks.
 
-![Hostname resolution aid (affects \0/etc/hosts\1)](/img/yast_hostname_system.png)
+![Konfiguration von timesyncd](/img/appliance_cui_timesync.png)
 
-:::caution
-Um die Einstellungen zu überprüfen, sollte der Befehl `hostname` den FQDN des Systems zurückgeben.
-:::
+Mit `timedatectl timesync-status` im [Terminal](#terminal) sehen Sie, mit welchem Server die Appliance synchronisiert.
 
-## Zeitzonenkonfiguration
-
-Über den Menüeintrag `Timezone configuration` kann die bevorzugte Zeitzone festgelegt werden, die in Serverprotokollen usw. angezeigt wird. Auf E-Mails hat dies keine praktischen Auswirkungen, da E-Mail-Clients wie grommunio-web Zeitstempel ohnehin in die Zeitzone des jeweiligen Geräts umrechnen, auf dem das Programm ausgeführt wird.
-
-![Timezone configuration with YaST](/img/cui_6_timezone.png)
-
-## Konfiguration der Zeitsynchronisation
-
-Die Konfiguration von Timesync erfolgt über eine einfache Benutzeroberfläche, über die Sie die Zeitzone entsprechend Ihrer Region und der dortigen Zeitzone einstellen können. Es wird generell empfohlen, die Einstellung auf `Hardware Clock Set to UTC` zu belassen, da dies das empfohlene zeitzonenunabhängige Verhalten für Dienste (z. B. bei Protokollen usw.) gewährleistet.
-
-![Timesync configuration](/img/cui_7_timesync.png)
-
-Nach dieser Grundeinrichtung sollte Ihr grommunio Appliance:
+Nach diesen grundlegenden Schritten sollte Ihre grommunio Appliance:
 
 - eine Verbindung zum Internet herstellen können (Verfügbarkeit von Updates usw.)
+- einen gültigen Hostnamen haben, der auf die Appliance auflöst
 - eine gültige Zeitzone eingestellt haben
-- einen gültigen Zeitserver konfiguriert haben, wobei die Systemzeit entsprechend synchronisiert ist
+- einen gültigen Zeitserver konfiguriert haben, mit entsprechend synchronisierter Systemzeit
+
+### Software-Repositories
+
+Wechselt das grommunio-Paket-Repository zwischen dem *community*-Repository und dem *supported*-Repository (Subskription). Für das supported-Repository geben Sie Benutzername und Passwort der Subskription ein. Der grommunio-Einrichtungsassistent fragt dieselben Angaben ab; dieser Dialog ist daher vor allem nützlich, um das Repository später zu wechseln, etwa nach dem Kauf einer Subskription.
+
+![Auswahl des Software-Repositorys](/img/appliance_cui_repositories.png)
+
+### System aktualisieren
+
+Führt den Paketmanager (`zypper`) aus, um die Repositories zu aktualisieren und verfügbare Updates zu installieren. Die Ausgabe erscheint in der unteren Bildschirmhälfte; drücken Sie nach Abschluss `ENTER`, um zum Menü zurückzukehren. Weitere Möglichkeiten zur Aktualisierung finden Sie unter [Aktualisierung von grommunio](/admin/operations/#updating-grommunio).
 
 ## grommunio-Einrichtungsassistent
 
-Nachdem Sie die vorangegangenen grundlegenden Einrichtungsschritte abgeschlossen haben, wird empfohlen, den grommunio-Einrichtungsassistenten auszuführen, um die Konfiguration entsprechend Ihren Anforderungen abzuschließen.
+Nach den grundlegenden Schritten führen Sie den grommunio-Einrichtungsassistenten aus, um die Konfiguration nach Ihren Anforderungen abzuschließen.
 
-Der Menüpunkt `grommunio setup wizard` startet das Programm `grommunio-setup`, das Sie durch die Ersteinrichtung des grommunio führt.
+Der Menüeintrag `grommunio setup wizard` startet das Programm `grommunio-setup`, das Sie durch die Ersteinrichtung von grommunio führt. `grommunio-setup` kann auch aus einer SSH-Sitzung ausgeführt werden.
 
-:::caution
-grommunio-setup kann zwar mehrmals ausgeführt werden, doch durch das Durchlaufen des Einrichtungsvorgangs von grommunio-setup wird die gesamte Installation stets zurückgesetzt. grommunio-setup erkennt automatisch, ob es bereits ausgeführt wurde, und warnt Sie, dass alle gespeicherten Daten verloren gehen, wenn Sie fortfahren.
-:::
+Navigation in `grommunio-setup`:
 
-### Begrüßungsbildschirm
+- `TAB` wechselt zwischen den Elementen eines Dialogs
+- `PFEIL-AUF` / `PFEIL-AB` bewegen sich in Formularen und Menüs; `LEERTASTE` schaltet Kontrollkästchen um
+- `j` / `k` scrollen in längeren Dialogen (etwa der abschließenden Zusammenfassung)
+- `ESC` bricht `grommunio-setup` in jeder Phase ab
 
-Beim Start von `grommunio-setup` wird ein informativer Begrüßungsbildschirm angezeigt.
+grommunio-setup gibt für die meisten Dialoge Standardwerte vor, einschließlich zufällig erzeugter Passwörter; alle werden in der Setup-Protokolldatei `/var/log/grommunio-setup.log` festgehalten.
 
-![grommunio-setup: welcome screen](/img/cui_8_setup_welcome.png)
+### Willkommensbildschirm
 
-### Einrichtung des Repositorys
+Beim Start zeigt `grommunio-setup` einen Willkommensbildschirm. Wählen Sie **Continue**, um fortzufahren; die voreingestellte Schaltfläche ist **Cancel**.
 
-Als ersten Schritt fordert `grommunio-setup` Sie auf, die Abonnementdaten einzugeben. Diese Abonnementdaten sind im Kauf des Produkts enthalten, ebenso wie das Abonnementzertifikat, das für die spätere Installation bereitgestellt wird. Wenn Sie dieses Feld leer lassen, bindet grommunio-setup automatisch die Community-Repositorys ein.
+![grommunio-setup: Willkommensbildschirm](/img/appliance_setup_welcome.png)
+
+### Auswahl der Funktionen
+
+Wählen Sie die zu installierenden und zu konfigurierenden Funktionen (Rollen). **core** – die Groupware selbst mit grommunio Web, Admin-UI, Sync, DAV und Antispam – wird immer installiert. Die optionalen Rollen sind:
+
+| Rolle | Installiert |
+| --- | --- |
+| chat | grommunio Chat |
+| meet | grommunio Meet (Videokonferenzen) |
+| files | grommunio Files (Dateisynchronisation und -freigabe) |
+| office | grommunio Office (Online-Dokumentbearbeitung, zusammen mit Files) |
+| archive | grommunio Archive (E-Mail-Archivierung) |
+
+![grommunio-setup: Auswahl der Funktionen](/img/appliance_setup_features.png)
+
+Rollen lassen sich auch später hinzufügen oder entfernen, indem Sie `grommunio-setup` erneut ausführen (siehe [grommunio-setup erneut ausführen](#grommunio-setup-erneut-ausführen)).
+
+### Repository-Einrichtung
+
+`grommunio-setup` fragt Ihre Subskriptionsdaten ab. Diese sind im Kauf des Produkts enthalten. Bleiben die Felder leer, richtet grommunio-setup die Community-Repositories ein.
 
 :::note
-Community-Repositorys werden nach bestem Bemühen bereitgestellt und werden nicht unterstützt. grommunio begrüßt zwar die Nutzung von grommunio durch Community-Mitglieder, doch die im Rahmen der Abonnement-Repositorys verfügbaren Software-Distributionen bieten produktionsrelevante Vorteile. Abonnement-Repositorys (nur mit einem gültigen Abonnement verfügbar) enthalten qualitätsgeprüfte Pakete, Hotfixes und zusätzliche Funktionen, die in den Community-Repositorys nicht verfügbar sind.
+Community-Repositories werden nach bestem Bemühen bereitgestellt und nicht unterstützt. grommunio heißt Community-Mitglieder ausdrücklich willkommen, die über die Subskriptions-Repositories verteilte Software bietet jedoch für den Produktivbetrieb relevante Vorteile. Subskriptions-Repositories (nur mit gültiger Subskription verfügbar) enthalten qualitätsgeprüfte Pakete, Hotfixes und zusätzliche Funktionen, die in den Community-Repositories nicht verfügbar sind.
 :::
 
-![grommunio-setup: repository setup](/img/cui_9_setup_repository.png)
+![grommunio-setup: Repository-Einrichtung](/img/appliance_setup_repository.png)
+
+Nach diesem Schritt richtet grommunio-setup das Repository ein und installiert oder aktualisiert alle für die gewählten Rollen benötigten Pakete. Der Fortschritt wird auf dem Bildschirm angezeigt.
 
 ### Datenbankvariante
 
-Im nächsten Schritt von `grommunio-setup` werden Sie aufgefordert, anzugeben, welchen zentralen Datenbanktyp Sie konfigurieren möchten. Bei den meisten Installationen wird die lokale Datenbankinstallation verwendet, bei der die MySQL-Datenbank automatisch initialisiert und vorbereitet wird. Bei größeren und/oder speziellen Konfigurationen, z. B. Clustern, Multi-Node- und verteilten Systemen, kann es empfehlenswert sein, stattdessen eine Verbindung zu einer bereits vorhandenen Datenbank herzustellen.
+Legen Sie fest, welche Datenbank verwendet werden soll. Die meisten Installationen verwenden die lokale Datenbank, bei der die MariaDB-Datenbank automatisch initialisiert und vorbereitet wird. Für größere und/oder besondere Setups, z. B. Cluster, Multi-Node- und verteilte Setups, kann es sinnvoll sein, stattdessen eine bestehende Datenbank anzubinden.
 
-![grommunio-setup: choice of database variant](/img/cui_10_setup_dbchoice.png)
+![grommunio-setup: Auswahl der Datenbankvariante](/img/appliance_setup_dbchoice.png)
 
-### Datenbank-Einstellungen
+### Datenbankeinstellungen
 
-Wenn Sie „lokale Datenbank“ auswählen, werden Ihnen im nächsten Installationsschritt automatisch Informationen angezeigt, die für die Initialisierung der Datenbank verwendet werden. Bei Standardinstallationen wird empfohlen, die Standardwerte zu übernehmen. Die Werte für die Installation werden zufällig generiert, wodurch Ihre Installation vor unbefugtem Zugriff geschützt ist.
+Bei „lokaler Datenbank“ zeigt der nächste Schritt die Werte zur Initialisierung der Datenbank: Host, Benutzer, Passwort und Datenbankname. Für Standard-Setups empfiehlt es sich, die Vorgaben zu übernehmen. Das Passwort wird zufällig erzeugt, was Ihre Installation vor unbefugtem Zugriff schützt. Bei „bestehender Datenbank“ geben Sie die Zugangsdaten der anzubindenden Datenbank ein; grommunio-setup prüft die Verbindung, bevor es fortfährt.
 
-![grommunio-setup: settings for database initialization](/img/cui_11_setup_dbsettings.png)
+![grommunio-setup: Einstellungen zur Datenbankinitialisierung](/img/appliance_setup_dbsettings.png)
 
-### Administrator
+### Administrationsbenutzer
 
-Nach der Einrichtung der Datenbank wird ein Standard-Administratorpasswort für die Anmeldung am grommunio Admin bzw. API abgefragt. Der Standardbenutzer (`admin`) wird dann mit dem hier eingegebenen Passwort initialisiert. Standardmäßig generiert das grommunio automatisch ein Passwort und zeigt es am Ende des Einrichtungsvorgangs an.
+Der nächste Schritt fragt das Passwort des Standard-Administrators (`admin`) für die grommunio Admin-UI und die Admin-API ab. Ein zufällig erzeugtes Passwort ist vorausgefüllt; es wird in der Zusammenfassung am Ende der Einrichtung angezeigt. Sie können auch ein eigenes Passwort eingeben.
 
 :::caution
-Am Ende des Einrichtungsvorgangs wird das hier eingegebene Passwort auf dem Übersichtsbildschirm nach der Einrichtung angezeigt. Stellen Sie sicher, dass keine unbefugten Personen Zugriff auf die Systemkonsole haben oder diese einsehen können, um diese wichtigen Zugangsdaten zu entnehmen.
+Am Ende der Einrichtung wird das Passwort in der Zusammenfassung angezeigt. Stellen Sie sicher, dass keine unbefugten Personen auf die Systemkonsole zugreifen oder sie einsehen können, um diese wichtigen Zugangsdaten abzulesen.
 :::
 
 :::note
-Sie können dieses Passwort jederzeit später über `grommunio-cui` zurücksetzen.
+Sie können dieses Passwort jederzeit über `grommunio-cui` oder mit `grommunio-admin passwd` zurücksetzen.
 :::
 
-![grommunio-setup: setting of the admin password](/img/cui_12_setup_adminpw.png)
+![grommunio-setup: Festlegen des Admin-Passworts](/img/appliance_setup_adminpw.png)
 
-### Vollständig qualifizierter Domänenname
+### Vollqualifizierter Domänenname
 
-Im nächsten Schritt von `grommunio-setup` wird die Konfiguration des vollqualifizierten Domänennamens (FQDN) verlangt. Der FQDN setzt sich üblicherweise aus dem **Hostnamen** in Kombination mit der primären **Domäne** des Systems zusammen. Es wird dringend empfohlen, dass der hier gewählte Name Teil der Zertifikate ist, die zu einem späteren Zeitpunkt in `grommunio-setup` generiert werden.
+Als Nächstes wird der vollqualifizierte Domänenname (FQDN) des Systems abgefragt. Der FQDN besteht aus dem **Hostnamen** und der primären **Domäne** des Systems, zum Beispiel `mail.example.com`. Mit diesem Namen verbinden sich Clients wie Outlook, und er wird in die in einem späteren Schritt erzeugten Zertifikate aufgenommen (bzw. muss in importierten Zertifikaten enthalten sein).
 
-![grommunio-setup: setting the fully qualified domain name (fqdn)](/img/cui_13_setup_fqdn.png)
+grommunio-setup füllt das Feld mit dem Ergebnis von `hostname -f` vor. Ist das Feld leer, wurde der Hostname nicht gesetzt oder er löst nicht auf; siehe [Hostname ändern](#hostname-ändern).
 
-### Primäre E-Mail-Domain
+![grommunio-setup: Festlegen des vollqualifizierten Domänennamens (FQDN)](/img/appliance_setup_fqdn.png)
 
-Wenn Sie mit dem nächsten Schritt fortfahren, werden Sie aufgefordert, die primäre E-Mail-Domäne anzugeben. Die primäre E-Mail-Domäne ist als Hauptsystemdomäne für die weitere Systemkonfiguration von Bedeutung.
+### Primäre Mail-Domäne
 
-![grommunio-setup: setting the primary mail domain](/img/cui_14_setup_primarydomain.png)
+Geben Sie die primäre Mail-Domäne ein, zum Beispiel `example.com`. Sie dient als Hauptdomäne des Systems, etwa für Unzustellbarkeitsberichte, und für die Namen in erzeugten Zertifikaten. Geben Sie hier nur **eine** Domäne an; weitere Domänen fügen Sie später in der Admin-UI hinzu.
 
-### Konfiguration von Relayhost
+:::caution
+Das Feld ist mit dem FQDN vorausgefüllt. Ersetzen Sie ihn durch die Mail-Domäne: In den meisten Setups ist die Mail-Domäne (`example.com`) nicht identisch mit dem FQDN des Servers (`mail.example.com`).
+:::
 
-Soll die Installation keine E-Mails direkt versenden (indem die MTAs der Empfänger direkt aufgelöst werden), wird empfohlen, einen Relayhost einzurichten. Der folgende Schritt ermöglicht die Konfiguration eines Relayhosts, der beispielsweise für die Integration in bestehende Firewalls oder E-Mail-Sicherheits-appliances verwendet werden kann. Soll das konfigurierte Ziel direkt verwendet werden (indem die IP-Adresse über DNS-A-Einträge anstelle der zugehörigen MX-Einträge abgefragt wird), sollte der Relayhost in eckige Klammern gesetzt werden, z. B. „\[mail.isp.com\]“.
+![grommunio-setup: Festlegen der primären Mail-Domäne](/img/appliance_setup_maildomain.png)
 
-![grommunio-setup: configuration of relayhost](/img/cui_15_setup_relayhost.png)
+### Relayhost-Konfiguration
 
-### Konfiguration des TLS
+Soll die Installation E-Mails nicht direkt versenden (durch direkte Auflösung der MTAs der Empfänger), empfiehlt sich ein Relayhost. In diesem Schritt konfigurieren Sie einen Relayhost, der zum Beispiel zur Anbindung an bestehende Firewalls oder Mail-Security-Appliances dienen kann. Soll das konfigurierte Ziel direkt verwendet werden (Abfrage der IP-Adresse über DNS-A-Einträge statt über die zugehörigen MX-Einträge), setzen Sie den Relayhost in eckige Klammern, etwa „\[mail.isp.com\]“. Lassen Sie das Feld leer, um E-Mails direkt zuzustellen.
 
-Im nächsten Schritt der Konfiguration mit `grommunio-setup` wird ein Menü angezeigt, in dem Sie die gewünschte TLS-Konfiguration für die grommunio-Installation auswählen können:
+![grommunio-setup: Konfiguration des Relayhosts](/img/appliance_setup_relayhost.png)
 
-![grommunio-setup: choosing the TLS installation mode](/img/cui_16_setup_tlsmode.png)
+### TLS-Konfiguration
 
-0: **Erstellung eines selbstsignierten Zertifikats**
+Der nächste Schritt bietet ein Menü zur Wahl der gewünschten TLS-Einrichtung:
 
-> Die Erstellung eines eigenen selbstsignierten Zertifikats ist die einfachste Option – ein solches Zertifikat wird jedoch bei der ersten Verbindung als „nicht vertrauenswürdig“ angezeigt und muss erst als vertrauenswürdig markiert werden, bevor fortgefahren werden kann. Dieses Verhalten ist normal und liegt daran, dass ein Client, der eine Verbindung herstellt, keine Möglichkeit hat, zu überprüfen, ob das Zertifikat eine gültige Quelle hat. Diese Einstellung ist die Standardeinstellung und erfordert keine Vorbereitungen für die Zertifikatserstellung. grommunio empfiehlt diese Option nicht für Produktionsumgebungen, da bei dieser Option jeder Client dem verwendeten Zertifikat zunächst vertrauen muss. Diese Option eignet sich am besten für Test- und Demo-Installationen von grommunio.
+![grommunio-setup: Auswahl des TLS-Installationsmodus](/img/appliance_setup_tlsmode.png)
 
-![grommunio-setup: Creating a self-signed certificate](/img/cui_17_setup_selfsigned.png)
+0: **Create self-signed certificate** (selbstsigniertes Zertifikat erstellen)
 
-1: **Einrichtung einer eigenen Zertifizierungsstelle (CA) und eines Zertifikats**
+> Ein selbstsigniertes Zertifikat ist die einfachste Option und erfordert keine weiteren Eingaben. Das Zertifikat wird beim ersten Verbindungsaufbau allerdings als nicht vertrauenswürdig angezeigt und muss zunächst als vertrauenswürdig akzeptiert werden. Das ist normal, da ein Client nicht prüfen kann, ob das Zertifikat aus einer gültigen Quelle stammt. grommunio empfiehlt diese Option nicht für Produktivumgebungen, da jeder Client dem Zertifikat zunächst vertrauen muss. Sie eignet sich am besten für Test- und Demo-Installationen.
 
-> Die Einrichtung einer eigenen Zertifizierungsstelle ist eine erweiterte Option, mit der Sie selbstsignierte Zertifikate unter einer eigenen Zertifizierungsstelle erstellen können. Auf diese Weise können Sie (manuell) weitere Zertifikate unter dem Dach einer eigenen zentralen Zertifizierungsstelle erstellen, wobei mehrere Serverzertifikate von derselben, von Ihnen selbst generierten Zertifizierungsstelle signiert werden. Diese Option eignet sich am besten für die Validierung und Demo-Installation größerer grommunio-Installationen mit mehreren Instanzen.
+1: **Create own CA and certificate** (eigene CA und Zertifikat erstellen)
 
-![grommunio-setup: Creating own certificate authority (CA) and certificate](/img/cui_18_setup_ownca.png)
+> Mit einer eigenen Zertifizierungsstelle erstellen Sie Zertifikate unter dem Dach einer eigenen CA. So können Sie (manuell) weitere Serverzertifikate von derselben CA signieren lassen. Clients müssen dem CA-Zertifikat nur einmal vertrauen; es steht nach der Einrichtung unter `https://<FQDN>:8443/rootCA.crt` zum Download bereit. Diese Option eignet sich am besten für Test- und Demo-Installationen größerer Umgebungen mit mehreren Instanzen.
+>
+> grommunio-setup fragt den Zertifikatsinhaber (Land, Bundesland, Ort, Organisation, Organisationseinheit, E-Mail-Adresse) und die Gültigkeitsdauer ab. Die voreingestellte Gültigkeit beträgt nur **30 Tage**; wählen Sie einen längeren Zeitraum, zum Beispiel 365 Tage.
 
-2: **Import eines vorhandenen TLS-Zertifikats aus Dateien**
+![grommunio-setup: Erstellen einer eigenen Zertifizierungsstelle (CA) und eines Zertifikats](/img/appliance_setup_ownca.png)
 
-> Durch das Importieren eines eigenen Zertifikats können Sie jede Art von externem Zertifikatspaar (PEM-kodiert) mit Ihrer grommunio-Installation verwenden. Beachten Sie, dass es empfehlenswert ist, entweder SAN-Zertifikate mit mehreren Domänen oder ein Wildcard-Zertifikat zu verwenden. Durch die Wahl Ihrer eigenen TLS-Zertifikate verfügen Sie über höchste Flexibilität, entweder eine vertrauenswürdige Zertifizierungsstelle (CA) zu nutzen oder ein öffentlich signiertes Zertifikat einer offiziell vertrauenswürdigen Zertifizierungsstelle, darunter unter anderem Thawte, Digicert, Comodo oder andere.
+2: **Import an existing TLS certificate from files** (vorhandenes Zertifikat aus Dateien importieren)
 
-![grommunio-setup: Importing existing certificate](/img/cui_19_setup_importcert.png)
+> Damit verwenden Sie ein beliebiges externes, PEM-kodiertes Zertifikatspaar. Geben Sie den Pfad des Zertifikats-Bundles (Serverzertifikat gefolgt von den Zwischenzertifikaten) und des privaten Schlüssels an; kopieren Sie beide Dateien vorher auf die Appliance, zum Beispiel mit `scp`. Empfohlen werden SAN-Zertifikate mit mehreren Domänen oder ein Wildcard-Zertifikat. Mit eigenen TLS-Zertifikaten haben Sie die größte Flexibilität, sowohl für eine eigene vertrauenswürdige CA als auch für Zertifikate einer öffentlich vertrauenswürdigen Zertifizierungsstelle.
 
-3: **Automatische Erstellung von Zertifikaten mit Let's Encrypt**
+![grommunio-setup: Import eines vorhandenen Zertifikats](/img/appliance_setup_importcert.png)
 
-> Mit dieser Option wird die automatische Zertifikatserstellung über die Zertifizierungsstelle Let's Encrypt ermöglicht. Die Nutzung von Let's Encrypt-Zertifikaten ist kostenlos, es gelten jedoch die Nutzungsbedingungen von Let's Encrypt, auf die bei der Installation verwiesen wird. Bei Auswahl dieser Option werden die von Ihnen ausgewählten Domains automatisch angefordert und der Validierungsprozess automatisch gestartet. Damit dieser automatisierte Prozess erfolgreich abläuft, überprüft Let's Encrypt alle definierten Domainnamen, indem es eine Challenge auf dem appliance erstellt. Damit dies funktioniert, muss Port 80 (HTTP) während dieses Überprüfungsschritts (und jeder anschließenden automatischen Erneuerung) über das Internet erreichbar sein, wobei alle Domains auf den appliance verweisen müssen. Diese Option wird für jede einfache Installation empfohlen und ermöglicht bei korrekter Vorbereitung einen möglichst reibungslosen Installationsablauf.
+3: **Automatically generate Let's Encrypt certificate** (Let's-Encrypt-Zertifikat automatisch erzeugen)
 
-3.a: **Erstellung von Zertifikaten mit Let's Encrypt für mehrere Domänen**
+> Diese Option erzeugt Zertifikate automatisch über die Zertifizierungsstelle Let's Encrypt. Let's-Encrypt-Zertifikate sind kostenlos, es gelten jedoch die Nutzungsbedingungen von Let's Encrypt, auf die während der Installation verwiesen wird. Let's Encrypt prüft alle angeforderten Domänennamen über eine Challenge auf der Appliance. Dafür muss Port 80 (HTTP) während der Prüfung (und jeder späteren automatischen Verlängerung) aus dem Internet erreichbar sein, und alle Domänen müssen auf die Appliance zeigen. Diese Option wird für alle einfachen Installationen empfohlen und ermöglicht bei guter Vorbereitung die reibungsloseste Installation.
+>
+> grommunio-setup bietet die in das Zertifikat aufzunehmenden Namen zur Auswahl an. Haken Sie auch `autodiscover.<Domäne>` an, sofern Sie diesen DNS-Eintrag angelegt haben, damit AutoDiscover ohne Zertifikatswarnungen funktioniert. Abschließend geben Sie eine E-Mail-Adresse an, unter der Let's Encrypt Sie zu Ihren Zertifikaten kontaktieren kann.
 
-> Um weitere Domains zu Ihrem Let's Encrypt-Zertifikat hinzuzufügen, können Sie den folgenden Befehl verwenden:
+![grommunio-setup: Auswahl der Namen für das Let's-Encrypt-Zertifikat](/img/appliance_setup_letsencrypt.png)
+
+![grommunio-setup: Kontaktadresse für Let's Encrypt](/img/appliance_setup_letsencrypt_mail.png)
+
+3.a: **Erzeugung von Let's-Encrypt-Zertifikaten für mehrere Domänen**
+
+> Um Ihrem Let's-Encrypt-Zertifikat weitere Domänen hinzuzufügen, können Sie folgenden Befehl verwenden:
 
 ``` bash
 certbot certonly -n --standalone --agree-tos \
@@ -236,46 +365,67 @@ certbot certonly -n --standalone --agree-tos \
 --post-hook "service nginx start"
 ```
 
-Dabei steht `--cert-name="<domain1>"` für die ursprüngliche Domain und `-d "<domain2>"` bis `-d "<domain5>"` für die zusätzlichen Domains, die dem LE-Zertifikat hinzugefügt werden sollen. `-m "me@domain1.com"` ist Ihre E-Mail-Adresse, während `--pre-hook "service nginx stop"` nginx vor der Zertifikatsänderung stoppt, `--deploy-hook /usr/share/grommunio-setup/grommunio-certbot-renew-hook` die Änderungen vornimmt und `--post-hook "service nginx start"` nginx nach der Änderung startet.
+Dabei steht `--cert-name="<domain1>"` für die ursprüngliche Domäne, und `-d "<domain2>"` bis `-d "<domain5>"` sind die weiteren Domänen, die dem Zertifikat hinzugefügt werden. `-m "me@domain1.com"` ist Ihre E-Mail-Adresse; `--pre-hook "service nginx stop"` stoppt nginx vor der Änderung des Zertifikats, `--deploy-hook /usr/share/grommunio-setup/grommunio-certbot-renew-hook` übernimmt die Änderungen, und `--post-hook "service nginx start"` startet nginx danach wieder.
 
-![grommunio-setup: Generating Let's Encrypt certificates](/img/cui_20_setup_letsencrypt.png)
+Alle so erzeugten Zertifikate werden in `/etc/grommunio-common/ssl` abgelegt und von allen Diensten der Appliance automatisch verwendet, einschließlich der Admin-UI auf Port 8443.
 
-Alle auf diese Weise generierten Zertifikate werden in `/etc/grommunio/ssl` abgelegt und von allen Diensten des appliance automatisch referenziert.
+### Optionale Rollen
+
+Für jede in der [Auswahl der Funktionen](#auswahl-der-funktionen) gewählte optionale Rolle fragt grommunio-setup deren Datenbank-Zugangsdaten ab (sofern die Rolle eine Datenbank verwendet) und, wenn die Rolle ein eigenes Administrationskonto hat (Chat, Files, Archive), dessen Passwort. Wie bei der Core-Datenbank sind zufällig erzeugte Werte vorausgefüllt.
+
+![grommunio-setup: Datenbank-Zugangsdaten einer optionalen Rolle](/img/appliance_setup_role_db.png)
+
+![grommunio-setup: Administratorpasswort einer optionalen Rolle](/img/appliance_setup_role_adminpw.png)
+
+Nach der letzten Frage konfiguriert grommunio-setup Datenbanken, Dienste, Webserver, Firewall und die gewählten Rollen. Ist grommunio Auth (Keycloak) installiert, werden neu hinzugefügte Rollen ebenfalls in Single Sign-On eingebunden.
+
+![grommunio-setup: Konfiguration läuft](/img/appliance_setup_progress.png)
 
 ### Abschluss der Einrichtung
 
-Nachdem alle oben genannten Schritte von `grommunio-setup` abgeschlossen sind, werden im abschließenden Dialogfeld die zusammengefassten Informationen zur Installation als Referenz angezeigt.
+Nach Abschluss aller Schritte zeigt der letzte Dialog eine Zusammenfassung der Installation: die Adresse der Admin-UI, die Zugangsdaten von `admin` und, falls eine eigene CA erstellt wurde, die Download-Adresse des CA-Zertifikats.
 
-![grommunio-setup: Setup finalization](/img/cui_21_setup_final.png)
+![grommunio-setup: Abschluss der Einrichtung](/img/appliance_setup_final.png)
 
 :::caution
-Alle für die Installation und Einrichtung relevanten Informationen werden unter /var/log/grommunio-setup.log gespeichert. Diese Datei enthält die bei der Initialisierung verwendeten Passwörter, die Sie an einem sicheren Ort speichern oder löschen können, wenn sie nicht mehr benötigt werden.
+Alle für die Installation relevanten Informationen werden in `/var/log/grommunio-setup.log` gespeichert. Diese Datei enthält die bei der Initialisierung verwendeten Passwörter; kopieren Sie sie an einen sicheren Ort oder löschen Sie sie, wenn sie nicht mehr benötigt wird.
 :::
 
-## Zurücksetzen des Admin-Webpassworts
+Fahren Sie mit [Installation überprüfen](/admin/quickstart/#verify-the-installation) und der [Checkliste nach der Installation](/guides/post-install/) fort.
 
-Der Menüeintrag `Admin web password reset` ändert das Passwort des Hauptadministrators (`admin`). Administratoren, die diese Option ausführen möchten, ohne zuvor `grommunio-cui` auszuführen, können dies jederzeit tun, indem sie den Befehl `grommunio-admin passwd` ausführen.
+### grommunio-setup erneut ausführen
 
-![Admin Web password reset](/img/cui_22_admin_passwd.png)
+grommunio-setup kann mehrfach ausgeführt werden. Erkennt es einen abgeschlossenen früheren Lauf, bietet es zwei Möglichkeiten:
+
+- **reconfigure** – behält die bestehende Installation samt Daten, Passwörtern und Zertifikaten. Abgeglichen wird nur die Auswahl der optionalen Rollen (Chat, Meet, Files, Office, Archive): Die Funktionsauswahl zeigt die aktuell installierten Rollen, neu gewählte Rollen werden installiert und konfiguriert, abgewählte Rollen werden entfernt, wobei ihre Daten für ein späteres erneutes Hinzufügen erhalten bleiben.
+- **scratch** – setzt die gesamte Installation zurück. grommunio-setup verlangt zur Bestätigung die Eingabe von `removealldata`, löscht dann alle Datenbanken, Postfächer und Zertifikate und führt eine neue Einrichtung durch.
+
+![grommunio-setup: Auswahl bei bereits eingerichteter Appliance](/img/appliance_setup_rerun.png)
+
+## Admin-Web-Passwort ändern
+
+Der Menüeintrag `Change admin-web password` ändert das Passwort des Hauptadministrators (`admin`) der Admin-UI. Dies ist auch jederzeit in einer Shell mit `grommunio-admin passwd` möglich (mit `--password-stdin` wird das Passwort nicht-interaktiv übergeben, ohne in der Prozessliste zu erscheinen).
+
+![Admin-UI-Passwort zurücksetzen](/img/appliance_cui_adminpw.png)
 
 ## Terminal
 
-Die Option `Terminal` aktiviert eine klassische Shell, aus der man jederzeit durch Eingabe des Befehls `exit` zu `grommunio-cui` zurückkehren kann. Diese Option sollte mit Bedacht und nur von erfahrenen Administratoren verwendet werden.
+Die Option `Terminal` öffnet eine Root-Shell innerhalb der CUI. Mit dem Befehl `exit` kehren Sie zur CUI zurück. Diese Option sollte mit Bedacht und nur von erfahrenen Administratoren verwendet werden.
 
-![Staring Terminal (root privileges)](/img/cui_23_terminal.png)
+![Terminal (Root-Rechte)](/img/appliance_cui_terminal.png)
 
 :::caution
-Beachten Sie, dass das hier ausgeführte Terminal vollständige Administratorrechte (Root-Zugriff) auf den Appliance gewährt. Angesichts dieser Berechtigungsstufe wird empfohlen, mit äußerster Vorsicht vorzugehen.
+Das hier gestartete Terminal verfügt über volle Administratorrechte (Root-Zugriff) auf der Appliance. Gehen Sie mit diesen Berechtigungen äußerst vorsichtig vor.
 :::
 
 ## Neustart
 
-![Rebooting grommunio Appliance](/img/cui_24_reboot.png)
+Die Option `Reboot` startet die gesamte grommunio Appliance nach einer Bestätigung neu. Während des Neustarts sind die bereitgestellten Dienste nicht verfügbar.
 
-Die Option `Reboot` führt einen Neustart des gesamten grommunio Appliance durch. Beachten Sie, dass die angebotenen Dienste während des Neustarts nicht verfügbar sind.
+![Neustart der grommunio Appliance](/img/appliance_cui_reboot.png)
 
 ## Herunterfahren
 
-![Shut down grommunio Appliance](/img/cui_25_shutdown.png)
+Die Option `Shutdown` fährt die gesamte grommunio Appliance nach einer Bestätigung herunter und schaltet sie aus. Bis die Appliance wieder gestartet wird, sind die Dienste nicht verfügbar.
 
-Die Option `Shutdown` fährt das gesamte grommunio Appliance herunter. Beachten Sie, dass die Dienste erst wieder verfügbar sind, wenn das Appliance durch einen Neustart wieder bereitgestellt wurde.
+![Herunterfahren der grommunio Appliance](/img/appliance_cui_shutdown.png)
