@@ -1,79 +1,62 @@
 ---
 title: "Meet"
-description: "Enable the Meet plugin to host browser-based video conferences and add Meet links to appointments and meetings in grommunio Web."
+description: "Start video meetings with grommunio Meet from grommunio Web and add meeting links to appointments and mails."
 sidebar:
-  order: 90
+  order: 76
 ---
 
-The Meet feature integrates grommunio Meet into grommunio Web and enables browser-based video conferences using generated or custom meeting URLs.
+**grommunio Meet** is the video conferencing service of grommunio. The **Meet** plugin connects it with grommunio Web: start a meeting with one click, or add a meeting link to an appointment so that every attendee can join from the invitation.
 
-## Enabling the Meet Plugin
+## Switching Meet on
 
-To activate the Meet feature:
+1. Open **Settings › Plugins**.
+2. Tick **Meet** and click **Apply**.
+3. Reload grommunio Web when asked.
 
-1. Log in to **grommunio Web**.
-2. Navigate to **Settings**.
-3. Open the *Plugins* section.
-4. Enable the plugin by selecting the **Meet** checkbox.
-5. Click **Apply** to save the configuration.
-6. Reload the grommunio Web interface.
+A **Meet** button (camera icon) appears in the toolbar, and appointments and mails get an **Add meeting** button.
 
-After the reload, the Meet functionality becomes available to the user.
+## Starting a meeting
 
-Once enabled, a new **Meet** entry appears in the *Shortcut Bar* of the grommunio Web interface.
+Click **Meet** in the toolbar. grommunio Meet opens in a new tab:
 
-## Meet Tab Functionality
+![grommunio Meet inside grommunio Web with a suggested room name and the Start meeting button](/img/web/web_meet.png)
 
-Clicking the **Meet** entry in the *Shortcut Bar* opens the Meet tab.
+1. Keep the suggested room name or enter your own.
+2. Click **Start meeting**.
+3. Allow your browser to use the camera and microphone.
+4. Share the address of the meeting with the people you want to invite.
 
-![The Meet tab in grommunio Web with a field to enter a meeting name, a Start meeting button, and an empty recent meetings list](/img/web/web-p098-1.png)
+Recent meetings are listed below, so you can join them again quickly.
 
-The Meet tab provides the following functionality:
+## Adding a meeting to an appointment
 
-### Custom Meeting Creation
+1. Create an appointment or meeting request.
+2. Click **Add meeting** in its toolbar.
 
-- Users can enter a **custom keyword** to create a meeting room.
-- The keyword is appended to the Meet base URL to form a unique meeting link:
+grommunio Web creates a meeting room, puts its address in the **Location** and adds an invitation with a **Join Meeting** button to the description:
 
-  `https://mail.domain/meet/<keyword>`
-- The generated link can be shared with meeting participants.
+![An appointment with the Meet address in the location and the grommunio Meet invitation with the Join Meeting button in the notes](/img/web/web_meet_appointment.png)
 
-### Recent Meetings List
+Send the invitation as usual. At the time of the meeting, everybody clicks **Join Meeting** in the invitation, or **Join webmeeting** in the toolbar of the appointment.
 
-The Meet tab also provides a list of **recent meetings**.
-
-This list contains meetings that were previously joined or created by the user.
-
-Recent meetings enable:
-
-- Fast re-entry into recurring or frequently used meeting rooms
-- Reuse of existing meeting links without creating a new keyword
-
-Entries in the meetings list can be deleted manually by the user.
-
-- Deleting an entry removes it from the list only
-- The underlying meeting URL remains valid and can still be accessed if shared externally
-
-## Adding a Meet Link to an Appointment or Meeting
-
-Meet links can also be created directly from the calendar.
-
-1. Create a new *Appointment* or *Meeting*.
-2. Click **Add Meeting**.
-3. grommunio Web automatically generates a Meet link.
-4. The link is inserted into:
-   - The **Location** field
-   - The **Notes** field
-
-![A Calendar meeting with the generated Meet link shown in the Location field and a one-click join link in the Notes field](/img/web/web-p099-1.png)
-
-This allows invited participants to join the meeting with a single click.
-
-:::note
-When a calendar entry contains an existing meeting link, the **Join webmeeting** option becomes available. Selecting this option allows direct access to the associated online meeting without the need to manually copy or enter the link.
+:::tip
+Hold <kbd>Shift</kbd> while clicking **Add meeting** to choose the room name and address yourself.
 :::
+
+In a new mail, **Add meeting** inserts a meeting link into the text, for example for a spontaneous call.
+
+## Settings
+
+![The Meet settings](/img/web/web_settings_meet.png)
+
+Under **Settings › Meet** you can choose:
+
+- **Open meeting in**: a grommunio Web tab, a popup or a separate browser window,
+- **Hide the button in the main toolbar**,
+- whether the subject and the name of the organizer are added to the room name,
+- whether the address is added to the location instead of replacing it, and whether it may be overwritten automatically (for example when you add a meeting room),
+- whether an invitation is added to the description, and the text of the invitation (plain text and HTML; `%url%` stands for the meeting address).
 
 ## See also
 
-- [grommunio Meet: video conferencing](/guides/meet/) — server-side installation with `grommunio-meet-setup`, network requirements (443/tcp and 10000/udp), optional single sign-on and the plugin defaults in `/etc/grommunio-web/config-meet.php` (`'enable' => true` switches the plugin on for every user).
-
+- [Calendar › Meetings](/web/calendar/#meetings)

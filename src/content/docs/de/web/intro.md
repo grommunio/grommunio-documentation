@@ -1,307 +1,254 @@
 ---
-title: "Einleitung"
-description: "Ein Überblick über grommunio Web mit Informationen zu den Systemvoraussetzungen, der Anmeldung, dem Willkommensassistenten und dem Aufbau der Hauptoberfläche."
+title: "Erste Schritte"
+description: "Bei grommunio Web anmelden, Voreinstellungen festlegen und sich im Fenster zurechtfinden: obere Leiste, Symbolleiste, Ordner, Listen, Suche, Befehlspalette und dunkler Modus."
 sidebar:
+  label: "Erste Schritte"
   order: 10
 ---
 
-grommunio Web ist die webbasierte Benutzeroberfläche der grommunio-Software-Suite. Sie vereint eine Reihe von Anwendungen, die auch für normale Nutzer einfach zu bedienen sind. Der Zugriff auf grommunio Web erfolgt über einen modernen Webbrowser. Die Oberfläche verfügt über alle wichtigen und im Alltag nützlichen Tools wie E-Mail, Kalender, Kontakte, Notizen und Aufgaben sowie eine Integration mit grommunio Meet und anderen Anwendungen.
+Dieses Kapitel führt Sie von der Anmeldeseite zu Ihren ersten Schritten in grommunio Web. Danach wissen Sie, wo sich was auf dem Bildschirm befindet und wie Sie schnell finden, was Sie suchen.
 
-Insgesamt bietet grommunio Web integrierte, fortschrittliche Tools für Teamarbeit und professionelle Zusammenarbeit, wie beispielsweise Chat- und Web-Meetings. Da sich grommunio Web leicht konfigurieren lässt, können Administratoren und Entwickler jederzeit neue Plugins erstellen und diese in die Benutzeroberfläche integrieren.
+## Was Sie benötigen
 
-## Anforderungen
+grommunio Web läuft in jeder aktuellen Version von **Google Chrome**, **Microsoft Edge**, **Mozilla Firefox** und **Apple Safari** sowie in darauf basierenden Browsern. Verwenden Sie einen aktuellen Browser. Einige Funktionen hängen vom Browser ab:
 
-Auf grommunio Web kann über einen modernen Webbrowser zugegriffen werden, darunter Varianten von Microsoft Edge, Google Chrome, Mozilla Firefox und Apple Safari. Wir empfehlen die Verwendung aktueller Versionen, um ein optimales Nutzererlebnis zu gewährleisten.
+- Anhänge auf den Desktop ziehen und *Auswahl in Ordner speichern* funktionieren in Chromium-basierten Browsern (Chrome, Edge, Brave und andere).
+- Desktopbenachrichtigungen benötigen Ihre Erlaubnis im Browser.
+- Ihr Browser bietet unter Umständen an, grommunio Web als App zu installieren und für `mailto:`-Links zu verwenden.
 
 ## Anmelden
 
-### Zugriff auf grommunio Web
+1. Öffnen Sie die Adresse, die Sie von Ihrem Administrator erhalten haben, zum Beispiel `https://mail.example.com/web`.
+2. Geben Sie Ihren **Benutzernamen oder Ihre E-Mail-Adresse** und Ihr **Passwort** ein.
+3. Aktivieren Sie bei Bedarf **Remember me**, um auf diesem Computer angemeldet zu bleiben.
+4. Klicken Sie auf **Sign In**.
 
-![grommunio Web login page with username and password fields and the Sign in button](/img/web/web-p008-1.png)
+Die Anmeldeseite wird vom Server bereitgestellt und kann – je nach Einrichtung – auf Englisch erscheinen.
 
-Um auf grommunio Web zuzugreifen, gehen Sie wie folgt vor:
+![Die Anmeldeseite von grommunio mit den Feldern für Benutzername und Passwort, Remember me und der Schaltfläche Sign In](/img/web/de/web_login.png)
 
-1. Rufen Sie den von Ihrem Administrator bereitgestellten Link mit Ihrem Browser auf. In der Regel lautet der Link etwa `https://example.com` oder `https://mail.example.com/web`.
-2. Geben Sie Ihren Benutzernamen und Ihr Passwort ein.
-3. Klicken Sie auf die Schaltfläche „Anmelden“.
+Nutzt Ihre Organisation Single Sign-on, gilt dieselbe Anmeldeseite für grommunio Web, Chat, Dateien, Meet und Archiv – Sie sind dann bei allen gleichzeitig angemeldet. Ihr Administrator kann auf dieser Seite weitere Anmeldemethoden anbieten.
 
-### Willkommensassistent
-
-Bei Ihrer ersten Anmeldung werden Sie vom „Willkommensassistenten“ begrüßt, mit dem Sie einige allgemeine Einstellungen wie Sprache, Starttag der Woche und weitere Optionen konfigurieren können. Diese Einstellungen können später jederzeit im Konfigurationsbereich „Einstellungen“ geändert werden.
-
-![Welcome Assistant dialog showing account information and general calendar settings for a new user](/img/web/web-p009-1.png)
-
-Folgende Optionen stehen zur Verfügung:
-
-#### 1. Kontoinformationen
-
-**Profilbild**
-Ermöglicht es dem Nutzer, sein Profilbild hochzuladen oder zu ändern. Akzeptiert werden gängige Bildformate (JPEG, GIF, PNG, BMP).
-
-**Anzeigename**
-Der Name, der anderen Benutzern angezeigt wird.
-
-:::caution[Achtung]
-Kann in grommunio Web nicht bearbeitet werden! Nur in der Admin-Benutzeroberfläche.
+:::caution
+Aktivieren Sie **Remember me** niemals an einem gemeinsam genutzten oder öffentlichen Computer.
 :::
 
-**E-Mail**
-Zeigt die primäre E-Mail-Adresse des Benutzers an. Dieses Feld kann in grommunio Web nicht bearbeitet werden.
+## Der Willkommensassistent
 
-**Sprache**
-Legt die Sprache der Benutzeroberfläche für grommunio Web fest.
+Bei der ersten Anmeldung begrüßt Sie grommunio Web mit dem Dialog **Willkommen bei grommunio Web**. Wählen Sie Ihre Voreinstellungen und klicken Sie auf **Los geht's**. Alle Einstellungen können Sie später in den [Einstellungen](/de/web/settings/) ändern.
 
-Beispiel: `en_US – English`
+![Der Dialog Willkommen bei grommunio Web mit den Profileinstellungen links und den allgemeinen Kalendereinstellungen rechts](/img/web/de/web_welcome.png)
 
-Möglicherweise stehen weitere vom Server bereitgestellte Sprachen zur Verfügung.
+**Profil**
 
-**Startordner**
-Legt fest, welches Modul nach der Anmeldung als Erstes geladen wird.
+| Option | Bedeutung |
+|---|---|
+| **Sprache** | Die Sprache der Oberfläche, zum Beispiel *de_DE: Deutsch* oder *en_US: English*. |
+| **Startordner** | Die Ansicht, die nach der Anmeldung geöffnet wird: E-Mail, Kalender, Kontakte, Aufgaben oder Notizen. |
+| **Theme** | Das Farbschema. Standard ist *Basis*; Ihr Administrator kann ein Firmen-Theme hinzufügen. |
+| **Erscheinungsbild** | *Hell*, *Dunkel* oder *System* (richtet sich nach Ihrem Betriebssystem). |
+| **Symbole** | Der Symbolsatz: *Breeze* (Standard) oder *Classic*. |
 
-Zu den Optionen gehören:
+**Allgemeine Kalendereinstellungen**
 
-- E-Mail
-- Kalender
-- Kontakte
-- Aufgaben
-- Notizen
+| Option | Bedeutung |
+|---|---|
+| **Erster Tag der Woche** | Der Wochentag, mit dem Ihre Kalenderwochen beginnen. |
+| **Beginn des Arbeitstages / Ende des Arbeitstages** | Ihre Arbeitszeit. Sie wird im Kalender hervorgehoben und bei der Terminplanung verwendet. |
+| **Kalenderauflösung** | Die Größe eines Zeitabschnitts in der Tages- und Wochenansicht (5 Minuten bis 1 Stunde). |
+| **Standardzeit für … Minuten** | Die Länge neuer Termine. |
+| **Standardstatus für ganztägigen Termin** | Wie ganztägige Termine Ihre Verfügbarkeit anzeigen (frei, gebucht, …). |
+| **Arbeitstage** | Die Tage Ihrer Arbeitswoche. |
+| **Besprechungsanfragen aus dem Posteingang löschen, wenn sie im Kalender beantwortet werden** | Hält Ihren Posteingang aufgeräumt, wenn Sie Einladungen im Kalender beantworten. |
 
-**Design**
-Legt das visuelle Design der Benutzeroberfläche fest.
+## Das Fenster im Überblick
 
-Beispiel: `Basic`
+Nach dem Willkommensassistenten öffnet grommunio Web Ihren Startordner, standardmäßig den **Posteingang**.
 
-**Symbole**
-Wählt das von der Benutzeroberfläche verwendete Symbolpaket aus.
+![Das Fenster von grommunio Web mit nummerierten Bereichen: obere Leiste, Symbolleiste, Ordnerbereich, Registerkartenleiste, Elementliste und Lesebereich](/img/web/de/web_overview_annotated.png)
 
-Optionen: `Breeze`, `Classic`
+1. **Obere Leiste**: wechselt zwischen den Anwendungen und enthält Ihre persönlichen Steuerelemente.
+2. **Symbolleiste**: die wichtigsten Aktionen der aktuellen Ansicht.
+3. **Ordnerbereich**: Ihre Ordner, Favoriten und gemeinsamen Postfächer.
+4. **Registerkartenleiste**: der aktuelle Ordner und jedes geöffnete Element.
+5. **Elementliste**: die E-Mails, Kontakte, Aufgaben oder Notizen des gewählten Ordners.
+6. **Lesebereich**: der Inhalt des ausgewählten Elements.
 
-#### 2. Allgemeine Kalendereinstellungen
+### Obere Leiste
 
-**Erster Tag der Woche**
-Legt den ersten Wochentag für Kalenderansichten fest.
+![Die obere Leiste mit den Registerkarten Mail, Kalender, Kontakte, Aufgaben, Notizen, Dateien, Chat und Archiv links sowie Benutzername, Erinnerungsglocke, Erscheinungsbild, Einstellungen, Hilfe und Ausloggen rechts](/img/web/de/web_topbar.png)
 
-Gängige Werte: `Monday` oder `Sunday`
+Links finden Sie für jede Anwendung eine Registerkarte: **Mail**, **Kalender**, **Kontakte**, **Aufgaben** und **Notizen**. Plugins fügen weitere hinzu, zum Beispiel **Dateien**, **Chat** und **Archiv**.
 
-**Arbeitsbeginn**
-Legt die tägliche Arbeitsbeginnzeit für die Kalenderplanung fest.
+Rechts:
 
-Beispiel: `09:00`
+- **Ihr Name** zeigt, mit welchem Konto Sie angemeldet sind.
+- **Erinnerungen** (Glocke) öffnet die Erinnerungen an anstehende Termine und Aufgaben. Eine Zahl zeigt an, wie viele fällig sind; ist keine fällig, ist die Glocke grau. Siehe [Erinnerungen und Benachrichtigungen](#erinnerungen-und-benachrichtigungen).
+- **Erscheinungsbild** (Sonne/Mond) wechselt zwischen hellem, automatischem und dunklem Modus. Siehe [Erscheinungsbild und dunkler Modus](#erscheinungsbild-und-dunkler-modus).
+- **Einstellungen** öffnet Ihre [Einstellungen](/de/web/settings/).
+- **Hilfe** öffnet dieses Handbuch auf der Seite zur aktuellen Ansicht.
+- **Ausloggen** meldet Sie ab.
 
-**Ende des Arbeitstages**
-Bezeichnet das Ende des Arbeitstages.
+### Symbolleiste
 
-Beispiel: `17:00`
+![Die Symbolleiste mit Neu, Adressbuch, Neu laden, Drucken und Ansicht umschalten](/img/web/de/web_toolbar.png)
 
-**Kalenderauflösung**
-Legt die Größe des Zeitrasters für die Kalenderfelder fest.
+Die Symbolleiste passt sich der jeweiligen Anwendung an. In Mail bietet sie:
 
-Optionen: `5 minutes`, `6 minutes`, `10 minutes`, `15 minutes`, `30 minutes`, `1 hour`
+- **Neu** erstellt ein neues Element des aktuellen Typs (hier eine E-Mail). Der kleine Pfeil daneben öffnet ein Menü mit allen Elementtypen: E-Mail, Termin, Besprechungsanfrage, Kontakt, Verteilerliste, Aufgabe, Aufgabendelegation und Gepinnte Notiz. Mit dem Dateien-Plugin können Sie hier auch eine Datei hochladen.
+- **Adressbuch** öffnet das Adressbuch Ihrer Organisation und Ihre Kontaktordner.
+- **Neu laden** (<kbd>F5</kbd>) lädt den aktuellen Ordner neu.
+- **Drucken** (<kbd>Strg</kbd>+<kbd>P</kbd>) druckt das ausgewählte Element.
+- **Ansicht umschalten** ändert das Layout, zum Beispiel die Position des Lesebereichs.
+- **Rückgängig** und **Wiederholen** erscheinen, wenn Sie die Funktion eingeschaltet haben (siehe [Rückgängig und Wiederholen](#rückgängig-und-wiederholen)).
+- **Meet** (Kamera) startet eine Videokonferenz, wenn das Meet-Plugin aktiv ist.
 
-**Standarddauer für Termine**
-Legt die Standarddauer für neue Termine fest.
-
-Beispiel: `30 minutes`
-
-**Standardstatus für ganztägige Termine**
-Legt den Standardverfügbarkeitsstatus fest.
-
-Mögliche Werte:
-
-- Frei
-- Vorläufig
-- Belegt
-- Out of Office
-
-**Arbeitstage**
-Legt fest, welche Tage als Teil der regulären Arbeitswoche gelten.
-
-Beispiel: `Monday–Friday (Mo–Fr)`
-
-#### Fertigstellung
-
-Nachdem der Benutzer alle Einstellungen überprüft hat, gelangt er zur vollständigen grommunio Web-Benutzeroberfläche, wobei die ausgewählte Konfiguration bereits übernommen wurde.
-
-## Überblick
-
-Sobald Sie sich bei grommunio Web angemeldet haben, wird Ihnen eine Übersicht über Ihre persönliche Benutzeroberfläche angezeigt. Standardmäßig gelangen Sie zur Postfachübersicht, die in der Regel entweder leer ist oder bereits mit Daten aus einer von Ihrem Administrator durchgeführten Migration vorbelegt ist.
-
-![Main grommunio Web interface showing the menu bar, shortcut bar, folder navigation area and an empty inbox in the main content area](/img/web/web-p011-1.png)
-
-Die Hauptübersicht über das grommunio Web ist wie folgt aufgebaut:
-
-### Hauptbereich der Benutzeroberfläche
-
-Der Hauptbereich der Benutzeroberfläche enthält Verweise auf die wichtigsten Anwendungsbereiche. Standardmäßig sind dies: E-Mail, Kalender, Aufgaben und Notizen. Oben rechts finden Sie persönliche Informationen wie die Anzeige des angemeldeten Benutzers sowie die Schaltflächen „Erinnerungen“, „Einstellungen“, „Hilfe“ und „Abmelden“.
-
-![Top menu bar with the Mail, Calendar, Contacts, Tasks and Notes application areas and personal controls on the right](/img/web/web-p012-1.png)
-
-### Schnellzugriffsleiste
-
-![Shortcut Bar with buttons for new item, address book, refresh, print and layout](/img/web/web-p012-2.png)
-
-Die Schnellzugriffsleiste fasst die wichtigsten Funktionen des Anwendungsbereichs zusammen, in dem Sie sich gerade befinden. Sie ermöglicht den schnellen Zugriff auf häufig verwendete Aktionen wie beispielsweise:
-
-- einen neuen Eintrag erstellen
-- das Adressbuch öffnen
-- die Ansicht aktualisieren
-- eine E-Mail ausdrucken
-- das Layout ändern
-
-#### Dropdown-Menü „Neuer Artikel“
-
-Wenn Sie auf den kleinen Pfeil rechts neben der Schaltfläche **Neuer Eintrag** klicken, öffnet sich ein Dropdown-Menü, über das verschiedene Arten von Einträgen erstellt werden können. Die verfügbaren Optionen sind:
-
-- **E-Mail** – Eine neue E-Mail-Nachricht erstellen.
-- **Termin** – Einen neuen Kalendertermin eintragen.
-- **Meeting-Anfrage** – Eine Einladung zu einer Besprechung erstellen und versenden.
-- **Kontakt** – Einen neuen Kontakt zum Adressbuch hinzufügen.
-- **Verteilerliste** – Eine neue Verteilergruppe erstellen.
-- **Aufgabe** – Eine neue Aufgabe erstellen.
-- **Aufgabenanfrage** – Einem anderen Benutzer eine Aufgabe zuweisen.
-- **Haftnotiz** – Eine Notiz erstellen.
+![Das Menü Neu mit E-Mail, Termin, Besprechungsanfrage, Kontakt, Verteilerliste, Aufgabe, Aufgabendelegation und Gepinnte Notiz](/img/web/de/web_newitem_menu.png)
 
 ### Registerkartenleiste
 
-Unterhalb der Schnellzugriffsleiste befindet sich die **Registerkartenleiste**.
+![Die Registerkartenleiste mit der fixierten Registerkarte Posteingang und einem Plus für neue Elemente](/img/web/de/web_tabbar.png)
 
-![Tab Bar showing the pinned Inbox tab and a plus symbol for creating new items](/img/web/web-p012-3.png)
+grommunio Web arbeitet mit Registerkarten, ähnlich wie ein Browser. Die erste Registerkarte zeigt immer den aktuellen Ordner und kann nicht geschlossen werden. Jedes Element, das Sie öffnen oder erstellen – eine E-Mail, die Sie schreiben, ein Termin oder ein Kontakt –, öffnet sich in einer eigenen Registerkarte daneben. Sie können zwischen ihnen wechseln, ohne etwas zu verlieren, etwa um während des Schreibens einen Termin nachzusehen.
 
-In der Registerkartenleiste werden alle derzeit geöffneten Elemente als Registerkarten angezeigt, beispielsweise der Posteingang, neue E-Mails, Termine, Besprechungsanfragen usw.
+- Klicken Sie auf **+** am Ende der Leiste, um ein neues Element des aktuellen Typs anzulegen.
+- Schließen Sie eine Registerkarte mit dem **×**. Hat das Element ungespeicherte Änderungen, fragt grommunio Web nach.
+- Die Registerkarte eines Elements schließt sich automatisch, wenn Sie es senden oder auf **Speichern & Schließen** klicken.
 
-Auf der allerersten Registerkarte wird der Ordner angezeigt, in dem Sie sich gerade befinden. Diese Registerkarte ist immer angeheftet und kann nicht geschlossen werden.
-
-Alle über das Dropdown-Menü „Neues Element“ neu erstellten Elemente (z. B. E-Mail, Termin, Meeting) werden hier als zusätzliche Registerkarten angezeigt. Darüber hinaus können neue Elemente auch durch Klicken auf das +-Symbol am Ende der Registerkartenleiste erstellt werden.
-
-Temporäre Registerkarten werden automatisch entfernt, wenn:
-
-- Ein Artikel wird versendet
-- Ein Artikel wird gespeichert
-- Der Nutzer schließt den Tab manuell
-- Der Nutzer aktualisiert den Browser
-
-Diese Ansicht mit Registerkarten ermöglicht ein schnelles Wechseln zwischen mehreren Elementen, ohne den Kontext aus den Augen zu verlieren.
-
-### Bereich für die Ordnernavigation
-
-Im **Ordner-Navigationsbereich** erhalten Sie einen Überblick über Ihre persönlichen Ordner sowie über alle zugehörigen sekundären Postfächer, wie z. B. öffentliche Ordner, auf die Sie Zugriff haben. Je nachdem, welches Modul Sie gerade verwenden (E-Mail, Kalender, Kontakte usw.), werden im **Ordner-Navigationsbereich** normalerweise nur die für dieses Modul relevanten Ordner angezeigt. Im E-Mail-Modul sehen Sie beispielsweise Ihre E-Mail-Ordner, während im Kalender-Modul nur Kalender angezeigt werden.
-
-![Folder Navigation Area showing Favourites and a user mailbox with Inbox, Drafts, Outbox, Sent Items, Deleted Items, Junk Email and Public Folders](/img/web/web-p013-1.png)
-
-#### Option „Alle anzeigen“
-
-Im Navigationsbereich befindet sich das Kontrollkästchen **Alle anzeigen**. Wenn dieses Kontrollkästchen aktiviert ist, werden unter **Alle anzeigen** *alle mit Ihrem Postfach verknüpften Ordner* angezeigt, unabhängig vom aktiven Modul. So erhalten Sie in einer einzigen Ansicht einen vollständigen Überblick über alle Ordner.
-
-:::note
-Wenn Sie zu einem Ordner eines anderen Typs wechseln, wird automatisch in den entsprechenden Anwendungsbereich gewechselt. Wenn Sie beispielsweise einen Kalenderordner auswählen, wird automatisch in den Kalender-Anwendungsbereich gewechselt und der ausgewählte Kalender geöffnet.
+:::tip
+In den [Einstellungen › Mail](/de/web/settings/#mail) können Sie festlegen, dass E-Mails statt in einer Registerkarte in einem eigenen **Browserfenster** geöffnet werden. Außerdem hat jede Element-Registerkarte rechts in der Symbolleiste die Schaltfläche **Abkoppeln**.
 :::
 
-### Hauptinhaltsbereich
+### Ordnerbereich
 
-Im **Hauptinhaltsbereich** werden die wichtigsten Informationen der Anwendung angezeigt, basierend auf dem aktuell ausgewählten Modul, Ordner oder Kontext.
+![Der Ordnerbereich mit Favoriten, dem Postfach von Anna Berger mit seinen Ordnern, den öffentlichen Ordnern und der Schaltfläche Gemeinsame E-Mails öffnen](/img/web/de/web_foldertree.png)
 
-Wenn beispielsweise im E-Mail-Modul der Ordner **„Posteingang“** ausgewählt wird, werden im Hauptinhaltsbereich alle in diesem Posteingang enthaltenen E-Mails angezeigt. Wird ein anderer Ordner, ein Suchergebnis oder ein anderer Elementtyp ausgewählt, passt sich der angezeigte Inhalt entsprechend an.
+Der Ordnerbereich listet die Ordner der aktuellen Anwendung. In Mail sehen Sie:
 
-![Main Content Area showing a message list on the left and a task request preview on the right](/img/web/web-p014-1.png)
+- **Favoriten**: Ordner, die Sie am häufigsten nutzen, ganz oben für den schnellen Zugriff. Siehe [Favoriten](/de/web/folders-permissions/#favoriten).
+- **Ihr Postfach** mit Posteingang und seinen Unterordnern, Entwürfe, Postausgang, Gesendete Elemente, Gelöschte Elemente, Junk-E-Mail und Ihren eigenen Ordnern.
+- **Gemeinsame Postfächer** und Ordner, die andere für Sie freigegeben haben.
+- die **öffentlichen Ordner** Ihrer Organisation (in der Liste als *Public Folders* bezeichnet).
+- **Gemeinsame E-Mails öffnen +** ganz unten, um ein Postfach oder einen Ordner zu öffnen, den jemand für Sie freigegeben hat.
 
-In vielen Bereichen von grommunio Web steht eine integrierte *Suchfunktion* zur Verfügung. Die Suchergebnisse werden direkt im Hauptinhaltsbereich angezeigt und ersetzen während der Suche die Standard-Ordneransicht.
+Aktivieren Sie oben **Alle anzeigen**, um die Ordner aller Anwendungen gleichzeitig zu sehen. Wenn Sie einen Kalender-, Kontakt-, Aufgaben- oder Notizenordner auswählen, wechselt grommunio Web in die passende Anwendung.
 
-Alle im Hauptinhaltsbereich angezeigten Einträge lassen sich nach verschiedenen Kriterien **sortieren**, beispielsweise nach Absender, Betreff, Datum, Kategorien, Status usw. Die Sortieroptionen können in der Regel durch Klicken auf die Spaltenüberschriften oder mithilfe der bereitgestellten Sortiersteuerelemente aufgerufen werden.
+Mit dem Pfeil **‹** oben im Bereich klappen Sie ihn ein. Eine schmale Leiste zeigt dann Schaltflächen für Ihre Favoriten und die wichtigsten Ordner.
 
-Dieses dynamische Verhalten stellt sicher, dass der Hauptinhaltsbereich stets den aktuellen Arbeitskontext widerspiegelt und einen schnellen Zugriff auf relevante Informationen ermöglicht.
+### Elementliste
 
-### Datenstruktur
+Die mittlere Spalte listet die Elemente des gewählten Ordners. Im Posteingang zeigt jede E-Mail den Absender, den Betreff, das Datum, ihre Kategorien und Symbole für Wichtigkeit, Anhänge und Nachverfolgung. Ungelesene E-Mails sind fett und haben links einen farbigen Balken.
 
-Ihre wichtigsten Groupware-Daten werden in einer sogenannten „Mailbox“ oder einem „Mail-Speicher“ gespeichert. Diese Daten umfassen wichtige Informationen wie Ihre E-Mails, Kalenderdaten, Kontakte und so weiter. Um diese Daten gut verwalten zu können, ist der Mailbox-Speicher hierarchisch in Ordner gegliedert. Standardmäßig enthält ein Speicher eine Reihe von Standardordnern, die wiederum verschiedene Typen aufweisen. Diese sind:
+- **Sortieren** Sie die Liste, indem Sie auf eine Spaltenüberschrift klicken. Ein weiterer Klick kehrt die Reihenfolge um.
+- **Mehrere Elemente auswählen** Sie mit <kbd>Strg</kbd>-Klick (<kbd>Cmd</kbd> auf dem Mac) oder <kbd>Umschalt</kbd>-Klick, alle mit <kbd>Strg</kbd>+<kbd>A</kbd>.
+- **Schnellaktionen** erscheinen, wenn Sie mit der Maus über eine E-Mail fahren: *Als gelesen/ungelesen markieren*, *Nachverfolgung* und *Löschen*.
+- Ein **Rechtsklick** auf ein Element zeigt alle passenden Aktionen.
+- Ziehen Sie Elemente per **Drag & Drop** auf einen Ordner, um sie zu verschieben; mit gedrückter <kbd>Strg</kbd>-Taste werden sie kopiert.
 
-| Name | Typ     |
-|---------------|----------|
-| Posteingang | E-Mail   |
-| Entwürfe | E-Mail   |
-| Gesendete E-Mails    | E-Mail   |
-| Gelöschte E-Mails | E-Mail   |
-| Aufgaben | Aufgaben    |
-| Kalender | Kalender |
-| Kontakte | Kontakte |
-| Junk-E-Mail   | E-Mail   |
-| Notizen | Notizen    |
-| Postausgang | E-Mail   |
+### Lesebereich
 
-### Suchfunktion
+Der Lesebereich zeigt das ausgewählte Element: den Absender mit Foto oder Logo, die Empfänger, Anhänge, Kategorien und den Inhalt. Mit **Ansicht umschalten** in der Symbolleiste platzieren Sie ihn **rechts** (Standard) oder **unten** oder blenden ihn aus.
 
-Über den Bereich „Suchwerkzeuge“ lassen sich Suchergebnisse verfeinern und eingrenzen, wenn Sie nach Elementen wie E-Mails, Terminen, Kontakten, Aufgaben oder Notizen suchen.
+## Suchen
 
-![Search Tools panel with options for Folders, Show, Filter, Date, Search and Filter category](/img/web/web-p015-1.png)
+Jede Liste hat oben ein Feld **Suchen…**. Mit <kbd>Strg</kbd>+<kbd>F</kbd> springen Sie direkt hinein.
 
-#### Ordner
+Sobald Sie in das Feld klicken, hilft Ihnen ein Bereich beim Aufbau der Suche:
 
-- **Unterordner einbeziehen**
-  Wenn diese Option ausgewählt ist, werden bei der Suche alle Unterordner des aktuell ausgewählten Ordners berücksichtigt.
-  Beispiel: Bei der Suche im Posteingang werden auch alle Unterordner des Posteingangs durchsucht.
+![Das Such-Dropdown mit Schaltflächen für Filtern nach, Anzeigen / Operatoren, Datum und Suche in](/img/web/de/web_search_dropdown.png)
 
-#### Anzeigen…
+- **Letzte Suchen** wiederholt eine frühere Suche.
+- **Filtern nach** beschränkt die Suche auf ein Feld: Betreff, Von, An, CC, BCC, Inhalt, Anhang, Kategorie oder Ungelesen.
+- **Anzeigen / Operatoren** beschränkt das Ergebnis auf E-Mails, Termine, Kontakte, Aufgaben oder Notizen und verknüpft Begriffe mit UND, OR und NICHT.
+- **Datum** beschränkt das Ergebnis auf die letzte Woche, die letzten 2 Wochen, den letzten Monat, die letzten 6 Monate oder das letzte Jahr.
+- **Suche in** legt den Bereich fest: *Alle Ordner*, den aktuellen Ordner oder *Andere…*.
 
-Diese Optionen legen fest, welche Art von Einträgen in den Suchergebnissen angezeigt werden:
+Geben Sie Ihre Suchbegriffe ein und drücken Sie <kbd>Enter</kbd>. Die Ergebnisse öffnen sich in einer eigenen Registerkarte, zusammen mit den **Suchwerkzeugen** links. Dort verfeinern Sie die Suche: Unterordner einbeziehen, Elementtypen wählen, nur ungelesene Elemente oder solche mit Anhang anzeigen, einen Zeitraum wählen, die zu durchsuchenden Felder festlegen und nach Kategorie filtern.
 
-- **E-Mails**
-  Bezieht E-Mail-Nachrichten in die Suchergebnisse ein.
-- **Termine**
-  Bezieht Kalendereinträge wie Besprechungen und Veranstaltungen mit ein.
-- **Kontakte**
-  Bezieht Kontakteinträge mit ein.
-- **Aufgaben**
-  Bezieht Aufgabeneinträge mit ein.
-- **Notizen**
-  Bezieht Notizen mit ein.
+![Die Registerkarte mit den Suchergebnissen für den Begriff aurora mit den Suchwerkzeugen links und den Treffern in der Mitte](/img/web/de/web_search_results.png)
 
-Es können ein oder mehrere Artikeltypen ausgewählt werden.
+:::tip[Suchen wie die Profis]
+Geben Sie einen Feldnamen mit Doppelpunkt ein, um nur in diesem Feld zu suchen. Der Begriff wird zu einem Baustein. Phrasen setzen Sie in Anführungszeichen.
 
-#### Filter…
+| Beispiel | Findet |
+|---|---|
+| `von:maria` | Elemente von Maria |
+| `betreff:"key visuals"` | Elemente mit dieser Phrase im Betreff |
+| `an:lukas anhang:true` | Elemente an Lukas mit Anhängen |
+| `kategorie:Dringend` | Elemente mit der Kategorie *Dringend* |
+| `ungelesen:true` | nur ungelesene Elemente |
+| `aurora NOT newsletter` | Elemente zu Aurora, die nicht „newsletter“ enthalten |
 
-Diese Optionen schränken die Ergebnisse anhand des Nachrichtenstatus oder des Inhalts ein:
+Die deutschen Feldnamen sind `betreff`, `von`, `an`, `cc`, `bcc`, `inhalt`, `absender`, `anhang`, `kategorie`, `ungelesen`, `typ` und `datum`. Die englischen Namen (`subject`, `from`, `to`, …) funktionieren ebenfalls. Die Operatoren AND, OR und NOT werden immer englisch geschrieben.
+:::
 
-- **Ungelesen**
-  Zeigt nur Elemente an, die noch nicht als gelesen markiert wurden.
-- **Anhänge**
-  Zeigt nur Elemente an, die einen oder mehrere Anhänge enthalten.
+Mit **Favoriten** in den Suchwerkzeugen speichern Sie eine Suche als *Suchordner* in Ihren Favoriten. Er wird automatisch aktualisiert.
 
-#### Datum
+## Befehlspalette
 
-- **Beliebiges Datum**
-  Ermöglicht die Filterung der Suchergebnisse nach einem bestimmten Zeitraum, z. B.:
-  `Any date`, `Past week`, `Past 2 weeks`, `Past month`, `Past 6 month`, `Past year` oder `Custom date`
+Die Befehlspalette ist der schnellste Weg, überallhin zu gelangen. Drücken Sie <kbd>Strg</kbd>+<kbd>K</kbd> (<kbd>Cmd</kbd>+<kbd>K</kbd> auf dem Mac) und beginnen Sie zu tippen:
 
-Dadurch lassen sich die Ergebnisse auf einen bestimmten Zeitraum eingrenzen.
+![Die Befehlspalette mit den Ansichten Mail, Kalender, Kontakte, Aufgaben, Notizen, Dateien und Einstellungen und den Befehlen zum Anlegen neuer Elemente](/img/web/de/web_command_palette.png)
 
-#### Suche…
+- **Ansichten**: Mail, Kalender, Kontakte, Aufgaben, Notizen, Dateien, Einstellungen
+- **Neu**: alle Elementtypen des Menüs Neu
+- **Einstellungen**: jede Einstellungsseite
+- **Ordner**: jeder Ordner Ihres eigenen, gemeinsamer und öffentlicher Postfächer, mit Pfad
+- **Werkzeuge** und **Erscheinungsbild**: das Adressbuch, heller/dunkler Modus, kompakte/komfortable Listenabstände
+- **Konto**: abmelden
 
-Diese Optionen legen fest, in welchen Feldern gesucht wird:
+Wählen Sie einen Eintrag mit den Pfeiltasten oder <kbd>Tab</kbd> und drücken Sie <kbd>Enter</kbd>. <kbd>Esc</kbd> schließt die Palette. Den genauen Namen müssen Sie nicht kennen: Die Palette findet Einträge auch über Wortteile, etwa *aur* für den Ordner *Aurora-Launch*:
 
-- **Absender**
-  Sucht nach Elementen anhand des Namens oder der E-Mail-Adresse des Absenders.
-- **Empfänger**
-  Sucht nach Elementen anhand der Namen oder E-Mail-Adressen der Empfänger.
-- **Betreff**
-  Sucht in der Betreffzeile der Elemente.
-- **Text & Anhänge**
-  Durchsucht den Textkörper der Nachricht sowie den Inhalt von Anhängen (sofern unterstützt).
+![Die Befehlspalette mit dem Suchbegriff aur und dem Ordner Aurora-Launch](/img/web/de/web_command_palette_search.png)
 
-#### Filterkategorie…
+## Rückgängig und Wiederholen
 
-- **Kategorie auswählen**
-  Ermöglicht die Filterung der Suchergebnisse nach zugewiesenen Kategorien (z. B. farbcodierte oder beschriftete Artikel).
+grommunio Web kann – wie ein Desktop-Programm – zurücknehmen, was Sie gerade getan haben. Schalten Sie die Funktion unter [Einstellungen › Allgemein › Rückgängig und Wiederholen](/de/web/settings/#allgemein) ein und laden Sie grommunio Web neu.
 
-#### Favoriten
+- <kbd>Strg</kbd>+<kbd>Z</kbd> nimmt die letzte Aktion zurück, <kbd>Strg</kbd>+<kbd>Y</kbd> wiederholt sie.
+- Die Schaltfläche **Rückgängig** in der Symbolleiste hat ein Menü mit Ihren letzten Aktionen. Wählen Sie einen Eintrag, um alles bis dorthin zurückzunehmen.
 
-- **Favoriten**
-  Dies ist eine Schaltfläche, mit der ein Ordner basierend auf der Suchanfrage zu den Favoriten hinzugefügt wird.
-  Beim Anklicken kann ein benutzerdefinierter Ordnername eingegeben werden.
+![Das Menü Rückgängig mit zwei Löschaktionen](/img/web/de/web_undo_menu.png)
 
-### Allgemeines Verhalten
+Rückgängig machen lassen sich Löschen, Verschieben, Kopieren und Anlegen von Elementen, Änderungen des Lesestatus, Kennzeichnungen, Kategorien sowie im Kalender verschobene oder in der Länge veränderte Termine. Die letzten 20 Aktionen Ihrer Sitzung werden gemerkt. Nicht rückgängig machen lassen sich das Senden von E-Mails, Antworten auf Einladungen, *Umschalt+Entf* und Aktionen mit mehr als 25 Elementen.
 
-grommunio Web ist eine echte Webanwendung, die ein außergewöhnlich verbessertes Webanwendungserlebnis bietet. Durch dieses Verhalten bietet grommunio Web gegenüber herkömmlichen Webanwendungen zahlreiche Verbesserungen der Benutzererfahrung, darunter:
+## Erscheinungsbild und dunkler Modus
 
-- Unterstützung für Drag & Drop von Elementen.
-- Kontextmenüs per Rechtsklick mit zusätzlichen Funktionen für Objekte.
-- Mehrfachauswahl von Objekten mithilfe der Strg-Taste (oder der Cmd-Taste bei Apple).
-- Tabellarische Benutzeroberfläche für multitaskingfähiges Arbeiten.
+![Der Schalter für das Erscheinungsbild in der oberen Leiste, neben Einstellungen](/img/web/de/web_appearance_toggle.png)
+
+Klicken Sie auf das Sonnen-/Mond-Symbol in der oberen Leiste, um das Erscheinungsbild zu wechseln. Jeder Klick schaltet zum nächsten Modus: **Hell** → **Automatisch** (folgt Ihrem Betriebssystem) → **Dunkel**. Ihre Wahl wird mit Ihrem Konto gespeichert und gilt daher auch auf anderen Computern.
+
+![grommunio Web im dunklen Modus](/img/web/de/web_overview_dark.png)
+
+Weitere Optionen finden Sie unter [Einstellungen › Allgemein](/de/web/settings/#allgemein): das **Theme** (Farbschema), die **Symbole** und die **Listenabstände** (komfortabel oder kompakt).
+
+## Erinnerungen und Benachrichtigungen
+
+Ist ein Termin oder eine Aufgabe mit Erinnerung fällig, öffnet sich das Fenster **Erinnerungen**, und die Glocke in der oberen Leiste zeigt die Anzahl der fälligen Erinnerungen.
+
+![Das Fenster Erinnerungen mit einem fälligen Termin und den Schaltflächen Alle schließen, Element öffnen, Schließen und Erneut erinnern](/img/web/de/web_reminders.png)
+
+- **Element öffnen** öffnet den ausgewählten Termin oder die Aufgabe.
+- **Schließen** entfernt die ausgewählte Erinnerung, **Alle schließen** entfernt alle.
+- Wählen Sie unten eine Zeit und klicken Sie auf **Erneut erinnern**, um später noch einmal erinnert zu werden.
+
+Neue E-Mails werden mit einer kurzen Meldung in der unteren Ecke angekündigt. Unter [Einstellungen › Mail › Benachrichtigungen bei neuen E-Mails](/de/web/settings/#mail) legen Sie fest, ob Sie für alle Ordner, nur für Ihr eigenes Postfach oder nur für ausgewählte Ordner benachrichtigt werden. Mit dem Plugin [Desktopbenachrichtigungen](/de/web/plugins/#desktopbenachrichtigungen) zeigt grommunio Web zusätzlich Benachrichtigungen Ihres Betriebssystems an.
+
+## Tastenkombinationen
+
+grommunio Web lässt sich fast vollständig mit der Tastatur bedienen. Die wichtigsten Tastenkombinationen funktionieren sofort:
+
+| Tasten | Aktion |
+|---|---|
+| <kbd>Strg</kbd>+<kbd>K</kbd> | Befehlspalette öffnen |
+| <kbd>Strg</kbd>+<kbd>F</kbd> | ins Suchfeld springen |
+| <kbd>Enter</kbd> / <kbd>Entf</kbd> | ausgewähltes Element öffnen / löschen |
+| <kbd>Strg</kbd>+<kbd>S</kbd> / <kbd>Strg</kbd>+<kbd>Enter</kbd> | geöffnetes Element speichern / senden |
+| <kbd>Strg</kbd>+<kbd>P</kbd> | drucken |
+| <kbd>F5</kbd> | neu laden |
+
+Mit den erweiterten Tastenkombinationen geht noch mehr, zum Beispiel <kbd>Strg</kbd>+<kbd>R</kbd> zum Antworten. Alle Tastenkombinationen finden Sie unter [Tastenkombinationen](/de/web/keyboard/).
+
+## Abmelden
+
+Klicken Sie in der oberen Leiste auf **Ausloggen**, um Ihre Sitzung zu beenden. Wenn Sie nur den Browser schließen, bleibt Ihre Sitzung aktiv, bis sie abläuft. Melden Sie sich an Computern, die auch andere nutzen, immer ab.

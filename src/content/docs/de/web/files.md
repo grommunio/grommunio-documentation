@@ -1,61 +1,74 @@
 ---
-title: "Files"
-description: "Aktivieren und konfigurieren Sie das Files-Plugin, um direkt in grommunio Web auf Dateien aus einem oder mehreren Konten zuzugreifen und diese zu verwalten."
+title: "Dateien"
+description: "Mit grommunio Files und anderen WebDAV-Speichern direkt in grommunio Web arbeiten: durchsuchen, hochladen, Vorschau, teilen und Dateien an E-Mails anhängen."
 sidebar:
-  order: 100
+  order: 75
 ---
 
-Die Funktion **Files** integriert grommunio Files in grommunio Web, sodass Sie direkt über die Weboberfläche auf Dateien aus einem oder mehreren Konten zugreifen und diese verwalten können.
+Das Plugin **Dateien** (*Files*) bringt Ihren Dateispeicher, zum Beispiel grommunio Files, in grommunio Web. Sie können Ihre Ordner durchsuchen, Dokumente hochladen und in der Vorschau ansehen, sie mit anderen teilen und an E-Mails anhängen, ohne sie vorher herunterzuladen.
 
-## Aktivieren des Files-Plugins
+## Dateien einschalten
 
-So aktivieren Sie die Funktion Files:
+1. Öffnen Sie **Einstellungen › Plugins**.
+2. Aktivieren Sie **Files Plugin** und klicken Sie auf **Übernehmen**.
+3. Laden Sie grommunio Web neu, wenn Sie dazu aufgefordert werden.
 
-1. Melden Sie sich mit Administratorrechten bei **grommunio Web** an.
-2. Navigieren Sie zu **Einstellungen**.
-3. Öffnen Sie den Abschnitt *Plugins*.
-4. Aktivieren Sie das Plugin, indem Sie das Kontrollkästchen **Files** aktivieren.
-5. Klicken Sie auf **Übernehmen**, um die Konfiguration zu speichern.
-6. Laden Sie die Benutzeroberfläche von grommunio Web neu.
+In der oberen Leiste erscheint die Registerkarte **Dateien**. Solange Sie kein Konto hinzugefügt haben, weist sie darauf hin, dass Sie zuerst in den Einstellungen ein Konto anlegen müssen.
 
-Nach dem Neustart steht die Files-Funktionalität zur Verfügung.
+## Ein Dateien-Konto hinzufügen
 
-Nach der Aktivierung erscheint im *Hauptbereich der Benutzeroberfläche* von grommunio Web ein neuer Eintrag **Files**.
+1. Öffnen Sie **Einstellungen › Dateien**.
+2. Klicken Sie auf **Account hinzufügen**.
+3. Geben Sie einen **Accountnamen** ein, zum Beispiel *grommunio Files*, und wählen Sie das Backend: *Standard* (WebDAV, für grommunio Files und andere WebDAV-Server) oder *Seafile*.
+4. Geben Sie die Verbindungsdaten ein, die Sie von Ihrem Administrator erhalten haben:
+   - **Serveradresse**, zum Beispiel `mail.example.com`,
+   - **Serverport** (`443`) und **TLS verwenden**,
+   - **WebDAV-Basispfad**, für grommunio Files `/files/remote.php/webdav` (ohne Schrägstrich am Ende).
+5. Aktivieren Sie **grommunio-Zugangsdaten verwenden** oder geben Sie **Benutzername** und **Passwort** ein.
+6. Klicken Sie auf **Speichern** und **Übernehmen**.
 
-## Erster Zugriff auf Files
+![Der Dialog zum Bearbeiten des Kontos mit Accountname, Backend Standard, Serveradresse, Port 443, TLS und dem WebDAV-Basispfad von grommunio Files](/img/web/de/web_files_account.png)
 
-Wenn Sie die Funktion „Files“ zum ersten Mal öffnen:
+Das Konto erscheint in der Liste mit seinem Status und den unterstützten Funktionen (Kontingent, Versionsinformationen, Teilen, schneller Up- und Download). Ein grüner Status bedeutet, dass die Verbindung funktioniert.
 
-1. Klicken Sie im *Hauptbereich der Benutzeroberfläche* auf **Files**.
-2. Die **Registerkarte „Files“** wird geöffnet.
+![Die Liste Accounts verwalten mit dem Konto grommunio Files](/img/web/de/web_files_settings.png)
 
-![The Files tab without any account configured, showing the message that no accounts have been added](/img/web/web-p101-1.png)
+:::tip
+Ihr Administrator kann das Dateien-Konto vorab für Sie einrichten. Mit Single Sign-on verwendet grommunio Web Ihre Anmeldung auch für Dateien – ein Passwort ist dann nicht nötig.
+:::
 
-Wenn kein Konto konfiguriert ist, wird folgende Meldung angezeigt:
+## Dateien durchsuchen
 
-> *Es wurden keine Konten hinzugefügt. Gehen Sie zu den Einstellungen, zur Registerkarte „Files“ und fügen Sie ein Konto hinzu.*
+Klicken Sie in der oberen Leiste auf **Dateien**. Der Ordnerbereich zeigt Ihre Konten und deren Ordner, die Mitte den Inhalt des gewählten Ordners und die Vorschau rechts die ausgewählte Datei.
 
-Dies bedeutet, dass noch kein Konto verknüpft wurde.
+![Die Ansicht Dateien mit den Ordnern Aurora-Launch, Marketing, Messe 2026 und Vorlagen](/img/web/de/web_files.png)
 
-## Ein Files-Konto hinzufügen
+![Der Ordner Aurora-Launch mit Key Visuals und der Pressemitteilung sowie der Vorschau des ausgewählten Bildes](/img/web/de/web_files_folder.png)
 
-So fügen Sie ein Konto hinzu:
+| Schaltfläche | Funktion |
+|---|---|
+| **Hochladen** | lädt Dateien von Ihrem Computer hoch. Sie können Dateien auch in die Liste ziehen. |
+| **Dokument erstellen** | erstellt ein neues Dokument, eine Präsentation oder eine Tabelle (wenn OnlyOffice verfügbar ist). |
+| **Neuer Ordner** | legt einen Ordner an. |
+| **Vorschau** | öffnet die ausgewählte Datei im [Dokumentbetrachter](/de/web/mail/#anhänge-im-betrachter-öffnen). |
+| **Herunterladen** | lädt die ausgewählten Dateien herunter. |
+| **Teilen** | teilt die Datei oder den Ordner (siehe unten). |
+| **An E-Mail anhängen** | beginnt eine neue E-Mail mit den ausgewählten Dateien als Anhang. |
+| **An E-Mail als Link anhängen** | beginnt eine neue E-Mail mit einem Download-Link statt der Datei. |
+| **Umbenennen**, **Löschen** | benennt das ausgewählte Element um oder löscht es (im Menü ⋮). |
 
-1. Öffnen Sie **Einstellungen** in grommunio Web.
-2. Wechseln Sie zur Registerkarte **Files**.
-3. Fügen Sie ein neues **Konto** hinzu, indem Sie die erforderlichen Verbindungsdaten eingeben.
-4. Speichern Sie die Konfiguration.
+Ein Doppelklick öffnet eine Datei: Office-Dokumente in OnlyOffice, sofern Ihr Administrator es aktiviert hat, alles andere im Betrachter. Ein Rechtsklick auf eine Datei bietet **Info** mit den Details. Mit **Ansicht umschalten** in der Symbolleiste wechseln Sie zwischen Listen- und Symbolansicht und der Position der Vorschau.
 
-![The Files tab in Settings with the Manage Accounts area for adding or removing Files accounts](/img/web/web-p102-1.png)
+## Dateien und Ordner teilen
 
-Sie können **ein oder mehrere Konten** hinzufügen.
+Wählen Sie eine Datei oder einen Ordner aus und klicken Sie auf **Teilen**:
 
-## Ergebnis
+- **Mit Benutzer/Gruppe teilen**: Fügen Sie Kolleginnen und Kollegen hinzu und legen Sie fest, ob sie weiterteilen, ändern, anlegen oder löschen dürfen.
+- **Per Link teilen**: erstellt einen **Öffentlichen Link**, den Sie an beliebige Personen senden können. Schützen Sie ihn mit einem **Passwort**, erlauben Sie bei Ordnern einen **Öffentlichen Upload** und setzen Sie ein **Ablaufdatum**.
 
-![The Files tab displaying a connected account after configuration](/img/web/web-p102-2.png)
+## Dateien in E-Mails
 
-Nachdem mindestens ein Konto konfiguriert wurde:
-
-- Auf der Registerkarte „Files“ werden die verbundenen Konten angezeigt.
-- Sie können direkt über grommunio Web auf Dateien zugreifen und diese verwalten.
-- Innerhalb derselben Benutzeroberfläche können mehrere Konten parallel genutzt werden.
+- Wählen Sie in einer neuen E-Mail im Anhangsmenü **Aus Files einfügen**, um eine Datei aus Ihrem Speicher anzuhängen.
+- Klicken Sie mit der rechten Maustaste auf einen Anhang einer erhaltenen E-Mail und wählen Sie **Dem Files-Backend hinzufügen**, um ihn in Ihrem Speicher abzulegen.
+- Ein Rechtsklick auf eine E-Mail mit **Dem Files-Backend hinzufügen** speichert die ganze E-Mail als `.eml`-Datei.
+- Mit **Neu** › **Datei hochladen** in der Symbolleiste laden Sie aus jeder Ansicht eine Datei hoch.

@@ -1,47 +1,40 @@
 ---
-title: "Anmerkungen"
-description: "Halten Sie Ideen und Informationen mit grommunio Web Notes fest – darunter das Erstellen, Bearbeiten, Einfärben und Organisieren von Haftnotizen."
+title: "Notizen"
+description: "Notizzettel in grommunio Web schreiben, mit Farben und Kategorien versehen und an E-Mails heften."
 sidebar:
   order: 60
 ---
 
-Notizen sind nicht nur ein nützliches Hilfsmittel, um Ideen festzuhalten; sie können vielen verschiedenen Zwecken dienen und ganz nach Ihren Bedürfnissen eingesetzt werden.
+Notizen sind die digitale Version von Haftnotizen: schnelle Ideen, Telefonnummern, Checklisten – alles, was Sie festhalten möchten, ohne es irgendwo abzulegen. Sie werden in Ihrem Postfach gespeichert und stehen daher auch in Outlook und auf Ihrem Smartphone zur Verfügung.
 
-![The Notes module in grommunio Web, showing the folder list and an empty note list](/img/web/web-p061-1.png)
+![Die Ansicht Notizen mit fünf farbigen Notizen: Buchempfehlungen, Tomás zurückrufen, Checkliste Messestand, Gäste-WLAN und Slogan-Ideen](/img/web/de/web_notes.png)
 
-## Notiz erstellen
+## Ansichten
 
-Um eine neue Notiz zu erstellen, klicken Sie auf das Symbol **Haftnotiz** in der Schnellzugriffsleiste oder auf das Symbol **+** am Ende der Registerkartenleiste.
+Mit **Ansicht umschalten** wählen Sie zwischen **Symbole** (farbige Notizen wie oben), der **Listenansicht** mit Betreff, Datum und Kategorien, die sich für viele Notizen besser eignet, und **Anordnen nach den letzten sieben Tagen** mit den Notizen der vergangenen Woche:
 
-Dadurch wird der **Notiz-Editor** geöffnet.
+![Das Menü Ansicht umschalten der Notizen](/img/web/de/web_notes_viewmenu.png)
 
-![The Note Editor displaying a blank yellow sticky note with a Save button and a Color selector set to Yellow](/img/web/web-p062-1.png)
+![Die Notizen in der Listenansicht](/img/web/de/web_notes_list.png)
 
-1. Verfassen Sie eine Notiz
-2. Klicken Sie auf „Speichern“
+## Eine Notiz anlegen
 
-### Notiz-Symbolleiste
+1. Klicken Sie in der Symbolleiste auf **Neu** oder wählen Sie in einer beliebigen Ansicht **Neu** › **Gepinnte Notiz**.
+2. Schreiben Sie Ihren Text. Die erste Zeile wird zum Titel der Notiz.
+3. Wählen Sie eine **Farbe**: Blau, Grün, Rosa, Gelb oder Weiß.
+4. Klicken Sie auf **Speichern**.
 
-Die Notiz-Symbolleiste bietet mehrere nützliche Funktionen:
+![Die Notiz Slogan-Ideen Aurora in einer eigenen Registerkarte mit der Schaltfläche Speichern und der Farbe Gelb](/img/web/de/web_note_dialog.png)
 
-- **Speichern** – Speichert die aktuelle Notiz. Klicken Sie unbedingt darauf, nachdem Sie eine Notiz verfasst oder bearbeitet haben.
-- **Löschen** – Entfernt die Notiz dauerhaft. Verschiebt sie in den Ordner **Gelöschte Elemente**.
-- **Kategorien** – Weisen Sie Ihrer Notiz Kategorien zu, um sie besser zu organisieren und schnell wiederzufinden.
-- **Notiz drucken** – Öffnet das Druckdialogfeld, um die Notiz zu drucken.
-- **Farboptionen** – Ändert die Hintergrundfarbe der Notiz. Verfügbare Farben:
-  - Blau
-  - Grün
-  - Rosa
-  - Gelb
-  - Weiß
+Die Symbolleiste der Notiz bietet außerdem **Löschen**, **Kategorien** und **Drucken**.
 
-### Notizoptionen
+## Notizen organisieren
 
-Sie können weitere Optionen für eine Notiz aufrufen, indem Sie im Notizmodul mit der **rechten Maustaste** darauf klicken. Folgende Aktionen stehen zur Verfügung:
+- Doppelklicken Sie auf eine Notiz, um sie zu öffnen und zu bearbeiten.
+- Ein Rechtsklick auf eine Notiz löscht sie, verschiebt sie in einen anderen Ordner, weist [Kategorien](/de/web/mail/#kategorien) zu oder druckt sie.
+- Legen Sie in *Notizen* Unterordner an, um Notizen nach Themen zu gruppieren: Rechtsklick auf *Notizen* › **Neuer Ordner**.
+- Mit dem Feld **Suchen…** finden Sie eine Notiz über ihren Text.
 
-- **Öffnen** – Öffnet die ausgewählte Notiz im Notiz-Editor, um sie anzusehen oder zu bearbeiten.
-- **Kopieren/Verschieben** – Ermöglicht das Kopieren oder Verschieben der Notiz an einen anderen Speicherort.
-- **Drucken** – Öffnet den Druckdialog, um die Notiz zu drucken.
-- **Kategorien** – Öffnet den Kategoriedialog, um der Notiz Kategorien zuzuweisen oder diese zu ändern. Nützlich, um Notizen zu organisieren und später schnell wiederzufinden.
-- **Löschen** – Entfernt die Notiz dauerhaft aus „Notizen“. Verschiebt sie in den Ordner **Gelöschte Objekte**.
-- **Optionen** – Zeigt Eigenschaften wie die Objekt-ID an.
+## Notizen an E-Mails
+
+Eine Notiz lässt sich an eine E-Mail heften, etwa um sich zu merken, was Sie mit dem Absender besprechen möchten. Klicken Sie mit der rechten Maustaste auf die E-Mail und wählen Sie **Notiz erstellen**. Die Notiz erscheint als farbige Karte oben in der E-Mail. Siehe [Notizen an E-Mails](/de/web/mail/#notizen-an-e-mails).

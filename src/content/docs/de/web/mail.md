@@ -1,325 +1,301 @@
 ---
 title: "E-Mail"
-description: "So lesen, versenden und verwalten Sie Ihre E-Mails mit dem grommunio Web-Mail-Modul."
+description: "E-Mails in grommunio Web lesen, schreiben, beantworten und organisieren: Lesebereich, Anhänge und Dokumentbetrachter, Verfassen, Signaturen, späteres Senden, Kennzeichnungen, Kategorien, Ordner und Unterhaltungen."
 sidebar:
   order: 20
 ---
 
-In diesem Kapitel zeigen wir Ihnen, wie Sie E-Mails mit grommunio Web nutzen können. Nach der Lektüre dieses Kapitels sollten Sie in der Lage sein, Ihre E-Mails zu lesen, zu versenden und zu organisieren.
-
-## E-Mail-Schnellzugriffsleiste
-
-Oben links im Mail-Modul befindet sich die *Shortcut-Leiste* von Mail.
-
-Die *Shortcut-Leiste* von Mail bietet schnellen Zugriff auf häufig verwendete Funktionen wie:
-
-- Eine neue Nachricht erstellen
-- Das Adressbuch öffnen
-- Die Ansicht aktualisieren
-- Eine E-Mail drucken
-- Das Layout ändern (keine Vorschau, Vorschau rechts, Vorschau unten)
-
-Diese Funktionen ermöglichen eine schnelle Nutzung der am häufigsten verwendeten E-Mail-Funktionen.
+In Mail verbringen die meisten Menschen den größten Teil ihres Tages. Dieses Kapitel zeigt, wie Sie E-Mails lesen und beantworten, mit Anhängen arbeiten, neue Nachrichten schreiben und Ihr Postfach in Ordnung halten.
 
 ## E-Mails lesen
 
-Standardmäßig ist der Hauptinhaltsbereich der E-Mail-Oberfläche in drei Bereiche unterteilt. Im linken Bereich ist der Ordnernavigationsbereich zu sehen. Direkt neben dem Ordnernavigationsbereich befindet sich der Ordnerlistenbereich, in dem alle E-Mails des jeweils im Ordnernavigationsbereich ausgewählten Ordners aufgelistet sind. Durch die Auswahl einer E-Mail aus dem Ordner wird diese automatisch im Hauptfensterbereich geöffnet und dort angezeigt.
+Wählen Sie eine E-Mail in der Liste aus, um sie im Lesebereich anzuzeigen. Mit einem Doppelklick öffnen Sie sie in einer eigenen Registerkarte.
 
-## E-Mails versenden
+![Die Mail-Ansicht mit der Liste des Posteingangs und einer E-Mail von Lukas Hofer mit Anhang im Lesebereich](/img/web/de/web_mail_reading.png)
 
-Um eine neue E-Mail zu verfassen, wählen Sie die hervorgehobene Schaltfläche **Neue E-Mail** in der Haupt-Shortcut-Leiste aus oder klicken Sie auf das Symbol `+` am Ende der Registerkartenleiste. Wenn Sie auf eine dieser Schaltflächen klicken, öffnet sich eine neue E-Mail-Registerkarte mit einer leeren Oberfläche, in der Sie Ihre E-Mail verfassen können.
+Der Kopf des Lesebereichs zeigt:
 
-![New email composition window with the message composition toolbar and empty recipient, subject, and body fields](/img/web/web-p019-1.png)
+- den **Betreff**,
+- den **Absender** mit Foto, Initialen oder Firmenlogo und die Uhrzeit,
+- die **Empfänger** (An, CC),
+- die **Anhänge**,
+- die **Kategorien** der E-Mail,
+- Hinweisleisten, zum Beispiel dass die Nachricht mit hoher Wichtigkeit gesendet wurde oder als privat gekennzeichnet ist.
 
-## Symbolleiste zum Verfassen von Nachrichten
+![Der Kopf einer E-Mail mit dem Hinweis auf hohe Wichtigkeit und einem PDF-Anhang](/img/web/de/web_mail_infobar.png)
 
-Die Symbolleiste zum Verfassen von Nachrichten wird beim Erstellen einer neuen E-Mail angezeigt und bietet schnellen Zugriff auf häufig verwendete Aktionen und nachrichtenspezifische Optionen.
+Über der E-Mail finden Sie die Aktionen **Antworten**, **Allen antworten** und **Weiterleiten**, rechts davon **Löschen**, **Weitere Optionen** (⋮), **Abkoppeln** und den [KI-Assistenten](/de/web/ai/) (✦).
 
-### Schaltfläche „Senden“
+:::tip[Absenderlogos]
+Bei Absendern, deren Domain ein geprüftes Firmenlogo (BIMI) veröffentlicht und deren E-Mail die DMARC-Prüfung bestanden hat, zeigt grommunio Web das Firmenlogo neben dem Absender. So erkennen Sie echte E-Mails bekannter Unternehmen auf einen Blick. Eigene Kontaktfotos haben Vorrang.
+:::
 
-Über die Schaltfläche **Senden** wird die Nachricht sofort an die ausgewählten Empfänger versendet. Die gesendete E-Mail wird automatisch in den Ordner „Gesendete Objekte“ verschoben, damit Sie später darauf zurückgreifen können. Außerdem steht Ihnen eine weitere Option zur Verfügung:
+### Gelesen und ungelesen
 
-- **Später senden**
-  Ermöglicht es, den Versand der E-Mail auf einen späteren Zeitpunkt zu planen.
-  In einem Bestätigungs-Popup können Sie den ausgewählten Versandzeitpunkt überprüfen oder ändern, bevor Sie den geplanten Versand abschließen.
+Eine E-Mail wird als gelesen markiert, sobald Sie sie auswählen. Unter [Einstellungen › Mail › Eingehende E-Mail](/de/web/settings/#mail) können Sie das ändern, zum Beispiel so, dass E-Mails erst nach einigen Sekunden als gelesen gelten. Um den Status selbst zu ändern:
 
-### Speichern
+- fahren Sie mit der Maus über die E-Mail und klicken Sie auf das Umschlagsymbol,
+- klicken Sie mit der rechten Maustaste und wählen Sie **Als gelesen markieren** oder **Als ungelesen markieren**,
+- oder klicken Sie mit der rechten Maustaste auf einen Ordner und wählen Sie **Alle Nachrichten als gelesen markieren**.
 
-Speichert die aktuelle Nachricht im Ordner **Entwürfe**.
+### Bilder und externe Inhalte
 
-### Löschen
+Zum Schutz Ihrer Privatsphäre lädt grommunio Web in E-Mails unbekannter Absender keine Bilder aus dem Internet. Eine Hinweisleiste zeigt an, dass Inhalte blockiert wurden. Klicken Sie darauf, um:
 
-Wird verfügbar, **sobald die Nachricht mindestens einmal gespeichert wurde**. Verschiebt den aktuellen Entwurf in den Ordner **„Gelöschte Objekte“**.
+- **Bilder herunterladen** nur für diese E-Mail,
+- **Den Sender der Liste der sicheren Absender hinzufügen**, um Bilder dieses Absenders immer anzuzeigen,
+- **Die Domain der Liste der sicheren Absender hinzufügen**, um allen Absendern dieser Domain zu vertrauen.
 
-### Dropdown-Menü „Anhang“
+Diese Listen verwalten Sie unter [Einstellungen › Absenderlisten](/de/web/settings/#absenderlisten). Newsletter mit eingebetteten Bildern werden vollständig angezeigt:
 
-Bietet zwei Möglichkeiten zum Hinzufügen von Anhängen:
+![Ein Newsletter mit großer, farbiger Kopfgrafik und zwei Artikelvorschauen im Lesebereich](/img/web/de/web_mail_newsletter.png)
 
-- **Datei hochladen** – Laden Sie eine Datei direkt von Ihrem Computer hoch.
-- **Element anhängen** – Hängen Sie ein Element aus dem Postfach (E-Mail, Kontakt, Kalendereintrag, Aufgabe oder Notiz) als Anhang oder als reinen Text an.
+### Unterhaltungsansicht
+
+Die Unterhaltungsansicht gruppiert die E-Mails einer Unterhaltung in Ihrem Posteingang, einschließlich Ihrer eigenen Antworten aus *Gesendete Elemente*. Schalten Sie sie unter [Einstellungen › Mail › Unterhaltungseinstellungen](/de/web/settings/#mail) ein.
+
+![Der Posteingang in der Unterhaltungsansicht: Die Unterhaltung Website-Relaunch mit drei Beteiligten ist aufgeklappt, der Lesebereich zeigt die Nachrichten der Unterhaltung als Karten](/img/web/de/web_mail_conversation.png)
+
+- Eine Unterhaltung zeigt die Anzahl der Nachrichten und die Beteiligten. Klicken Sie auf den Pfeil, um sie aufzuklappen.
+- Wählen Sie eine Unterhaltung aus, zeigt der Lesebereich alle Nachrichten als Karten, die neueste zuerst.
+- Unterhaltungen erscheinen, wenn die Liste nach **Empfangen** (neueste zuerst) sortiert ist und keine Suche oder kein Filter aktiv ist. Sonst wird die Liste flach angezeigt.
 
 :::note
-Anhänge können auch über die Schaltfläche **Anhänge** zwischen Betreffzeile und E-Mail-Text hinzugefügt werden.
+Die Unterhaltungsansicht benötigt die Navigation *Endlosem Scrolling* (Einstellungen › Allgemein › Navigation im Posteingang), die Standardeinstellung.
 :::
+
+### Layout wechseln
+
+Mit **Ansicht umschalten** in der Symbolleiste legen Sie fest, wo der Lesebereich angezeigt wird:
+
+![Das Menü Ansicht umschalten mit Keine Vorschau, Lesebereich rechts und Lesebereich unten](/img/web/de/web_mail_viewmenu.png)
+
+## Anhänge
+
+Anhänge werden im Kopf einer E-Mail mit Namen und Größe aufgeführt.
+
+### Anhänge im Betrachter öffnen
+
+Klicken Sie auf einen Anhang, um ihn im integrierten Dokumentbetrachter zu öffnen – ganz ohne weiteres Programm:
+
+![Ein PDF-Anhang im Dokumentbetrachter mit Seitennavigation, Zoom und Gliederung](/img/web/de/web_viewer_pdf.png)
+
+Der Betrachter öffnet diese Formate direkt im Browser:
+
+| Art | Formate |
+|---|---|
+| Dokumente | PDF, Word (.docx, .doc, .docm, .dotx), RTF, OpenDocument-Text (.odt) |
+| Tabellen | Excel (.xlsx, .xls, .xlsm, .xlsb), OpenDocument-Tabelle (.ods), CSV, TSV |
+| Präsentationen | PowerPoint (.pptx, .ppsx, .potx), OpenDocument-Präsentation (.odp) |
+| Bilder | PNG, JPEG, GIF, WebP, AVIF, BMP, SVG, ICO |
+| Audio und Video | MP3, M4A, OGG, Opus, WAV, FLAC, MP4, WebM, MOV und mehr |
+| Text und Code | TXT, Markdown, JSON, XML, YAML, HTML (als Quelltext), CSS, JavaScript, PHP, Python, Shell-Skripte und mehr |
+| E-Mail | angehängte E-Mails (.eml) einschließlich ihrer eigenen Anhänge |
+
+![Ein Tabellenanhang mit dem Marketingbudget Q4 im Dokumentbetrachter](/img/web/de/web_viewer_xlsx.png)
+
+Der Betrachter hat Schaltflächen zum Drucken, Herunterladen, für die Präsentations- und Vollbildansicht, zum Zoomen, Drehen und Blättern. Dateien, für die es keine Vorschau gibt, werden heruntergeladen.
+
+Unter [Einstellungen › Allgemein › Dateivorschau](/de/web/settings/#allgemein) legen Sie fest, ob Vorschauen in einem **Dialog** (Standard), in einem **grommunio Web-Reiter** oder in einem eigenen **Browserfenster** geöffnet werden, und wählen den Standardzoom.
+
+![Ein Bildanhang im Betrachter](/img/web/de/web_viewer_image.png)
+
+### Das Anhangsmenü
+
+Ein Rechtsklick auf einen Anhang bietet weitere Möglichkeiten:
+
+![Das Kontextmenü eines Anhangs mit Vorschau, Vorschau im grommunio Web-Reiter, Vorschau im Browserfenster, Herunterladen, Alle als ZIP-Datei herunterladen, Einfügen in Ordner und Anhang entfernen](/img/web/de/web_mail_attachment_menu.png)
+
+- **Vorschau**, **Vorschau im grommunio Web-Reiter**, **Vorschau im Browserfenster**
+- **Herunterladen** speichert die Datei.
+- **Alle als ZIP-Datei herunterladen** speichert alle Anhänge der E-Mail in einer ZIP-Datei.
+- **Auswahl in Ordner speichern** schreibt die ausgewählten Anhänge in einen Ordner auf Ihrem Computer (erscheint, wenn zwei oder mehr Anhänge ausgewählt sind; Chromium-basierte Browser).
+- **Einfügen in Ordner** importiert eine Kontaktkarte (.vcf), Kalenderdatei (.ics) oder E-Mail (.eml) in einen Ihrer Ordner.
+- **Anhang entfernen** löscht den Anhang aus einer E-Mail, die in Ihrem Postfach gespeichert ist, etwa um Platz zu sparen. Die E-Mail selbst bleibt unverändert. Dies kann nicht rückgängig gemacht werden.
+- **Dem Files-Backend hinzufügen** speichert den Anhang in Ihrem [Dateien](/de/web/files/)-Speicher.
+
+:::tip[Mehrere Anhänge gleichzeitig]
+Mit <kbd>Strg</kbd>-Klick oder <kbd>Umschalt</kbd>-Klick wählen Sie mehrere Anhänge aus. Sie können sie dann in eine E-Mail ziehen, die Sie gerade schreiben (auch in einer anderen Registerkarte oder einem anderen Fenster), oder auf Ihren Desktop, wo sie als eine ZIP-Datei ankommen.
+:::
+
+## E-Mails schreiben
+
+Klicken Sie in der Symbolleiste auf **Neu**, auf das **+** am Ende der Registerkartenleiste oder drücken Sie mit erweiterten Tastenkombinationen <kbd>Strg</kbd>+<kbd>Alt</kbd>+<kbd>X</kbd>. Eine neue E-Mail öffnet sich in einer eigenen Registerkarte:
+
+![Eine neue E-Mail an Lukas Hofer mit Maria Rossi in CC, einem Betreff, einem angehängten Word-Dokument und einem kurzen Text](/img/web/de/web_compose.png)
+
+1. Geben Sie die Empfänger unter **An** ein. grommunio Web schlägt beim Tippen Adressen vor. Trennen Sie mehrere Empfänger mit einem Semikolon oder drücken Sie nach jedem <kbd>Enter</kbd>.
+2. Fügen Sie weitere Empfänger unter **CC** hinzu. Für Blindkopien klicken Sie in der Symbolleiste auf **BCC anzeigen**.
+3. Geben Sie einen **Betreff** ein.
+4. Schreiben Sie Ihren Text. Der Editor bietet Schriftarten, -größen, Fett, Kursiv, Farben, Listen, Ausrichtung, Links, Tabellen und Bilder.
+5. Klicken Sie auf **Senden** oder drücken Sie <kbd>Strg</kbd>+<kbd>Enter</kbd>.
+
+### Die Symbolleiste beim Verfassen
+
+![Die Symbolleiste beim Verfassen mit Senden, Speichern, Löschen, Anhängen, Namen überprüfen, Adressbuch, Signatur, KI-Schreibassistent, Optionen, Kennzeichnung, Wichtigkeit, Lesebestätigung, BCC, Von, Signieren und Verschlüsseln](/img/web/de/web_compose_toolbar.png)
+
+| Schaltfläche | Funktion |
+|---|---|
+| **Senden** (<kbd>Strg</kbd>+<kbd>Enter</kbd>) | sendet die E-Mail. Der Pfeil bietet **Später versenden**. |
+| **Speichern** (<kbd>Strg</kbd>+<kbd>S</kbd>) | speichert die E-Mail in *Entwürfe*. grommunio Web speichert außerdem jede Minute automatisch. |
+| **Löschen** | verwirft den Entwurf. |
+| **Anhänge** (Büroklammer) | hängt Dateien an. Der Pfeil bietet *Dateiupload*, *Element anhängen* und mit dem Dateien-Plugin *Aus Files einfügen*. |
+| **Namen überprüfen** | gleicht die eingegebenen Namen mit dem Adressbuch ab. |
+| **Adressbuch öffnen** | wählt Empfänger aus dem Adressbuch. |
+| **Signatur hinzufügen** | fügt eine Ihrer [Signaturen](/de/web/settings/#signaturen) ein. |
+| **Vorlage einfügen** | fügt einen [Vorlagenausschnitt](/de/web/templates/) ein (mit dem Plugin Vorlagenausschnitte). |
+| **KI-Schreibassistent** | verbessert, kürzt oder übersetzt Ihren Text, siehe [KI-Assistent](/de/web/ai/#schreiben-mit-der-ki). |
+| **Besprechung hinzufügen** | fügt einen Link zu einer Videokonferenz ein (mit dem Plugin [Meet](/de/web/meet/)). |
+| **Optionsdialog öffnen** | Wichtigkeit, Vertraulichkeit, Lesebestätigung. |
+| **Zur Nachverfolgung kennzeichnen** | kennzeichnet die E-Mail für die Empfänger zur Nachverfolgung. |
+| **Hohe Priorität / Niedrige Priorität** | legt die Wichtigkeit fest. |
+| **Lesebestätigung** | bittet die Empfänger zu bestätigen, dass sie die E-Mail gelesen haben. |
+| **BCC anzeigen / Von anzeigen** | blendet das Feld BCC oder Von ein. |
+| **Signieren / Verschlüsseln** | signiert oder verschlüsselt die E-Mail mit S/MIME oder OpenPGP, siehe [Signieren & Verschlüsseln](/de/web/security/). |
+| **Abkoppeln** | öffnet die E-Mail in einem eigenen Browserfenster. |
+
+### Anhänge hinzufügen
+
+Es gibt mehrere Wege, eine Datei anzuhängen:
+
+- Ziehen Sie Dateien von Ihrem Computer an eine beliebige Stelle der E-Mail. *Dateien hier ablegen, um sie anzuhängen* erscheint.
+- Klicken Sie auf den Pfeil neben der Büroklammer › **Dateiupload** und wählen Sie die Dateien.
+- **Element anhängen** hängt ein Element aus Ihrem Postfach an – eine andere E-Mail, einen Kontakt oder einen Termin –, wahlweise als Anhang oder als Text.
+- **Aus Files einfügen** hängt eine Datei aus Ihrem [Dateien](/de/web/files/)-Speicher an.
+
+![Das Anhangsmenü mit Dateiupload, Element anhängen und Aus Files einfügen](/img/web/de/web_compose_attach_menu.png)
+
+Bilder, die Sie in den Text ziehen, werden in die E-Mail eingebettet.
 
 :::tip
-In diesem Bereich können Anhänge per Drag & Drop abgelegt werden. Bestimmte Arten von Inhalten, z. B. Bilder, lassen sich ebenfalls per Drag & Drop direkt in den E-Mail-Text einbetten.
+Schalten Sie unter [Einstellungen › Mail](/de/web/settings/#mail) die *Anhang-Erinnerung* ein. grommunio Web warnt Sie dann, wenn Ihr Text einen Anhang erwähnt, aber keiner angehängt ist.
 :::
-
-### Namen prüfen
-
-Löst eingegebene E-Mail-Adressen auf. Das System vervollständigt eine Adresse automatisch, wenn es innerhalb der Domain eine einzige Übereinstimmung gibt, oder zeigt Vorschläge an, wenn mehrere Übereinstimmungen vorliegen.
-
-### Adressbuch
-
-Öffnet das Adressbuch, aus dem Empfänger ausgewählt werden können:
-
-- die **Globale Adressliste (GAL)**,
-- persönliche oder freigegebene **gromox-Kontaktordner**.
-
-### Unterschriften
-
-Ermöglicht das Einfügen einer vordefinierten Signatur. Neue Signaturen können über **Signatur hinzufügen** erstellt werden.
 
 ### Nachrichtenoptionen
 
-Der Bereich „Nachrichtenoptionen“ bietet zusätzliche Funktionen zur Steuerung der Nachrichtenverarbeitung, der Sichtbarkeit und der Sicherheit.
+**Optionsdialog öffnen** legt die **Wichtigkeit** (Niedrig, Normal, Hoch) und die **Vertraulichkeit** (Nichts, Persönlich, Privat, Vertraulich) fest und fordert auf Wunsch eine **Lesebestätigung** an:
 
-#### Wichtigkeit der Nachricht
+![Der Dialog mit den Nachrichtenoptionen Wichtigkeit, Vertraulichkeit und Lesebestätigung](/img/web/de/web_compose_options.png)
 
-Legt die Priorität der Nachricht fest (z. B. „Hoch“, „Normal“, „Niedrig“).
+Die Vertraulichkeit ist ein Hinweis für das E-Mail-Programm des Empfängers. Sie schützt den Inhalt nicht. Um eine E-Mail zu schützen, [verschlüsseln Sie sie](/de/web/security/).
 
-#### Vertraulichkeitsstufe der Nachricht
+### Später versenden
 
-Mit der Einstellung **Vertraulichkeitsstufe** kann eine Nachricht mit einer Vertraulichkeitsstufe gekennzeichnet werden. Diese Information wird in den Kopf der Nachricht aufgenommen und kann vom E-Mail-Client des Empfängers ausgewertet werden.
+Klicken Sie auf den Pfeil neben **Senden** und wählen Sie **Später versenden**:
 
-Empfindlichkeitseinstellungen:
+![Das Menü Senden mit Senden und Später versenden](/img/web/de/web_compose_sendmenu.png)
 
-- **Normal**
-  Es wird keine besondere Sensibilitätsstufe angewendet. Dies ist die Standardeinstellung.
-- **Persönlich**
-  Weist darauf hin, dass die Nachricht persönliche Informationen enthält.
-  Dem Empfänger wird empfohlen, die Nachricht entsprechend zu behandeln.
-- **Privat**
-  Kennzeichnet die Nachricht als privat.
-  Einige E-Mail-Clients schränken möglicherweise Aktionen wie das Weiterleiten oder Drucken ein.
-- **Vertraulich**
-  Weist darauf hin, dass die Nachricht vertrauliche oder sensible Informationen enthält.
-  Diese Einstellung signalisiert ein höheres Maß an Diskretion.
+Wählen Sie, wann die E-Mail verschickt werden soll: in einigen Stunden, Tagen oder Monaten oder zu einer definierten Zeit. grommunio Web bestätigt den Zeitpunkt in einem kurzen Satz, bevor Sie auf **Senden** klicken.
 
-:::note
-Die Vertraulichkeitseinstellungen haben lediglich empfehlenden Charakter und ihre Umsetzung hängt vom E-Mail-Client des Empfängers ab. Sie verschlüsseln die Nachricht nicht und verhindern auch keinen Zugriff darauf.
-:::
+![Der Dialog zum Einplanen des Versands mit den Optionen Stunde(n), Tag(e), Monat(e) und zu einer definierten Zeit](/img/web/de/web_compose_sendlater.png)
 
-Um den Inhalt der Nachricht vor unbefugtem Zugriff zu schützen, verwenden Sie stattdessen die Funktion **Nachricht verschlüsseln**.
+Bis dahin wartet die E-Mail in Ihrem **Postausgang**, wo Sie sie noch öffnen, ändern oder löschen können.
 
-#### Sendungsverfolgungsoptionen
+### Von einer anderen Adresse senden
 
-Enthält Optionen wie: *Lesebestätigung für diese Nachricht anfordern.*
+Dürfen Sie im Namen einer anderen Person oder eines gemeinsamen Postfachs wie *info@* senden, klicken Sie auf **Von anzeigen** und wählen die Adresse unter **Von**:
 
-### Flag setzen
+![Eine neue E-Mail mit Example Info im Feld Von](/img/web/de/web_compose_from.png)
 
-Markiert die Nachricht mit einer Nachverfolgungsmarkierung, damit sie später beachtet wird. Markierungen helfen dabei, Nachrichten nach Priorität und Fälligkeitsdatum zu ordnen.
+Häufig genutzte Absenderadressen speichern Sie unter [Einstellungen › Absenderadressen](/de/web/settings/#absenderadressen). Die Berechtigung, als oder im Auftrag einer anderen Person zu senden, erteilt Ihr Administrator.
 
-Optionen: Heute, Morgen, Diese Woche, Nächste Woche, Kein Datum, Benutzerdefiniert
+### Entwürfe und automatisches Speichern
 
-#### Weitere Maßnahmen
+grommunio Web speichert die E-Mail, an der Sie schreiben, jede Minute in **Entwürfe**. Schließen Sie die Registerkarte oder stürzt der Browser ab, finden Sie die E-Mail dort und können weiterschreiben. Doppelklicken Sie auf einen Entwurf, um ihn zu öffnen.
 
-- **Erinnerung festlegen** – Fügt eine Erinnerungsbenachrichtigung für die markierte Nachricht hinzu.
-- **Erledigt** – Markiert die markierte Nachricht als erledigt.
-- **Keine** – Entfernt alle vorhandenen Markierungen aus der Nachricht.
+## Antworten und weiterleiten
 
-### Priorität: Hoch / Niedrig
+Wählen Sie eine E-Mail aus und klicken Sie über dem Lesebereich auf **Antworten**, **Allen antworten** oder **Weiterleiten** (oder klicken Sie mit der rechten Maustaste auf die E-Mail). Die Antwort öffnet sich in einer neuen Registerkarte, die ursprüngliche E-Mail steht zitiert unter Ihrem Text:
 
-- **Hohe Priorität** – Kennzeichnet die E-Mail als wichtig, um die Aufmerksamkeit darauf zu lenken.
-- **Niedrige Priorität** – Kennzeichnet die Nachricht als Nachricht mit niedriger Priorität.
+![Eine Antwort an Hannah Schmidt mit der zitierten ursprünglichen Nachricht darunter](/img/web/de/web_mail_reply.png)
 
-### Lesebestätigung anfordern
+- **Antworten** antwortet nur dem Absender.
+- **Allen antworten** antwortet dem Absender und allen Empfängern.
+- **Weiterleiten** schickt die E-Mail mit ihren Anhängen an jemand anderen.
+- **Nachricht als neu bearbeiten** (Rechtsklick) öffnet eine Kopie der E-Mail als neue Nachricht, etwa um sie erneut zu senden.
 
-Sendet eine Lesebestätigungsanfrage an den Empfänger, sodass eine Benachrichtigung erfolgt, sobald die Nachricht geöffnet wird.
+Standardmäßig schließt grommunio Web die ursprüngliche E-Mail, wenn Sie antworten. Dieses Verhalten und die Betreffpräfixe (AW:, WG:) ändern Sie unter [Einstellungen › Mail](/de/web/settings/#mail).
 
-### Feld „BCC“ anzeigen
+## E-Mails organisieren
 
-Zeigt das Feld **Blind Carbon Copy (BCC)** an, sodass weitere Empfänger hinzugefügt werden können, ohne dass diese für andere sichtbar sind.
+### Das Kontextmenü
 
-### Aus Feld anzeigen
+Ein Rechtsklick auf eine E-Mail zeigt alles, was Sie damit tun können:
 
-Zeigt das Feld **Von** an. Nützlich beim Versenden von Nachrichten im Namen eines anderen Postfachs (entsprechende Berechtigungen erforderlich).
+![Das Kontextmenü einer E-Mail mit Öffnen, Antworten, Allen antworten, Weiterleiten, Löschen, Als ungelesen markieren, Nachricht als neu bearbeiten, Kategorien, Nachverfolgung, Kopieren/Verschieben, Nach Junk-E-Mail verschieben, Senden an, Exportieren als, Mit KI zusammenfassen, Mit KI übersetzen, Regeln, Termin erstellen, Aufgabe erstellen, Notiz erstellen, Drucken und Optionen](/img/web/de/web_mail_contextmenu.png)
 
-### Meldung anzeigen
+Neben den in diesem Kapitel beschriebenen Aktionen finden Sie:
 
-Die Nachricht wird digital signiert, um ihre Echtheit zu gewährleisten und zu bestätigen, dass sie während der Übertragung nicht verändert wurde.
+- **Senden an…**, um die E-Mail als Anhang weiterzuleiten,
+- **Exportieren als** › *EML Datei(en)* oder *ZIP Datei*, um E-Mails auf Ihrem Computer zu speichern,
+- **Termin erstellen**, **Aufgabe erstellen** und **Notiz erstellen**, die aus der E-Mail ein neues Element erzeugen,
+- **Optionen** mit Wichtigkeit, Vertraulichkeit und den **Internet-Kopfzeilen** der E-Mail, die Ihr IT-Support manchmal benötigt.
 
-### Nachricht verschlüsseln
+### Kennzeichnung und Nachverfolgung
 
-Verschlüsselt die Nachricht so, dass nur der vorgesehene Empfänger sie lesen kann, und gewährleistet so den Datenschutz während der Übertragung.
+Kennzeichnen Sie E-Mails, um die Sie sich noch kümmern müssen. Fahren Sie mit der Maus über eine E-Mail und klicken Sie auf die Fahne, oder klicken Sie mit der rechten Maustaste und wählen Sie **Nachverfolgung**:
 
-:::note[S/MIME-Zertifikate]
-Um Nachrichten zu signieren oder zu verschlüsseln, sind S/MIME-Zertifikate (Secure/Multipurpose Internet Mail Extensions) erforderlich.
+![Das Untermenü Nachverfolgung mit Fälligkeiten wie Heute, Morgen, Diese Woche und Nächste Woche und der Option Erledigt](/img/web/de/web_mail_followup_menu.png)
 
-- **Das Signieren einer Nachricht** erfordert ein gültiges persönliches S/MIME-Zertifikat. Dieses Zertifikat bestätigt die Identität des Absenders und gewährleistet die Integrität des Nachrichteninhalts.
-- **Zum Verschlüsseln einer Nachricht** muss das **öffentliche Zertifikat des Empfängers** verfügbar sein. Die Verschlüsselung stellt sicher, dass nur der beabsichtigte Empfänger die Nachricht lesen kann.
-:::
+Gekennzeichnete E-Mails werden in der Liste farbig hinterlegt und erscheinen auch in Ihrer [To-Do-Liste](/de/web/tasks/). Wählen Sie **Erledigt**, wenn Sie fertig sind – die Fahne wird zu einem Haken.
 
-### Popup-Meldungsfenster
+### Kategorien
 
-Jede Nachricht kann in einem eigenen Popup-Fenster geöffnet werden. So kann der Nutzer die Nachricht unabhängig vom Haupttab des Browsers verfassen, lesen oder bearbeiten.
+Kategorien sind farbige Etiketten für E-Mails, Termine, Kontakte, Aufgaben und Notizen, zum Beispiel *Kunde*, *Dringend* oder ein Projektname. Klicken Sie mit der rechten Maustaste auf ein Element und wählen Sie **Kategorien**:
 
-Die Verwendung des Popup-Fensters ist besonders nützlich, wenn man gleichzeitig mit mehreren Nachrichten arbeitet.
+![Das Untermenü Kategorien mit Aurora-Launch, Website, Kunde, Dringend, Privat und Messe sowie Kategorien verwalten](/img/web/de/web_mail_categories_menu.png)
 
-## Nachrichtenfelder
+Mit **Kategorien verwalten** erstellen, benennen, färben oder löschen Sie Kategorien und heften Ihre wichtigsten an die Schnellzugriffsliste:
 
-Neben der Symbolleiste zum Verfassen von Nachrichten bietet der Nachrichteneditor verschiedene Eingabefelder zur Festlegung der Empfänger und des Nachrichteninhalts.
+![Der Dialog Kategorien verwalten mit den sechs Kategorien und ihren Farben](/img/web/de/web_categories_dialog.png)
 
-![Message editor showing a composed message with recipients, subject, formatting toolbar, message body, and signature](/img/web/web-p022-1.png)
+Kategorien werden in Ihrem Postfach so gespeichert wie in Outlook. Sie sehen daher in grommunio Web, Outlook und auf Ihrem Smartphone dieselben Namen und Farben. Ein gemeinsames Postfach hat seine eigenen Kategorien.
 
-### Empfänger
+### Notizen an E-Mails
 
-- **An**
-  Gibt den/die Hauptempfänger der Nachricht an.
-- **Cc**
-  Gibt den/die Empfänger an, die eine Kopie der Nachricht erhalten sollen.
-- **Bcc**
-  Das **Bcc**-Feld wird standardmäßig nicht angezeigt. Es wird sichtbar, wenn die Schaltfläche „Bcc-Feld anzeigen“ angeklickt wird oder wenn ein Bcc-Empfänger über die Schaltfläche **An** oder **Cc** eingegeben wird (wodurch das Adressbuch zur Empfängerauswahl geöffnet wird).
-  Bcc-Empfänger erhalten die Nachricht, ohne für andere Empfänger sichtbar zu sein.
+Sie können eine Notiz an eine E-Mail heften, etwa um sich zu merken, was Sie besprechen möchten. Klicken Sie mit der rechten Maustaste auf die E-Mail und wählen Sie **Notiz erstellen**. Die Notiz öffnet sich mit einem Link zur E-Mail:
 
-### Betreff
+![Eine neue gelbe Notiz mit dem Link zum Partnerschaftsvorschlag und einem kurzen Text](/img/web/de/web_note_linked_create.png)
 
-Das Feld **Betreff** enthält das Thema oder eine kurze Zusammenfassung der Nachricht. Es wird empfohlen, einen klaren und aussagekräftigen Betreff anzugeben, damit die Empfänger den Zweck der E-Mail besser verstehen können.
+Speichern Sie die Notiz. Von nun an erscheint sie als farbige Karte oben in der E-Mail – für Sie und für alle, die im selben (gemeinsamen) Postfach arbeiten:
 
-:::note
-Bei einer Antwort oder Weiterleitung wird dem Betreff automatisch „Re“ oder „Fwd“ vorangestellt.
-:::
+![Der Kopf des Partnerschaftsvorschlags mit der angehefteten gelben Notizkarte](/img/web/de/web_mail_linkednote.png)
 
-### Nachrichtentext
+Ein Klick auf die Karte öffnet die Notiz. Die E-Mail selbst wird nicht verändert; die Notiz liegt im Ordner Notizen.
 
-Das Feld **Nachrichtentext** enthält den Hauptinhalt der E-Mail.
+### Ordner und Verschieben
 
-Bei Verwendung von **HTML** als Format zum Verfassen von Nachrichten (Standardeinstellung) bietet der Nachrichtentext eine Vielzahl von Formatierungsoptionen, darunter:
+Legen Sie eigene Ordner an, um Ihre E-Mails zu sortieren, zum Beispiel pro Projekt. Klicken Sie mit der rechten Maustaste auf einen Ordner und wählen Sie **Neuer Ordner**. Weitere Ordneroptionen beschreibt [Ordner & Berechtigungen](/de/web/folders-permissions/).
 
-- Auswahl der Schriftart,
-- Anpassung der Schriftgröße,
-- Textformatierungen (fett, kursiv, unterstrichen),
-- Formatierung von Absätzen und Listen,
-- weitere typografische und Layout-Optionen.
+So verschieben oder kopieren Sie E-Mails:
 
-:::note
-Es wird empfohlen, individuelle Formatierungen und Gestaltungselemente auf ein Maß zu beschränken. Je nach E-Mail-Client, Sicherheitsrichtlinien oder Filtermechanismen des Empfängers werden manche Formatierungen möglicherweise nicht wie beabsichtigt angezeigt.
-:::
+- ziehen Sie sie auf einen Ordner (mit <kbd>Strg</kbd> wird kopiert), oder
+- klicken Sie mit der rechten Maustaste und wählen Sie **Kopieren/Verschieben** (<kbd>Strg</kbd>+<kbd>M</kbd> mit erweiterten Tastenkombinationen).
 
-## Optionen zur Nachrichtenanzeige
+![Der Dialog Nachrichten kopieren/verschieben schlägt für eine E-Mail von Maria Rossi den Ordner Aurora-Launch vor](/img/web/de/web_mail_copymove.png)
 
-Durch einen Doppelklick auf eine E-Mail wird diese in der Vollbildansicht geöffnet, sodass der gesamte Inhalt der Nachricht sowie die zugehörigen Details zur Überprüfung angezeigt werden können.
+grommunio Web merkt sich, wohin Sie E-Mails eines Absenders bisher abgelegt haben, und bietet diese Ordner oben im Dialog als **Vorgeschlagene Ordner** an. Sie können auch den Anfang eines Ordnernamens tippen, um direkt dorthin zu springen. **Verschieben** (oder <kbd>Enter</kbd>) verschiebt die E-Mail, **Kopieren** kopiert sie, **Neuer Ordner** legt sofort einen Ordner an.
 
-![Full message view showing the reply, reply all, and forward action buttons above an opened email](/img/web/web-p024-1.png)
+### Regeln
 
-Am oberen Rand der Nachrichtenansicht wird eine Reihe von Aktionsschaltflächen angezeigt. Diese Optionen ermöglichen eine schnelle Interaktion mit der aktuell ausgewählten Nachricht.
+Regeln sortieren eingehende E-Mails automatisch. Klicken Sie mit der rechten Maustaste auf eine E-Mail und wählen Sie **Regeln** für schnelle Regeln wie *Nachrichten von … immer verschieben* oder **Erstelle eine Regel…** für eine vollständige Regel. Alle Regeln verwalten Sie unter [Einstellungen › Regeln](/de/web/settings/#regeln).
 
-### Antwortoptionen
+### Junk-E-Mail
 
-- **Antworten**
-  Sendet eine Antwort an den ursprünglichen Absender der Nachricht.
-- **Allen antworten**
-  Sendet eine Antwort an den ursprünglichen Absender und alle Empfänger, die in den Feldern **An** und **Cc** aufgeführt sind.
-- **Weiterleiten**
-  Leitet die ausgewählte Nachricht an einen oder mehrere neue Empfänger weiter.
+E-Mails, die der Server als Spam einstuft, landen im Ordner **Junk-E-Mail**. Ist dort eine erwünschte E-Mail gelandet, klicken Sie mit der rechten Maustaste darauf und wählen **Keine Junk-E-Mail**. Unerwünschte E-Mails verschieben Sie mit **Nach Junk-E-Mail verschieben** dorthin.
 
-### Aktionen für Nachrichten
+### Löschen und wiederherstellen
 
-- **Löschen**
-  Verschiebt die Nachricht in den Ordner **Gelöschte Objekte**.
-- **Nachrichtenoptionen**
-  Öffnet Optionen zur Nachricht, wie z. B. Wichtigkeit, Vertraulichkeit und detaillierte technische Informationen.
+- **Löschen** (oder die Taste <kbd>Entf</kbd>) verschiebt E-Mails nach **Gelöschte Elemente**.
+- <kbd>Umschalt</kbd>+<kbd>Entf</kbd> löscht E-Mails, ohne sie nach Gelöschte Elemente zu verschieben.
+- Klicken Sie mit der rechten Maustaste auf *Gelöschte Elemente* und wählen Sie **Gelöschte Objekte leeren**, um aufzuräumen.
+- Versehentlich endgültig gelöscht? Klicken Sie mit der rechten Maustaste auf den Ordner und wählen Sie **Elemente wiederherstellen**, um kürzlich gelöschte Elemente zurückzuholen.
+- Ist [Rückgängig und Wiederholen](/de/web/intro/#rückgängig-und-wiederholen) eingeschaltet, nimmt <kbd>Strg</kbd>+<kbd>Z</kbd> die letzte Aktion zurück.
 
-Im Abschnitt **Eigenschaften** werden technische Metadaten zur Nachricht angezeigt, wie beispielsweise **Internet-Header** und **Objekt-ID**. Diese Informationen dienen in erster Linie der Fehlerbehebung, der Überprüfung oder der erweiterten Analyse.
+### Drucken
 
-1. Die Ansicht **„Internet-Header“** zeigt alle mit der Nachricht verbundenen E-Mail-Header an. Diese Header enthalten detaillierte Informationen zum Transport und zum Routing, darunter:
-   - Metadaten zu Absender und Empfänger
-   - an der Zustellung der Nachricht beteiligte Mailserver
-   - Zeitstempel und protokollbezogene Daten
-   - Authentifizierungs- und Sicherheitsdetails
+Wählen Sie eine oder mehrere E-Mails aus und klicken Sie in der Symbolleiste auf **Drucken** oder drücken Sie <kbd>Strg</kbd>+<kbd>P</kbd>. grommunio Web nutzt den Druckdialog Ihres Browsers, in dem Sie die E-Mail auch als PDF-Datei speichern können.
 
-   Internet-Header werden in der Regel von Administratoren oder Supportmitarbeitern verwendet, um Zustellungsprobleme zu diagnostizieren oder den Nachrichtenfluss zu analysieren.
-2. Die **Objekt-ID** ist eine eindeutige interne Kennung, die der Nachricht innerhalb des Postfachsystems zugewiesen wird. Sie wird intern zur Nachverfolgung und Referenzierung von Nachrichten verwendet und kann vom Support bei der Untersuchung bestimmter Nachrichten angefordert werden.
+## Gemeinsame Postfächer
 
-:::note
-Die Vertraulichkeitsstufe und die Eigenschaften einer Nachricht sind schreibgeschützt und können vom Benutzer nicht geändert werden. Lediglich die **Wichtigkeit** der Nachricht kann geändert werden.
-:::
-
-- **Kategorien (Tags)**
-  Mit der Option **Kategorien** können Sie einer Nachricht eine oder mehrere Kategorien zuweisen. Kategorien helfen dabei, Nachrichten zu organisieren, zu klassifizieren und optisch voneinander zu unterscheiden.
-
-  Jede Kategorie wird durch eine **Farbe und einen Namen** gekennzeichnet.
-
-  Über das Menü „Kategorien“ können Benutzer die verfügbaren Kategorien verwalten, darunter:
-  - das Zuweisen oder Entfernen von Kategorien zu einer Nachricht,
-  - das Umbenennen bestehender Kategorien,
-  - das Ändern der Farben von Kategorien,
-  - das Erstellen neuer benutzerdefinierter Kategorien.
-
-  :::note
-  Änderungen an den Kategorien werden sofort übernommen und gelten für das gesamte Postfach.
-  :::
-
-- **Markierung**
-  Kennzeichnet die Nachricht mit einer Markierung zur Nachverfolgung, damit sie später bearbeitet oder weiterverfolgt werden kann.
-
-### Menü „Zusätzliche Optionen“
-
-Durch Klicken auf das Menü **Weitere Optionen** werden zusätzliche Aktionen angezeigt:
-
-- **Als ungelesen markieren** – Markiert die Nachricht als ungelesen und versetzt sie damit wieder in den ungelesenen Zustand.
-- **Kopieren / Verschieben** – Kopiert oder verschiebt die Nachricht in einen anderen Ordner innerhalb des Postfachs.
-- **Drucken** – Öffnet das Druckdialogfeld, um den Inhalt der Nachricht zu drucken.
-- **Als neue Nachricht bearbeiten** – Öffnet den Inhalt der Nachricht in einem neuen Fenster zum Verfassen einer Nachricht, sodass er bearbeitet und als neue E-Mail versendet werden kann.
-- **Herunterladen** – Lädt die Nachricht als Datei auf den lokalen Computer herunter.
-
-### Banner mit Informationen zur Nachricht
-
-Gegebenenfalls können oberhalb des Nachrichteninhalts Informationsbanner angezeigt werden. Diese Banner geben Auskunft über folgende Eigenschaften:
-
-- Vertraulichkeitsstufe der Nachricht (z. B. *Privat*),
-- Wichtigkeit der Nachricht (z. B. *Hohe Wichtigkeit*).
-
-![Opened message showing an information banner indicating the message is Private and was sent with High importance](/img/web/web-p026-1.png)
-
-Diese Indikatoren liefern zusätzliche Informationen, setzen jedoch selbst keine Sicherheitsbeschränkungen durch.
-
-## Erweiterte Nachrichtenoptionen
-
-Wenn Sie direkt im Posteingang mit der rechten Maustaste auf eine Nachricht klicken, ohne sie zu öffnen, stehen Ihnen zusätzliche Optionen zur Verfügung, die eine schnellere Verwaltung und Organisation Ihrer Nachrichten ermöglichen. Zu diesen erweiterten Funktionen gehören:
-
-- **In den Spam-Ordner verschieben** – Verschiebt unerwünschte E-Mails oder Spam-Mails schnell in den Spam-Ordner.
-- **Senden an** – Erstellt eine neue E-Mail mit der ausgewählten Nachricht als Anhang, sodass die Nachricht problemlos als Anhang weitergeleitet werden kann.
-- **Als exportieren** – Speichert oder exportiert die E-Mail im **.eml**-Format (E-Mail-Datei) oder im **.zip**-Format zur Archivierung oder Weitergabe.
-- **Regeln** – Richtet automatisierte Regeln zur Verwaltung eingehender E-Mails ein. Zu den Regeloptionen gehören:
-  - **Nachrichten von [E-Mail] immer verschieben** – Verschiebt Nachrichten eines bestimmten Absenders automatisch in einen festgelegten Ordner.
-  - **Nachrichten, die an [Empfänger] gesendet werden, immer verschieben** – Verschiebt Nachrichten, die an eine bestimmte Gruppe von Empfängern gesendet werden, automatisch.
-  - **Nachrichten mit diesem [Betreff] immer verschieben** – Verschiebt automatisch E-Mails, die bestimmte Schlüsselwörter im Betreff oder Text enthalten.
-  - **Regel erstellen** – Ermöglicht die Erstellung benutzerdefinierter Regeln auf der Grundlage bestimmter Bedingungen und Aktionen, um die Organisation Ihrer E-Mails zu verbessern.
-- **Termin erstellen** – Wandelt die E-Mail in einen Kalendertermin oder einen Termin um.
-- **Aufgabe erstellen** – Wandelt die E-Mail in eine Aufgabe zur Nachverfolgung oder Bearbeitung in Ihrem Aufgabenmanagementsystem um.
-
-Zusätzlich zu den Optionen, die beim Klicken mit der rechten Maustaste auf eine E-Mail zur Verfügung stehen, gibt es in grommunio Web einige weitere Funktionen, die eine schnellere Verwaltung von Nachrichten ermöglichen.
-
-### Die Wichtigkeit von E-Mails ändern
-
-Durch einen Rechtsklick auf die Spalte „Wichtigkeit“ einer E-Mail (die Spalte, in der das rote Ausrufezeichen oder andere Symbole angezeigt werden) lässt sich die Wichtigkeitsstufe der Nachricht schnell ändern. Folgende Optionen stehen zur Verfügung:
-
-- **Niedrig** – Die E-Mail als „niedrige Priorität“ kennzeichnen.
-- **Normal** – Die Wichtigkeit der E-Mail auf „normal“ setzen.
-- **Hoch** – Die E-Mail als „hohe Priorität“ kennzeichnen.
-
-Mit dieser Funktion lässt sich die Dringlichkeit einer E-Mail anpassen, ohne dass die Nachricht geöffnet werden muss.
-
-### Eine E-Mail als ungelesen markieren
-
-Um eine E-Mail schnell als ungelesen zu markieren, wählen Sie das Symbol ganz links in der E-Mail-Zeile aus.
-
-Durch diese Aktion wird der Status der E-Mail sofort auf „ungelesen“ gesetzt, was die Organisation und Überwachung von Nachrichten erleichtert, die möglicherweise zu einem späteren Zeitpunkt eine Rückmeldung oder weitere Aufmerksamkeit erfordern.
-
-Der Einsatz solcher Schnellaktionen unterstützt eine effiziente Verwaltung des Posteingangs und ermöglicht es den Benutzern, Mitteilungen effektiv zu priorisieren und den Fluss eingehender Nachrichten besser zu kontrollieren.
-
-### Flag schnell setzen
-
-Eine Nachricht kann schnell mit einer Markierung versehen werden, indem man in der Mail-Ansicht auf die Spalte **Markierung** klickt. Wenn man mit dem Mauszeiger über eine Nachricht fährt, wird das Markierungssymbol angezeigt. Durch Klicken auf dieses Symbol öffnet sich das Kontextmenü, aus dem die gewünschte Markierungsoption ausgewählt werden kann.
+Geben Kolleginnen oder Kollegen ein Postfach für Sie frei, etwa eine Teamadresse wie *info@example.com*, erscheint es in Ihrem Ordnerbereich unter Ihrem eigenen Postfach. Sie arbeiten damit wie mit Ihrem eigenen: lesen, antworten, verschieben und kategorisieren. Wie Sie ein gemeinsames Postfach öffnen und daraus senden, beschreibt [Ordner & Berechtigungen](/de/web/folders-permissions/#gemeinsame-postfächer).

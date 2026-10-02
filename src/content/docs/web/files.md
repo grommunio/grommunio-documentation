@@ -1,66 +1,74 @@
 ---
 title: "Files"
-description: "Enable and configure the Files plugin to access and manage files from one or more accounts directly within grommunio Web."
+description: "Work with grommunio Files and other WebDAV storage directly in grommunio Web: browse, upload, preview, share and attach files to mails."
 sidebar:
-  order: 100
+  order: 75
 ---
 
-The **Files** feature integrates grommunio Files into grommunio Web, allowing you to access and manage files from one or more accounts directly within the web interface.
+The **Files** plugin brings your file storage, for example grommunio Files, into grommunio Web. You can browse your folders, upload and preview documents, share them with others and attach them to mails without downloading them first.
 
-## Enabling the Files Plugin
+## Switching Files on
 
-To activate the Files feature:
+1. Open **Settings › Plugins**.
+2. Tick **Files Plugin** and click **Apply**.
+3. Reload grommunio Web when asked.
 
-1. Log in to **grommunio Web** with administrative privileges.
-2. Navigate to **Settings**.
-3. Open the *Plugins* section.
-4. Enable the plugin by selecting the **Files** checkbox.
-5. Click **Apply** to save the configuration.
-6. Reload the grommunio Web interface.
+A **Files** tab appears in the top bar. Until you add an account, it shows *There are no accounts added. Go to settings, Files tab and add an account.*
 
-After the reload, the Files functionality becomes available.
+## Adding a Files account
 
-Once enabled, a new **Files** entry appears in the *Main Interface Area* of grommunio Web.
+1. Open **Settings › Files**.
+2. Click **Add Account**.
+3. Enter an **Account name**, for example *grommunio Files*, and choose the **Files Backend**: *Default* (WebDAV, used for grommunio Files and other WebDAV servers) or *Seafile*.
+4. Enter the connection details your administrator gave you:
+   - **Server address**, for example `mail.example.com`,
+   - **Server port** (`443`) and **Use TLS**,
+   - **Webdav base path**, for grommunio Files `/files/remote.php/webdav` (without a slash at the end).
+5. Either tick **Use grommunio credentials for authentication**, or enter a **Username** and **Password**.
+6. Click **Save** and **Apply**.
 
-## Initial Files Access
+![The Edit Account dialog with account name, backend Default, server address, port 443, TLS and the WebDAV base path of grommunio Files](/img/web/web_files_account.png)
 
-When you open the Files feature for the first time:
+The account appears in the list with its status and the features it supports (quota, version information, sharing, fast up- and download). A green status means the connection works.
 
-1. Click **Files** in the *Main Interface Area*.
-2. The **Files tab** opens.
+![The Manage Accounts list with the account grommunio Files](/img/web/web_files_settings.png)
 
-![The Files tab without any account configured, showing the message that no accounts have been added](/img/web/web-p101-1.png)
+:::tip
+Your administrator can set up the Files account for you in advance. With single sign-on, grommunio Web uses your sign-in for Files, so you don't need to enter a password.
+:::
 
-If no account is configured, the following message is displayed:
+## Browsing your files
 
-> *There are no accounts added. Go to settings, Files tab and add an account.*
+Click **Files** in the top bar. The folder pane shows your accounts and their folders; the middle shows the contents of the selected folder, and the preview on the right shows the selected file.
 
-This indicates that no account has been linked yet.
+![The Files view with the folders Aurora launch, Expo 2026, Marketing and Templates](/img/web/web_files.png)
 
-## Adding a Files Account
+![The folder Aurora launch with key visuals and the press release, and the preview of the selected image](/img/web/web_files_folder.png)
 
-To add an account:
+| Button | What it does |
+|---|---|
+| **Upload** | uploads files from your computer. You can also drag files into the list. |
+| **Create document** | creates a new document, presentation or spreadsheet (if OnlyOffice is available). |
+| **New Folder** | creates a folder. |
+| **Preview** | opens the selected file in the [document viewer](/web/mail/#opening-attachments-in-the-viewer). |
+| **Download** | downloads the selected files. |
+| **Share** | shares the file or folder (see below). |
+| **Attach to mail** | starts a new mail with the selected files attached. |
+| **Attach to mail as link** | starts a new mail with a download link instead of the file. |
+| **Rename**, **Delete** | rename or delete the selected item (in the ⋮ menu). |
 
-1. Open **Settings** in grommunio Web.
-2. Navigate to the **Files** tab.
-3. Add a new **account** by providing the required connection details.
-4. Save the configuration.
+Double-click a file to open it: office documents open in OnlyOffice if your administrator enabled it, everything else in the viewer. Right-click a file for **Info** with the details. Switch between the **List** and **Icons** view and the position of the preview with **Switch view** in the toolbar.
 
-![The Files tab in Settings with the Manage Accounts area for adding or removing Files accounts](/img/web/web-p102-1.png)
+## Sharing files and folders
 
-You may add **one or multiple accounts**.
+Select a file or folder and click **Share**:
 
-## Result
+- **Share with user/group**: add colleagues and decide whether they may re-share, change, create or delete.
+- **Share via link**: creates a **Public link** you can send to anyone. Protect it with a **Password**, allow **Public upload** for folders, and set an **Expiration date**.
 
-![The Files tab displaying a connected account after configuration](/img/web/web-p102-2.png)
+## Files in mail
 
-After at least one account is configured:
-
-- The Files tab displays the connected account(s).
-- You can access and manage files directly from grommunio Web.
-- Multiple accounts can be used in parallel within the same interface.
-
-## See also
-
-- [grommunio Files and Office: file sync and online editing](/guides/files-office/) — server-side installation, connecting Files to the grommunio user base and to Office, and the grommunio Web plugin settings (`PLUGIN_FILES_USER_DEFAULT_ENABLE` explains why the plugin may already be enabled for everyone).
-
+- In a new mail, choose **Add attachments** › **Add from Files** to attach a file from your storage.
+- Right-click an attachment in a received mail and choose **Add to Files** to save it to your storage.
+- Right-click a mail and choose **Add to Files** to save the whole mail as an `.eml` file.
+- Choose **New** › **Upload file** in the toolbar to upload a file from any view.

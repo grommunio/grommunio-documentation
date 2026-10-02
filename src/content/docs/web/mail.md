@@ -1,325 +1,301 @@
 ---
 title: "Mail"
-description: "How to read, send, and organize your e-mails with the grommunio Web Mail module."
+description: "Read, write, answer and organize e-mail in grommunio Web: reading pane, attachments and document viewer, composing, signatures, send later, flags, categories, folders and conversations."
 sidebar:
   order: 20
 ---
 
-In this chapter, we guide you how to use mails with grommunio Web. After reading through this chapter, you should be able to read, send and organize your e-mails.
+Mail is where most people spend most of their day. This chapter shows how to read and answer mail, work with attachments, write new messages and keep your mailbox organized.
 
-## Mail Shortcut Bar
+## Reading mail
 
-Located at the top left of the Mail module is the Mail *Shortcut Bar*.
+Select a mail in the list to show it in the reading pane. Double-click it to open it in its own tab.
 
-The Mail *Shortcut Bar* provides quick access to common actions such as:
+![The Mail view with the inbox list and a mail from Lukas Hofer with an attachment in the reading pane](/img/web/web_mail_reading.png)
 
-- Creating a new message
-- Opening the Address Book
-- Refreshing the view
-- Printing an email
-- Changing the layout (No Preview, Right Preview, Bottom Preview)
+The header of the reading pane shows:
 
-These functions allow fast interaction with the most frequently used mail features.
+- the **subject**,
+- the **sender** with photo, initials or company logo, and the time,
+- the **recipients** (To, Cc),
+- the **attachments**,
+- the **categories** of the mail,
+- information bars, for example *This message was sent with High importance* or a notice that the mail is private.
 
-## Mail reading
+![The header of a mail with the information bar This message was sent with High importance and a PDF attachment](/img/web/web_mail_infobar.png)
 
-By default, the main content area in the mail interface is split into three parts. In the left pane, the folder navigation area is visible. Right next to the folder navigation area is the folder list area which lists all mails from the particularly selected folder from the folder navigation area. Selecting an e-mail from the folder automatically opens the e-mail in the main window area, showing the e-mail effectively.
+Above the mail you find the actions **Reply**, **Reply All** and **Forward**, and on the right **Delete**, **More options** (⋮), **Pop-out** and the [AI Assistant](/web/ai/) (✦).
 
-## Mail sending
+:::tip[Sender logos]
+For senders whose domain publishes a verified company logo (BIMI) and whose mail passed the DMARC check, grommunio Web shows the company logo next to the sender. It helps you recognize genuine mail from well-known companies at a glance. Your own contact photos take priority.
+:::
 
-To compose a new mail, choose the highlighted **New Email** button from the main shortcut bar or click on the `+` symbol at the end of the Tab Bar. Pressing one of these buttons will open a new mail tab with an empty ready-to-write-mail interface.
+### Read and unread
 
-![New email composition window with the message composition toolbar and empty recipient, subject, and body fields](/img/web/web-p019-1.png)
+A mail is marked as read as soon as you select it. You can change this under [Settings › Mail › Incoming mail](/web/settings/#mail), for example to mark mail as read only after a few seconds. To change the state yourself:
 
-## Message Composition Toolbar
+- hover over the mail and click the envelope icon,
+- right-click and choose **Mark Read** or **Mark Unread**,
+- or right-click a folder and choose **Mark All Messages Read**.
 
-The Message Composition Toolbar appears when creating a new email and provides quick access to commonly used actions and message-specific options.
+### Pictures and external content
 
-### Send Button
+To protect your privacy, grommunio Web does not load pictures from the internet in mails from unknown senders. An information bar tells you when content was blocked. Click it to:
 
-The **Send** button delivers the message immediately on the journey to the selected recipients. The sent mail is automatically moved to the Sent Items folder for future reference. It also provides an additional option:
+- **Download Pictures** for this mail only,
+- **Add Sender to Safe Senders List** to always show pictures from this sender,
+- **Add Domain to Safe Senders List** to trust everyone from this domain.
 
-- **Send Later**
-  Allows scheduling the email for delivery at a later date and time.
-  A confirmation pop-up is available to review or modify the selected send time before finalizing the scheduled delivery.
+You manage these lists under [Settings › Sender Lists](/web/settings/#sender-lists). Newsletters with embedded pictures are shown completely:
 
-### Save
+![A newsletter with a large colourful header and two article teasers displayed in the reading pane](/img/web/web_mail_newsletter.png)
 
-Saves the current message to the **Drafts** folder.
+### Conversation view
 
-### Delete
+The conversation view groups the mails of a conversation in your Inbox, including your own replies from *Sent Items*. Switch it on under [Settings › Mail › Conversation view settings](/web/settings/#mail).
 
-Becomes available **after the message has been saved** at least once. Moves the current draft to the **Deleted Items** folder.
+![The inbox in conversation view: the Website relaunch conversation with three participants is expanded, and the reading pane shows the messages of the conversation as cards](/img/web/web_mail_conversation.png)
 
-### Attachment Dropdown
-
-Provides two methods for adding attachments:
-
-- **File Upload** - Upload a file directly from the computer.
-- **Attach Item** - Attach an item from the mailbox (email, contact, calendar entry, task, or note) as an attachment or as text only.
+- A conversation shows the number of messages and the participants. Click the arrow to expand it.
+- When you select a conversation, the reading pane shows all its messages as cards, the newest first.
+- Conversations are shown when the list is sorted by **Received** (newest first) and no search or filter is active. Otherwise the list is shown flat.
 
 :::note
-Attachments may also be added using the **Attachments** button between subject line and mail content.
+The conversation view needs the *Infinite Scroll* navigation (Settings › General › Inbox navigation), which is the default.
 :::
+
+### Switching the layout
+
+Click **Switch view** in the toolbar to choose where the reading pane is shown:
+
+![The Switch view menu with No preview, Right preview and Bottom preview](/img/web/web_mail_viewmenu.png)
+
+## Attachments
+
+Attachments are listed in the header of a mail with their name and size.
+
+### Opening attachments in the viewer
+
+Click an attachment to open it in the built-in document viewer. You don't need any other program:
+
+![A PDF attachment opened in the document viewer with page navigation, zoom and the document outline](/img/web/web_viewer_pdf.png)
+
+The viewer opens these formats directly in the browser:
+
+| Type | Formats |
+|---|---|
+| Documents | PDF, Word (.docx, .doc, .docm, .dotx), RTF, OpenDocument text (.odt) |
+| Spreadsheets | Excel (.xlsx, .xls, .xlsm, .xlsb), OpenDocument spreadsheet (.ods), CSV, TSV |
+| Presentations | PowerPoint (.pptx, .ppsx, .potx), OpenDocument presentation (.odp) |
+| Images | PNG, JPEG, GIF, WebP, AVIF, BMP, SVG, ICO |
+| Audio and video | MP3, M4A, OGG, Opus, WAV, FLAC, MP4, WebM, MOV and more |
+| Text and code | TXT, Markdown, JSON, XML, YAML, HTML (as source), CSS, JavaScript, PHP, Python, shell scripts and more |
+| Mail | attached mails (.eml) including their own attachments |
+
+![A spreadsheet attachment with the Q4 marketing budget opened in the document viewer](/img/web/web_viewer_xlsx.png)
+
+The viewer has buttons to print, download, show the document as a presentation or in full screen, zoom, rotate and page through. Files that cannot be previewed are downloaded.
+
+Under [Settings › General › File previewing](/web/settings/#general) you choose whether previews open in a **dialog** (default), in a **grommunio Web tab** or in a separate **browser window**, and the default zoom.
+
+![An image attachment shown in the viewer](/img/web/web_viewer_image.png)
+
+### The attachment menu
+
+Right-click an attachment for more options:
+
+![The attachment context menu with Preview, Preview in a grommunio Web tab, Preview in a browser window, Download, Download all as ZIP, Import to folder and Remove attachment](/img/web/web_mail_attachment_menu.png)
+
+- **Preview**, **Preview in a grommunio Web tab**, **Preview in a browser window**
+- **Download** saves the file.
+- **Download all as ZIP** saves all attachments of the mail in one ZIP file.
+- **Save selection to folder** writes the selected attachments into a folder on your computer (shown when two or more attachments are selected; Chromium-based browsers).
+- **Import to folder** imports a contact card (.vcf), calendar file (.ics) or mail (.eml) into one of your folders.
+- **Remove attachment** deletes the attachment from a mail that is stored in your mailbox, for example to save space. The mail itself stays unchanged. This cannot be undone.
+- **Add to Files** saves the attachment to your [Files](/web/files/) storage.
+
+:::tip[Several attachments at once]
+<kbd>Ctrl</kbd>-click or <kbd>Shift</kbd>-click attachments to select several of them. You can then drag them into a mail you are writing, in another tab or window, or onto your desktop, where they arrive as one ZIP file.
+:::
+
+## Writing mail
+
+Click **New** in the toolbar, press the **+** at the end of the tab bar, or press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>X</kbd> with extended shortcuts. A new mail opens in its own tab:
+
+![A new mail to Lukas Hofer with Maria Rossi in Cc, a subject, a Word document attached and a short text](/img/web/web_compose.png)
+
+1. Enter the recipients in **To**. grommunio Web suggests addresses as you type. Separate several recipients with a semicolon or press <kbd>Enter</kbd> after each one.
+2. Add more recipients in **Cc**. Click **Show Bcc field** in the toolbar for blind copies.
+3. Enter a **subject**.
+4. Write your text. The editor offers fonts, sizes, bold, italic, colors, lists, alignment, links, tables and images.
+5. Click **Send** or press <kbd>Ctrl</kbd>+<kbd>Enter</kbd>.
+
+### The compose toolbar
+
+![The compose toolbar with Send, Save, Delete, Attach, Check names, Address Book, Signature, AI writing assistant, Options, flag, importance, read receipt, Bcc, From, Sign and Encrypt](/img/web/web_compose_toolbar.png)
+
+| Button | What it does |
+|---|---|
+| **Send** (<kbd>Ctrl</kbd>+<kbd>Enter</kbd>) | Sends the mail. The arrow offers **Send Later**. |
+| **Save** (<kbd>Ctrl</kbd>+<kbd>S</kbd>) | Saves the mail to *Drafts*. grommunio Web also saves automatically every minute. |
+| **Delete** | Discards the draft. |
+| **Add attachments** | Attaches files. The arrow offers *File upload*, *Attach item* and, with the Files plugin, *Add from Files*. |
+| **Check names** | Resolves the names you typed against the address book. |
+| **Open addressbook** | Picks recipients from the address book. |
+| **Add signature** | Inserts one of your [signatures](/web/settings/#signatures). |
+| **Insert Template** | Inserts a [template snippet](/web/templates/) (with the Template Snippets plugin). |
+| **AI writing assistant** | Improves, shortens or translates your text, see [AI Assistant](/web/ai/#writing-with-the-ai). |
+| **Add meeting** | Adds a video meeting link (with the [Meet](/web/meet/) plugin). |
+| **Open options dialog** | Importance, sensitivity, read receipt. |
+| **Set flag** | Flags the mail for follow-up by the recipients. |
+| **High priority / Low priority** | Sets the importance. |
+| **Request read receipt** | Asks the recipients to confirm that they read the mail. |
+| **Show Bcc field / Show From field** | Shows the Bcc or From field. |
+| **Sign / Encrypt** | Signs or encrypts the mail with S/MIME or OpenPGP, see [Signing & Encryption](/web/security/). |
+| **Pop-out** | Opens the mail in its own browser window. |
+
+### Attachments
+
+There are several ways to attach a file:
+
+- Drag files from your computer anywhere onto the mail. *Drop files here to attach them* appears.
+- Click **Add attachments** › **File upload** and choose the files.
+- Click **Add attachments** › **Attach item** to attach an item from your mailbox, such as another mail, a contact or an appointment, either as an attachment or as text.
+- Click **Add attachments** › **Add from Files** to attach a file from your [Files](/web/files/) storage.
+
+![The attachment menu with File upload, Attach item and Add from Files](/img/web/web_compose_attach_menu.png)
+
+Pictures you drop into the text are embedded in the mail.
 
 :::tip
-This is also the area where attachements can be released by drag and drop operation. Some types of content e.g. Pictures can be also embedded direct by drag and drop operation to mail body.
+Switch on the *attachment reminder* in [Settings › Mail](/web/settings/#mail). grommunio Web then warns you if your text mentions an attachment but none is attached.
 :::
 
-### Check Names
+### Message options
 
-Resolves typed email addresses. The system automatically completes an address when there is a single match within the domain or shows suggestions if multiple matches exist.
+Click **Open options dialog** to set the **Importance** (Low, Normal, High), the **Sensitivity** (None, Personal, Private, Confidential) and to request a **read receipt**:
 
-### Address Book
+![The Message Options dialog with Importance, Sensitivity and the read receipt option](/img/web/web_compose_options.png)
 
-Opens the address book for selecting recipients from:
+Sensitivity is a hint for the recipient's mail program. It does not protect the content. To protect a mail, [encrypt it](/web/security/).
 
-- the **Global Address List (GAL)**,
-- personal or shared **gromox Contact folders**.
+### Sending later
 
-### Signatures
+Click the arrow next to **Send** and choose **Send Later**:
 
-Allows inserting a predefined signature. New signatures may be created using **Add Signature**.
+![The Send menu with Send and Send Later](/img/web/web_compose_sendmenu.png)
 
-### Message Options
+Choose when the mail should go out: in a number of hours, days or months, or at a specific date and time. grommunio Web confirms the time with a short sentence before you click **Send**.
 
-The Message Options area provides additional tools to control message handling, visibility, and security.
+![The Schedule mail to be sent out dialog with the options in hours, days, months or at a specific time](/img/web/web_compose_sendlater.png)
 
-#### Message Importance
+Until then, the mail waits in your **Outbox**, where you can still open, change or delete it.
 
-Sets the priority of the message (e.g., High, Normal, Low).
+### Sending from another address
 
-#### Message Sensitivity
+If you may send as another person or as a shared mailbox such as *info@*, click **Show From field** and choose the address in **From**:
 
-The **Sensitivity** setting allows marking a message with a confidentiality level. This information is included in the message header and can be interpreted by the recipient's mail client.
+![A new mail with Example Info in the From field](/img/web/web_compose_from.png)
 
-Sensitivity Options:
+You can save frequently used sender addresses under [Settings › From Addresses](/web/settings/#from-addresses). Your administrator grants the permission to send as or on behalf of someone else.
 
-- **Normal**
-  No special sensitivity is applied. This is the default setting.
-- **Personal**
-  Indicates that the message contains personal information.
-  The recipient is advised to treat the message accordingly.
-- **Private**
-  Marks the message as private.
-  Some email clients may restrict actions such as forwarding or printing.
-- **Confidential**
-  Indicates that the message contains confidential or sensitive information.
-  This setting signals a higher level of discretion.
+### Drafts and autosave
 
-:::note
-Sensitivity settings are advisory and depend on the recipient's email client for enforcement. They do not encrypt the message or prevent access.
-:::
+grommunio Web saves the mail you are writing every minute to **Drafts**. If you close the tab or your browser crashes, you find the mail there and can continue writing. Double-click a draft to open it.
 
-To protect message content from unauthorized access, use **Encrypt Message** instead.
+## Replying and forwarding
 
-#### Tracking Options
+Select a mail and click **Reply**, **Reply All** or **Forward** above the reading pane (or right-click the mail). The answer opens in a new tab with the original mail quoted below your text:
 
-Includes options such as: *Request a read receipt for this message.*
+![A reply to Hannah Schmidt with the original message quoted below](/img/web/web_mail_reply.png)
 
-### Set Flag
+- **Reply** answers the sender only.
+- **Reply All** answers the sender and all recipients.
+- **Forward** sends the mail with its attachments to someone else.
+- **Edit as New** (right-click) opens a copy of the mail as a new message, for example to send it again.
 
-Marks the message with a follow-up flag for later attention. Flags help organize messages by priority and due date.
+By default, grommunio Web closes the original mail when you reply. You can change this and the subject prefixes (RE:, FW:) in [Settings › Mail](/web/settings/#mail).
 
-Options: Today, Tomorrow, This week, Next week, No date, Custom
+## Organizing your mail
 
-#### Additional Actions
+### The context menu
 
-- **Set reminder** - Adds a reminder notification for the flagged message.
-- **Complete** - Marks the flagged message as completed.
-- **None** - Removes any existing flag from the message.
+Right-click a mail for everything you can do with it:
 
-### Priority: High / Low
+![The context menu of a mail with Open, Reply, Reply All, Forward, Delete, Mark Unread, Edit as New, Categories, Follow up, Copy/Move, Move to Junk Folder, Send to, Export as, Summarize with AI, Translate with AI, Rules, Create Appointment, Create task, Create note, Print and Options](/img/web/web_mail_contextmenu.png)
 
-- **High Priority** - Marks the email as important to draw attention.
-- **Low Priority** - Marks the message as low priority.
+Besides the actions described in this chapter you find:
 
-### Request Read Receipt
+- **Send to…** to forward the mail as an attachment,
+- **Export as** › *EML file(s)* or *ZIP file*, to save mails to your computer,
+- **Create Appointment**, **Create task** and **Create note**, which create a new item from the mail,
+- **Options** with importance, sensitivity and the **Internet Headers** of the mail, which are useful when your IT support asks for them.
 
-Sends a read receipt request to the recipient, allowing notification when the message is opened.
+### Flags and follow-up
 
-### Show BCC Field
+Flag mails you still need to deal with. Hover over a mail and click the flag, or right-click the mail and choose **Follow up**:
 
-Displays the **Blind Carbon Copy (BCC)** field, allowing additional recipients to be added without revealing them to others.
+![The Follow up submenu with due dates such as Today, Tomorrow, This week and Next week, and the Complete option](/img/web/web_mail_followup_menu.png)
 
-### Show From Field
+Flagged mails are tinted in the list and also appear in your [To-Do List](/web/tasks/). Choose **Complete** when you are done; the flag turns into a check mark.
 
-Displays the **From** field. Useful when sending messages on behalf of another mailbox (permissions required).
+### Categories
 
-### Sign Message
+Categories are colored labels for mails, appointments, contacts, tasks and notes, for example *Customer*, *Urgent* or a project name. Right-click an item and choose **Categories**:
 
-Digitally signs the message to ensure its authenticity and confirm that it was not modified during transmission.
+![The Categories submenu listing Aurora launch, Website, Customer, Urgent, Personal and Expo, and Manage Categories](/img/web/web_mail_categories_menu.png)
 
-### Encrypt Message
+Choose **Manage Categories** to create, rename, recolour or delete categories and to pin your favorites to the quick-access list:
 
-Encrypts the message so that only the intended recipient can read it, ensuring privacy during transmission.
+![The Manage Categories dialog with the six categories, each with its color](/img/web/web_categories_dialog.png)
 
-:::note[S/MIME Certificates]
-To use message signing or encryption, S/MIME (Secure/Multipurpose Internet Mail Extensions) certificates are required.
+Categories are stored in your mailbox the way Outlook stores them, so you see the same names and colors in grommunio Web, Outlook and on your phone. A shared mailbox has its own categories.
 
-- **Signing a message** requires a valid personal S/MIME certificate. This certificate verifies the identity of the sender and ensures the integrity of the message content.
-- **Encrypting a message** requires that the **recipient's public certificate** is available. Encryption ensures that only the intended recipient can read the message.
-:::
+### Notes on mails
 
-### Pop-Up Message Window
+You can attach a sticky note to a mail, for example to remember what you want to discuss. Right-click the mail and choose **Create note**. The note opens with a link to the mail:
 
-Any message can be opened in its own separate pop-up window. This allows the user to compose, read, or edit the message independently of the main browser tab.
+![A new yellow sticky note with the link Note on: Partnership proposal and a short text](/img/web/web_note_linked_create.png)
 
-Using the pop-up window is particularly useful when working with multiple messages simultaneously.
+Save the note. From then on, it is shown as a colored card at the top of the mail, for you and for everyone who works in the same (shared) mailbox:
 
-## Message Fields
+![The header of the partnership proposal with the attached yellow note card](/img/web/web_mail_linkednote.png)
 
-In addition to the Message Composition Toolbar, the message editor provides various input fields for defining recipients and message content.
+Click the card to open the note. The mail itself is not changed. The note is stored in the Notes folder.
 
-![Message editor showing a composed message with recipients, subject, formatting toolbar, message body, and signature](/img/web/web-p022-1.png)
+### Folders and moving mail
 
-### Recipients
+Create your own folders to sort your mail, for example per project. Right-click a folder and choose **New Folder**. More folder options are described in [Folders & Permissions](/web/folders-permissions/).
 
-- **To**
-  Specifies the primary recipient(s) of the message.
-- **Cc**
-  Specifies recipient(s) who should receive a copy of the message.
-- **Bcc**
-  The **Bcc** field is not displayed by default. It becomes visible when the "Show BCC: field" button is pressed or when Bcc Recipient is entered via the **To** or **Cc** button (which open the address book for recipient selection).
-  Bcc recipient(s) receive(s) the message without being visible to other recipients.
+To move or copy mails:
 
-### Subject
+- drag them onto a folder (hold <kbd>Ctrl</kbd> to copy), or
+- right-click and choose **Copy/Move** (<kbd>Ctrl</kbd>+<kbd>M</kbd> with extended shortcuts).
 
-The **Subject** field defines the topic or short summary of the message. It is recommended to provide a clear and descriptive subject to help recipients understand the purpose of the email.
+![The Copy/Move Messages dialog suggesting the folder Aurora launch for a mail from Maria Rossi](/img/web/web_mail_copymove.png)
 
-:::note
-A "Re" or "Fwd" will be automatically placed in front of the subject, if mail is replied or forwarded.
-:::
+grommunio Web remembers where you filed mail from a sender before and offers those folders as **Suggested folders** at the top of the dialog. You can also type the beginning of a folder name to jump to it. **Move** (or <kbd>Enter</kbd>) moves the mail, **Copy** copies it, **New folder** creates a folder on the spot.
 
-### Message Body
+### Rules
 
-The **Message Body** field contains the main content of the email.
+Rules sort your incoming mail automatically. Right-click a mail and choose **Rules** for quick rules such as *Always move messages from …*, or **Create rule…** for a full rule. All rules are managed under [Settings › Rules](/web/settings/#rules).
 
-When using **HTML** as the composition format (default), the message body provides a wide range of formatting options, including:
+### Junk mail
 
-- font selection,
-- font size adjustments,
-- text styles (bold, italic, underline),
-- paragraph and list formatting,
-- additional typographical and layout options.
+Mail that the server classifies as spam lands in **Junk Email**. If a legitimate mail ends up there, right-click it and choose **Not Junk Email**. To move unwanted mail to the junk folder, right-click it and choose **Move to Junk Folder**.
 
-:::note
-It is recommended to keep individual formatting and styling at a modest level. Depending on the recipient's email client, security policies, or filtering mechanisms, some formatting may not be displayed as intended.
-:::
+### Deleting and restoring
 
-## Message View Options
+- **Delete** (or the <kbd>Delete</kbd> key) moves mail to **Deleted Items**.
+- <kbd>Shift</kbd>+<kbd>Delete</kbd> deletes mail without moving it to Deleted Items.
+- Right-click *Deleted Items* and choose **Empty Deleted Items** to clean up.
+- Accidentally deleted something permanently? Right-click the folder and choose **Restore items** to bring back recently deleted items.
+- With [undo and redo](/web/intro/#undo-and-redo) switched on, <kbd>Ctrl</kbd>+<kbd>Z</kbd> takes back the last action.
 
-Double-clicking an email opens it in a full view, allowing the complete message content and associated details to be displayed for review.
+### Printing
 
-![Full message view showing the reply, reply all, and forward action buttons above an opened email](/img/web/web-p024-1.png)
+Select one or more mails and click **Print** in the toolbar or press <kbd>Ctrl</kbd>+<kbd>P</kbd>. grommunio Web uses the print dialog of your browser, where you can also save the mail as a PDF file.
 
-At the top of the message view, a set of action buttons is displayed. These options allow quick interaction with the currently selected message.
+## Shared mailboxes
 
-### Reply Options
-
-- **Reply**
-  Sends a response to the original sender of the message.
-- **Reply All**
-  Sends a response to the original sender and all recipients listed in the **To** and **Cc** fields.
-- **Forward**
-  Forwards the selected message to one or more new recipients.
-
-### Message Actions
-
-- **Delete**
-  Moves the message to the **Deleted Items** folder.
-- **Message Options**
-  Opens message-related options, such as importance, sensitivity, and detailed technical information.
-
-The **Properties** section displays technical metadata related to the message such as **Internet Headers** and **Object ID**. This information is primarily intended for troubleshooting, auditing, or advanced analysis.
-
-1. The **Internet Headers** view shows the full set of email headers associated with the message. These headers contain detailed transport and routing information, including:
-   - Sender and recipient metadata
-   - Mail servers involved in message delivery
-   - Timestamps and protocol-related data
-   - Authentication and security details
-
-   Internet headers are typically used by administrators or support personnel to diagnose delivery issues or analyze message flow.
-2. The **Object ID** is a unique internal identifier assigned to the message within the mailbox system. It is used internally for message tracking and reference purposes and may be requested by support when investigating specific messages.
-
-:::note
-Message sensitivity and properties are read-only and cannot be modified by the user. Only the message **importance** can be modified.
-:::
-
-- **Categories (Tags)**
-  The **Categories** option allows assigning one or more categories to a message. Categories help organize, classify, and visually distinguish messages.
-
-  Each category is represented by a **color and name**.
-
-  The Categories menu allows users to manage available categories, including:
-  - assigning or removing categories from a message,
-  - renaming existing categories,
-  - changing category colors,
-  - creating new custom categories.
-
-  :::note
-  Changes to categories are applied immediately and are available across the mailbox.
-  :::
-
-- **Flag**
-  Marks the message with a follow-up flag for later action or tracking.
-
-### Additional Options Menu
-
-Clicking the **More Options** menu opens additional actions:
-
-- **Mark Unread** - Marks the message as unread, returning it to the unread state.
-- **Copy / Move** - Copies or moves the message to another folder within the mailbox.
-- **Print** - Opens the print dialog to print the message content.
-- **Edit as New** - Opens the message content in a new composition window, allowing it to be modified and sent as a new email.
-- **Download** - Downloads the message as a file to the local computer.
-
-### Message Information Banner
-
-If applicable, informational banners may be displayed above the message content. These banners indicate properties such as:
-
-- message sensitivity (e.g., *Private*),
-- message importance (e.g., *High importance*).
-
-![Opened message showing an information banner indicating the message is Private and was sent with High importance](/img/web/web-p026-1.png)
-
-These indicators provide additional context but do not enforce security restrictions by themselves.
-
-## Extended Message Options
-
-Right-clicking a message directly in the inbox, without opening it, provides access to additional options that enable faster message management and organization. These extended features include:
-
-- **Move to Junk Folder** - Quickly move unwanted or spam emails to the junk folder.
-- **Send to** - Creates a new email with the selected message attached as a file, allowing the message to be forwarded as an attachment with ease.
-- **Export as** - Saves or exports the email in **.eml** format (email file) or **.zip** format for archiving or sharing.
-- **Rules** - Sets up automated rules to manage incoming emails. Rule options include:
-  - **Always move messages from [email]** - Automatically move messages from a specific sender to a designated folder.
-  - **Always move messages that are sent to [recipients]** - Automatically move messages sent to a specific group of recipients.
-  - **Always move messages with this [subject]** - Automatically move emails that contain specific keywords in the subject or body.
-  - **Create Rule** - Allows the creation of custom rules based on specific conditions and actions to improve email organization.
-- **Create Appointment** - Converts the email into a calendar event or appointment.
-- **Create Task** - Turns the email into a task for follow-up or action in your task management system.
-
-In addition to the options available when right-clicking on an email, there are a couple of additional features in grommunio Web that allow for quicker management of messages.
-
-### Changing Email Importance
-
-Right-clicking the Importance column of an email (the column displaying the red exclamation mark or other symbols) allows the importance level of the message to be changed quickly. The following options are available:
-
-- **Low** - Mark the email as low priority.
-- **Normal** - Set the email's importance to normal.
-- **High** - Mark the email as high priority.
-
-This feature enables the adjustment of an email's urgency without requiring the message to be opened.
-
-### Marking an Email as Unread
-
-To quickly mark an email as unread, select the symbol on the far left of the email row.
-
-Performing this action immediately updates the status of the email to unread, thereby assisting in the organization and monitoring of messages that may require follow-up or further attention at a later time.
-
-The use of such quick actions supports efficient management of the inbox, enabling users to prioritize communications effectively and maintain better control over the flow of incoming messages.
-
-### Quickly Setting Flag
-
-A flag can be quickly set on a message by clicking in the **Flag** column within the Mail view. When the pointer hovers over a message, the flag icon becomes visible. Clicking this icon opens the follow-up menu, from which the desired flag option may be selected.
+When colleagues share a mailbox with you, for example a team address like *info@example.com*, it appears in your folder pane below your own mailbox. You work with it like with your own: read, reply, move and categorise. How to open a shared mailbox and how to send from it is described in [Folders & Permissions](/web/folders-permissions/#shared-mailboxes).

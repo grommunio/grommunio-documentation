@@ -1,74 +1,66 @@
 ---
 title: "Meet"
-description: "Aktivieren Sie das Meet-Plugin, um browserbasierte Videokonferenzen durchzuführen, und fügen Sie Meet-Links zu Terminen und Besprechungen in grommunio Web hinzu."
+description: "Videokonferenzen mit grommunio Meet aus grommunio Web starten und Besprechungslinks zu Terminen und E-Mails hinzufügen."
 sidebar:
-  order: 90
+  order: 76
 ---
 
-Die Funktion Meet integriert grommunio Meet in grommunio Web und ermöglicht browserbasierte Videokonferenzen über generierte oder benutzerdefinierte Meeting-URLs.
+**grommunio Meet** ist der Videokonferenzdienst von grommunio. Das Plugin **Meet** verbindet ihn mit grommunio Web: Starten Sie eine Besprechung mit einem Klick oder fügen Sie einem Termin einen Besprechungslink hinzu, damit alle Teilnehmer direkt aus der Einladung teilnehmen können.
 
-## Aktivieren des Meet-Plugins
+## Meet einschalten
 
-So aktivieren Sie die Funktion Meet:
+1. Öffnen Sie **Einstellungen › Plugins**.
+2. Aktivieren Sie **Meet** und klicken Sie auf **Übernehmen**.
+3. Laden Sie grommunio Web neu, wenn Sie dazu aufgefordert werden.
 
-1. Melden Sie sich bei **grommunio Web** an.
-2. Navigieren Sie zu **Einstellungen**.
-3. Öffnen Sie den Abschnitt *Plugins*.
-4. Aktivieren Sie das Plugin, indem Sie das Kontrollkästchen **Meet** aktivieren.
-5. Klicken Sie auf **Übernehmen**, um die Konfiguration zu speichern.
-6. Laden Sie die grommunio Web-Oberfläche neu.
+In der Symbolleiste erscheint die Schaltfläche **Meet** (Kamerasymbol), und Termine und E-Mails erhalten die Schaltfläche **Besprechung hinzufügen**.
 
-Nach dem Neuladen stehen dem Benutzer die Funktionen des Meet zur Verfügung.
+## Eine Besprechung starten
 
-Nach der Aktivierung erscheint ein neuer Eintrag **Meet** in der *Shortcut-Leiste* der grommunio Web-Benutzeroberfläche.
+Klicken Sie in der Symbolleiste auf **Meet**. grommunio Meet öffnet sich in einer neuen Registerkarte:
 
-## Funktionen der Registerkarte „Meet“
+![grommunio Meet in grommunio Web mit einem vorgeschlagenen Raumnamen und der Schaltfläche zum Starten der Besprechung](/img/web/de/web_meet.png)
 
-Wenn Sie auf den Eintrag **Meet** in der *Shortcut-Leiste* klicken, wird die Registerkarte „Meet“ geöffnet.
+1. Übernehmen Sie den vorgeschlagenen Raumnamen oder geben Sie einen eigenen ein.
+2. Starten Sie die Besprechung.
+3. Erlauben Sie Ihrem Browser den Zugriff auf Kamera und Mikrofon.
+4. Teilen Sie die Adresse der Besprechung mit den Personen, die Sie einladen möchten.
 
-![The Meet tab in grommunio Web with a field to enter a meeting name, a Start meeting button, and an empty recent meetings list](/img/web/web-p098-1.png)
+Darunter sind Ihre letzten Besprechungen aufgeführt, damit Sie ihnen schnell wieder beitreten können.
 
-Die Registerkarte „Meet“ bietet folgende Funktionen:
+## Einem Termin eine Besprechung hinzufügen
 
-### Individuelle Gestaltung des Meeting
+1. Legen Sie einen Termin oder eine Besprechungsanfrage an.
+2. Klicken Sie in der Symbolleiste auf **Besprechung hinzufügen**.
 
-- Benutzer können ein **benutzerdefiniertes Schlüsselwort** eingeben, um einen Besprechungsraum zu erstellen.
-- Das Schlüsselwort wird an die Basis-URL „Meet“ angehängt, um einen eindeutigen Besprechungslink zu bilden:
+grommunio Web erstellt einen Besprechungsraum, trägt seine Adresse unter **Ort** ein und fügt der Beschreibung eine Einladung mit einer Schaltfläche zum Beitreten hinzu:
 
-  `https://mail.domain/meet/<keyword>`
-- Der generierte Link kann an die Teilnehmer der Besprechung weitergegeben werden.
+![Ein Termin mit der Meet-Adresse im Ort und der grommunio-Meet-Einladung mit Beitrittsschaltfläche in den Notizen](/img/web/de/web_meet_appointment.png)
 
-### Aktuelle Meetings-Liste
+Senden Sie die Einladung wie gewohnt. Zum Zeitpunkt der Besprechung treten alle über die Schaltfläche in der Einladung bei oder über **Webmeeting beitreten** in der Symbolleiste des Termins.
 
-Die Registerkarte „Meet“ enthält außerdem eine Liste der **letzten Besprechungen**.
+:::tip
+Halten Sie beim Klick auf **Besprechung hinzufügen** die <kbd>Umschalt</kbd>-Taste gedrückt, um Raumnamen und Adresse selbst zu wählen.
+:::
 
-Diese Liste enthält Besprechungen, an denen der Benutzer zuvor teilgenommen hat oder die er erstellt hat.
-
-Die jüngsten Treffen ermöglichen:
-
-- Schneller erneuter Zugriff auf regelmäßig genutzte oder häufig verwendete Besprechungsräume
-- Wiederverwendung bestehender Besprechungslinks, ohne ein neues Stichwort erstellen zu müssen
-
-Einträge in der Sitzungsliste können vom Benutzer manuell gelöscht werden.
-
-- Durch das Löschen eines Eintrags wird dieser lediglich aus der Liste entfernt
-- Die zugrunde liegende URL der Besprechung bleibt gültig und kann weiterhin aufgerufen werden, sofern sie extern weitergegeben wurde
-
-## Einen Meet-Link zu einem Termin hinzufügen oder Meeting
-
-Meet-Links können auch direkt aus dem Kalender heraus erstellt werden.
-
-1. Erstellen Sie einen neuen *Termin* oder *Meeting*.
-2. Klicken Sie auf **Meeting hinzufügen**.
-3. grommunio Web generiert automatisch einen Meet-Link.
-4. Der Link wird eingefügt in:
-   - das Feld **Ort**
-   - das Feld **Notizen**
-
-![A Calendar meeting with the generated Meet link shown in the Location field and a one-click join link in the Notes field](/img/web/web-p099-1.png)
-
-So können eingeladene Teilnehmer mit einem einzigen Klick an der Besprechung teilnehmen.
+In einer neuen E-Mail fügt **Besprechung hinzufügen** einen Besprechungslink in den Text ein, etwa für ein spontanes Gespräch.
 
 :::note
-Wenn ein Kalendereintrag einen bereits vorhandenen Link zu einer Besprechung enthält, wird die Option **An Webmeeting teilnehmen** angezeigt. Durch Auswahl dieser Option können Sie direkt an der zugehörigen Online-Besprechung teilnehmen, ohne den Link manuell kopieren oder eingeben zu müssen.
+Der Einladungstext wird von Ihrem Administrator vorgegeben und kann daher auch auf Englisch erscheinen. In den Meet-Einstellungen können Sie ihn selbst anpassen.
 :::
+
+## Einstellungen
+
+![Die Meet-Einstellungen](/img/web/de/web_settings_meet.png)
+
+Unter **Einstellungen › Meet** legen Sie fest:
+
+- **Besprechung öffnen in**: einer Web-Registerkarte, einem Popup oder einem eigenen Browserfenster,
+- **Schaltfläche im Hauptmenü verstecken**,
+- ob Betreff und Name des Organisators zum Raumnamen hinzugefügt werden,
+- ob die Adresse zum Ort hinzugefügt wird, statt ihn zu ersetzen, und ob sie automatisch überschrieben werden darf (zum Beispiel beim Hinzufügen eines Besprechungsraums),
+- ob der Terminbeschreibung eine Einladung hinzugefügt wird, und den Text der Einladung (als reiner Text und als HTML; `%url%` steht für die Adresse der Besprechung).
+
+## Siehe auch
+
+- [Kalender › Besprechungen](/de/web/calendar/#besprechungen)

@@ -1,233 +1,138 @@
 ---
-title: "Ordner und Berechtigungen"
-description: "Machen Sie sich mit dem Ordner-Navigationsbereich, den Ordneroptionen sowie der Konfiguration und Freigabe von Ordnerberechtigungen in grommunio Web vertraut."
+title: "Ordner & Berechtigungen"
+description: "Ordner und Favoriten in grommunio Web organisieren, Ordner für Kolleginnen und Kollegen freigeben, Berechtigungen festlegen und gemeinsame Postfächer, Kalender und öffentliche Ordner öffnen."
 sidebar:
   order: 65
 ---
 
-## Struktur des Ordner-Navigationsbereichs
+Ordner halten Ihr Postfach in Ordnung, Berechtigungen machen es teilbar. Dieses Kapitel behandelt beides: Ordner anlegen und verwalten, Favoriten, eigene Ordner freigeben und öffnen, was andere für Sie freigegeben haben.
 
-Der Ordnernavigationsbereich in grommunio Web zeigt alle Ordner, auf die Sie Zugriff haben, in einer hierarchischen Struktur an.
+## Der Ordnerbereich
 
-:::tip[Hinweis]
-Die Option **Alle anzeigen** muss ausgewählt sein.
+![Der Ordnerbereich mit Favoriten, den Ordnern von Anna Berger, den Projekt-Unterordnern, den öffentlichen Ordnern und der Schaltfläche Gemeinsame E-Mails öffnen](/img/web/de/web_favorites.png)
+
+Von oben nach unten zeigt der Ordnerbereich:
+
+- **Favoriten**: Ihre Ordner für den schnellen Zugriff.
+- **Ihr Postfach** (hier *Anna Berger*) mit den Standardordnern und Ihren eigenen Ordnern. Die Standardordner lassen sich weder umbenennen noch löschen:
+
+| Ordner | Inhalt |
+|---|---|
+| **Posteingang** | eingehende E-Mails |
+| **Entwürfe** | E-Mails, die Sie noch nicht gesendet haben |
+| **Postausgang** | E-Mails, die auf den Versand warten, auch [später zu versendende](/de/web/mail/#später-versenden) |
+| **Gesendete Elemente** | Kopien der E-Mails, die Sie gesendet haben |
+| **Gelöschte Elemente** | was Sie gelöscht haben, bis Sie den Ordner leeren |
+| **Junk-E-Mail** | als Spam eingestufte E-Mails |
+| **Kalender**, **Kontakte**, **Aufgaben**, **Notizen** | die Ordner der anderen Anwendungen |
+
+- **Gemeinsame Postfächer und Ordner**, die Kolleginnen und Kollegen für Sie freigegeben haben.
+- die **öffentlichen Ordner** Ihrer Organisation (*Public Folders*).
+- ganz unten **Gemeinsame E-Mails öffnen +** (bzw. *Gemeinsame Kalender öffnen +*, …).
+
+## Mit Ordnern arbeiten
+
+Ein Rechtsklick auf einen Ordner zeigt alle Ordneraktionen:
+
+![Das Kontextmenü eines Ordners mit Öffnen, Ordner kopieren/verschieben, Ordner umbenennen, Neuer Ordner, Alle Nachrichten als gelesen markieren, Ordner löschen, Ordner leeren, Neu laden, Elemente wiederherstellen, Farbe auswählen, Den Favoriten hinzufügen, Ordner teilen, E-Mails importieren und Eigenschaften](/img/web/de/web_folder_contextmenu.png)
+
+| Aktion | Funktion |
+|---|---|
+| **Neuer Ordner** | legt einen Unterordner an. Sie können den Typ wählen: E-Mail, Kalender, Kontakte, Aufgaben oder Notizen. |
+| **Ordner umbenennen** (<kbd>F2</kbd>) | benennt den Ordner um. |
+| **Ordner kopieren/verschieben** | kopiert oder verschiebt den Ordner mit seinem Inhalt. Sie können Ordner auch in der Liste ziehen. |
+| **Ordner löschen** | verschiebt den Ordner nach *Gelöschte Elemente*. |
+| **Alle Nachrichten als gelesen markieren** | markiert alles im Ordner als gelesen. |
+| **Ordner leeren** | löscht alle Elemente im Ordner. |
+| **Elemente wiederherstellen** | holt kürzlich endgültig gelöschte Elemente zurück. |
+| **Farbe auswählen** | färbt das Ordnersymbol, bei Kalendern auch die Kalenderfarbe. |
+| **Den Favoriten hinzufügen / Aus den Favoriten entfernen** | siehe [Favoriten](#favoriten). |
+| **Ordner teilen…** | öffnet die [Berechtigungen](#einen-ordner-freigeben). |
+| **E-Mails / Termine / Kontakte importieren** | importiert `.eml`-, `.ics`- oder `.vcf`-Dateien in den Ordner. |
+| **Neu laden** | lädt den Ordner neu vom Server. |
+| **Eigenschaften** | zeigt Name, Beschreibung, Größe und Anzahl der Elemente sowie die Berechtigungen. |
+
+![Die Registerkarte Allgemein der Kalendereigenschaften mit Typ, Ort, Anzahl der Elemente und Größe](/img/web/de/web_folder_properties.png)
+
+![Der Dialog Neuer Ordner mit dem Ordnernamen Partner, dem Ordnertyp und dem übergeordneten Ordner Posteingang](/img/web/de/web_folder_new.png)
+
+## Favoriten
+
+Favoriten stellen die Ordner, die Sie am häufigsten brauchen, an den Anfang des Ordnerbereichs. Klicken Sie mit der rechten Maustaste auf einen Ordner und wählen Sie **Den Favoriten hinzufügen**. Zum Entfernen wählen Sie **Aus den Favoriten entfernen**. Auch eine Suche lässt sich als Favorit speichern, siehe [Suchen](/de/web/intro/#suchen).
+
+Unter [Einstellungen › Allgemein › Anzeige](/de/web/settings/#allgemein) legen Sie fest, ob Favoriten nur in Mail oder in allen Anwendungen erscheinen und ob sie oben angeheftet bleiben.
+
+## Einen Ordner freigeben
+
+Sie können Kolleginnen und Kollegen Zugriff auf Ihre Ordner geben, etwa auf Ihren Kalender für Ihr Team oder einen Projektordner für eine Kollegin. Sie entscheiden genau, was erlaubt ist.
+
+1. Klicken Sie mit der rechten Maustaste auf den Ordner und wählen Sie **Ordner teilen…** (oder **Eigenschaften** › **Berechtigungen**).
+2. Klicken Sie auf **Hinzufügen** und wählen Sie die Person oder Gruppe aus dem Adressbuch.
+3. Wählen Sie ein **Profil** oder setzen Sie die einzelnen Berechtigungen.
+4. Klicken Sie auf **Ok**.
+
+![Die Registerkarte Berechtigungen der Kalendereigenschaften: Maria Rossi hat das Profil Veröffentlichender Bearbeiter mit Alle Details, allen Schreibrechten und Löschen Alle](/img/web/de/web_folder_permissions.png)
+
+### Berechtigungen
+
+| Bereich | Optionen |
+|---|---|
+| **Lesen** | **Nichts**, **Frei/Gebucht-Zeiten** (bei Kalendern: nur wann Sie gebucht sind), **Frei/Gebucht-Zeiten, Betreff, Ort**, **Alle Details** |
+| **Schreiben** | **Einträge anlegen**, **Unterordner erstellen**, **Eigene bearbeiten**, **Alle bearbeiten** |
+| **Einträge löschen** | **Nichts**, **Eigene**, **Alle** |
+| **Andere** | **Ordnereigentümer** (darf Berechtigungen ändern), **Ordnerkontakt**, **Ordner anzeigen** (darf den Ordner in der Liste sehen) |
+
+Der Eintrag **Standard** gilt für alle in Ihrer Organisation, die nicht eigens aufgeführt sind, **Anonym** für nicht angemeldete Benutzer. Aktivieren Sie **Geänderte Berechtigungen rekursiv anwenden (kopieren)**, um dieselben Berechtigungen auf alle Unterordner zu übertragen.
+
+### Berechtigungsprofile
+
+| Profil | Lesen | Einträge anlegen | Unterordner erstellen | Bearbeiten | Löschen | Ordnereigentümer | Ordner anzeigen |
+|---|---|:-:|:-:|---|---|:-:|:-:|
+| **Eigentümer** | Alle Details | ✓ | ✓ | Alle | Alle | ✓ | ✓ |
+| **Veröffentlichender Bearbeiter** | Alle Details | ✓ | ✓ | Alle | Alle | | ✓ |
+| **Bearbeiter** | Alle Details | ✓ | | Alle | Alle | | ✓ |
+| **Veröffentlichender Autor** | Alle Details | ✓ | ✓ | Eigene | Eigene | | ✓ |
+| **Autor** | Alle Details | ✓ | | Eigene | Eigene | | ✓ |
+| **Nicht bearbeitender Autor** | Alle Details | ✓ | | | Eigene | | ✓ |
+| **Prüfer** | Alle Details | | | | | | ✓ |
+| **Mitwirkender** | Nichts | ✓ | | | | | ✓ |
+| **Nichts** | Nichts | | | | | | |
+
+:::caution[Unterordner freigeben]
+Damit Ihre Kollegin einen freigegebenen Unterordner öffnen kann, braucht sie zusätzlich **Ordner anzeigen** auf allen darüberliegenden Ordnern bis zur obersten Ebene Ihres Postfachs. Standardordner wie Posteingang oder Kalender lassen sich auch ohne das öffnen.
 :::
 
-![Folder Navigation Area showing Favourites, the John Doe mailstore with its default subfolders, Public Folders, and the Open Shared Folders + button](/img/web/web-p064-1.png)
-
-### Favoriten
-
-Der erste Abschnitt enthält die Favoriten.
-
-Dieser Abschnitt enthält Verweise (Verknüpfungen) auf Ordner, die Sie als Favoriten markiert haben. Das Hinzufügen eines Ordners zu den Favoriten führt nicht zu einer Duplizierung des Ordners, sondern erstellt lediglich einen Verweis für den schnellen Zugriff.
-
-### Mailstore (Benutzer-Stammordner)
-
-Unter „Favoriten“ befindet sich Ihr Mailstore, der den Stammordner des Postfachs darstellt.
-
-Es enthält die folgenden Standardunterordner:
-
-- Posteingang
-- Entwürfe
-- Postausgang
-- Gesendete E-Mails
-- Gelöschte E-Mails
-- Spam
-- Kalender
-- Kontakte
-- Aufgabenliste
-- Aufgaben
-- Notizen
-- Tagebuch
-- RSS-Feeds
-- Synchronisierungsprobleme
-
-Diese Ordner werden automatisch erstellt und dienen zur Speicherung verschiedener Arten von Elementen wie E-Mails, Kalendereinträge, Kontakte und Aufgaben. Es handelt sich um systemseitige Standardordner, die weder geändert noch gelöscht werden können.
-
-### Freigegebene Ordner
-
-Unterhalb Ihres E-Mail-Speichers werden alle hinzugefügten freigegebenen Ordner angezeigt.
-
-Freigegebene Ordner gehören anderen Benutzern oder Ressourcen und müssen manuell hinzugefügt werden.
-
-:::note
-Verfügt ein Benutzer über Speicherbesitzerrechte für das Postfach eines anderen Benutzers, wird dieses Postfach dank der Speicherhinweis-Funktion von grommunio automatisch integriert. Die Speicherbesitzerrechte können von Administratoren in der Admin-Benutzeroberfläche konfiguriert werden.
+:::tip
+Für eine Assistenz, die Ihre E-Mails und Ihren Kalender verwaltet, nutzen Sie besser [Stellvertreter](/de/web/settings/#stellvertreter). Ein Stellvertreter erhält die Ordnerberechtigungen in einem Schritt und darf zusätzlich Einladungen und E-Mails in Ihrem Auftrag senden.
 :::
 
-Freigegebene Ordner können über die Schaltfläche **„Freigegebene Ordner öffnen +“** im Ordner-Navigationsbereich (unten) hinzugefügt werden.
+## Gemeinsame Postfächer
 
-### Öffentliche Ordner
+### Einen gemeinsamen Ordner oder ein Postfach öffnen
 
-Am unteren Rand des Ordnernavigationsbereichs wird der Ordner **Öffentlicher Ordner – &lt;domain&gt;** angezeigt.
+1. Klicken Sie unten im Ordnerbereich auf **Gemeinsame E-Mails öffnen +** (bzw. auf die entsprechende Schaltfläche in Kalender, Kontakte, Aufgaben oder Notizen).
+2. Geben Sie den Namen der Person oder des gemeinsamen Postfachs ein und drücken Sie <kbd>Enter</kbd>.
+3. Wählen Sie den **Ordnertyp**: *Gesamtes Postfach*, *Posteingang*, *Kalender*, *Kontakt*, *Notizen* oder *Aufgabe*.
+4. Bei einem einzelnen Ordner aktivieren Sie **Unterordner anzeigen**, um seine Unterordner einzubeziehen.
+5. Klicken Sie auf **Öffnen**.
 
-Dieser Ordner enthält öffentliche Ordner, auf die Benutzer innerhalb derselben Domäne je nach den ihnen zugewiesenen Berechtigungen zugreifen können.
+![Der Dialog Gemeinsame Ordner öffnen mit Example Info als Name und Gesamtes Postfach als Ordnertyp](/img/web/de/web_shared_open_dialog.png)
 
-## Ordneroptionen
+Das Postfach oder der Ordner erscheint in Ihrem Ordnerbereich und bleibt auch bei der nächsten Anmeldung dort:
 
-Die folgenden Optionen stehen zur Verfügung, wenn Sie mit der rechten Maustaste auf einen Ordner in der Ordnerstruktur klicken. Die verfügbaren Optionen können je nach Ordnertyp und Benutzerberechtigungen variieren.
+![Das gemeinsame Postfach Example Info unter dem eigenen Postfach, mit einer E-Mail aus dem Kontaktformular der Website im Lesebereich](/img/web/de/web_shared_mailbox.png)
 
-### Grundlegende Ordneroptionen
+Postfächer, auf die Ihr Administrator Ihnen Vollzugriff gegeben hat, können auch automatisch erscheinen.
 
-- **Öffnen**
-  Öffnet den ausgewählten Ordner und zeigt dessen Inhalt in der Hauptansicht an.
-- **Ordner umbenennen**
-  Ermöglicht es, den Namen des ausgewählten Ordners zu ändern.
+- **Sortieren** Sie gemeinsame Postfächer, indem Sie sie im Ordnerbereich ziehen. Die Reihenfolge gilt in allen Anwendungen.
+- **Schließen** Sie ein gemeinsames Postfach mit einem Rechtsklick auf seinen obersten Ordner › **Postfach schließen**, einen einzelnen gemeinsamen Ordner mit **Ordner schließen**.
 
-  :::note
-  Die Umbenennung des Stammordners ist nur über die Admin-Benutzeroberfläche möglich.
-  :::
+### Aus einem gemeinsamen Postfach senden
 
-- **Neuer Ordner**
-  Erstellt einen neuen Unterordner unter dem ausgewählten Ordner.
-  Der neue Ordner übernimmt standardmäßig die Berechtigungen seines übergeordneten Ordners.
-- **Elemente wiederherstellen**
-  Stellt Elemente wieder her, die zuvor aus diesem Ordner gelöscht wurden, sofern vorhanden.
-  Diese Option ist in der Regel für Ordner verfügbar, die die Wiederherstellung von Elementen unterstützen.
-- **Zu Favoriten hinzufügen**
-  Fügt den ausgewählten Ordner dem Bereich „Favoriten“ hinzu, um einen schnellen Zugriff zu ermöglichen.
-  Favoriten werden oben in der Ordnerstruktur angezeigt.
-- **Ordner freigeben …**
-  Ermöglicht die Freigabe des Ordners für andere Benutzer und die Festlegung ihrer Zugriffsberechtigungen, z. B. Lesezugriff oder Lese-/Schreibzugriff.
-- **Eigenschaften**
-  Zeigt detaillierte Informationen zum ausgewählten Ordner an, darunter Speicherort, Elemente, Objekt-ID, Ordnergröße und Berechtigungen.
+Um eine E-Mail als gemeinsames Postfach zu senden, klicken Sie in der neuen E-Mail auf **Von anzeigen** und wählen das Postfach unter **Von**. Ihr Administrator entscheidet, ob Sie *als* das Postfach oder *im Auftrag* des Postfachs senden dürfen. Die **Eigenschaften** des Postfachs zeigen Ihre **Senderechte** (in der Oberfläche *Send rights*): keine, im Auftrag senden oder senden als.
 
-  Wenn Sie auf die Schaltfläche **„Ordnergröße…“** klicken, werden zusätzliche Informationen zu allen Unterordnern angezeigt, darunter deren individueller Speicherverbrauch und die Verteilung der Gesamtgröße.
+Senden Sie als [Stellvertreter](/de/web/settings/#stellvertreter), legt die Einstellung **Vom Delegierten gesendete E-Mails speichern** unter [Einstellungen › Mail](/de/web/settings/#mail) fest, ob die Kopie in Ihren *Gesendeten Elementen*, in denen der vertretenen Person oder in beiden gespeichert wird.
 
-Zusätzlich zu den grundlegenden Ordneroptionen stehen für bestimmte Ordnertypen die folgenden Optionen zur Verfügung:
+## Öffentliche Ordner
 
-### Stammordner
-
-- **Neu laden**
-  Aktualisiert die Ordnerstruktur und lädt den Ordnerinhalt neu, um sicherzustellen, dass die neuesten Änderungen angezeigt werden.
-
-### E-Mail-Ordner
-
-- **Alle Nachrichten als gelesen markieren**
-  Markiert alle Nachrichten im ausgewählten Ordner als gelesen.
-  Diese Aktion gilt nur für den aktuellen Ordner und hat keine Auswirkungen auf Unterordner.
-- **Ordner leeren**
-  Löscht alle Nachrichten im ausgewählten Ordner endgültig.
-  Je nach Systemkonfiguration werden gelöschte Nachrichten möglicherweise in den Ordner „Gelöschte Objekte“ verschoben oder sofort entfernt.
-- **E-Mails importieren**
-  Importiert E-Mail-Nachrichten im **EML**-Format in den ausgewählten Ordner.
-
-### Kalenderordner
-
-- **Farbe auswählen**
-  Weist dem ausgewählten Kalender eine Farbe zu.
-  Die Farbe dient dazu, Kalendereinträge in Kalenderansichten und Überlagerungen optisch voneinander zu unterscheiden.
-- **Termine importieren**
-  Importiert Kalendereinträge im **iCalendar**- (`.ics`) oder **vCalendar**- (`.vcs`) Format in den ausgewählten Kalender.
-
-### Kontaktordner
-
-- **Kontakte importieren**
-  Importiert Kontakte aus einer externen Datei in den ausgewählten Kontaktordner.
-  Zu den unterstützten Formaten gehört **vCard** (`.vcf`).
-
-### Gemeinsamer Stammordner
-
-Die in einem freigegebenen Stammordner verfügbaren Optionen hängen von den Berechtigungen des Benutzers ab. Benutzer mit höheren Berechtigungen sehen mehr Optionen, während Benutzer mit eingeschränkten Berechtigungen nur die Aktionen sehen, zu deren Ausführung sie berechtigt sind. Die Option **„Shop schließen“** ist jedoch unabhängig von den Berechtigungen des Benutzers immer verfügbar.
-
-- **Speicher schließen**
-  Schließt den freigegebenen Postfach- oder Ordnerspeicher und entfernt ihn aus der Ordnerstruktur.
-  Diese Aktion löscht die freigegebenen Daten nicht und kann durch erneutes Öffnen des freigegebenen Speichers rückgängig gemacht werden.
-
-:::caution[Achtung]
-Das Gleiche gilt für freigegebene Unterordner: Die meisten Optionen können je nach Benutzerberechtigungen und -rechten variieren.
-:::
-
-## Berechtigungen
-
-In diesem Dialogfeld können Sie die Zugriffsrechte für verschiedene Benutzer oder Gruppen für den ausgewählten Ordner konfigurieren.
-
-![Permissions tab of the folder properties dialog, showing the user/group list with default and anonymous entries, the Profile dropdown, and the Read, Write, Delete items, and Other permission categories](/img/web/web-p067-1.png)
-
-### Benutzer und Profile
-
-- **Benutzer-/Gruppenliste**
-  Zeigt Benutzer oder Gruppen an, denen Berechtigungen für den Ordner zugewiesen wurden.
-  - *Standard*: Gilt für alle Benutzer, sofern nicht ausdrücklich anders festgelegt.
-  - *Anonym*: Gilt für nicht authentifizierte Benutzer.
-- **Schaltflächen „Hinzufügen“ / „Entfernen“**
-  Dienen zum Hinzufügen neuer Benutzer oder Gruppen für die Berechtigungsvergabe oder zum Entfernen bestehender Einträge.
-- **Profil-Dropdown**
-  Ermöglicht die Auswahl vordefinierter Berechtigungsprofile zur schnellen Anwendung von Standardberechtigungssätzen.
-
-### Berechtigungskategorien
-
-- **Lesen**
-  Legt fest, in welchem Umfang Zugriff zum Lesen des Ordnerinhalts gewährt wird.
-  - **Keine:** Keine Berechtigung zum Anzeigen des Ordnerinhalts.
-  - **Vollständige Details:** Berechtigung zum Lesen der vollständigen Details von Elementen, einschließlich Inhalt und Metadaten.
-- **Schreiben**
-  Legt die Rechte zum Erstellen oder Bearbeiten von Elementen innerhalb des Ordners fest.
-  - **Elemente erstellen:** Berechtigung zum Erstellen neuer Elemente wie E-Mails oder Kalendertermine.
-  - **Unterordner erstellen:** Berechtigung zum Erstellen von Unterordnern innerhalb des aktuellen Ordners.
-  - **Eigene bearbeiten:** Berechtigung, vom Benutzer erstellte Elemente zu bearbeiten.
-  - **Alle bearbeiten:** Berechtigung, alle Elemente im Ordner zu bearbeiten, unabhängig vom Ersteller.
-- **Elemente löschen**
-  Legt die Löschrechte für Ordnerelemente fest.
-  - **Keine:** Keine Berechtigung zum Löschen von Elementen.
-  - **Eigene:** Berechtigung zum Löschen von Elementen, die vom Benutzer erstellt wurden.
-  - **Alle:** Berechtigung zum Löschen beliebiger Elemente im Ordner.
-- **Sonstiges**
-  Zusätzliche ordnerbezogene Berechtigungen:
-  - **Ordnerbesitzer:** Weist den Benutzer als Besitzer des Ordners aus und gewährt in der Regel volle Zugriffsrechte.
-  - **Ordnerkontakt:** Weist den Benutzer als Kontakt für den Ordner zu, häufig zu Verwaltungszwecken.
-  - **Ordner sichtbar:** Ermöglicht die Sichtbarkeit des Ordners.
-
-### Rekursive Anwendung
-
-- **Geänderte Berechtigungen rekursiv anwenden (kopieren)**
-  Wenn diese Option ausgewählt ist, werden die konfigurierten Berechtigungen rekursiv auf den aktuellen Ordner und alle Unterordner angewendet.
-
-### Aktionen
-
-- **OK**
-  Speichert die Änderungen und schließt das Dialogfeld.
-- **Abbrechen**
-  Verwirft die Änderungen und schließt das Dialogfeld.
-
-## Ordner erfolgreich freigeben
-
-1. **Stamm-Mailspeicher auswählen**
-
-   Wählen Sie zunächst den Stamm-Mailstore in der Ordnerstruktur aus. Bevor Sie einzelne Ordner freigeben können, müssen die Berechtigungen auf der Stammebene konfiguriert werden.
-
-2. **Dialogfeld „Berechtigungen“ öffnen**
-
-   Es gibt mehrere Möglichkeiten, das Dialogfeld „Berechtigungen“ zu öffnen:
-
-   - Klicken Sie mit der rechten Maustaste auf den Ordner und wählen Sie **Ordner freigeben**.
-   - Öffnen Sie die **Eigenschaften** des Ordners und wechseln Sie zur Registerkarte **Berechtigungen**.
-
-3. **Berechtigungen konfigurieren**
-
-   Im Dialogfeld „Berechtigungen“:
-
-   - Fügen Sie **Ordner sichtbar** für die Benutzer oder Gruppen hinzu, die Zugriff auf den Ordner haben sollen.
-   - Klicken Sie auf **OK**, um die Eingaben zu speichern und das Dialogfeld zu schließen.
-
-4. **Bestimmten Ordner freigeben**
-
-   Nachdem Sie die Berechtigungen im Stammverzeichnis festgelegt haben, wählen Sie den Ordner aus, der freigegeben werden soll, und öffnen Sie dessen **Berechtigungsdialog**. Fügen Sie **Ordner sichtbar** hinzu und weisen Sie die erforderlichen Rechte zu.
-
-:::caution[Achtung]
-Wenn es sich bei dem Ordner, den Sie freigeben möchten, um einen Unterordner handelt, stellen Sie sicher, dass alle darüber liegenden übergeordneten Ordner ebenfalls über die Berechtigung **Ordner sichtbar** für die vorgesehenen Benutzer verfügen. Andernfalls können Benutzer möglicherweise nicht auf den freigegebenen Unterordner zugreifen, selbst wenn dessen Berechtigungen korrekt eingestellt sind. **Ausnahme:** Standardordner wie „Posteingang“, „Kalender“ usw. können unabhängig von den Root-Rechten geöffnet werden.
-:::
-
-## Berechtigungsmatrix
-
-| Profil | Keine lesen | Alle Details lesen | Elemente erstellen | Unterordner erstellen | Eigene bearbeiten | Alle bearbeiten | Keine löschen | Eigene löschen | Alle löschen | Ordnerbesitzer | Ordnerkontakt | Ordner sichtbar |
-| --- | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
-| Eigentümer | | x | x | x | x | x | | | x | x | x | x |
-| Veröffentlichender Redakteur | | x | x | x | x | x | | | x | | | x |
-| Redakteur | | x | x | | x | x | | | x | | | x |
-| Veröffentlichender Autor | | x | x | x | x | | | x | | | | x |
-| Autor | | x | x | | x | | | x | | | | x |
-| Nicht redaktioneller Autor | | x | x | | | | | x | | | | x |
-| Gutachter | | x | | | | | x | | | | | x |
-| Mitwirkender | x | | x | | | | x | | | | | x |
-| Keine Angabe | x | | | | | | x | | | | | |
-| Benutzerdefiniert | o | o | o | o | o | o | o | o | o | o | o | o |
+**Öffentliche Ordner** (*Public Folders*) sind Ordner für die ganze Organisation, etwa ein Firmenkalender, gemeinsame Kontakte oder ein Support-Postfach. Ihr Administrator richtet sie ein und entscheidet, wer darin lesen oder schreiben darf. Sie arbeiten damit wie mit Ihren eigenen Ordnern und können sie einschließlich ihrer Unterordner durchsuchen.

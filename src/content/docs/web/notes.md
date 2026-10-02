@@ -1,47 +1,40 @@
 ---
 title: "Notes"
-description: "Capture ideas and information with grommunio Web Notes, including creating, editing, coloring, and organizing sticky notes."
+description: "Write sticky notes in grommunio Web, give them colors and categories, and attach notes to mails."
 sidebar:
   order: 60
 ---
 
-Notes are a useful tool not only for capturing ideas; they can serve many different purposes and can be used in whatever way best suits your needs.
+Notes are the digital version of sticky notes: quick ideas, phone numbers, checklists, anything you want to keep without filing it somewhere. They are stored in your mailbox, so they are also available in Outlook and on your phone.
 
-![The Notes module in grommunio Web, showing the folder list and an empty note list](/img/web/web-p061-1.png)
+![The Notes view with five colored notes: Book recommendations, Call Tomás, Expo booth, Guest Wi-Fi and Slogan ideas](/img/web/web_notes.png)
 
-## Create a Note
+## Views
 
-To create a new note click on the **Sticky Note** Symbol in the Shortcut Bar or click on the **+** symbol at the end of the Tab Bar.
+Click **Switch view** to choose between the **Icons** view (colored notes, as above), the **List view** with subject, date and categories, which is better for many notes, and **List Last Seven Days** with the notes of the past week:
 
-This will open the **Note Editor**.
+![The Switch view menu of the Notes view](/img/web/web_notes_viewmenu.png)
 
-![The Note Editor displaying a blank yellow sticky note with a Save button and a Color selector set to Yellow](/img/web/web-p062-1.png)
+![The notes in the list view](/img/web/web_notes_list.png)
 
-1. Compose a note
-2. Click "Save"
+## Creating a note
 
-### Note Toolbar
+1. Click **New** in the toolbar, or choose **New** › **Sticky note** from any view.
+2. Type your text. The first line becomes the title of the note.
+3. Choose a **Color**: Blue, Green, Pink, Yellow or White.
+4. Click **Save**.
 
-The Note Toolbar provides several useful functions:
+![The note Slogan ideas Aurora open in its own tab, with the Save button and the color Yellow](/img/web/web_note_dialog.png)
 
-- **Save** - Saves the current note. Make sure to click this after writing or editing a note.
-- **Delete** - Permanently removes the note. Moves it into the **Deleted Items** folder.
-- **Categories** - Assign categories to your note for better organization and quick retrieval.
-- **Print Note** - Opens the print dialog to print the note.
-- **Color Options** - Change the background color of the note. Available colors:
-  - Blue
-  - Green
-  - Pink
-  - Yellow
-  - White
+The note toolbar also offers **Delete**, **Categories** and **Print**.
 
-### Note Options
+## Organizing notes
 
-You can access additional options for a note by **right-clicking** on it in the Note Module. The following actions are available:
+- Double-click a note to open and edit it.
+- Right-click a note to delete it, move it to another folder, assign [categories](/web/mail/#categories) or print it.
+- Create subfolders in *Notes* to group notes by topic: right-click *Notes* › **New Folder**.
+- Use the **Search…** box to find a note by its text.
 
-- **Open** - Opens the selected note in the Note Editor for viewing or editing.
-- **Copy/Move** - Allows copying or moving the note to another location.
-- **Print** - Opens the print dialog to print the note.
-- **Categories** - Opens the categories dialog to assign or modify categories for the note. Useful for organizing notes and finding them quickly later.
-- **Delete** - Permanently removes the note from Notes. Moves it into the **Deleted Items** folder.
-- **Options** - Displays properties such as the Object ID.
+## Notes on mails
+
+A note can be attached to a mail, for example to remember what you want to discuss with the sender. Right-click the mail and choose **Create note**. The note is shown as a colored card at the top of the mail. See [Notes on mails](/web/mail/#notes-on-mails).

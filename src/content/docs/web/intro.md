@@ -1,307 +1,252 @@
 ---
-title: "Introduction"
-description: "An overview of grommunio Web, covering requirements, login, the Welcome Assistant, and the layout of the main interface."
+title: "Getting Started"
+description: "Sign in to grommunio Web, set up your preferences, and find your way around the window: top bar, toolbar, folders, lists, search, command palette and dark mode."
 sidebar:
+  label: "Getting Started"
   order: 10
 ---
 
-grommunio Web is the web-based interface of the grommunio software suite. It combines a set of applications which allow easy usage for everyday users. grommunio Web can be accessed through a modern web browser and has all the important and daily usable tools like e-mail, calendar, contacts, notes & tasks, and integration with grommunio Meet and others.
+This chapter takes you from the sign-in page to your first steps in grommunio Web. After reading it, you know where everything is on the screen and how to find things quickly.
 
-Altogether, grommunio Web offers integrated advanced tools for teamwork and professional collaborations, such as chat and web meetings. Since grommunio Web is easy configurable, administrators and developers can create new plugins and integrate them into the interface at any time.
+## What you need
 
-## Requirements
+grommunio Web runs in any current version of **Google Chrome**, **Microsoft Edge**, **Mozilla Firefox** and **Apple Safari**, and in browsers based on them. Use an up-to-date browser for the best experience. Some features depend on the browser:
 
-grommunio Web can be accessed from a modern web browser, including derivatives of Microsoft Edge, Google Chrome, Mozilla Firefox and Apple Safari. We recommend the use of recent versions for the best user experience.
+- Dragging attachments to the desktop and *Save selection to folder* work in Chromium-based browsers (Chrome, Edge, Brave and others).
+- Desktop notifications need your permission in the browser.
+- Your browser may offer to install grommunio Web as an app and to register it as the handler for `mailto:` links.
 
-## Login
+## Signing in
 
-### Accessing grommunio Web
+1. Open the address your administrator gave you, for example `https://mail.example.com/web`.
+2. Enter your **user name or e-mail address** and your **password**.
+3. Optionally tick **Remember me** so that you stay signed in on this computer.
+4. Click **Sign In**.
 
-![grommunio Web login page with username and password fields and the Sign in button](/img/web/web-p008-1.png)
+![The grommunio sign-in page with fields for user name and password, a Remember me checkbox and the Sign In button](/img/web/web_login.png)
 
-To access grommunio Web, follow these steps:
+If your organization uses single sign-on, the same sign-in page is used for grommunio Web, Chat, Files, Meet and Archive, and you are signed in to all of them at once. Your administrator may offer additional sign-in methods on this page.
 
-1. Navigate to the link provided by your administrator with your browser. Traditionally, the link is something close to `https://example.com` or `https://mail.example.com/web`.
-2. Enter your username and password.
-3. Click on the "Sign in" button.
-
-### Welcome Assistant
-
-Upon your first login, you are greeted by the "Welcome Assistant" which allows configuring some general settings such as language, initial weekday and other settings. These settings can later be changed in the "Settings" configuration pane at any time.
-
-![Welcome Assistant dialog showing account information and general calendar settings for a new user](/img/web/web-p009-1.png)
-
-The following options are available:
-
-#### 1. Account Information
-
-**Profile Picture**
-Allows the user to upload or change their profile image. Accepted formats include common image types (JPEG, GIF, PNG, BMP).
-
-**Display Name**
-The name that will appear to other users.
-
-:::caution[Attention]
-Can not be edited in grommunio Web! Only in Admin UI.
+:::caution
+Never tick **Remember me** on a shared or public computer.
 :::
 
-**Email**
-Displays the primary email address of the user. This field is not editable within grommunio Web.
+## The Welcome Assistant
 
-**Language**
-Sets the interface language for grommunio Web.
+The first time you sign in, grommunio Web greets you with the **Welcome to grommunio Web** dialog. Choose your preferences and click **Get Started**. You can change every one of them later in [Settings](/web/settings/).
 
-Example: `en_US – English`
+![The Welcome to grommunio Web dialog with profile settings on the left and general calendar settings on the right](/img/web/web_welcome.png)
 
-Other server-provided languages may be available.
+**Profile**
 
-**Startup Folder**
-Specifies which module loads first after login.
+| Option | What it does |
+|---|---|
+| **Language** | The language of the interface, for example *en_US: English* or *de_DE: Deutsch*. |
+| **Startup folder** | The view that opens after sign-in: Mail, Calendar, Contacts, Tasks or Notes. |
+| **Theme** | The color scheme. *Basic* is the default; your administrator may add a company theme. |
+| **Appearance** | *Light*, *Dark* or *System* (follows the setting of your operating system). |
+| **Icons** | The icon set: *Breeze* (default) or *Classic*. |
 
-Options include:
+**General calendar settings**
 
-- Mail
-- Calendar
-- Contacts
-- Tasks
-- Notes
+| Option | What it does |
+|---|---|
+| **First day of the week** | The weekday your calendar weeks start with. |
+| **Start of workday / End of workday** | Your working hours. They are highlighted in the calendar and used for scheduling. |
+| **Calendar resolution** | The size of a time slot in the day and week views (5 minutes to 1 hour). |
+| **Default appointment duration** | The length of new appointments. |
+| **Default status for all day appointment** | How all-day events show your availability (Free, Busy, …). |
+| **Working days** | The days of your working week. |
+| **Delete the meeting request from the inbox when answering from the calendar** | Keeps your inbox tidy when you respond to invitations in the calendar. |
 
-**Theme**
-Determines the visual theme of the interface.
+## The window at a glance
 
-Example: `Basic`
+After the Welcome Assistant, grommunio Web opens your startup folder, by default the **Inbox**.
 
-**Icons**
-Selects the icon pack used by the user interface.
+![The grommunio Web window with numbered areas: top bar, toolbar, folder pane, tab bar, item list and reading pane](/img/web/web_overview_annotated.png)
 
-Options: `Breeze`, `Classic`
+1. **Top bar**: switches between the applications and holds your personal controls.
+2. **Toolbar**: the most important actions of the current view.
+3. **Folder pane**: your folders, favorites and shared mailboxes.
+4. **Tab bar**: the current folder and every item you have opened.
+5. **Item list**: the mails, contacts, tasks or notes of the selected folder.
+6. **Reading pane**: the content of the selected item.
 
-#### 2. General Calendar Settings
+### Top bar
 
-**First Day of the Week**
-Sets the starting weekday for calendar views.
+![The top bar with the Mail, Calendar, Contacts, Tasks, Notes, Files, Chat and Archive tabs on the left and the user name, reminder bell, appearance switch, Settings, Help and Logout on the right](/img/web/web_topbar.png)
 
-Common values: `Monday` or `Sunday`
+On the left you find one tab per application: **Mail**, **Calendar**, **Contacts**, **Tasks** and **Notes**. Plugins add more tabs, for example **Files**, **Chat** and **Archive**.
 
-**Start of Workday**
-Defines the daily work start time for calendar scheduling.
+On the right:
 
-Example: `09:00`
+- **Your name**: shows which account you are signed in with.
+- **Reminders** (bell): opens the reminders of upcoming appointments and tasks. A number shows how many are due; the bell is grey when there are none. See [Reminders](#reminders-and-notifications).
+- **Appearance** (sun/moon): switches between light, automatic and dark mode. See [Appearance and dark mode](#appearance-and-dark-mode).
+- **Settings**: opens your [settings](/web/settings/).
+- **Help**: opens this manual at the page for the current view.
+- **Logout**: signs you out.
 
-**End of Workday**
-Defines the end of the workday.
+### Toolbar
 
-Example: `17:00`
+![The toolbar with the New button, Address Book, Refresh, Print and Switch view](/img/web/web_toolbar.png)
 
-**Calendar Resolution**
-Determines the time grid size for calendar slots.
+The toolbar changes with the application you are in. In Mail it offers:
 
-Options: `5 minutes`, `6 minutes`, `10 minutes`, `15 minutes`, `30 minutes`, `1 hour`
+- **New** creates a new item of the current type (here a mail). The small arrow next to it opens a menu with all item types: Email, Appointment, Meeting request, Contact, Distribution list, Task, Task request and Sticky note. With the Files plugin you can also upload a file from here.
+- **Address Book** opens the address book of your organization and your contact folders.
+- **Refresh** (<kbd>F5</kbd>) reloads the current folder.
+- **Print** (<kbd>Ctrl</kbd>+<kbd>P</kbd>) prints the selected item.
+- **Switch view** changes the layout, for example the position of the reading pane.
+- **Undo** and **Redo** appear when you have switched them on (see [Undo and redo](#undo-and-redo)).
+- **Meet** (camera) starts a video meeting when the Meet plugin is enabled.
 
-**Default Appointment Duration**
-Sets the default duration for new appointments.
+![The New menu listing Email, Appointment, Meeting request, Contact, Distribution list, Task, Task request and Sticky note](/img/web/web_newitem_menu.png)
 
-Example: `30 minutes`
+### Tab bar
 
-**Default Status for All-Day Appointments**
-Controls the default availability status.
+![The tab bar with the pinned Inbox tab and a plus button for new items](/img/web/web_tabbar.png)
 
-Possible values:
+grommunio Web works with tabs, like a browser. The first tab always shows the current folder and cannot be closed. Every item you open or create, such as a mail you are writing, an appointment or a contact, opens in its own tab next to it. You can switch between them without losing anything, for example to look up an appointment while you write a mail.
 
-- Free
-- Tentative
-- Busy
-- Out of Office
+- Click **+** at the end of the tab bar to create a new item of the current type.
+- Close a tab with the **×** on the tab. If the item has unsaved changes, grommunio Web asks whether you really want to close it.
+- The tab of an item closes automatically when you send it or click **Save & Close**.
 
-**Working Days**
-Defines the days considered part of the regular work week.
-
-Example: `Monday–Friday (Mo–Fr)`
-
-#### Completion
-
-After confirming all settings, the user proceeds into the full grommunio Web interface with the selected configuration applied.
-
-## Overview
-
-As soon as you have logged into grommunio Web, it presents an overview of your personal interface. By default, it will navigate to the mailbox overview, which, traditionally, is either empty, or pre-filled by data from a migration by your administrator.
-
-![Main grommunio Web interface showing the menu bar, shortcut bar, folder navigation area and an empty inbox in the main content area](/img/web/web-p011-1.png)
-
-The main overview of grommunio Web is organized as follows:
-
-### Main Interface Area
-
-The main interface area contains reference to the main application areas. By default, these are: Mail, Calendar, Tasks and Notes. On the top right, you find personal information, such as the indicator of the user you have logged in, Reminders, Settings, Help and Logout buttons.
-
-![Top menu bar with the Mail, Calendar, Contacts, Tasks and Notes application areas and personal controls on the right](/img/web/web-p012-1.png)
-
-### Shortcut Bar
-
-![Shortcut Bar with buttons for new item, address book, refresh, print and layout](/img/web/web-p012-2.png)
-
-The Shortcut Bar combines the main functions available in the application area you are currently in. It provides quick access to common actions such as:
-
-- creating a new item
-- opening the Address Book
-- refreshing the view
-- printing an email
-- changing the layout
-
-#### New Item Dropdown
-
-Clicking the small arrow on the right side of the **New Item** button opens a dropdown menu where different types of items can be created. The available options are:
-
-- **Email** – Create a new email message.
-- **Appointment** – Schedule a new calendar appointment.
-- **Meeting request** – Create and send a meeting invitation.
-- **Contact** – Add a new contact to the address book.
-- **Distribution list** – Create a new distribution group.
-- **Task** – Create a new task.
-- **Task request** – Assign a task to another user.
-- **Sticky note** – Create a note item.
-
-### Tab Bar
-
-Below the Shortcut Bar is the **Tab Bar**.
-
-![Tab Bar showing the pinned Inbox tab and a plus symbol for creating new items](/img/web/web-p012-3.png)
-
-The Tab Bar displays all currently opened items as tabs, such as the Inbox, new emails, appointments, meeting requests etc.
-
-The very first tab shows the folder you are currently in. It is always pinned and cannot be closed.
-
-Any newly created item from the *New Item Dropdown* (for example: Email, Appointment, Meeting) appear here as additional tabs. In addition new items can also be created by clicking the + symbol at the end of the Tab Bar.
-
-Temporary tabs are automatically removed when:
-
-- an item is sent
-- an item is saved
-- user manually closes the tab
-- user refreshes browser
-
-This tabbed view allows quick switching between multiple items without losing context.
-
-### Folder Navigation Area
-
-With the **Folder Navigation Area**, you can see an overview of your personal folders, as well as any attached secondary mailboxes like public folders that are accessible to you. Depending on which module you are currently using (Mail, Calendar, Contacts, etc.), the **Folder Navigation Area** normally displays only the folders relevant to that module. For example, in the Mail module you will see your mail folders, while in the Calendar module only calendars are shown.
-
-![Folder Navigation Area showing Favourites and a user mailbox with Inbox, Drafts, Outbox, Sent Items, Deleted Items, Junk Email and Public Folders](/img/web/web-p013-1.png)
-
-#### Show All Option
-
-The navigation area features a **Show All** checkbox. When checked, **Show All** displays *every folder associated with your mailbox*, regardless of the active module. This gives you a complete overview of all folders in one view.
-
-:::note
-A switch to a folder of a different type automatically switches to that application area. For example, selecting a calendar folder will automatically switch to the calendar application area and open the selected calendar.
+:::tip
+In [Settings › Mail](/web/settings/#mail) you can choose to open mails in a separate **browser window** instead of a tab. Every item tab also has a **Pop-out** button on the right of its toolbar.
 :::
 
-### Main Content Area
+### Folder pane
 
-The **Main Content Area** displays the primary information of the application based on the currently selected module, folder, or context.
+![The folder pane with Favourites, the mailbox of Anna Berger with its folders, Public Folders and the Open Shared Mails button](/img/web/web_foldertree.png)
 
-For example, when the **Inbox** folder is selected in the mail module, the main content area shows all emails contained in that inbox. When another folder, search result, or item type is selected, the displayed content updates accordingly.
+The folder pane lists the folders of the current application. In Mail you see:
 
-![Main Content Area showing a message list on the left and a task request preview on the right](/img/web/web-p014-1.png)
+- **Favourites**: folders you use most often, at the top for quick access. See [Favorites](/web/folders-permissions/#favorites).
+- **Your mailbox** with the Inbox and its subfolders, Drafts, Outbox, Sent Items, Deleted Items, Junk Email and your own folders.
+- **Shared mailboxes** and folders others have shared with you.
+- **Public Folders** of your organization.
+- **Open Shared Mails +** at the bottom, to open a mailbox or folder someone has shared with you.
 
-In many areas of grommunio Web, a built-in *Search Function* is available. Search results are displayed directly in the main content area, replacing the standard folder view while the search is active.
+Tick **Show All** at the top to see the folders of all applications at once. Selecting a calendar, contact, task or note folder switches to the matching application.
 
-All entries shown in the main content area support **sorting** by different criteria, such as from, subject, date, categories, status etc. Sorting options are typically available by clicking the column headers or using the provided sorting controls.
+Click the arrow **‹** at the top of the pane to collapse it. A narrow rail then shows buttons for your favorites and the most important folders.
 
-This dynamic behavior ensures that the main content area always reflects the current working context and provides quick access to relevant information.
+### Item list
 
-### Data structure
+The middle column lists the items of the selected folder. In the Inbox, every mail shows the sender, the subject, the date, its categories and icons for importance, attachments and follow-up flags. Unread mails are bold and have a colored bar on the left.
 
-Your primary groupware data is stored in a so-called "mailbox", or "mail store". This data contains major information such as your e-mails, calendar data, contacts, and so on. To have this managed well, the mailbox store is hierarchially organized with folders. By default, a store includes a set of default folders which also have various types. These are:
+- **Sort** the list by clicking a column header. Click again to reverse the order.
+- **Select several items** with <kbd>Ctrl</kbd>-click (<kbd>Cmd</kbd> on a Mac) or <kbd>Shift</kbd>-click, or select all with <kbd>Ctrl</kbd>+<kbd>A</kbd>.
+- **Quick actions** appear when you hover over a mail: *Mark Read/Unread*, *Follow up* and *Delete*.
+- **Right-click** an item for all actions that apply to it.
+- **Drag and drop** items onto a folder to move them; hold <kbd>Ctrl</kbd> to copy.
 
-| Name          | Type     |
-|---------------|----------|
-| Inbox         | E-Mail   |
-| Drafts        | E-Mail   |
-| Sent Items    | E-Mail   |
-| Deleted Items | E-Mail   |
-| Tasks         | Tasks    |
-| Calendar      | Calendar |
-| Contacts      | Contacts |
-| Junk E-Mail   | E-Mail   |
-| Notes         | Notes    |
-| Outbox        | E-Mail   |
+### Reading pane
 
-### Search Function
+The reading pane shows the item you selected: the sender with their photo or logo, recipients, attachments, categories and the content. Use **Switch view** in the toolbar to place it on the **right** (default), at the **bottom** or to switch it off.
 
-The Search Tools panel enables the refinement and narrowing of search results when locating items such as emails, appointments, contacts, tasks, or notes.
+## Searching
 
-![Search Tools panel with options for Folders, Show, Filter, Date, Search and Filter category](/img/web/web-p015-1.png)
+Every list has a **Search…** box at the top. Press <kbd>Ctrl</kbd>+<kbd>F</kbd> to jump into it.
 
-#### Folders
+When you click into the box, a panel helps you to build your search:
 
-- **Include subfolders**
-  When selected, the search will include all subfolders within the currently selected folder.
-  Example: Searching the Inbox will also search all Inbox subfolders.
+![The search drop-down with chips for Filter by, Show / Operators, Date and Search in](/img/web/web_search_dropdown.png)
 
-#### Show…
+- **Recent searches** lets you repeat an earlier search.
+- **Filter by** limits the search to a field: Subject, From, To, Cc, Bcc, Body, Attachment, Category or Unread.
+- **Show / Operators** restricts the result to Mails, Appointments, Contacts, Tasks or Notes and combines terms with AND, OR and NOT.
+- **Date** restricts the result to the past week, 2 weeks, month, 6 months or year.
+- **Search in** chooses the scope: *All folders*, the current folder or *Other…*.
 
-These options define what type of items are included in the search results:
+Type your search terms and press <kbd>Enter</kbd>. The results open in their own tab, together with the **search tools** on the left, where you can refine the search: include subfolders, choose the item types, show only unread items or items with attachments, pick a date range, select the fields to search in and filter by category.
 
-- **Mails**
-  Includes email messages in the search results.
-- **Appointments**
-  Includes calendar items such as meetings and events.
-- **Contacts**
-  Includes contact entries.
-- **Tasks**
-  Includes task items.
-- **Notes**
-  Includes notes.
+![The search results tab for the term aurora with the search tools on the left and the matching items in the middle](/img/web/web_search_results.png)
 
-One or multiple item types can be selected.
+:::tip[Search like a pro]
+Type a field name followed by a colon to search in one field only. The term turns into a chip. Use quotation marks for phrases.
 
-#### Filter…
+| Example | Finds |
+|---|---|
+| `from:maria` | items from Maria |
+| `subject:"key visuals"` | items with this phrase in the subject |
+| `to:lukas attachment:true` | items sent to Lukas that have attachments |
+| `category:Urgent` | items with the category *Urgent* |
+| `unread:true` | unread items only |
+| `aurora NOT newsletter` | items about Aurora that do not contain "newsletter" |
 
-These options limit results based on message status or content:
+The available field names are `subject`, `from`, `to`, `cc`, `bcc`, `body`, `sender`, `attachment`, `category`, `unread`, `type` and `date`. The names also work in your interface language, for example in German `von:`, `an:` and `betreff:`.
+:::
 
-- **Unread**
-  Displays only items that have not been marked as read.
-- **Attachments**
-  Displays only items that contain one or more attachments.
+Click **Favorites** in the search tools to keep a search as a *search folder* among your favorites. It is updated automatically.
 
-#### Date
+## Command palette
 
-- **Any date**
-  Allows filtering search results by a specific time period such as:
-  `Any date`, `Past week`, `Past 2 weeks`, `Past month`, `Past 6 month`, `Past year` or `Custom date`
+The command palette is the fastest way to get anywhere. Press <kbd>Ctrl</kbd>+<kbd>K</kbd> (<kbd>Cmd</kbd>+<kbd>K</kbd> on a Mac) and start typing:
 
-This helps narrow results to a specific time period.
+![The command palette listing the views Mail, Calendar, Contacts, Tasks, Notes, Files and Settings and the New commands](/img/web/web_command_palette.png)
 
-#### Search…
+- **Views**: Mail, Calendar, Contacts, Tasks, Notes, Files, Settings
+- **New**: every item type of the New menu
+- **Settings**: every settings page
+- **Folders**: every folder of your own, shared and public mailboxes, with its path
+- **Tools** and **Appearance**: the address book, dark/light mode, compact/comfortable list spacing
+- **Account**: sign out
 
-These options specify which fields are searched:
+Use the arrow keys or <kbd>Tab</kbd> to select an entry and press <kbd>Enter</kbd>. <kbd>Esc</kbd> closes the palette. You don't need to type the exact name. The palette also finds entries from parts of words, for example *aur* for the folder *Aurora launch*:
 
-- **Sender**
-  Searches for items based on the sender's name or email address.
-- **Recipients**
-  Searches for items based on recipient names or email addresses.
-- **Subject**
-  Searches within the subject line of items.
-- **Body & Attachments**
-  Searches within the message body text and the contents of attachments (if supported).
+![The command palette with the search term aur, listing the folder Aurora launch](/img/web/web_command_palette_search.png)
 
-#### Filter category…
+## Undo and redo
 
-- **Select Category**
-  Allows filtering search results by assigned categories (e.g., color-coded or labeled items).
+grommunio Web can take back what you just did, like a desktop program. Switch it on under [Settings › General › Undo and redo](/web/settings/#general), then reload grommunio Web.
 
-#### Favourites
+- <kbd>Ctrl</kbd>+<kbd>Z</kbd> takes back the last action, <kbd>Ctrl</kbd>+<kbd>Y</kbd> repeats it.
+- The **Undo** button in the toolbar has a menu with your recent actions. Pick an entry to undo everything down to it.
 
-- **Favourites**
-  This is a button that adds a folder to favourites based on the search query.
-  When clicked, a custom folder name can be provided.
+![The Undo menu listing two delete actions](/img/web/web_undo_menu.png)
 
-### Overall behavior
+Undo works for deleting, moving, copying and creating items, read/unread changes, flags, categories and appointments you moved or resized in the calendar. It keeps the last 20 actions of your session. Sending mail, answering invitations, *Shift+Delete* and actions on more than 25 items cannot be undone.
 
-grommunio Web is a true web application which provides an unusually enhanced web application feeling. With this behavior, grommunio Web provides multiple user experience enhancements to traditional web applications, such as:
+## Appearance and dark mode
 
-- Support for Drag & Drop of elements.
-- Right-click context menus with extra functionality on objects.
-- Multi-select of objects using the Ctrl key (or Cmd on Apple).
-- Tabular interface handling to allow multi-tasked working.
+![The appearance switch in the top bar, next to Settings](/img/web/web_appearance_toggle.png)
+
+Click the sun/moon icon in the top bar to switch the appearance. Each click moves on to the next mode: **Light** → **Automatic** (follows your operating system) → **Dark**. Your choice is saved with your account, so it follows you to other computers.
+
+![grommunio Web in dark mode](/img/web/web_overview_dark.png)
+
+More options are in [Settings › General](/web/settings/#general): the **Theme** (color scheme), the **Icons** and the **list spacing** (comfortable or compact).
+
+## Reminders and notifications
+
+When an appointment or task with a reminder is due, the **Reminders** window opens and the bell in the top bar shows the number of due reminders.
+
+![The Reminders window with a due appointment and the Dismiss All, Open Item, Dismiss and Snooze buttons](/img/web/web_reminders.png)
+
+- **Open Item** opens the selected appointment or task.
+- **Dismiss** removes the selected reminder, **Dismiss All** removes all of them.
+- Choose a time under *Click Snooze to be reminded again in* and click **Snooze** to be reminded later.
+
+New mail is announced with a short message in the bottom corner. Under [Settings › Mail › New Mail Notifications](/web/settings/#mail) you decide whether you are notified about all folders, only your own mailbox or only the folders you choose. With the [Desktop Notifications](/web/plugins/#desktop-notifications) plugin, grommunio Web also shows notifications from your operating system.
+
+## Keyboard shortcuts
+
+grommunio Web can be operated almost completely from the keyboard. The most important shortcuts work out of the box:
+
+| Keys | Action |
+|---|---|
+| <kbd>Ctrl</kbd>+<kbd>K</kbd> | Open the command palette |
+| <kbd>Ctrl</kbd>+<kbd>F</kbd> | Jump to the search box |
+| <kbd>Enter</kbd> / <kbd>Delete</kbd> | Open / delete the selected item |
+| <kbd>Ctrl</kbd>+<kbd>S</kbd> / <kbd>Ctrl</kbd>+<kbd>Enter</kbd> | Save / send the open item |
+| <kbd>Ctrl</kbd>+<kbd>P</kbd> | Print |
+| <kbd>F5</kbd> | Refresh |
+
+Switch on the extended shortcuts for even more, for example <kbd>Ctrl</kbd>+<kbd>R</kbd> to reply. All shortcuts are listed in [Keyboard Shortcuts](/web/keyboard/).
+
+## Signing out
+
+Click **Logout** in the top bar to end your session. If you only close the browser, your session stays active until it expires. Always sign out on computers that others use as well.

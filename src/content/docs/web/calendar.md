@@ -1,369 +1,189 @@
 ---
 title: "Calendar"
-description: "Create appointments, meetings and room bookings, and manage your schedule with the grommunio Web Calendar."
+description: "Plan appointments and meetings in grommunio Web: calendar views, recurring appointments, invitations, scheduling with free/busy, room booking, responses and shared calendars."
 sidebar:
   order: 30
 ---
 
-In this chapter, we guide you how to use Calendar in grommunio Web. After reading through this chapter, you should be able to create appointments, meetings and room bookings.
+The calendar shows your appointments, meetings and events. You can plan meetings with colleagues, book meeting rooms, see when others are available and look at shared calendars side by side.
 
-![grommunio Web Calendar in week view showing several appointments across the working week.](/img/web/web-p028-1.png)
+![The calendar in the work week view with color-coded appointments from Monday to Friday](/img/web/web_cal_workweek.png)
 
-## Calendar Shortcut Bar
+## The calendar window
 
-The **Calendar Shortcut Bar** plays an important role in managing appointments and meetings. It provides quick access to commonly used calendar actions, helping users work more efficiently and stay organized.
+On the left, a **date picker** shows the current month. Click a day to jump to it, or **Today** to come back. Days with appointments are shown in bold. Below the date picker you find your calendars and those that others share with you; tick a calendar to show it.
 
-![The Calendar Shortcut Bar with buttons for creating items and switching between calendar views.](/img/web/web-p028-2.png)
+The toolbar switches between the views:
 
-The Shortcut Bar enables the quick creation of a new appointment or meeting. Additionally, it allows seamless switching between different calendar views, facilitating the review and management of the schedule.
+![The calendar toolbar with New, Address Book, Refresh, Print and the view buttons Day, Workweek, Week, Month and List](/img/web/web_cal_toolbar.png)
 
-The following calendar views are available from the shortcut bar:
+| View | Shows |
+|---|---|
+| **Day** | one day, hour by hour |
+| **Workweek** | your working days (Monday to Friday by default) |
+| **Week** | the whole week |
+| **Month** | a whole month at a glance |
+| **List** | all appointments of the selected period as a list |
 
-- **Day** view, for viewing a single day's schedule
-- **Workweek** view, for viewing the standard working week
-- **Week** view, for viewing all days of the current week
-- **Month** view, for an overview of the entire month
-- **List** view, for displaying appointments in a chronological list
+Use the arrows next to the date range above the calendar to move back and forward. The red line marks the current time; your working hours have a lighter background.
 
-The Calendar Shortcut Bar enables efficient creation, viewing, and management of appointments and meetings in the format that best supports the workflow.
+![The month view of October with recurring meetings, the business trip and Digital Expo Vienna](/img/web/web_cal_month.png)
 
-## Appointment
+Appointments are shown in the color of their [category](/web/mail/#categories), or in the color of the calendar. A circular arrow marks a recurring appointment. Hover over an appointment to see the details:
 
-A new appointment can be created using one of the following methods:
+![The card that appears when hovering over the Aurora launch review appointment, with time, location and category](/img/web/web_cal_tooltip.png)
 
-- Use the *Calendar Shortcut Bar* to quickly create an appointment.
-- Click on the + symbol at the end of the Tab Bar.
-- Double-click directly in the calendar using the appropriate view.
-- Right-click directly in the calendar using the appropriate view. Choose **New Appointment**
+![The day view of today](/img/web/web_cal_day.png)
 
-Appointment creation behavior depends on the selected calendar view:
+![The list view with all appointments, their start and end, location and categories](/img/web/web_cal_list.png)
 
-- In **Day**, **Workday**, and **Week** views, double-click the desired date and time to create an appointment at that specific time.
-- In **Month** view, double-click a date to create an **all-day** appointment for the selected day. The appointment time can be edited later if needed.
+## Appointments
 
-![The appointment editor with fields for subject, location, time, show as, and reminder.](/img/web/web-p029-1.png)
+### Creating an appointment
 
-Once created, the appointment editor opens, providing the ability to modify the following details:
+- double-click a time slot in the calendar,
+- select a time range with the mouse and double-click it, or
+- click **New** in the toolbar.
 
-### Appointment Toolbar
+The appointment opens in its own tab:
 
-The Appointment toolbar is located at the top of the appointment window and provides quick access to commonly used actions.
+![The appointment Aurora launch review with subject, location, start and end time, Show as, reminder and notes](/img/web/web_cal_appointment.png)
 
-- **Save & Close** - Saves the appointment and closes the editor.
-- **Delete** - Permanently removes the appointment. Moves it into the **Deleted Items** folder.
-- **Attachment Dropdown** - Provides two methods for adding attachments:
-  - **File Upload**: Upload a file directly from the computer.
-  - **Attach Item**: Attach an item from the mailbox (email, contact, calendar entry, task, or note) as an attachment or as text only.
+| Field | Purpose |
+|---|---|
+| **Subject** | The title of the appointment. |
+| **Location** | Where it takes place, for example a room or an address. A web address in this field can be opened with one click. |
+| **Time / until** | Start and end. Tick **All Day Event** for events without a time, such as holidays or trade fairs. |
+| **Show as** | How the time appears to others: Free, Tentative, Busy, Out of Office or Working Elsewhere. |
+| **Reminder** | Whether and how long before the start you are reminded. |
+| **Create in** | The calendar the appointment is saved in, shown in its color (if you have more than one). |
+| **Notes** | Any text, pictures or links. |
+| **Attachments** | Files belonging to the appointment. |
 
-:::note
-Attachments may also be added using the **Attachments** area further down in the notes composition window.
+The toolbar of the appointment offers **Save & Close**, **Delete**, **Add attachment**, **Print**, **Recurrence**, **Invite attendees**, **High/Low priority**, **Categories** and **Private**. A private appointment shows only as busy to others, even if they may see your calendar.
+
+### Changing and moving appointments
+
+- Drag an appointment to another time or day to move it. Drag its lower edge to change its length.
+- Hold <kbd>Ctrl</kbd> while dragging to **copy** the appointment.
+- Double-click an appointment to open and edit it.
+- Right-click an appointment for more options:
+
+![The context menu of an appointment with Open, Copy/Move, Delete, Mark Unread, Categories, Show as, Send to, Export as and Options](/img/web/web_cal_contextmenu.png)
+
+Appointments that are new to you, for example invitations you have not looked at, are shown in **bold**. Right-click and choose **Mark Read** or **Mark Unread** to change this.
+
+### Recurring appointments
+
+Click **Recurrence** in the toolbar of an appointment to repeat it:
+
+![The Recurrence dialog with the time of the appointment, the recurrence pattern and the range of recurrence](/img/web/web_cal_recurrence.png)
+
+1. Set the start and end time of each occurrence.
+2. Choose the pattern: **Daily**, **Weekly**, **Monthly** or **Yearly**, with the details, for example *every 2 weeks on Wednesday*.
+3. Choose when the series ends: never, after a number of occurrences or on a date.
+
+When you open or delete a recurring appointment, grommunio Web asks whether you mean this occurrence only or the whole series.
+
+## Meetings
+
+A meeting is an appointment with other people. They receive an invitation they can accept or decline, and you see their answers.
+
+### Inviting people
+
+1. Create an appointment and click **Invite attendees**, or choose **New** › **Meeting request**.
+2. Enter the attendees in **To**, or click **To:** to pick them from the address book.
+3. Fill in the subject, location and time.
+4. Click **Send**.
+
+![A new meeting request Aurora pricing workshop to Lukas Hofer, Sophie Wagner and Meeting Room Alpine with a short invitation text](/img/web/web_cal_meeting_new.png)
+
+In the address book, attendees can be added as **Required**, **Optional** or **Resource** (rooms and equipment):
+
+![The address book for meeting attendees with Lukas Hofer and Sophie Wagner as Required and Meeting Room Alpine as Resource](/img/web/web_cal_addressbook_room.png)
+
+### Finding a time that suits everyone
+
+Open the **Scheduling** tab to see the availability of all attendees, side by side:
+
+![The Scheduling tab with the attendees on the left, their free/busy times for the selected day and suggested times on the right](/img/web/web_cal_scheduling.png)
+
+- Colored bars show when someone is **busy**, **tentative**, **out of office** or **working elsewhere**.
+- The green and red lines mark the start and end of your meeting. Drag them, or change the time at the top.
+- **Suggested Times** on the right lists times when everybody is free. Click one to take it.
+- **Show only working hours** hides the night.
+- Add more attendees in the field below the list. Right-click an attendee to make them required, optional or a resource.
+
+### Booking a meeting room
+
+Rooms and equipment such as projectors are listed in the address book like people, with their own icon. Add a room as a **Resource** to your meeting:
+
+- in the address book, select the room and click **Resource:**, or
+- in the Scheduling tab, add the room and right-click it › **Set as resource**.
+
+grommunio Web enters the room in the **Location** field. When you send the meeting, the room is booked. If the room is set up to accept invitations automatically, it accepts free times and declines conflicting ones. You see its answer in the [tracking](#tracking-responses).
+
+:::note[For administrators]
+Rooms and equipment are created as shared mailboxes of type *Room* or *Equipment* in grommunio Admin. In the room's account settings, enable the automatic processing of meeting requests (accept conflict-free requests, decline conflicts and, if you want, recurring requests).
+
+grommunio Web books rooms directly in their calendar (`ENABLE_DIRECT_BOOKING`, on by default). For this, users need write access to the room's calendar: give the **Default** user at least the *Author* role with *Full Details* in the permissions of the room calendar. Otherwise sending a meeting with this room fails with *Could not save message (MAPI_E_NOT_FOUND)*.
 :::
 
-- **Print** - Prints the appointment details.
-- **Recurrence** - Opens the recurrence settings to create a repeating appointment.
-- **Invite Attendees** - Converts the appointment into a meeting and switches from the *Appointment* tab to the *Meeting* tab, allowing participants to be invited.
-- **High Importance** - Marks the appointment as high importance.
-- **Low Importance** - Marks the appointment as low importance.
-- **Categories** - Assigns one or more categories to the appointment.
-- **Mark as Private** - Marks the appointment as private so its details are hidden from other users.
+### Answering an invitation
 
-#### Recurrence Settings
+Invitations arrive in your Inbox. The reading pane shows the date, time and location and the buttons to answer:
 
-The Recurrence configuration provides the ability to define the repetition pattern of an appointment, specifying both the frequency and the timing of occurrences.
+![The meeting request Aurora pricing workshop in the inbox of Lukas Hofer with the Accept, Tentative, Decline and Propose New Time buttons](/img/web/web_cal_request_received.png)
 
-It is divided into three sections.
+- **Accept**, **Tentative** or **Decline**: grommunio Web asks whether you want to edit the response before sending, send it right away, or not send a response at all.
+- **Propose New Time** suggests another time to the organiser.
 
-1. **Time** This section defines the duration and time of each occurrence. Example:
-   - **Occurrence duration:** 30 minutes
-   - **Start time:** 14:00
-   - **End time:** 14:30
-2. **Recurrence Pattern** This section defines how often the appointment repeats. Patterns such as daily, weekly, monthly, or yearly can be selected, with options to configure intervals and specify applicable days.
-3. **Range of Recurrence** This section controls the overall timeframe of the recurring appointment, providing options to:
-   - Specify a start date
-   - Allow the recurrence to continue indefinitely
-   - End the recurrence after a specific number of occurrences
-   - Define an end date
+![The dialog asking whether to edit the response, send it now or not send a response](/img/web/web_cal_request_response.png)
 
-### Subject
+Accepted and tentative meetings are added to your calendar. You can also answer from the calendar itself; under [Settings › Calendar](/web/settings/#calendar) you can choose to delete the invitation from your Inbox when you do.
 
-Enter a brief title or description for the appointment. This text appears in the calendar and helps identify the purpose of the meeting or event.
+### Tracking responses
 
-### Location
+The answers of your attendees arrive as mails in your Inbox, for example *Accepted: Aurora pricing workshop*:
 
-Specify where the appointment will take place. This can be a physical location, such as a meeting room, or a virtual location, such as an online meeting link.
+![The inbox of Anna Berger with the accepted and tentative responses of Lukas Hofer and Sophie Wagner](/img/web/web_cal_responses_inbox.png)
 
-### Time
+Open the meeting in your calendar and click the **Tracking** tab to see everybody's answer in one place:
 
-Set the start and end date and time for the appointment. Example:
+![The Tracking tab listing the organiser, the required attendees with their responses and the room as accepted resource](/img/web/web_cal_tracking.png)
 
-- **Start:** 12/16/2026, 11:30
-- **End:** 12/16/2026, 12:00
+### Changing or canceling a meeting
 
-If the appointment lasts for the entire day, select **All Day Event**. This automatically schedules the appointment as an all-day entry.
+Open the meeting, make your changes and click **Send** to send the update to all attendees. To cancel a meeting, open it and click **Cancel invitation**, or delete it from your calendar. grommunio Web asks whether to send a cancellation to the attendees. They see the cancellation in their Inbox and can remove the meeting from their calendar with one click.
 
-These values can be adjusted to change the duration or schedule the appointment on a different date.
+## Shared calendars
 
-### Show As
+You can look at calendars of colleagues who have shared them with you, for example your manager's or a team calendar.
 
-This option determines how the attendee's availability is presented during the appointment.
+1. Click **Add Shared Calendar +** below the calendar list.
+2. Enter the name of the colleague and press <kbd>Enter</kbd>.
+3. Click **Open**.
 
-- Options: Free, Tentative, Busy, Out Of Office
+![The Open Shared Folders dialog with Lukas Hofer as name and Calendar as folder type](/img/web/web_cal_shared_dialog.png)
 
-For example, setting this option to Busy indicates that the user is not available during the scheduled time.
+The shared calendar appears in your list. Tick or untick it to show or hide it. With several calendars visible, grommunio Web shows them **side by side**:
 
-### Reminder
+![The own calendar and the calendar of Lukas Hofer side by side](/img/web/web_cal_shared_side.png)
 
-Specifies when a reminder should be received prior to the start of the appointment.
+Click the arrow on the tab of a calendar to **overlay** it onto the others. Both calendars are then shown in one column, each in its color:
 
-For example, a reminder set to 15 minutes triggers a notification shortly before the event.
+![The own calendar and the calendar of Lukas Hofer overlaid in one column](/img/web/web_cal_shared_overlay.png)
 
-:::note
-You can also turn off the reminder if it is not needed.
+You can make overlay the default under [Settings › Calendar](/web/settings/#calendar). What you see in a shared calendar depends on the permissions you have: only free/busy times, also subjects and locations, or all details. How to share your own calendar is described in [Folders & Permissions](/web/folders-permissions/#sharing-a-folder).
+
+:::tip
+To give an assistant full access to your calendar, including answering invitations for you, make them a [delegate](/web/settings/#delegates).
 :::
 
-### Create In
+## Printing the calendar
 
-Select the calendar where the appointment will be saved. By default, appointments are created in the **Calendar**, but another available calendar can be selected if applicable.
+Click **Print** in the toolbar to print the day, work week, week or month you are looking at. The printout shows the period, your appointments and when and by whom it was printed.
 
-:::caution
-This option is available only when one or more shared folders are configured.
-:::
+## Reminders
 
-### Notes
-
-A **Note** can be added to provide additional information related to the appointment. Notes are useful for agendas, preparation details, or any other relevant comments and are saved as part of the appointment.
-
-:::note
-For an overview of your appointments go back to calendar. You can also share your calendar with co-workers and allow to edit/create or delete items. By writing an email you select the attachment icon, choose "Attach item" and add your calendar.
-:::
-
-## Meeting
-
-A **Meeting request** can be created in one of the following ways:
-
-- By selecting **Meeting request** from the **Shortcut Bar** drop-down menu.
-- By right-clicking directly in the calendar and selecting **New Meeting Request**
-- By selecting **Invite attendees** in the **Appointment Editor**.
-- By selecting **Scheduling** Tab in the **Appointment Editor**.
-
-![The meeting editor with a To field, Appointment and Scheduling tabs, and a Send button.](/img/web/web-p032-1.png)
-
-The most convenient way to avoid scheduling conflicts is to use the **Scheduling** Tab in the appointment editor.
-
-This option enables the following actions:
-
-- Select one or more users
-- View their schedules at the same time
-- Check their status: Busy/Tentative/Out of Office/No Information
-- Choose from Suggested Times
-
-By checking participants' availability before saving the meeting, potential conflicts can be avoided beforehand.
-
-Once **Invite attendees** is selected in the **Appointment Editor**, the appointment is converted into a meeting request and generates the **To:** field.
-
-- **To:** Specifies the attendee or attendees of the meeting request.
-
-  The field supports the following methods for selecting users:
-
-  - Manual entry with autocomplete support
-  - Recipient validation using **Check Names**
-  - User selection via the **Address Book**
-  - Opening the Address Book by selecting the **To** button to choose one or more users
-
-When the Address Book is opened following three fields can be entered:
-
-- **Required:** Mandatory attendees. They are essential for the meeting.
-- **Optional:** Optional attendees. They are welcome to join but their absence won't stop the meeting
-- **Resource:** Resources such as rooms or equipment
-
-Furthermore the toolbar changes to reflect the available meeting actions.
-
-### Toolbar Changes
-
-When an appointment becomes a meeting, the toolbar is updated as follows:
-
-- **Save & Close** is replaced by **Send**.
-- An additional **Save** button is displayed.
-
-The meeting toolbar provides the following additional options:
-
-- **Check Names** - Verifies attendee names and resolves them against the address directory.
-- **Open Address Book** - Opens the address book to select attendees from available contacts.
-- **Cancel Invitation** - Cancels the meeting and sends a cancellation notice to all invited attendees.
-
-## Tracking
-
-After a meeting request has been sent, the **Tracking** tab becomes available in the organizer's meeting editor.
-
-![The Tracking tab listing invitees with their attendance role and response status.](/img/web/web-p033-1.png)
-
-This tab provides an overview of all invitees and their responses to the meeting request.
-
-- **Name** – Displays the name of each invited participant.
-- **Attendance** – Indicates the participant's role, such as: Meeting Organizer, Required Attendee, Optional Attendee or Resource.
-- **Response** – Shows the current response status for each participant: Accepted, Declined, or No response.
-
-The **Tracking** tab allows the meeting organizer to monitor attendance and track responses without opening individual replies.
-
-## Room Booking
-
-In addition to scheduling appointments and meetings, the calendar also allows the booking of **rooms**. This feature enables the reservation of shared resources, such as meeting rooms or conference facilities, directly within the scheduling workflow.
-
-Before rooms can be booked by users, certain configuration steps must be completed in the **Admin UI**.
-
-### Room Configuration (Admin UI)
-
-To enable room booking, an administrator must first create a room resource as a shared user account.
-
-1. Open the **Admin UI**.
-2. Navigate to the **User** tab.
-3. Select **New User**.
-4. Choose the appropriate **Domain**.
-5. Set the **Mode** to **Shared**.
-6. Enter a descriptive **Username** for the room (for example, Room_A).
-7. Set the **Type** to **Room**.
-8. Save the configuration by clicking **Add**.
-
-![The Admin UI Add User dialog with Mode set to Shared and Type set to Room.](/img/web/web-p035-1.png)
-
-After the room has been created, edit the room user and configure the automatic processing of meeting requests:
-
-1. Open the room user for editing.
-2. In the **Account** Tab locate **Automatic processing of meeting requests**.
-3. Enable the following options:
-   - **Decline all recurring meeting requests**
-   - **Decline all meeting requests with scheduling conflicts**
-   - **Accept conflict-free meeting requests**
-4. Save the settings.
-
-These options ensure that the room automatically accepts valid meeting requests and prevents scheduling conflicts.
-
-### Room Usage
-
-To book a room in grommunio Web, there are two methods:
-
-**Method 1**
-
-1. Create a new **Meeting**.
-2. Open the **Address Book** using one of the following methods:
-   - Select the **To:** button.
-   - Alternatively, click the **Open Address Book** in the toolbar.
-
-   This opens the Address Book, extended with the following fields:
-   - **Required:** Mandatory attendees
-   - **Optional:** Optional attendees
-   - **Resource:** Resources such as rooms or equipment
-3. Add the room to the **Resource** field.
-4. If attendees are required, add them to the **Required** field.
-5. Send the meeting request.
-
-![The Address Book dialog with the room added to the Resource field.](/img/web/web-p036-1.png)
-
-**Method 2**
-
-1. Open the **Scheduling** tab in the appointment/meeting editor.
-2. Add the attendee (for example, Room_A).
-3. Right-click the added attendee.
-4. From the context menu, select one of the following options:
-   - **Set as Required**
-   - **Set as Optional**
-   - **Set as Resource**
-5. Select **Set as Resource** to designate the attendee as a room.
-
-![The Scheduling tab showing attendee schedules, a free/busy legend, and suggested times.](/img/web/web-p037-1.png)
-
-![The Scheduling tab context menu with options to set an attendee as required, optional, or resource.](/img/web/web-p037-2.png)
-
-![The Scheduling tab with the room added and its availability displayed.](/img/web/web-p038-1.png)
-
-If the room is available, it is automatically reserved and added to the meeting. If the room is unavailable or a conflict exists, the meeting request is declined according to the configured room settings.
-
-## Standard Appointment/Meeting Options
-
-When right-clicking on a created appointment or meeting, the following options are available:
-
-- **Open** - Opens the selected appointment or meeting for viewing or editing its details.
-- **Copy/Move** - Allows to duplicate the appointment or move it to a different date or calendar.
-- **Delete** - Permanently removes the appointment or meeting from the calendar. Moves it into the **Deleted Items** folder.
-- **Categories** - Assign a category to the appointment for better organization and filtering.
-- **Show as >** - Change the status of the appointment to indicate how it will appear in the calendar. Options: Free, Busy, Tentative, Out of Office
-- **Send to …** - Opens a new email message with the appointment attached as an *.ics* file. This allows to send the calendar event to other users via email, preserving all event details.
-- **Export as >** - Export the selected appointment in *.ics* formats for external use or sharing.
-- **Options** - Displays properties such as the Object ID.
-
-### Additional Options for Received Meeting Requests
-
-When a meeting request is received from another user, the following actions become available:
-
-- **Accept** - Confirms attendance and adds the meeting to the calendar.
-- **Tentative** - Marks attendance as tentative, indicating possible participation without full commitment.
-- **Decline** - Rejects the meeting invitation and removes it from the calendar.
-- **Propose New Time** - Suggests an alternative meeting time to the organizer when the proposed time is not suitable.
-
-:::note
-Regardless of the option selected (Accept, Tentative, or Decline), the action must be further confirmed by selecting one of the following:
-
-- **Edit the response before sending**
-- **Send the response now**
-- **Do not send a response**
-:::
-
-## Calendar Overlay
-
-When multiple calendars are selected, they are displayed side by side by default. Each calendar appears in its own column, facilitating a clear comparison of availability across users, rooms, or resources.
-
-- **Side-by-side view** – Each selected calendar appears in a separate column with its own color, making overlaps and free time easy to identify.
-
-![Two calendars shown side by side, each in its own column with distinct colors.](/img/web/web-p039-1.png)
-
-- **Overlay view** – By clicking the **"<"** arrow in the calendar header, the selected calendar is overlaid onto the main calendar instead of being shown in a separate column.
-
-![Two calendars consolidated into a single column in overlay mode, retaining their color coding.](/img/web/web-p040-1.png)
-
-- **Return to side-by-side view** – To detach an overlaid calendar and display it again in its own column, click the **">"** arrow in the calendar header.
-
-In overlay mode, all events are consolidated into a single calendar view. Events retain their color-coding by calendar, enabling distinction between different users or resources while displaying them within the same time grid.
-
-Switching between side-by-side and overlay views is available at any time, allowing the display to be adjusted to suit specific scheduling requirements.
-
-## Calendar Basic Meeting Workflow
-
-The following describes a typical meeting workflow between two users.
-
-### Meeting request and response
-
-1. **John Doe creates a meeting** – John Doe schedules a meeting and sends a meeting request to Jane Doe.
-
-![John Doe composing a meeting request addressed to Jane Doe.](/img/web/web-p041-1.png)
-
-2. **Jane Doe receives the invitation** – Jane Doe receives the meeting request as an RSVP message.
-
-![Jane Doe's inbox showing the received meeting request with Accept, Tentative, Decline, and Propose New Time options.](/img/web/web-p041-2.png)
-
-3. **Jane Doe responds to the invitation** – Jane Doe can accept, decline, or tentatively accept the meeting:
-   - By responding directly to the RSVP email, or
-   - By right-clicking the meeting entry in the calendar and selecting the appropriate action from the context menu.
-
-![The Send Meeting Request Confirmation dialog prompting Jane Doe to edit, send, or skip the response.](/img/web/web-p042-1.png)
-
-4. **John Doe receives the response** – John Doe receives an email notification informing them of Jane Doe's response.
-
-![John Doe's inbox showing the acceptance notification from Jane Doe.](/img/web/web-p042-2.png)
-
-5. **Tracking responses** – Alternatively, John Doe can open the meeting in the meeting editor and view all participant responses in the **Tracking** tab.
-
-![The Tracking tab showing Jane Doe's accepted response to the meeting.](/img/web/web-p043-1.png)
-
-### Meeting cancellation
-
-1. **John Doe cancels the meeting** – John Doe cancels the scheduled meeting.
-
-![The Send Meeting Request Cancellation dialog confirming the meeting cancellation.](/img/web/web-p043-2.png)
-
-2. **Jane Doe is notified** – Jane Doe receives a cancellation message.
-
-3. **Calendar update** – Jane Doe can remove the canceled meeting from their calendar, by confirming the removal via *Remove From Calendar*.
-
-![Jane Doe's inbox showing the cancellation message with a Remove From Calendar button.](/img/web/web-p044-1.png)
-
-This workflow ensures that meeting invitations, responses, and changes are clearly communicated and synchronized across all participants' calendars.
+When you create an appointment, grommunio Web sets a reminder 15 minutes before the start. You can change the default under [Settings › Calendar](/web/settings/#calendar). When a reminder is due, the **Reminders** window opens; see [Reminders and notifications](/web/intro/#reminders-and-notifications).

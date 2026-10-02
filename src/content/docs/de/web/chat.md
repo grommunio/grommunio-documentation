@@ -1,83 +1,44 @@
 ---
 title: "Chat"
-description: "Aktivieren und nutzen Sie das grommunio Web-Chat-Plugin für den Echtzeit-Austausch mit Teams, in Kanälen und per Direktnachricht."
+description: "grommunio Chat in grommunio Web nutzen: anmelden, das eigene Team finden, in Kanälen schreiben und Direktnachrichten senden."
 sidebar:
-  order: 80
+  order: 77
 ---
 
-Grommunio bietet außerdem eine **Chat**-Funktion, um die Kommunikation zu vereinfachen.
+**grommunio Chat** ist der Team-Messenger von grommunio: Kanäle für Teams und Themen, Direktnachrichten, Dateiaustausch und Benachrichtigungen. Mit dem Plugin **Chat** öffnet er sich direkt in grommunio Web.
 
-Die **Chat**-Funktion in grommunio Web ermöglicht den Austausch von Nachrichten in Echtzeit und die Zusammenarbeit direkt über die Weboberfläche.
+## Chat einschalten
 
-## Voraussetzungen
+1. Öffnen Sie **Einstellungen › Plugins**.
+2. Aktivieren Sie **Chat** und klicken Sie auf **Übernehmen**.
+3. Laden Sie grommunio Web neu, wenn Sie dazu aufgefordert werden.
 
-- grommunio Web ist installiert und zugänglich
-- Die Ersteinrichtung des Systems ist abgeschlossen
-- Die Administrator-Anmeldedaten liegen vor
+In der oberen Leiste erscheint die Registerkarte **Chat**. Unter **Einstellungen › Chat** können Sie **Chat beim Start öffnen** aktivieren, damit er nach der Anmeldung automatisch geöffnet wird.
 
-## Die Chat-Funktion aktivieren
+## Anmelden
 
-1. Melden Sie sich bei **grommunio Web** an.
-2. Navigieren Sie zu **Einstellungen**.
-3. Öffnen Sie den Abschnitt *Plugins*.
-4. Aktivieren Sie das Plugin, indem Sie das Kontrollkästchen **Chat** aktivieren.
-5. Klicken Sie auf **Übernehmen**, um die Konfiguration zu speichern.
-6. Laden Sie die grommunio Web-Oberfläche neu.
+Klicken Sie in der oberen Leiste auf **Chat**. Chat öffnet sich in einer Registerkarte von grommunio Web:
 
-Nach dem Neuladen erscheint der Eintrag **Chat** im *Hauptbereich der Benutzeroberfläche*.
+![Die Registerkarte Chat mit der Anmeldeseite von grommunio Chat und der Schaltfläche für die Anmeldung mit grommunio](/img/web/de/web_chat.png)
 
-## Erster Zugriff auf den Chat und Initialisierung
+- Nutzt Ihre Organisation Single Sign-on, klicken Sie unter der Anmeldung auf **grommunio**. Sie werden mit Ihrem grommunio-Konto angemeldet.
+- Andernfalls melden Sie sich mit dem Benutzernamen und Passwort an, die Sie von Ihrem Administrator erhalten haben.
 
-![grommunio Web Chat tab showing the "Log in to your account" prompt for the chat system](/img/web/web-p095-1.png)
-
-1. Klicken Sie im *Hauptbereich der Benutzeroberfläche* auf **Chat**.
-2. Es öffnet sich eine neue **Chat-Registerkarte** mit der Anmeldeaufforderung.
-3. Melden Sie sich mit den Administrator-Zugangsdaten an, die bei der Ersteinrichtung des Systems erstellt wurden.
+Ihr Administrator legt die Teams Ihrer Organisation an und fügt Sie hinzu. Nach der Anmeldung sehen Sie links Ihre Teams und die Kanäle des aktuellen Teams.
 
 :::note
-Diese Anmeldedaten werden für die Erstkonfiguration des Chat-Systems benötigt.
+Chat benötigt ein Konto in grommunio Chat. Können Sie sich nicht anmelden, bitten Sie Ihren Administrator, Chat für Ihr Konto zu aktivieren.
 :::
 
-## Teamgründung
+## Mit Chat arbeiten
 
-Nach der ersten erfolgreichen Anmeldung:
+- **Kanäle** sind Unterhaltungen zu einem Thema oder für eine Gruppe, zum Beispiel *Town Square* für das ganze Team oder *Aurora-Launch* für ein Projekt. Mit **+** neben *Kanäle* durchsuchen oder erstellen Sie Kanäle.
+- **Direktnachrichten** sind private Unterhaltungen mit einer oder mehreren Personen. Mit **+** neben *Direktnachrichten* beginnen Sie eine.
+- Schreiben Sie Ihre Nachricht in das Feld unten und drücken Sie <kbd>Enter</kbd>. Mit <kbd>Umschalt</kbd>+<kbd>Enter</kbd> erzeugen Sie eine neue Zeile.
+- Mit der Büroklammer senden Sie eine Datei, oder Sie ziehen sie in die Unterhaltung.
+- Erwähnen Sie Kolleginnen und Kollegen mit `@name`, um sie zu benachrichtigen, und reagieren Sie mit Emojis auf Nachrichten.
+- Hat Ihr Administrator es eingerichtet, erscheinen Benachrichtigungen von Chat auch in grommunio Web, damit Sie keine Nachricht verpassen, während Sie an Ihren E-Mails arbeiten.
 
-1. Erstellen Sie ein **Team**, wenn Sie dazu aufgefordert werden.
-   - Das Team stellt eine Organisationseinheit innerhalb des Chat-Systems dar.
-2. Sobald das Team erstellt ist, fahren Sie mit der Verwaltung der Teammitglieder fort.
+## Siehe auch
 
-## Nutzer einladen
-
-1. Klicken Sie in der Team-Oberfläche auf **+ Mitglieder einladen**.
-2. Kopieren Sie den generierten **Einladungslink**.
-3. Teilen Sie den Link mit den Nutzern:
-   - Fügen Sie ihn in einen Browser ein oder
-   - senden Sie ihn direkt an die Nutzer (z. B. per E-Mail).
-
-Der Einladungslink leitet den Nutzer zur Seite **Kontoerstellung** weiter.
-
-![Chat account creation page where an invited user enters their email address, username, and password to create a grommunio chat account](/img/web/web-p096-1.png)
-
-## Benutzerverwaltung und Rollen
-
-Nachdem ein Nutzer sein Konto erstellt hat:
-
-1. Der Administrator kann den Benutzer zum Team hinzufügen.
-2. Weisen Sie eine der folgenden Rollen zu:
-   - **Teammitglied**
-   - **Teamadministrator**
-
-Nach der Zuweisung kann der Benutzer:
-
-- Sich erfolgreich bei der Chat-Funktion anmelden
-- Auf das zugewiesene Team zugreifen und daran teilnehmen
-
-## Weitere Informationen
-
-Sie können entweder private Nachrichten an einzelne Nutzer senden oder Beiträge in Kanälen veröffentlichen, sodass alle Mitglieder des Kanals die Nachricht erhalten.
-
-Auf der linken Seite können Sie unter „Kanäle suchen“ nach vorhandenen Kanälen suchen. Durch Klicken auf das Pluszeichen (+) können Sie Kanäle hinzufügen oder sogar selbst einen neuen Kanal erstellen.
-
-Weiter unten auf der linken Seite, unter „Direktnachrichten“, kannst du über das Plus-Symbol (+) nach Personen suchen oder unten über „Mitglieder einladen“ Personen in den Chat einladen.
-
-Im Chat selbst hast du außerdem die Möglichkeit, Anhänge zu versenden, indem du auf das Büroklammer-Symbol klickst. Es öffnet sich ein neues Fenster, in dem du die Datei auswählen kannst, die du versenden möchtest.
+- [grommunio Chat: teams, channels and users](/guides/chat/) (englisch): Einrichtung auf dem Server, Teams und Single Sign-on für Administratoren.

@@ -1,240 +1,120 @@
 ---
 title: "Contacts"
-description: "Create and manage contacts, fill in the Contacts Editor tabs, and build distribution lists in grommunio Web."
+description: "Manage your contacts and distribution lists in grommunio Web, use the address book of your organization and see addresses on a map."
 sidebar:
   order: 40
 ---
 
-In this chapter, we guide you on how to use Contacts in grommunio Web. After reading through this chapter, you should be able to create and manage contacts, as well as work with distribution lists.
+Contacts holds the people you work with outside your organization: customers, partners, suppliers, and anybody else you want to keep. Colleagues are listed automatically in the **address book** of your organization. You don't need to add them as contacts.
 
-## Adding a new contact
+![The contacts in the phone list view with name, e-mail and phone numbers of Claire Dubois, Tomás García and other contacts](/img/web/web_contacts_list.png)
 
-![Empty Contacts list view in grommunio Web showing the Full Name, Email, Home Phone, Mobile Phone, Categories, Business Phone and Business Fax columns](/img/web/web-p045-1.png)
+## Views
 
-To add a new Contact click on the contacts icon in the Shortcut Bar or click on the `+` symbol at the end of the Tab Bar.
+Click **Switch view** in the toolbar to choose how contacts are shown:
 
-This will open the **Contacts Editor**. The **Contacts Editor** in grommunio Web allows users to manage and maintain contact information. It is divided into three main tabs:
+![The Switch view menu with Business Cards and Phone List](/img/web/web_contacts_viewmenu.png)
 
-- General
-- Details
-- Map
+- **Phone List**: a table with name, e-mail, phone numbers and categories. Click a column header to sort.
+- **Business Cards**: one card per contact. Use the letters on the right to jump to contacts by their initial.
 
-![The Contacts Editor General tab with Name, Phone Numbers, Addresses and Attachments on the left and Photo, Email and Additional Information on the right](/img/web/web-p046-1.png)
+![The business card view with cards for Yuki Tanaka, Hannah Schmidt, Peter Lindqvist, Sarah Klein and others](/img/web/web_contacts_cards.png)
 
-Each tab has a different purpose and provides fields for entering various pieces of information about a contact.
+Use the **Search…** box to find a contact by name, company, e-mail address or phone number.
 
-### General Tab
+## Adding a contact
 
-The **General** tab is the first section of the contact editor. It is used for entering basic contact information, including names, phone numbers, email, and more.
+1. Click **New** in the toolbar, or choose **New** › **Contact** from any view.
+2. Enter the details on the **General**, **Details** and **Map** tabs.
+3. Click **Save & Close**.
 
-#### Key Fields in the General Tab
+![The contact Claire Dubois with name, company, job title, phone numbers, business address, e-mail and photo](/img/web/web_contact_general.png)
 
-- **Name:**
-  - **Full Name:** The **Full Name** field acts as a button. When selected, it opens a new window that allows the full name to be divided into individual components:
-    - **Title:** Enter the contact's title (e.g., Mr., Mrs., Dr.).
-    - **First:** Enter the contact's first name.
-    - **Middle:** Enter the contact's middle name (optional).
-    - **Last:** Enter the contact's last name.
-    - **Suffix:** Enter any suffix (e.g., Jr., Sr., II, III).
-  - **Company:** Enter the name of the company the contact works for.
-  - **Job Title:** Specify the contact's job title.
-  - **File as:** Select how the contact should be sorted or displayed (e.g., first name or last name).
-- **Phone Numbers:**
-  - **Business:** Enter the business phone number.
-  - **Home:** Enter the home phone number.
-  - **Business Fax:** Enter the business fax number (if applicable).
-  - **Mobile:** Enter the mobile phone number.
+### General
 
-Each phone number field (Business, Home, Business Fax, Mobile, etc) acts as a button. When clicked, it opens a window with the following fields:
+| Field | Notes |
+|---|---|
+| **Full Name** | Click the button to enter title, first, middle and last name and suffix separately. |
+| **Company**, **Job Title** | Shown in the list and on the business card. |
+| **File as** | How the contact is sorted, for example *Dubois, Claire* or *Claire Dubois*. |
+| **Phone Numbers** | Four fields. Use the drop-down next to each field to choose the type: Business, Home, Mobile, Business Fax and many more. |
+| **Addresses** | Business, Home and Other address. Click the button to enter street, city, postal code and country separately. |
+| **Email** | Up to three e-mail addresses (Email, Email 2, Email 3), each with a display name. |
+| **Webpage**, **IM Address** | The web page and instant messaging address. |
+| **Photo** | Click the picture to upload a photo of the contact. |
+| **Additional information** | Free notes. |
+| **Attachments** | Files belonging to the contact. |
 
-- **Country/Region Code:** Enter the country or region code.
-- **City/Area Code:** Enter the city or area code.
-- **Local Number:** Enter the local phone number.
-- **Extension:** Enter any extension number (if applicable).
+### Details
 
-Additionally, there is a **dropdown** field to select the type of phone number. The available options in the dropdown are:
+![The Details tab with department, office, profession, nickname, manager, assistant, partner, birthday and anniversary](/img/web/web_contact_details.png)
 
-- Assistant
-- Business
-- Business 2
-- Business Fax
-- Callback
-- Car
-- Company
-- Home
-- Home 2
-- Home Fax
-- ISDN
-- Mobile
-- Other
-- Other Fax
-- Pager
-- Primary
-- Radio
-- Telex
-- TTY/TDD
+The **Details** tab holds more personal and business information: department, office, profession, nickname, manager's and assistant's name, spouse or partner, **birthday** and **anniversary**.
 
-- **Email:**
-  - **Email:** Enter the contact's email address.
-  - **Display Name:** Set a custom name to display for the contact, if desired.
-  - **Webpage:** Provide the contact's personal or business webpage URL.
-  - **IM Address:** Enter the contact's Instant Messaging address (if applicable)
-
-The Email field acts as a button with enhanced functionality. Selecting the email button opens the address book, allowing an existing contact's email address to be selected instead of being entered manually.
-
-Additionally a dropdown menu allows classification of the email entry. The available options are:
-
-- Email
-- Email 2
-- Email 3
-
-- **Photo:**
-  - Upload a photo of the contact, which will be displayed alongside their information for easy recognition.
-
-:::caution[Attention]
-Supported format for contact pictures are JPEG, GIF, PNG, BMP
+:::tip
+When you enter a birthday or an anniversary, grommunio Web adds a yearly all-day event to your calendar, for example *Claire Dubois's Birthday*.
 :::
 
-- **Addresses:**
-  - **Business:** Enter the contact's business address.
-  - **Home:** Enter the contact's home address.
+### Map
 
-Each address field (e.g., Business, Home) acts as a button. When clicked, it opens a window with the following input fields:
+The **Map** tab shows the addresses of the contact on a map (OpenStreetMap). Use the **+** and **−** buttons or the mouse wheel to zoom, and drag the map to move it.
 
-- **Street:** Enter the street address.
-- **City:** Enter the city.
-- **State/Province:** Enter the state or province.
-- **Postal Code:** Enter the ZIP or postal code.
-- **Country/Region:** Enter the country or region.
-
-Additionally, there is a **Type Dropdown** to classify the address. The dropdown options include: **Home** – **Business** – **Other**
-
-- **Additional Information:**
-  - Include any additional notes or information about the contact that may be useful.
-- **Attachments:**
-  - Upload any relevant attachments related to the contact (e.g., documents, images).
-
-### Details Tab
-
-The **Details** tab provides a place to enter more specific or extended information about the contact that may not fit into the General tab.
-
-![The Contacts Editor Details tab with Department, Office location, Profession, Nickname, Title, Suffix, Manager's name, Assistant's name, Spouse/Partner, Birthday and Anniversary fields](/img/web/web-p048-1.png)
-
-- **Department:** Enter the contact's department within their organization.
-- **Office Location:** Specify the office or physical location of the contact.
-- **Profession:** Define the contact's professional field or area of expertise.
-- **Manager's Name:** Enter the name of the contact's manager or supervisor (if applicable).
-- **Assistant's Name:** Enter the name of the contact's assistant (if applicable).
-- **Nickname:** If the contact goes by a nickname, enter it here.
-- **Title:** Enter the contact's professional title or honorific. Options: Dr., Miss, Mr., Mrs., Ms, Prof
-- **Suffix:** Provide any suffix for the contact's name (e.g., Jr., Sr., II, III). Options: I, II, III, Jr., Sr.
-- **Spouse/Partner:** Enter the name of the contact's spouse or partner (if applicable).
-- **Birthday:** Record the contact's birthday.
-- **Anniversary:** Record the contact's wedding or partnership anniversary.
-
-### Map Tab
-
-The **Map** tab integrates geographical location data. If the contact has an address entered, the location can be viewed on an embedded map.
-
-![The Contacts Editor Map tab showing an interactive street map centered on the contact's address with zoom controls](/img/web/web-p049-1.png)
-
-:::note[Info]
-The map in this tab is powered by **Leaflet** and utilizes **OpenStreetMap** for location display.
-:::
-
-### Contact Toolbar
-
-The Contact toolbar is located at the top of the contact window and provides quick access to commonly used actions.
-
-- **Save & Close** - Saves the contact and closes the editor.
-- **Delete** - Permanently removes the contact from the address book. Moves it into the **Deleted Items** folder.
-- **Attachment Dropdown** - Provides two methods for adding attachments:
-  - **File Upload:** Upload a file directly from the computer.
-  - **Attach Item:** Attach an item from the mailbox (email, contact, calendar entry, task, or note) as an attachment or as text only.
-
-  :::note
-  Attachments may also be added using the **Attachments** area further down in the editor.
-  :::
-
-- **Print** - Prints the contact details.
-- **Send Email** - Opens a new email composition window pre-populated with all email addresses entered for the contact. This allows immediate composition of an email to the contact.
-
-  :::caution[Attention]
-  This option is available only after the contact is saved and an email address is provided.
-  :::
-
-- **Categories** - Assigns one or more categories to the contact.
-- **Mark as Private** - Marks the contact as private so its details are hidden from other users.
-
-## Distribution List
-
-To create a **Distribution List**:
-
-1. Navigate to the **Shortcut Bar** in the Grommunio Web interface.
-2. Open the **dropdown menu** on the Shortcut Bar.
-3. From the list of options, select **Distribution List**.
-
-![The Distribution List Editor open on the Members tab with a Name field and the Select Members, Add New and Remove buttons above the member list](/img/web/web-p050-1.png)
-
-Selecting **Distribution List** from the Shortcut Bar dropdown, opens the **Distribution List Editor**. This editor is divided into two tabs:
-
-- Members
-- Notes
-
-### Members Tab
-
-The Members tab is used for building and managing the distribution list. First, a descriptive name is entered in the Name field.
-
-Below the name are three main buttons:
-
-- **Select Members** Opens the Address Book with an extended **Members** field. From this view, the following actions are available:
-  - Enter a contact directly in the Members field.
-  - Select a contact from the **GAL (Global Address List)**.
-  - Select a contact from the **Contact Folder**. To add a contact to the list, double-click the entry.
-- **Add New** Allows manual addition of a new entry by providing a name and an email address that is not yet available in the address book..
-- **Remove** Removes the selected contact(s) from the distribution list.
-
-### Notes Tab
-
-![The Distribution List Editor open on the Notes tab showing a rich-text editor toolbar and a free-text note area](/img/web/web-p051-1.png)
-
-The **Notes** tab provides a space for any additional information or comments related to the distribution list. This can include details like:
-
-- Purpose of the list
-- Usage context
-- Special instructions for members
-- Internal notes for future reference
+![The Map tab of Claire Dubois with a marker on 20 Place Bellecour in Lyon](/img/web/web_contact_map.png)
 
 :::note
-The Notes tab does not affect the list's functionality — it is simply for documentation.
+The Map tab is provided by the *Openstreetmap* plugin. To find an address on the map, grommunio Web sends it to the OpenStreetMap geocoding service.
 :::
 
-When finished, click **Save & Close** to store the distribution list.
+### The contact toolbar
 
-## Standard Contact Options
+**Save & Close**, **Delete**, **Add attachment**, **Print**, **Send email** to the contact, **Categories** and **Private**. A private contact is not visible to people who have access to your contacts folder.
 
-When an existing Contact or Distribution List is right-clicked, the following options become available:
+### Working with contacts
 
-- **Open** - Opens the selected contact to view or edit its details.
-- **Copy/Move** - Allows duplication of the contact or moving it to another folder.
-- **Print** - Prints the contact information using the configured print settings.
-- **Categories** - Assigns one or more categories to the contact to help with organization and filtering.
-- **Delete** - Permanently removes the selected contact from the address book. Moves it into the **Deleted Items** folder.
-- **Send email** - Opens a new mail composition window addressed to the contact's email address(es).
+Right-click a contact for the available actions:
 
-  :::note
-  When a distribution list is selected, the **To:** field initially displays the distribution list name. Clicking the `+` icon next to the distribution list expands it and replaces the list with the individual contact addresses. Once expanded, it cannot be collapsed again.
-  :::
+![The context menu of a contact with Open, Copy/Move, Print, Categories, Delete, Send email, Export as and Options](/img/web/web_contacts_contextmenu.png)
 
-- **Export as >** - Exports the selected contact for external use.
-  - **VCF file(s):** Exports the contact as a vCard (`.vcf`) file, which can be imported into other address books or shared with external users.
+- **Send email** opens a new mail to the contact.
+- **Categories** works as in [Mail](/web/mail/#categories).
+- **Print** prints the contact.
+- **Copy/Move** moves contacts to another contacts folder.
+- **Export as** saves contacts as vCard files (.vcf), which almost any other program can import.
+- Hover over a contact to see the quick actions **Email** and **Delete**.
 
-  :::caution[Attention]
-  Exporting is only availabe for contact
-  :::
+To import contacts, right-click a contacts folder and choose **Import contacts**, then select a vCard file. A vCard attached to a mail can be imported with **Import to folder** in the attachment menu.
 
-- **Options** - Displays properties such as the Object ID.
+## Distribution lists
 
-## Adding Distribution List
+A distribution list groups several addresses under one name, so you can write to all of them at once, for example *Aurora launch team*.
 
-Sending an email to a distribution list works the same way as sending to a single contact. Simply select the distribution list from the address book when adding recipients to the TO or CC fields. Once selected, all members of the list will automatically appear in the chosen field.
+1. Choose **New** › **Distribution list**.
+2. Enter a **Name**.
+3. Add members:
+   - **Select Members** picks them from the address book or your contacts,
+   - **Add New** adds an address that is not in the address book,
+   - **Remove** takes the selected member out of the list.
+4. Optionally write a description on the **Notes** tab.
+5. Click **Save & Close**.
+
+![The distribution list Aurora launch team with five members](/img/web/web_contact_dlist.png)
+
+To write to the list, enter its name in the **To** field of a mail. To send to only some of the members, expand the list in the address field first.
+
+## The address book
+
+Click **Address Book** in the toolbar to open the address book. It shows the **Global Address List** of your organization with all colleagues, rooms, equipment and shared mailboxes. With **Show Names from the** you switch to your contacts folders or to other address lists.
+
+![The address book with the global address list of Example Ltd.](/img/web/web_addressbook.png)
+
+Double-click an entry for the details of a colleague: name, organization, phone numbers, group memberships, e-mail addresses and the office address on a map.
+
+![The details of Lukas Hofer from the address book with the tabs General, Organization, Phone, Member Of, Email addresses and Map](/img/web/web_addressbook_details.png)
+
+![The Map tab of an address book entry, showing the office in Vienna](/img/web/web_addressbook_map.png)
+
+Under [Settings › General › Address Book](/web/settings/#general) you choose which address list opens by default and whether names are shown as *First Last* or *Last, First*.
+
+:::note
+The global address list is maintained by your administrator. If your phone number or job title is wrong, ask your administrator to correct it.
+:::
