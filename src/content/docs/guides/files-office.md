@@ -25,6 +25,7 @@ grommunio Web integrates Files through its Files plugin. The plugin talks to Fil
 | grommunio Office | `grommunio-office` (pulls `grommunio-office-fonts` and system font packages); `ds-docservice`, `ds-converter`; one-shot `ds-themegen`, `ds-fontgen`; optional `ds-metrics` | `https://<fqdn>/office/` (nginx proxy to `localhost:8000`); `ds-docservice` on port 8000 | database `groffice` |
 | RabbitMQ | `rabbitmq-server` | local only | message queue for Office |
 | grommunio Web Files plugin | part of `grommunio-web` | `https://<fqdn>/web/` | plugin settings in `/etc/grommunio-web/` |
+| grommunio DAV | grommunio-dav | `https://<fqdn>/dav` | package creates the endpoint necessary for authentication in `files`, has to be installed on the grommunio core installation (/web) |
 
 Paths that matter for Files:
 
@@ -54,7 +55,7 @@ Current versions of grommunio-setup offer *files* and *office* as feature roles 
 
 ## Prerequisites
 
-- A working grommunio installation with grommunio Web, Admin UI and mail, reachable under its production FQDN (`mail.example.com` in the examples). See [Installation](/admin/installation/) and [Post-installation](/guides/post-install/).
+- A working grommunio installation with grommunio Web, DAV, Admin UI and mail, reachable under its production FQDN (`mail.example.com` in the examples). See [Installation](/admin/installation/) and [Post-installation](/guides/post-install/).
 - A TLS certificate that browsers and the server itself trust. Files fetches documents and identity-provider metadata server-side, and Office fetches documents from Files, so a self-signed certificate breaks these paths unless you add lab-only workarounds.
 - MariaDB, nginx, PHP-FPM and Redis running on the host.
 - Disk space for user data, versions, trash, database and backups. Files keeps versions and deleted files in `/var/lib/grommunio-files/data`.
@@ -87,7 +88,14 @@ zypper --non-interactive install --auto-agree-with-licenses grommunio-files grom
 rpm -q grommunio-files grommunio-office rabbitmq-server
 ```
 
-Expected result: `rpm -q` prints a version for each of the three packages. `grommunio-office` pulls in `grommunio-office-fonts` and a set of system font packages, which the editor uses for rendering; RabbitMQ is not a package dependency and must be requested explicitly. Reload nginx and restart PHP-FPM so that the shipped `/files/` and `/office/` locations and the PHP pool are active:
+You also need the DAV package on the machine which hosts your grommunio core installation
+
+```bash
+zypper search -s grommunio-dav
+zypper --non-interactive install --auto-agree-with-licenses grommunio-dav
+rpm -q grommunio-dav
+```
+Expected result: `rpm -q` prints a version for each of the four packages. `grommunio-office` pulls in `grommunio-office-fonts` and a set of system font packages, which the editor uses for rendering; RabbitMQ is not a package dependency and must be requested explicitly. Reload nginx and restart PHP-FPM so that the shipped `/files/` and `/office/` locations and the PHP pool are active:
 
 ```bash
 nginx -t
