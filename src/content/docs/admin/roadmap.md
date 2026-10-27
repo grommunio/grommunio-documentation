@@ -11,8 +11,8 @@ This roadmap reflects the state of grommunio as of June 2026. Dates and scope ar
 
 | Release | Type | Planned date | Status |
 | --- | --- | --- | --- |
-| **2026.06.1** | Major | 30 June 2026 | Current stable — generally available |
-| **2026.06.2** | Minor | 30 September 2026 | Planned — maintenance update |
+| **2026.06.1** | Major | 30 June 2026 | Released — generally available |
+| **2026.06.2** | Minor | 30 September 2026 | Current stable — generally available |
 | **2026.06.3** | Minor | 17 December 2026 | Planned — maintenance update |
 | Next major release | Major | 6 July 2027 | Planned — details to follow |
 
