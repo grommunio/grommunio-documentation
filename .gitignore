@@ -34,3 +34,4 @@ scripts/.env
 # --- misc ---
 *Corel*
 .DS_Store
+grommunio-documentation.code-workspace
