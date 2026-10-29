@@ -283,7 +283,7 @@ A simple loop to re-queue all failed messages can be achieved by the following s
 cd /var/lib/gromox/queue/
 j=0
 for i in save/*; do
-        mv "$i" "mess/0$j"
+        mv "$i" "mess/$j"
         j=$(($j+1))
         echo "requeued $i"
 done
