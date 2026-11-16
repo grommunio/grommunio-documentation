@@ -58,14 +58,14 @@ Alle Ergebnisse anzeigen, nicht nur importierbare Objekte
 `--auth-backend <automatic|externid|always_ldap|always_mysql>`  
 Nur für <em>reload</em>. Legt das globale System-Authentifizierungs-Backend „authmgr“ fest. Kann einer der folgenden Werte sein: <em>automatic</em> (entspricht <em>externid</em>), <em>externid</em>, <em>always_ldap</em>, <em>always_mysql</em>. Standardwert ist <em>externid</em>, falls nicht festgelegt.
 
-`-c`, `--complete`  
-Alle Benutzer aus der Baumstruktur LDAP importieren oder aktualisieren
-
 `-f`, `--force`  
 Benutzer, die mit einem anderen oder gar keinem LDAP-Objekt verknüpft sind, zur Aktualisierung zwingen
 
 `--format FORMAT`  
 Ausgabeformat. Kann einer der folgenden Werte sein: <em>csv</em>, <em>json-flat</em>, <em>json-kv</em>, <em>json-object</em>, <em>json-structured</em> und <em>pretty</em>. Die Standardeinstellung ist <em>pretty</em>.
+
+`-i`, `--import`  
+Neue Benutzer aus LDAP importieren
 
 `-l`, `--lang`  
 Sprache für importierte Benutzer festlegen. Standardmäßig wird keine Sprache festgelegt.

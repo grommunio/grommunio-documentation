@@ -58,14 +58,14 @@ Show all results, not only importable objects
 `--auth-backend <automatic|externid|always_ldap|always_mysql>`  
 For <em>reload</em> only. Set the authmgr global system authentication backend. Can be one of <em>automatic</em> (same as <em>externid</em>), <em>externid</em>, <em>always_ldap</em>, <em>always_mysql</em>. Default is <em>externid</em> if unset.
 
-`-c`, `--complete`  
-Import or update all users from the LDAP tree
-
 `-f`, `--force`  
 Force update users that are linked to a different or no LDAP object
 
 `--format FORMAT`  
 Output format. Can be one of <em>csv</em>, <em>json-flat</em>, <em>json-kv</em>, <em>json-object</em>, <em>json-structured</em> and <em>pretty</em>. Default is <em>pretty</em>.
+
+`-i`, `--import`  
+Import new users from LDAP
 
 `-l`, `--lang`  
 Set language for imported users. Default is to not set any language.
