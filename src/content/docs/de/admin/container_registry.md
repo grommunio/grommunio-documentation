@@ -99,21 +99,19 @@ unter [Container-Installation](/admin/container_core/) beschrieben.
 
 ### Supported-Edition
 
-Die Zugangsdaten für das Projekt `supported/` sind ein Robot-Konto, das Sie mit
-Ihrer grommunio-Subskription erhalten. Der Benutzername hat die Form
-`robot$supported+<customer>`. Das Konto darf nur Images beziehen (Pull) und hat
-ein Ablaufdatum.
+Für das Projekt `supported/` verwenden Sie die Zugangsdaten Ihrer
+grommunio-Subskription, also denselben Benutzernamen und dasselbe Passwort wie
+für die Supported-Paketquellen. Der Zugriff ist rein lesend (Pull) und endet mit
+der Subskription.
 
 Melden Sie sich einmal pro Host an und beziehen Sie dann die Images:
 
 ```bash
-docker login container.grommunio.com -u 'robot$supported+<customer>'
+docker login container.grommunio.com -u '<subscription user>'
 docker pull container.grommunio.com/supported/gromox-core:2026.11
 ```
 
-Mit Podman verwenden Sie `podman login` auf dieselbe Weise. Setzen Sie den
-Benutzernamen in einfache Anführungszeichen, da die Shell sonst `$supported`
-expandiert.
+Mit Podman verwenden Sie `podman login` auf dieselbe Weise.
 
 ### Pull-Secret für Kubernetes
 
@@ -123,7 +121,7 @@ und referenzieren es in den Chart-Values:
 ```bash
 kubectl -n grommunio create secret docker-registry grommunio-registry \
   --docker-server=container.grommunio.com \
-  --docker-username='robot$supported+<customer>' \
+  --docker-username='<subscription user>' \
   --docker-password='<password>'
 ```
 
@@ -141,7 +139,7 @@ selbst ein Pull-Secret an (`grommunio-registry` für ein Release namens
 global:
   edition: supported
   imageCredentials:
-    username: robot$supported+<customer>
+    username: <subscription user>
     password: "<password>"
 ```
 

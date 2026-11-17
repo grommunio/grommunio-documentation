@@ -185,14 +185,14 @@ Build länger benötigen.
 
 ### Supported-Edition
 
-Subskriptionskunden erhalten mit ihrer Subskription einen Robot-Account, der nur Pull
-erlaubt (Format des Benutzernamens `robot$supported+<customer>`). Empfohlen ist, das
+Subskriptionskunden beziehen die Images mit den Zugangsdaten ihrer
+grommunio-Subskription (dieselben wie für die Supported-Paketquellen). Empfohlen ist, das
 Pull-Secret selbst anzulegen, damit das Passwort nicht im Helm-Release gespeichert wird:
 
 ```bash
 kubectl -n grommunio create secret docker-registry grommunio-registry \
   --docker-server=container.grommunio.com \
-  --docker-username='robot$supported+customer-1234' --docker-password='<secret>'
+  --docker-username='<subscription user>' --docker-password='<secret>'
 ```
 
 ```yaml
@@ -208,7 +208,7 @@ Pull-Secret `grommunio-registry` an und verwendet es in jedem Pod:
 global:
   edition: supported
   imageCredentials:
-    username: robot$supported+customer-1234
+    username: <subscription user>
     password: "<secret>"
 ```
 
@@ -847,8 +847,8 @@ Lieferkette: Die Images werden auf Basis von openSUSE Leap 16 aus den grommunio-
 bzw. Supported-Paketen gebaut und in der Registry auf Schwachstellen gescannt. Images,
 MariaDB-Spiegel und Chart sind signiert (siehe
 [Signaturen und Spiegel](#signaturen-und-spiegel)). Die Pull-Zugangsdaten der
-Supported-Edition sind kundenspezifische Robot-Accounts mit reinem Pull-Recht und
-Ablaufdatum.
+Supported-Edition sind die Subskriptions-Zugangsdaten des Kunden, beschränkt auf
+Pull und gültig, solange die Subskription aktiv ist.
 
 ## Betrieb
 

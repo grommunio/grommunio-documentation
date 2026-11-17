@@ -183,15 +183,15 @@ for longer.
 
 ### Supported edition
 
-Subscription customers receive a pull-only robot account with their
-subscription (user name format `robot$supported+<customer>`). The recommended
+Subscription customers pull with their grommunio subscription credentials
+(the same as for the supported package repositories). The recommended
 way is to create the pull Secret yourself, so that the password is not stored
 in the Helm release:
 
 ```bash
 kubectl -n grommunio create secret docker-registry grommunio-registry \
   --docker-server=container.grommunio.com \
-  --docker-username='robot$supported+customer-1234' --docker-password='<secret>'
+  --docker-username='<subscription user>' --docker-password='<secret>'
 ```
 
 ```yaml
@@ -207,7 +207,7 @@ pull Secret `grommunio-registry` and uses it in every pod:
 global:
   edition: supported
   imageCredentials:
-    username: robot$supported+customer-1234
+    username: <subscription user>
     password: "<secret>"
 ```
 
@@ -843,7 +843,8 @@ Supply chain: the images are built on openSUSE Leap 16 from the grommunio
 community or supported packages and scanned for vulnerabilities in the
 registry. Images, the MariaDB mirror and the chart are signed (see
 [Signatures and mirrors](#signatures-and-mirrors)). Supported-edition pull
-credentials are per-customer, pull-only robot accounts with an expiry date.
+credentials are the customer's subscription credentials, limited to pull and
+valid while the subscription is active.
 
 ## Operations
 

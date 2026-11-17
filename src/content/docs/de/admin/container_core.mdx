@@ -164,12 +164,11 @@ Pull-Zugangsdaten und Installationen ohne Internetzugang (air-gapped) beschreibt
    cosign verify --key cosign.pub container.grommunio.com/community/gromox-office:2026.11
    ```
 
-2. Melden Sie sich für die `supported/`-Images mit dem Robot-Konto an, das Sie mit
-   Ihrer Subscription erhalten haben. Setzen Sie den Benutzernamen in
-   Anführungszeichen, da er ein `$` enthält:
+2. Melden Sie sich für die `supported/`-Images mit den Zugangsdaten Ihrer
+   grommunio-Subskription an (dieselben wie für die Supported-Paketquellen):
 
    ```sh
-   docker login container.grommunio.com -u 'robot$supported+<customer>'
+   docker login container.grommunio.com -u '<subscription user>'
    ```
 
 3. Ersetzen Sie in `docker-compose.yml` den `build:`-Block von `gromox-core`,

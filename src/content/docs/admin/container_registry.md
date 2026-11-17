@@ -98,20 +98,18 @@ described in [Container installation](/admin/container_core/).
 
 ### Supported edition
 
-Pull credentials for the `supported/` project are a robot account that you
-receive with your grommunio subscription. The user name has the form
-`robot$supported+<customer>`. The account can only pull and has an expiry
-date.
+The `supported/` project uses the credentials of your grommunio
+subscription, the same user name and password as for the supported package
+repositories. Access is read-only (pull) and ends with the subscription.
 
 Log in once per host, then pull:
 
 ```bash
-docker login container.grommunio.com -u 'robot$supported+<customer>'
+docker login container.grommunio.com -u '<subscription user>'
 docker pull container.grommunio.com/supported/gromox-core:2026.11
 ```
 
-With Podman use `podman login` the same way. Quote the user name in single
-quotes, otherwise the shell expands `$supported`.
+With Podman use `podman login` the same way.
 
 ### Kubernetes pull secret
 
@@ -121,7 +119,7 @@ release and reference it in the chart values:
 ```bash
 kubectl -n grommunio create secret docker-registry grommunio-registry \
   --docker-server=container.grommunio.com \
-  --docker-username='robot$supported+<customer>' \
+  --docker-username='<subscription user>' \
   --docker-password='<password>'
 ```
 
@@ -139,7 +137,7 @@ uses it in every pod:
 global:
   edition: supported
   imageCredentials:
-    username: robot$supported+<customer>
+    username: <subscription user>
     password: "<password>"
 ```
 

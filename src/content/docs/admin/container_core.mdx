@@ -158,11 +158,11 @@ credentials and air-gapped installations.
    cosign verify --key cosign.pub container.grommunio.com/community/gromox-office:2026.11
    ```
 
-2. For the `supported/` images, log in with the robot account provided with
-   your subscription. Quote the user name, it contains a `$`:
+2. For the `supported/` images, log in with your grommunio subscription
+   credentials (the same as for the supported package repositories):
 
    ```sh
-   docker login container.grommunio.com -u 'robot$supported+<customer>'
+   docker login container.grommunio.com -u '<subscription user>'
    ```
 
 3. In `docker-compose.yml`, replace the `build:` block of `gromox-core`,
