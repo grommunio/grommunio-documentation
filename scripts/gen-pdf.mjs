@@ -129,6 +129,9 @@ await withPreview(ROOT, async (BASE) => {
       }
     }
     const render = await browser.newPage();
+    // A whole book is one document; loading its images and printing it takes
+    // longer than Playwright's 30 s default on large books (man, kb).
+    render.setDefaultTimeout(300000);
     await render.goto(BASE + '/', { waitUntil: 'domcontentloaded' });
     // Rewrite in-site links to the production domain so the clickable links in
     // the PDF point at docs.grommunio.com, not the localhost preview server.
