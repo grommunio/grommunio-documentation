@@ -23,6 +23,15 @@ For transparent Kerberos logins of domain-joined Windows clients (Outlook) use
 the [Kerberos single sign-on guide](/admin/kerberos-sso/) instead; both
 methods can coexist.
 
+:::note[Container and Kubernetes deployments]
+The container images do not run Keycloak. With
+[Docker Compose](/admin/container_core/#optional-components) or the
+[Helm chart](/admin/kubernetes/), gromox-core connects grommunio Web to a
+Keycloak server you operate separately. Steps 1 and 2 do not apply. See
+[Container and Kubernetes deployments](#container-and-kubernetes-deployments)
+for the settings and for the steps that still apply.
+:::
+
 ## How it fits together
 
 | Component | Role | Listens on |
@@ -591,6 +600,59 @@ time to start (`TimeoutStartSec=600` in the unit); nginx returns `502` for
   the OIDC note in the [architecture manual](/admin/architecture/) for the
   HAProxy cookie approach.
 
+## Container and Kubernetes deployments
+
+Single sign-on is configured with these settings:
+
+| Docker Compose (`var.local.env`) | Helm chart | Meaning |
+| --- | --- | --- |
+| `ENABLE_KEYCLOAK` | `features.keycloak.enabled` | `true` enables single sign-on for grommunio Web |
+| `KEYCLOAK_URL` | `features.keycloak.url` | Base URL of the Keycloak server, below which `/realms/<realm>` is served, for example `https://sso.example.com` (or `https://sso.example.com/auth` for a server with the relative path `/auth`) |
+| `KEYCLOAK_REALM` | `features.keycloak.realm` | Realm name |
+| `KEYCLOAK_CLIENT_ID` | `features.keycloak.clientId` | Client ID of the confidential OIDC client |
+| `KEYCLOAK_CLIENT_SECRET` | `secrets.values.KEYCLOAK_CLIENT_SECRET`, or the key `KEYCLOAK_CLIENT_SECRET` in `secrets.existingSecret` | Client secret |
+
+On every start with `ENABLE_KEYCLOAK=true`, gromox-core:
+
+- writes `/etc/gromox/keycloak.json` from these values;
+- fetches the realm signing key from
+  `<KEYCLOAK_URL>/realms/<realm>/protocol/openid-connect/certs` and writes it
+  to `/etc/gromox/bearer_pubkey`. If Keycloak is not reachable at that moment,
+  the container logs `Could not fetch bearer public key` and token logins
+  fail until the next start. Restart gromox-core after a key rotation in the
+  realm as well;
+- writes `/etc/gromox/oidc-import.json`, a client definition with the
+  redirect URIs and web origin for `FQDN`. Import it in the Keycloak admin
+  console (*Clients* → *Import client*), then copy the generated secret into
+  `KEYCLOAK_CLIENT_SECRET`:
+
+  ```bash
+  docker exec gromox-core cat /etc/gromox/oidc-import.json > oidc-import.json
+  kubectl -n grommunio exec grommunio-core-0 -- cat /etc/gromox/oidc-import.json > oidc-import.json
+  ```
+
+With `ENABLE_KEYCLOAK=false`, both JSON files are removed and grommunio Web
+shows its own login form again. Apply changes as described in
+[Changing the configuration](/admin/container_core/#changing-the-configuration)
+or with `helm upgrade`.
+
+The realm must authenticate the grommunio users, and its `email` claim must
+contain the user's grommunio address. The grommunio user-storage provider is
+not set up for you; configure a user federation, for example against the LDAP
+directory grommunio uses.
+
+Of the steps above, 3, 4, 6, 7, 9, 10 and 12 apply to your Keycloak server
+(with its URL instead of `https://mail.example.com/auth/`). In step 8 only
+`keycloak.json` and `bearer_pubkey` exist; they are regenerated on every
+start, so do not edit them. For step 13, restart the containers or pods
+instead of the host. Check the services with
+`docker exec gromox-core supervisorctl status` or
+`kubectl -n grommunio exec grommunio-core-0 -- supervisorctl status`
+(release and namespace `grommunio`). With the Helm chart and
+`networkPolicy.egress.enabled`, the core pod reaches external HTTP(S) servers
+on ports 80 and 443; if Keycloak listens on another port, add its address
+range to `networkPolicy.egress.extraCIDRs`.
+
 ## Related pages
 
 - [Kerberos single sign-on (SPNEGO)](/admin/kerberos-sso/) for domain-joined
@@ -602,3 +664,4 @@ time to start (`TimeoutStartSec=600` in the unit); nginx returns `502` for
   [grommunio Files and Office guide](/guides/files-office/) — reuse this realm
   for their own OIDC clients
 - [Operations](/admin/operations/), [Troubleshooting](/admin/troubleshooting/)
+- [Container installation](/admin/container_core/), [Kubernetes](/admin/kubernetes/)

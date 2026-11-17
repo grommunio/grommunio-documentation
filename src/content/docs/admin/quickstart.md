@@ -13,6 +13,10 @@ This chapter covers a short walkthrough which can be used as a check list to ins
 - Create the corresponding DNS records (A, MX, TXT and CNAME records).
 - Configure the grommunio appliance by running grommunio-setup.
 
+:::note
+This walkthrough covers the grommunio Appliance. To run grommunio in containers, see [Container installation](/admin/container_core/) for Docker Compose and [Kubernetes](/admin/kubernetes/) for the Helm chart. The DNS and TLS requirements below apply to these deployments as well.
+:::
+
 ## Minimum requirements
 
 For the installation of grommunio (or using the grommunio Appliance), the following minimal requirements apply:

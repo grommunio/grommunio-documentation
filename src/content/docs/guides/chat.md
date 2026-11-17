@@ -23,6 +23,17 @@ This page covers installation and administration. Day-to-day use of the Chat
 plugin inside grommunio Web (enabling the plugin, invitations, team roles) is
 described in [Chat in grommunio Web](/web/chat/).
 
+:::note[Container and Kubernetes deployments]
+In the container deployment, chat runs in the `gromox-core` container (pod
+`grommunio-core-0` with the Helm chart). It is switched on with
+`ENABLE_CHAT=true` in `var.local.env`
+([Docker Compose](/admin/container_core/#optional-components)) or with
+`features.chat.enabled` ([Helm chart](/admin/kubernetes/)); both are enabled by
+default. The container carries out steps 1 to 4, so start with step 5. See
+[Container and Kubernetes deployments](#container-and-kubernetes-deployments)
+for the differences.
+:::
+
 ## How it fits together
 
 | Component | Role | Where |
@@ -594,6 +605,41 @@ application launcher (see [Administration](/admin/administration/)).
   account of a user who stays in grommunio; see
   [grommunio-admin user](/cli/grommunio-admin/user/).
 
+## Container and Kubernetes deployments
+
+With chat enabled, gromox-core sets up the chat server as follows:
+
+- On every start: the database connection (`CHAT_MYSQL_*` variables),
+  `ServiceSettings.SiteURL` (`https://<FQDN>/chat`), local mode, and
+  `/etc/grommunio-admin-api/conf.d/chat.yaml`. The Admin API connects
+  directly to the chat server on `http://localhost:8065` as the chat system
+  administrator `admin`. Edits to `chat.yaml` are overwritten on the next
+  start.
+- On the first initialization: the `grochat` database and the system
+  administrator `admin` with the password `CHAT_ADMIN_PASS`.
+
+Chat starts only if `ENABLE_CHAT=true` and the file named by `CHAT_CONFIG`
+(default `/etc/grommunio-chat/config.json`) exists. `/etc/grommunio-chat` and
+`/var/lib/grommunio-chat` are on volumes; other changes to `config.json`, such
+as `EmailSettings` or the OpenID Connect settings, are kept across restarts
+and image updates.
+
+If you enable chat on an existing deployment, the system administrator does
+not exist yet. Set `FORCE_RECONFIG=true` (Helm chart:
+`maintenance.forceReconfig: true`) for one start, then remove it again. This
+re-runs the initialization and also resets the grommunio `admin` password to
+`ADMIN_PASS`.
+
+| Topic | Difference |
+|---|---|
+| Steps 1 to 4 | Done by the container. |
+| Steps 5 to 7, 9 and 10 | Apply. Run `grommunio-admin` inside gromox-core, for example `docker exec gromox-core grommunio-admin domain modify example.com --chat true` or `kubectl -n grommunio exec grommunio-core-0 -- grommunio-admin ...`. `grommunio-chat-ctl --local` needs the socket path: `docker exec gromox-core env MMCTL_LOCAL_SOCKET_PATH=/var/tmp/grommunio-chat_local.socket grommunio-chat-ctl --local team list`. |
+| Step 8 | The adaptor script needs grommunio-auth on the same host and does not apply. Create the Keycloak client as described and enter the OpenID Connect settings in `config.json` yourself. |
+| Service commands | Use `supervisorctl status grommunio-chat` and `supervisorctl restart grommunio-chat` (and `grommunio-admin-api`) inside gromox-core instead of `systemctl`. With the Helm chart, `helm test grommunio -n grommunio` checks `/chat/api/v4/system/ping`. |
+| Logs | `mattermost.log` is in gromox-core under `/var/log/grommunio-chat/`. Service output is in `/var/log/supervisor-grommunio-chat.log` (Docker Compose) or in the pod log (Helm chart). |
+| Updates | Update by pulling new images. `config.json` stays on its volume; there is no `.rpmnew` to merge. |
+| Backup | Include the chat volumes and the `grochat` database, see [Backup and restore](/guides/backup-restore/#container-and-kubernetes-deployments). |
+
 ## Related pages
 
 - [Chat in grommunio Web](/web/chat/) — enabling the plugin, invitations, team roles
@@ -604,3 +650,4 @@ application launcher (see [Administration](/admin/administration/)).
 - [Post-installation](/guides/post-install/) — DNS, TLS and base checks this guide builds on
 - [Operations](/admin/operations/) and [Backup and restore](/guides/backup-restore/) — backup artefacts and update procedure
 - [Architecture](/admin/architecture/) — routing `/chat` in multi-server and load-balanced setups
+- [Container installation](/admin/container_core/) and [Kubernetes](/admin/kubernetes/) — container deployments

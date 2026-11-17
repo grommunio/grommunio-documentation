@@ -18,3 +18,20 @@ sidebar:
 - Use F2 to call up the boot menu.
 - The EFI GOP driver supports a plethora of modes from 640×480 to 7680×4320.
 - Default firmware resolution is 1024×768.
+
+## Containers and Kubernetes
+
+Instead of a virtual machine, grommunio can run as containers: the images
+`gromox-core`, `gromox-archive` and `gromox-office` from
+`container.grommunio.com`, with MariaDB in separate containers. The service
+containers need no privileged mode and no special runtime.
+
+- Docker Compose on a single host: at least 4 GB RAM for gromox-core, 8 GB
+  with grommunio Office. See [Container installation](/admin/container_core/).
+- Kubernetes with the Helm chart: about 2 CPU and 7 GiB memory in resource
+  requests with all features enabled, and a StorageClass with `ReadWriteOnce`
+  volumes. Each component runs as a single replica, because Gromox keeps the
+  mailboxes in SQLite files. See [Kubernetes](/admin/kubernetes/).
+
+Images, editions and signature verification are described in
+[Container registry](/admin/container_registry/).

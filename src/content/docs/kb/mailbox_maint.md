@@ -14,6 +14,13 @@ systemctl status gromox-cleaner.timer
 systemctl enable --now gromox-cleaner.timer
 ```
 
+:::note[Containers]
+The gromox-core container image has no systemd timers. Cron runs the cleaner
+daily at 03:30 (`softdelete_purgetime` from `gromox.cfg`, default `30d`) and
+logs to `/var/log/gromox-cleaner.log`; the Trash override below does not
+apply there.
+:::
+
 ## Periodic clearing of Trash folder
 
 To automatically empty the trash folder (a.k.a. wastebasket) of all mailboxes, you can extend the cleaner service unit with the following override (`systemctl edit gromox-cleaner.service`):

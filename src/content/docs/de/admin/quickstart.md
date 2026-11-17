@@ -13,6 +13,10 @@ Dieses Kapitel enthält eine kurze Anleitung, die als Checkliste für die Instal
 - Erstellen Sie die entsprechenden DNS-Einträge (A-, MX-, TXT- und CNAME-Einträge).
 - Konfigurieren Sie den grommunio appliance, indem Sie grommunio-setup ausführen.
 
+:::note
+Diese Anleitung beschreibt die grommunio Appliance. Um grommunio in Containern zu betreiben, lesen Sie [Container-Installation](/admin/container_core/) für Docker Compose und [Kubernetes](/admin/kubernetes/) für das Helm-Chart. Die unten genannten DNS- und TLS-Anforderungen gelten auch für diese Bereitstellungen.
+:::
+
 ## Mindestanforderungen
 
 Für die Installation von grommunio (oder bei Verwendung von grommunio Appliance) gelten die folgenden Mindestanforderungen:

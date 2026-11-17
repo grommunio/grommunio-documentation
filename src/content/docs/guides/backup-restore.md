@@ -545,8 +545,29 @@ devices use `grommunio-admin user devices alice@example.com resync`.
   own databases and data directories; include them in the same backup run as
   listed in [Backup & Disaster Recovery](/admin/operations/#backup--disaster-recovery).
 
+## Container and Kubernetes deployments
+
+The procedures on this page assume a package installation. In container
+deployments the same state lives in volumes; the backup procedure depends on
+the deployment method:
+
+- **Docker Compose:** back up the database, data and configuration volumes
+  as described in
+  [Container installation: Backup](/admin/container_core/#backup).
+- **Kubernetes (Helm chart):** back up the persistent volume claims, the
+  chart Secrets and the archive encryption key. For database dumps, enable the
+  chart's backup CronJob (`backup.enabled`). The full list of items and the
+  restore procedure are in [Kubernetes](/admin/kubernetes/).
+
+The mailbox-level tools used on this page (`gromox-export`, `gromox-import`,
+`gromox-mbop`) run inside the core container, for example with
+`docker exec gromox-core ...` or
+`kubectl -n grommunio exec grommunio-core-0 -- ...` (release and namespace `grommunio`).
+
 ## Related pages
 
+- [Container installation](/admin/container_core/)
+- [Kubernetes](/admin/kubernetes/)
 - [Operations: Backup & Disaster Recovery](/admin/operations/#backup--disaster-recovery)
 - [High availability: Backup and restore](/admin/high-availability/#backup-and-restore)
 - [Common administration tasks](/cli/cookbook/)

@@ -15,6 +15,15 @@ Der Speicher wird auf Blockebene mit **DRBD** repliziert, der Cluster wird von
 virtual IP (VIP)**. Bei einem Failover wird der gesamte Stack – Speicher, IP und Dienste –
 gemeinsam auf den überlebenden Knoten verlagert.
 
+:::note[Kubernetes]
+Dieses Design gilt für Installationen auf virtuellen Maschinen oder Bare Metal. Das
+grommunio-Helm-Chart betreibt je Komponente genau ein Replikat; unter Kubernetes
+beruht die Verfügbarkeit auf der Speicherschicht und darauf, dass der Pod auf einem
+anderen Knoten neu eingeplant wird. Ein Neustart oder das Leeren eines Knotens (Drain)
+bedeutet daher einige Minuten Ausfallzeit. Beachten Sie die Einschränkungen des Charts
+auf der Seite [Kubernetes](/admin/kubernetes/).
+:::
+
 :::note [Referenzarchitektur]
 Die unten aufgeführten Hostnamen, IP-Adressen, Netzwerkschnittstellen und Domänen sind **Beispiele**.
 Ersetzen Sie sie durch Ihre eigenen Werte. DRBD, Fencing und Netzwerkspezifikationen hängen von

@@ -6,13 +6,17 @@ sidebar:
   order: 30
 ---
 
-grommunio delivers ready-to-use appliances for:
+grommunio is available in the following forms:
 
-- bare metal or virtualized environments (ISO)
-- container environments (docker)
-- specialized, automated virtualization environments (OVA)
+- Appliance images, which include the operating system:
+  - bare metal or virtualized environments (ISO)
+  - specialized, automated virtualization environments (OVA)
+  - a community image to run grommunio on a Raspberry Pi
+- Container images for a single host with Docker Compose, see [Container installation](/admin/container_core/)
+- A Helm chart for Kubernetes, based on the same container images, see [Kubernetes](/admin/kubernetes/)
+- Packages for a [manual installation](/admin/manual_core/) on major Linux distributions
 
-and a community image to run grommunio on a raspberry pi.
+The container images and the Helm chart are published on `container.grommunio.com`, see [Container registry](/admin/container_registry/). This page covers the installation of the appliance.
 
 :::note
 There are multiple ways of automation and deployment for grommunio available. Not all of these methods can be described - If you are looking for a special deployment type, don't hesitate to get in contact with one of grommunio's partners or with grommunio directly. grommunio is available from very small installations to large, hyperscale installations with millions of users.

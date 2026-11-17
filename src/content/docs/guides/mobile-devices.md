@@ -12,6 +12,10 @@ It is not a unified endpoint management (UEM) product. grommunio does not instal
 
 This guide takes you from a working grommunio installation to a user whose device synchronises mail, calendar, contacts and tasks, and shows where devices are reviewed and managed: in grommunio Web, in the Admin UI and on the command line.
 
+:::note[Container and Kubernetes deployments]
+With [Docker Compose](/admin/container_core/) or the [Helm chart](/admin/kubernetes/), grommunio-sync runs in gromox-core. Run the server-side commands inside the core container (`docker exec gromox-core ...`, `kubectl -n grommunio exec grommunio-core-0 -- ...`) and check the services with `supervisorctl status` instead of `systemctl`. `/etc/grommunio-sync` is not on a volume: changes to `grommunio-sync.conf.php` (for example `PROVISIONING` or `LOGLEVEL`) are lost when the container is recreated unless you mount the file into gromox-core.
+:::
+
 ## How it fits together
 
 | Component | Role for EAS |

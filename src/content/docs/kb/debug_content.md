@@ -45,6 +45,9 @@ oxcmail_import:2870: returned false
 SMTP message queue-ID: 2, FROM: doc@example.com, TO: doc@example.com  fail to convert rfc5322 into MAPI message object
 ```
 
+In the container images, read `/var/log/supervisor-gromox-delivery*.log` in
+gromox-core instead of the journal (Kubernetes: `kubectl logs` of the core pod).
+
 **Cause:** The TCP connection between gromox-delivery and gromox-http (exmdb_provider subcomponent) ended unexpectedly. Routine(s) for converting Internet Mail to MAPI objects thus could not complete.
 
 **Action to take:** Check the system logs for indications that gromox-http has suffered a crash, or that an administrator has willingly stopped the process.

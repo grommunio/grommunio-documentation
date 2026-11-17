@@ -25,6 +25,8 @@ grommunio bietet eine Kommunikationslösung mit umfassendem Funktionsumfang, die
 
 grommunio wird als integrierte Software appliance für die Bereitstellung auf Zielsystemen ausgeliefert und kombiniert ein eingebettetes, optimiertes Betriebssystem auf Basis von openSUSE. Während grommunio auch Software-Repositorys für die wichtigsten Linux-Plattformen bereitstellt, ermöglicht die Software appliance eine schnelle Bereitstellung auf einer Vielzahl von Plattformen, einschließlich Bare-Metal- und virtualisierten Umgebungen.
 
+grommunio wird außerdem als Container-Images ausgeliefert, die auf einem einzelnen Host mit [Docker Compose](/admin/container_core/) oder mit dem grommunio Helm-Chart auf [Kubernetes](/admin/kubernetes/) laufen. Die Images und das Chart sind signiert und werden in der [grommunio Container-Registry](/admin/container_registry/) veröffentlicht.
+
 ## Architektur
 
 Der Software-Komponentenstapel des grommunio ist modular aufgebaut und besteht aus den folgenden Hauptkomponenten:
@@ -70,7 +72,7 @@ Zur Information: Die Komponenten der Softwareprodukte, die im Rahmen des grommun
 - grommunio-archive ist ein Fork von Piler mit Verbesserungen bei der Authentifizierung und Integration (<https://www.mailpiler.org/>)
 - grommunio-antispam ist ein Fork von rspamd mit Verbesserungen bei der Integration (<https://rspamd.com/>)
 
-grommunio pflegt diese Softwarelösungen und integriert sie in die von grommunio angebotenen Bereitstellungsziele, wie beispielsweise die Software appliance und gut aufbereitete Softwarekomponenten, die für alle gängigen Linux-Distributionen verfügbar sind. Alle diese Komponenten werden von grommunio entsprechend der jeweiligen Abonnementstufe vollständig unterstützt.
+grommunio pflegt diese Softwarelösungen und integriert sie in die von grommunio angebotenen Bereitstellungsziele, wie beispielsweise die Software appliance, Container-Images, das Helm-Chart für Kubernetes und gut aufbereitete Softwarekomponenten, die für alle gängigen Linux-Distributionen verfügbar sind. Alle diese Komponenten werden von grommunio entsprechend der jeweiligen Abonnementstufe vollständig unterstützt.
 
 Falls eine Umgebung oder eine ähnliche Installation vorhanden ist, können diese Komponenten auf Schnittstellenebene integriert werden. Beachten Sie, dass grommunio keine Installationen unterstützen kann, die nicht von grommunio bereitgestellt wurden. Sind jedoch bestehende Unternehmensinstallationen vorhanden, ist die Integration dieser Systeme bei korrekter Konfiguration möglich. grommunio-Abonnements bieten Unterstützung für die Integration mit diesen Unternehmensvarianten oder – je nach den verfügbaren Schnittstellen – sogar für alternative Lösungen.
 

@@ -15,6 +15,14 @@ Storage is replicated at the block level with **DRBD**, the cluster is managed b
 virtual IP (VIP)**. On failover the whole stack — storage, IP and services —
 moves to the surviving node together.
 
+:::note[Kubernetes]
+This design applies to installations on virtual machines or bare metal. The
+grommunio Helm chart runs one replica per component; on Kubernetes,
+availability relies on the storage layer and on rescheduling the pod to
+another node, so a restart or node drain means minutes of downtime. See the
+chart limitations on the [Kubernetes](/admin/kubernetes/) page.
+:::
+
 :::note[Reference architecture]
 The hostnames, IP addresses, network interface and domain below are **examples**.
 Replace them with your own values. DRBD, fencing and network specifics depend on

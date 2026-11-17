@@ -1,304 +1,567 @@
 ---
-title: "Installation des Container"
-description: "Stellen Sie grommunio zusammen mit Docker Compose mithilfe des offiziellen gromox-Container-Projekts bereit – einem aus mehreren Containern bestehenden, von „supervisord“ verwalteten Stack auf Basis von openSUSE Leap 16.0, der vollständig ohne Sonderrechte ausgeführt wird."
+title: Container-Installation (Docker Compose)
+description: grommunio mit Docker Compose aus dem Projekt gromox-container betreiben – mit lokal gebauten Images oder mit den signierten Images von container.grommunio.com.
 sidebar:
+  label: Container-Installation
   order: 50
 ---
 
-Neben dem grommunio Appliance und einer manuellen Installation kann grommunio auch
-in Containern ausgeführt werden. Das offizielle, maßgebliche Projekt hierfür ist
-**[grommunio/gromox-container](https://github.com/grommunio/gromox-container)** —
-eine **Docker Compose**-Bereitstellung, die die Groupware in eine kleine Anzahl
-von Containern bündelt, die von **supervisord** verwaltet werden, basierend auf **openSUSE Leap 16.0** mit
-**MariaDB 11**.
+import { Steps } from '@astrojs/starlight/components';
 
-:::note [Maßgebliche Quelle]
-Dieses Kapitel fasst die Bereitstellung zusammen; das Container-Projekt selbst ist die
-maßgebliche Quelle und enthält sinnvolle Beispielkonfigurationen. Überprüfen Sie stets
-die README-Datei des Projekts und passen Sie
-die Konfiguration – insbesondere **alle Standardpasswörter** – vor dem Einsatz in der Produktion an.
+Neben der grommunio Appliance und einer manuellen Installation lässt sich grommunio
+auch in Containern betreiben. Das Projekt
+[gromox-container](https://github.com/grommunio/gromox-container) stellt die Images
+und eine Docker-Compose-Bereitstellung für einen einzelnen Host bereit. Unter
+Kubernetes werden dieselben Images mit einem Helm-Chart bereitgestellt, siehe
+[Kubernetes](/admin/kubernetes/).
+
+Die Images basieren auf openSUSE Leap 16.0 und installieren die grommunio-Pakete
+aus den offiziellen Repositorys. In jedem Container verwaltet supervisord die
+Dienste. Die Datenbanken laufen in separaten MariaDB-11-Containern.
+
+:::caution[Standardpasswörter]
+`var.env` und `docker-compose.yml` werden mit öffentlich bekannten
+Standardpasswörtern ausgeliefert. Ändern Sie alle, bevor die Bereitstellung aus dem
+Netzwerk erreichbar ist. gromox-core protokolliert bei jedem Start eine Warnung,
+solange noch ein Standardwert verwendet wird.
 :::
 
-## Architektur
+## Images und Container
 
-Der Stack gliedert sich in einen Kerncontainer sowie optionale Zusatzcontainer, die jeweils
-auf einer eigenen MariaDB-Datenbank basieren und sich alle in einem privaten Docker-Netzwerk befinden:
+| Container | Image | Zweck |
+| --- | --- | --- |
+| `gromox-core` | `gromox-core` | Groupware-Dienste: nginx, Postfix, die Gromox-Daemons (http, imap, pop3, delivery, delivery-queue, zcore, midb, event), Admin API, Antispam (rspamd), grommunio Chat, PHP-FPM, Redis, saslauthd, cron |
+| `gromox-archive` | `gromox-archive` | grommunio Archive: Archiv-Daemon, Archiv-SMTP-Empfänger, Sphinx-Suche und -Indexer, nginx, PHP-FPM |
+| `gromox-office` | `gromox-office` | grommunio Files und grommunio Office: Document Server, Konverter, RabbitMQ, nginx, PHP-FPM, Redis, cron |
+| `gromox-db` | `mariadb:11` | Kerndatenbank `grommunio` |
+| `chat-db`, `files-db`, `office-db`, `archive-db` | `mariadb:11` | Datenbanken von Chat, Files, Office und Archive |
 
-- **gromox-core** – der Hauptcontainer, auf dem alle zentralen Groupware-Dienste ausgeführt werden
-  (nginx, Postfix, die `gromox-*`-Daemons, Admin API, Antispam, Redis, …) unter
-  supervisord.
-- **gromox-archive** *(optional)* – E-Mail-Archivierung mit Volltextsuche.
-- **gromox-office** *(optional)* – Dokumentbearbeitung und Dateisynchronisierung.
-- **gromox-db / chat-db / files-db / office-db / archive-db** — MariaDB-
-  Datenbanken für die jeweiligen Komponenten.
+Alle Container teilen sich das Compose-Netzwerk `grommunio`. Nur `gromox-core`
+veröffentlicht Ports auf dem Host; sein nginx leitet `/files`, `/office` und
+`/archive` an die anderen Container weiter.
 
-Alle Service-Container laufen **ohne Sonderrechte** – kein `privileged: true`, kein
-`SYS_ADMIN`, keine speziellen Laufzeiten. Interne Ports werden auf Werte über 1024 umgeleitet, und die
-Host-Ports werden wieder auf die Standardports abgebildet (siehe [Portzuordnung](#port-mapping)).
+Die Dienstcontainer benötigen weder `privileged: true` noch die Capability
+`SYS_ADMIN` oder eine spezielle Laufzeitumgebung. Alle Listener, die von außerhalb
+eines Containers erreichbar sind, verwenden Ports oberhalb von 1024; Compose bildet
+die Standardports des Hosts auf diese ab (siehe [Ports](#ports)).
+
+## Voraussetzungen
+
+- Docker Engine mit Docker Compose v2.24 oder neuer (`docker compose version`)
+- Mindestens 4 GB RAM für gromox-core, 8 GB mit grommunio Office
+- Ein DNS-Name (`FQDN`), der auf den Host auflöst. Für Let's-Encrypt-Zertifikate
+  muss Port 80 aus dem Internet erreichbar sein.
+- Die unter [Ports](#ports) aufgeführten Host-Ports müssen frei sein.
+
+Auf Hosts mit SELinux (openSUSE Leap 16, Fedora, RHEL) sind keine zusätzlichen
+Schritte nötig: Der einzige Bind-Mount, `./gromox_letsencrypt`, ist mit dem Label
+`z` deklariert.
 
 ## Schnellstart
 
-Sie benötigen einen Host mit **Docker** und dem **Docker Compose**-Plugin, einen
-vollqualifizierten Domänennamen (FQDN), der auf den Host verweist, sowie freie Standard-E-Mail-/Web-Ports.
-
-import { Steps } from '@astrojs/starlight/components';
-
 <Steps>
 
-1. **Das Projekt herunterladen**
+1. Laden Sie das Projekt herunter:
 
-   ```bash
+   ```sh
    git clone https://github.com/grommunio/gromox-container.git
    cd gromox-container
    ```
 
-2. **Umgebung konfigurieren** — Kopieren Sie das Beispiel und passen Sie es mit Ihrer Domain,
-   Ihren Passwörtern und Feature-Flags an:
+2. Legen Sie `var.local.env` mit Ihren eigenen Werten an. `var.env` enthält die
+   Standardwerte und wird in Git versioniert; bearbeiten Sie diese Datei nicht.
+   `var.local.env` wird von Git ignoriert, nach `var.env` eingelesen und
+   überschreibt deren Werte:
 
-   ```bash
-   cp var.env.example var.env
-   $EDITOR var.env
+   ```sh
+   cat > var.local.env <<'ENV'
+   FQDN=mail.example.com
+   DOMAIN=example.com
+   ADMIN_PASS=ChangeMe
+   CHAT_ADMIN_PASS=ChangeMe
+   FILES_ADMIN_PASS=ChangeMe
+   SSL_INSTALL_TYPE=2
+   ENV
    ```
 
-   Stellen Sie mindestens `FQDN`, `DOMAIN` und `ADMIN_PASS` ein (siehe
-   [Konfiguration](#configuration)).
+3. Legen Sie die Datenbankpasswörter fest. Ändern Sie in `docker-compose.yml`
+   `MARIADB_PASSWORD` und `MARIADB_ROOT_PASSWORD` der fünf MariaDB-Dienste und
+   tragen Sie die passenden Werte in `var.local.env` ein:
 
-3. **Bereiten Sie die eingebundenen Volumes vor** (oder führen Sie `./pre-launch.sh` aus, was
-   dies für Sie erledigt):
+   | MariaDB-Dienst | Variablen in `var.local.env` |
+   | --- | --- |
+   | `gromox-db` | `MYSQL_PASS`, `MYSQL_ROOT_PASS` (Root-Passwort, wird nur mit `CLEAR_DBS=true` verwendet) |
+   | `chat-db` | `CHAT_MYSQL_PASS` |
+   | `files-db` | `FILES_MYSQL_PASS` |
+   | `office-db` | `OFFICE_MYSQL_PASS` |
+   | `archive-db` | `ARCHIVE_MYSQL_PASS` |
 
-   ```bash
-   mkdir -p variables_data gromox_letsencrypt
-   cp var.env variables_data/var.env
-   ```
+   MariaDB übernimmt diese Passwörter nur beim Initialisieren eines leeren
+   Daten-Volumes. Legen Sie sie daher vor dem ersten Start fest.
 
-4. **Den Stapel starten:**
+4. Starten Sie den Stack:
 
-   ```bash
+   ```sh
    docker compose up -d
    ```
 
-   Der erste Start dauert einige Minuten, während jeder Container seine
-   Datenbanken initialisiert, Zertifikate generiert und seine Dienste konfiguriert.
+   Der erste Start dauert einige Minuten, während die Container die Datenbanken
+   initialisieren, das Zertifikat erstellen und die Dienste konfigurieren. Den
+   Fortschritt verfolgen Sie mit `docker compose logs -f gromox-core`.
+   `docker compose ps` meldet jeden Container als `healthy`, sobald alle seine
+   Dienste laufen.
 
 </Steps>
 
-### Zugriff auf die Dienste
+:::note[Syntax der Werte]
+Docker Compose wertet `var.env` und `var.local.env` aus. Schreiben Sie ein
+literales `$` als `$$` oder setzen Sie den Wert in einfache Anführungszeichen, und
+verwenden Sie innerhalb eines Werts kein ` #` (Leerzeichen gefolgt von `#`): Damit
+beginnt ein Kommentar.
+:::
 
-Sobald der Stack bereit ist, melden Sie sich mit dem Benutzer `admin` und dem
-Passwort aus `ADMIN_PASS` bei der Admin-Benutzeroberfläche an:
+### Zugriff auf die Dienste
 
 | Dienst | URL |
 | --- | --- |
-| Webmail (grommunio Web) | `https://<FQDN>` |
-| Admin-Oberfläche | `https://<FQDN>:8443` |
+| grommunio Web | `https://<FQDN>/` |
+| Admin UI | `https://<FQDN>:8443/` |
 | Exchange ActiveSync | `https://<FQDN>/Microsoft-Server-ActiveSync` |
-| CalDAV / CardDAV | `https://<FQDN>/dav` |
-| Dateien *(falls aktiviert)* | `https://<FQDN>/files` |
-| Archiv *(falls aktiviert)* | `https://<FQDN>/archive` |
+| CalDAV / CardDAV | `https://<FQDN>/dav/` |
+| grommunio Chat (falls aktiviert) | `https://<FQDN>/chat/` |
+| grommunio Files (falls aktiviert) | `https://<FQDN>/files/` |
+| grommunio Archive (falls aktiviert) | `https://<FQDN>/archive/` |
 
-## Dienste im Kerncontainer
+Melden Sie sich an der Admin UI als `admin` mit dem Passwort aus `ADMIN_PASS` an
+und legen Sie anschließend eine Domäne und Benutzer an. Benutzer melden sich an
+grommunio Web, IMAP und SMTP mit ihrer E-Mail-Adresse an. grommunio Archive
+verfügt über die integrierten Konten `admin@local` und `auditor@local`.
 
-`gromox-core` führt den gesamten Satz an Groupware-Diensten unter „supervisord“ aus:
+## Vorgefertigte Images verwenden
 
-| Dienst | Beschreibung |
-| --- | --- |
-| `nginx` | Reverse-Proxy (Web, Admin, Sync, DAV) |
-| `postfix` | Mail-Transport-Agent |
-| `gromox-http` | HTTP / MAPI / AutoDiscover |
-| `gromox-imap` / `gromox-pop3` | IMAP / POP3-Server |
-| `gromox-delivery` / `gromox-delivery-queue` | Lokale Zustellung + Warteschlange |
-| `gromox-zcore` | PHP-MAPI-Kern |
-| `gromox-midb` | Nachrichtenindex-Datenbank |
-| `gromox-event` / `gromox-timer` | Ereignisbus / geplante Aufgaben |
-| `grommunio-admin-api` | Admin REST API (uWSGI) |
-| `grommunio-antispam` | Spamfilter (rspamd) |
-| `grommunio-chat` *(optional)* | Nachrichtenübermittlung |
-| `php-fpm` | PHP FastCGI |
-| `redis` | Cache / Sitzungsspeicher |
-| `saslauthd` | SMTP-Authentifizierung |
-| `crond` | Geplante Aufgaben (Certbot-Verlängerung, …) |
+Anstatt die Images lokal zu bauen, können Sie signierte Images aus der
+grommunio-Container-Registry unter `container.grommunio.com` beziehen:
 
-Der optionale Container **gromox-archive** fügt `grommunio-archive`,
-`grommunio-archive-smtp` und einen Sphinx `searchd` hinzu; **gromox-office** fügt die
-Daemons für den Dokumentendienst und den Konverter sowie RabbitMQ hinzu.
+| Projekt | Zugriff | Gebaut aus |
+| --- | --- | --- |
+| `community/` | öffentlich, ohne Anmeldung | grommunio-Community-Pakete |
+| `supported/` | Kunden mit grommunio-Subscription | grommunio-Supported-Pakete |
+
+Beide Projekte enthalten `gromox-core`, `gromox-archive` und `gromox-office`. Der
+Tag `2026.11` verweist auf den neuesten Build dieses Releases; das Tag-Schema,
+Pull-Zugangsdaten und Installationen ohne Internetzugang (air-gapped) beschreibt
+[Container-Registry](/admin/container_registry/).
+
+<Steps>
+
+1. Prüfen Sie die Signatur jedes Images mit
+   [cosign](https://docs.sigstore.dev/cosign/) und dem öffentlichen Schlüssel
+   `cosign.pub` aus dem gromox-container-Repository:
+
+   ```sh
+   cosign verify --key cosign.pub container.grommunio.com/community/gromox-core:2026.11
+   cosign verify --key cosign.pub container.grommunio.com/community/gromox-archive:2026.11
+   cosign verify --key cosign.pub container.grommunio.com/community/gromox-office:2026.11
+   ```
+
+2. Melden Sie sich für die `supported/`-Images mit dem Robot-Konto an, das Sie mit
+   Ihrer Subscription erhalten haben. Setzen Sie den Benutzernamen in
+   Anführungszeichen, da er ein `$` enthält:
+
+   ```sh
+   docker login container.grommunio.com -u 'robot$supported+<customer>'
+   ```
+
+3. Ersetzen Sie in `docker-compose.yml` den `build:`-Block von `gromox-core`,
+   `gromox-archive` und `gromox-office` jeweils durch eine `image:`-Zeile:
+
+   ```yaml
+   services:
+     gromox-core:
+       image: container.grommunio.com/community/gromox-core:2026.11
+       container_name: gromox-core
+       # ... rest unchanged
+     gromox-archive:
+       image: container.grommunio.com/community/gromox-archive:2026.11
+       # ...
+     gromox-office:
+       image: container.grommunio.com/community/gromox-office:2026.11
+       # ...
+   ```
+
+   Für Subscription-Images verwenden Sie `container.grommunio.com/supported/...`.
+
+4. Laden Sie die Images herunter und starten Sie den Stack:
+
+   ```sh
+   docker compose pull
+   docker compose up -d
+   ```
+
+</Steps>
+
+Für reproduzierbare Bereitstellungen fixieren Sie einen Build-Tag
+(`2026.11-<YYYYMMDDhhmm>`) oder einen Image-Digest statt des mitwandernden
+Release-Tags.
 
 ## Konfiguration
 
-Die gesamte Konfiguration erfolgt über Umgebungsvariablen in **`var.env`**.
+Alle Einstellungen sind Umgebungsvariablen. Compose übergibt sie den Containern
+`gromox-core`, `gromox-archive` und `gromox-office` aus den folgenden Dateien, in
+dieser Reihenfolge (spätere Dateien überschreiben frühere):
 
-### Erforderlich
+1. `var.env`: Standardwerte, in Git versioniert
+2. `variables_data/var.env`: optional, der Speicherort früherer Versionen
+3. `var.local.env`: optional, Ihre Einstellungen, von Git ignoriert
 
-| Variable | Beschreibung | Beispiel |
+Alle drei Dienstcontainer lesen dieselben Dateien, sodass Feature-Schalter und
+Hostnamen stets übereinstimmen.
+
+### Identität und Administration
+
+| Variable | Beschreibung | Standard in `var.env` |
 | --- | --- | --- |
-| `FQDN` | Vollqualifizierter Domänenname des Servers | `mail.example.com` |
-| `DOMAIN` | E-Mail-Domäne | `example.com` |
-| `ADMIN_PASS` | grommunio-Administratorpasswort | `SecurePassword123` |
-| `MYSQL_HOST` | Datenbankhost für den Kern | `gromox-db` |
-| `MYSQL_USER` / `MYSQL_PASS` / `MYSQL_DB` | Anmeldedaten / Name der Core-Datenbank | `grommunio` |
+| `FQDN` | Vollqualifizierter Hostname des Servers (erforderlich) | Platzhalter, eigenen Wert setzen |
+| `DOMAIN` | E-Mail-Domäne (erforderlich) | Platzhalter, eigenen Wert setzen |
+| `ADMIN_PASS` | Passwort des grommunio-Benutzers `admin`, wird auch für die rspamd-Weboberfläche verwendet (erforderlich) | `admin` |
+| `TIMEZONE` | Zeitzone der Container | `Europe/Vienna` |
+| `RELAYHOST` | Ausgehendes SMTP-Relay als `[host]:port`; leer bedeutet direkte Zustellung | leer |
+| `X500` | X.500-Organisationskennung; wird beim ersten Start erzeugt, falls leer | |
 
-### TLS-Zertifikate
+gromox-core startet nicht, wenn `FQDN`, `DOMAIN`, `ADMIN_PASS` oder `MYSQL_PASS`
+leer ist.
 
-| Variable | Beschreibung | Standardwert |
+### Datenbanken
+
+| Variablen | Beschreibung | Standard in `var.env` |
 | --- | --- | --- |
-| `SSL_INSTALL_TYPE` | `0` = selbstsigniert, `2` = Let's Encrypt | `0` |
-| `SSL_BUNDLE` / `SSL_KEY` | Pfade zu Ihrem eigenen Zertifikat und Schlüssel | |
-| `SSL_EMAIL` | E-Mail-Adresse für Let's Encrypt-Benachrichtigungen | `admin@DOMAIN` |
+| `MYSQL_HOST`, `MYSQL_USER`, `MYSQL_PASS`, `MYSQL_DB` | Kerndatenbank | `gromox-db`, `grommunio`, Standardpasswort, `grommunio` |
+| `MYSQL_ROOT_PASS` | Root-Passwort von `gromox-db`, nur mit `CLEAR_DBS=true` erforderlich | Standardpasswort |
+| `CHAT_MYSQL_HOST`, `CHAT_MYSQL_USER`, `CHAT_MYSQL_PASS`, `CHAT_MYSQL_DB` | Datenbank von grommunio Chat | `chat-db`, `grochat`, `grommunio`, `grochat` |
+| `FILES_MYSQL_HOST`, `FILES_MYSQL_USER`, `FILES_MYSQL_PASS`, `FILES_MYSQL_DB` | Datenbank von grommunio Files | `files-db`, `grofiles`, `grommunio`, `grofiles` |
+| `OFFICE_MYSQL_HOST`, `OFFICE_MYSQL_USER`, `OFFICE_MYSQL_PASS`, `OFFICE_MYSQL_DB` | Datenbank von grommunio Office | `office-db`, `groffice`, `grommunio`, `groffice` |
+| `ARCHIVE_MYSQL_HOST`, `ARCHIVE_MYSQL_USER`, `ARCHIVE_MYSQL_PASS`, `ARCHIVE_MYSQL_DB` | Datenbank von grommunio Archive | `archive-db`, `groarchive`, `grommunio`, `groarchive` |
 
-Bei Let's Encrypt (`SSL_INSTALL_TYPE=2`) wird Certbot beim ersten Start ausgeführt, und ein Cron-
-Job erneuert das Zertifikat alle 12 Stunden; Port 80 muss über das Internet erreichbar sein. Falls
-die Bereitstellung von Let's Encrypt fehlschlägt, greift der Stack auf ein selbstsigniertes
-Zertifikat zurück, sodass die Dienste weiterhin verfügbar sind.
+Die Werte müssen mit den `MARIADB_*`-Einstellungen des jeweiligen Dienstes in
+`docker-compose.yml` übereinstimmen.
 
 ### Optionale Komponenten
 
-Jedes Add-on wird über das Flag `ENABLE_*` aktiviert bzw. deaktiviert und mit eigenen
-Datenbankzugangsdaten konfiguriert:
-
-| Komponente | Aktivierungsflag | Zusätzliche Variablen |
+| Komponente | Schalter (Standard in `var.env`) | Weitere Variablen |
 | --- | --- | --- |
-| Chat | *(wird gestartet, wenn `CHAT_CONFIG` vorhanden ist)* | `CHAT_MYSQL_*`, `CHAT_ADMIN_PASS`, `CHAT_CONFIG` |
-| Dateien | `ENABLE_FILES=true` | `FILES_MYSQL_*`, `FILES_ADMIN_PASS` |
-| Büro | `ENABLE_OFFICE=true` | `OFFICE_HOST`, `OFFICE_MYSQL_*` |
-| Archiv | `ENABLE_ARCHIVE=true` | `ARCHIVE_HOST`, `ARCHIVE_MYSQL_*`, `ARCHIVE_INDEXER_*_INTERVAL` |
-| Keycloak SSO | `ENABLE_KEYCLOAK=true` | `KEYCLOAK_REALM`, `KEYCLOAK_URL`, `KEYCLOAK_CLIENT_ID`, `KEYCLOAK_CLIENT_SECRET` |
+| grommunio Chat | `ENABLE_CHAT=true` | `CHAT_ADMIN_PASS` (Passwort des Chat-Systemadministrators `admin`), `CHAT_CONFIG` (Standard `/etc/grommunio-chat/config.json`) |
+| grommunio Files | `ENABLE_FILES=true` | `FILES_ADMIN_PASS` (Files-Administrator `admin`), `FILES_HOST` (Standard `gromox-office`), `TRUSTED_PROXIES` (Netzwerke, denen Files als Reverse-Proxy vertraut, standardmäßig das Compose-Netzwerk) |
+| grommunio Office | `ENABLE_OFFICE=true` | `OFFICE_HOST` (Standard `gromox-office`) |
+| grommunio Archive | `ENABLE_ARCHIVE=true` | siehe unten |
+| Keycloak-SSO | `ENABLE_KEYCLOAK=false` | `KEYCLOAK_URL`, `KEYCLOAK_REALM`, `KEYCLOAK_CLIENT_ID`, `KEYCLOAK_CLIENT_SECRET` |
 
-### Fortgeschritten
+Mit `ENABLE_CHAT=true` müssen `CHAT_MYSQL_PASS` und `CHAT_ADMIN_PASS` gesetzt
+sein, mit `ENABLE_FILES=true` `FILES_MYSQL_PASS` und `FILES_ADMIN_PASS`, mit
+`ENABLE_OFFICE=true` `OFFICE_MYSQL_PASS`. gromox-archive benötigt immer
+`ARCHIVE_MYSQL_PASS`.
 
-| Variable | Beschreibung | Standardwert |
+grommunio Archive:
+
+| Variable | Beschreibung | Standard |
 | --- | --- | --- |
-| `RELAYHOST` | SMTP-Relay-Host für ausgehende E-Mails | *(leer)* |
-| `ORGANIZATION` | Name der Organisation für AutoDiscover | |
-| `TIMEZONE` | Zeitzone für Container | `Europe/Vienna` |
-| `FORCE_RECONFIG` | Setup-Skripte beim nächsten Neustart erneut ausführen | `false` |
-| `CLEAR_DBS` | Datenbanken beim Start löschen und neu anlegen (erfordert `MYSQL_ROOT_PASS`) | `false` |
-| `X500` | X.500-Organisationskennung (wird automatisch generiert, wenn leer) | |
+| `ARCHIVE_HOST` | Hostname des Archiv-Containers | `gromox-archive` |
+| `ARCHIVE_ADMIN_PASS` | Passwort des integrierten Kontos `admin@local` | Wert von `ADMIN_PASS` |
+| `ARCHIVE_AUDIT_PASS` | Passwort des integrierten Kontos `auditor@local` | Wert von `ADMIN_PASS` |
+| `ARCHIVE_RETENTION_DAYS` | Aufbewahrungsdauer neu archivierter E-Mails in Tagen | `2557` (7 Jahre) |
+| `ARCHIVE_INDEXER_DELTA_INTERVAL` | Intervall des Sphinx-Delta-Indexers (`600`, `10m`, `1h`) | `10m` |
+| `ARCHIVE_INDEXER_MAIN_INTERVAL` | Intervall des Wartungslaufs (Index-Zusammenführung, Bereinigung, Signierung, Statistiken) | `24h` |
+| `ARCHIVE_NEW_KEY` | `true` erlaubt gromox-archive, einen neuen Verschlüsselungsschlüssel zu erzeugen, obwohl die Archivdatenbank bereits auf E-Mails verweist; diese E-Mails sind danach nicht mehr lesbar | `false` |
 
-:::caution [Standardwerte ändern]
-Die in den Beispieldatenbanken `docker-compose.yml` und `var.env` hinterlegten Passwörter dienen
-lediglich als Einstiegshilfe. Ändern Sie **alle** Passwörter (Datenbank, Admin, Chat/Dateien/
-Büro/Archiv), bevor Sie die Installation öffentlich zugänglich machen.
+### TLS-Zertifikate
+
+| Variable | Beschreibung | Standard |
+| --- | --- | --- |
+| `SSL_INSTALL_TYPE` | `0`: Zertifikat einer integrierten CA; `2`: Let's Encrypt; `3`: eigenes Zertifikat | `0` |
+| `SSL_BUNDLE`, `SSL_KEY` | Typ `3`: Pfade des Full-Chain-Zertifikats und des privaten Schlüssels innerhalb von gromox-core | |
+| `SSL_EMAIL` | Kontaktadresse für Let's Encrypt | `admin@<DOMAIN>` |
+| `MAIL_DOMAINS` | Zusätzliche Namen für das Let's-Encrypt-Zertifikat, durch Kommas getrennt | |
+
+**Integrierte CA** (`0`): gromox-core erstellt eine lokale CA und stellt ein
+Serverzertifikat mit 10 Jahren Gültigkeit aus. Bei einem Start innerhalb von
+30 Tagen vor Ablauf wird das Zertifikat erneuert. Alle Container vertrauen dieser
+CA. Installieren Sie das CA-Zertifikat auf
+Ihren Clients, um Zertifikatswarnungen zu vermeiden:
+
+```sh
+docker cp gromox-core:/etc/grommunio-common/ssl/ca.pem grommunio-ca.pem
+```
+
+**Let's Encrypt** (`2`): certbot fordert das Zertifikat beim ersten Start an;
+Port 80 muss aus dem Internet erreichbar sein. Ein Cronjob versucht alle 12 Stunden
+die Erneuerung, stellt ein erneuertes Zertifikat bereit und startet die TLS-Dienste
+neu. nginx wird nur angehalten, während tatsächlich eine Erneuerung läuft. Schlägt
+certbot fehl, bleibt ein vorhandenes Zertifikat erhalten; gibt es noch keines, wird
+ein Zertifikat der integrierten CA verwendet und certbot bei späteren Starts erneut
+versucht, höchstens einmal pro Stunde.
+
+**Eigenes Zertifikat** (`3`): Binden Sie Zertifikat und Schlüssel in gromox-core
+ein, zum Beispiel in einer `docker-compose.override.yml`, und tragen Sie die Pfade
+in `var.local.env` ein:
+
+```yaml
+services:
+  gromox-core:
+    volumes:
+      - ./certs:/etc/grommunio-common/ssl/own:ro
+```
+
+```ini
+SSL_INSTALL_TYPE=3
+SSL_BUNDLE=/etc/grommunio-common/ssl/own/fullchain.pem
+SSL_KEY=/etc/grommunio-common/ssl/own/privkey.pem
+```
+
+gromox-core kopiert die Dateien bei jedem Start in das gemeinsame
+Zertifikats-Volume. Führen Sie nach dem Austausch des Zertifikats
+`docker compose restart gromox-core gromox-archive gromox-office` aus.
+
+### Wartung
+
+| Variable | Beschreibung | Standard |
+| --- | --- | --- |
+| `INDEX_SCHEDULE` | cron-Zeitplan des Volltext-Suchindex für grommunio Web (`grommunio-index`); leer deaktiviert ihn | `*/15 * * * *` |
+| `FORCE_RECONFIG` | `true` führt die einmalige Initialisierung von gromox-core beim nächsten Start erneut aus: Zertifikatsprüfung, Admin-Passwort auf `ADMIN_PASS` setzen, Chat-Administrator. Die Datenbankinitialisierung wird nicht wiederholt. | `false` |
+| `CLEAR_DBS` | `true` löscht eine befüllte Kerndatenbank und legt sie neu an, wenn die Datenbankinitialisierung läuft (erster Start mit leerem `gromox_config`-Volume). Erfordert `MYSQL_ROOT_PASS`. | `false` |
+| `CORE_HOST` | Hostname von gromox-core aus Sicht der Archiv- und Office-Container (Mail-Relay) | `gromox-core` |
+| `LOGFILE` | Setup-Protokoll | `/var/log/grommunio-setup.log` |
+
+:::danger[CLEAR_DBS zerstört Daten]
+Mit `CLEAR_DBS=true` wird die Kerndatenbank gelöscht, einschließlich aller
+Benutzer, Domänen und Postfach-Metadaten. Verwenden Sie diese Option nur für eine
+bewusste Neuinstallation.
 :::
 
-## Portzuordnung
+## Ports
 
-Interne Ports liegen alle über 1024 (sodass Container keine Berechtigungen benötigen); der Host
-ordnet sie den Standardports zu:
+| Host-Port | Container-Port | Protokoll | Dienst |
+| --- | --- | --- | --- |
+| 25 | 2525 | SMTP | Postfix, eingehende E-Mail |
+| 80 | 8081 | HTTP | nginx: Let's-Encrypt-Challenges, Weiterleitung auf HTTPS |
+| 443 | 8443 | HTTPS | nginx: grommunio Web, ActiveSync, DAV, Files, Office, Archive |
+| 465 | 2465 | SMTPS | Postfix, implizites TLS, authentifizierter Versand |
+| 587 | 2587 | Submission | Postfix, STARTTLS, authentifizierter Versand |
+| 993 | 2993 | IMAPS | Gromox IMAP über TLS |
+| 143 | 2143 | IMAP | Gromox IMAP, STARTTLS |
+| 995 | 2995 | POP3S | Gromox POP3 über TLS |
+| 110 | 2110 | POP3 | Gromox POP3, STARTTLS |
+| 8443 | 9443 | HTTPS | Admin UI |
 
-| Host-Port | Container-Port | Dienst |
+gromox-archive (8443, Archiv-SMTP auf 2693) und gromox-office (8443) sind nur im
+Compose-Netzwerk erreichbar.
+
+## Volumes
+
+Alles, was nicht auf einem Volume liegt, wird bei jedem Start aus der Umgebung neu
+erzeugt. Container lassen sich daher ohne Datenverlust neu erstellen, etwa für ein
+Image-Update oder nach einer Konfigurationsänderung.
+
+| Volume | Einhängepunkt | Inhalt |
 | --- | --- | --- |
-| 25 | 2525 | SMTP (Postfix eingehend) |
-| 80 | 8080 | HTTP (Let's Encrypt-Challenge, Weiterleitung von HTTP nach HTTPS) |
-| 443 | 8443 | HTTPS (Webmail, Synchronisierung, DAV, Dateien, Office, Archiv) |
-| 465 | 2465 | SMTPS (implizites TLS) |
-| 587 | 2587 | Einreichung (authentifiziert) |
-| 993 | 2993 | IMAPS |
-| 143 | 2143 | IMAP (STARTTLS) |
-| 995 | 2995 | POP3S |
-| 110 | 2110 | POP3 (STARTTLS) |
-| 8443 | 9443 | Admin-Web-UI |
+| `gromox` | `/var/lib/gromox` | Postfächer |
+| `gromox_config` | `/etc/gromox` | Gromox-Konfiguration, X.500-Kennung, Initialisierungsmarker |
+| `cert_data` | `/etc/grommunio-common/ssl` | TLS-Zertifikat und -Schlüssel, von allen Containern gemeinsam genutzt |
+| `postfix_spool` | `/var/spool/postfix` | Mail-Warteschlange |
+| `redis_data` | `/var/lib/redis` | rspamd-Statistiken (Bayes), Greylisting, Verlauf |
+| `grommunio_admin_api` | `/var/lib/grommunio-admin-api` | Daten der Admin API |
+| `grommunio_admin_config` | `/etc/grommunio-admin-api` | Konfiguration der Admin API (LDAP-Einstellungen) und JWT-Signaturschlüssel |
+| `grommunio_admin_license` | `/etc/grommunio-admin-common/license` | Hochgeladene Lizenz |
+| `grommunio_antispam` | `/var/lib/grommunio-antispam` | Antispam-Daten |
+| `grommunio_dav` | `/var/lib/grommunio-dav` | Synchronisationsstatus von CalDAV/CardDAV |
+| `grommunio_web` | `/var/lib/grommunio-web` | Sitzungen und Suchindizes von grommunio Web |
+| `grommunio_chat_config` | `/etc/grommunio-chat` | Chat-Konfiguration |
+| `grommunio_chat_data` | `/var/lib/grommunio-chat` | Chat-Uploads |
+| `files_data` | `/var/lib/grommunio-files` | Files-Konfiguration und Benutzerdaten |
+| `office_data` | `/var/lib/grommunio-office` | Dokumenten-Cache von Office und das JWT-Secret für Files/Office |
+| `archive_data` | `/var/lib/grommunio-archive` | Archivspeicher, Suchindex und Verschlüsselungsschlüssel |
+| `opensuse_data`, `gromox_services` | `/data`, `/home/gromox-services` | Volumes aus früheren Versionen |
+| `gromox_mysql_data` | MariaDB-Datenverzeichnis | Kerndatenbank |
+| `chat_mysql_data`, `files_mysql_data`, `office_mysql_data`, `archive_mysql_data` | MariaDB-Datenverzeichnis | Datenbanken von Chat, Files, Office und Archive |
+| `./gromox_letsencrypt` (Bind-Mount) | `/etc/letsencrypt` | Let's-Encrypt-Konto, Zertifikate und Erneuerungsstatus |
 
-## Persistente Daten (Volumes)
-
-Namensgebundene Volumes enthalten den gesamten Status, sodass Container ohne Datenverlust wiederhergestellt werden können. Die
-wichtigsten davon sollten **gesichert** werden:
-
-| Datenträger | Einhängepunkt | Zweck |
-| --- | --- | --- |
-| `gromox` | `/var/lib/gromox` | Postfachdaten |
-| `gromox_config` | `/etc/gromox` | Gromox-Konfiguration |
-| `cert_data` | `/etc/grommunio-common/ssl` | TLS-Zertifikate (gemeinsam genutzt) |
-| `gromox_mysql_data` | MariaDB-Daten | Kerndatenbank |
-| `*_mysql_data` | MariaDB-Daten | Chat-/Datei-/Office-/Archiv-Datenbanken |
-| `gromox_letsencrypt` | `/etc/letsencrypt` | Let's Encrypt-Status |
+Compose stellt den Volume-Namen den Projektnamen voran: Das Volume `gromox` heißt
+auf dem Host `grommunio_gromox`.
 
 ## Betrieb
 
-Die Dienste innerhalb eines Containers werden mit **`supervisorctl`** verwaltet:
+### Dienststatus und Protokolle
 
-```bash
-# Status of all services in the core container
+```sh
+docker compose ps                                # healthy = all services run
 docker exec gromox-core supervisorctl status
+docker exec gromox-archive supervisorctl status
+docker exec gromox-office supervisorctl status
 
-# Restart a single service
-docker exec gromox-core supervisorctl restart nginx
+docker exec gromox-core supervisorctl restart postfix
 
-# Per-service logs
-docker exec gromox-core tail -f /var/log/supervisor-nginx.log
-docker exec gromox-core cat /var/log/grommunio-setup.log   # initial setup log
+docker compose logs gromox-core                  # entrypoint and configuration
+docker exec gromox-core cat /var/log/grommunio-setup.log
+docker exec gromox-core cat /var/log/supervisord.log
+docker exec gromox-core tail -f /var/log/supervisor-postfix.log
+docker exec gromox-core cat /var/log/supervisor-gromox-imap-err.log
 ```
 
-### Neukonfiguration nach Änderungen an var.env
+### Konfiguration ändern
 
-Die Einrichtungsskripte werden nur einmal ausgeführt (durch Marker-Dateien gesichert). So wenden Sie die Änderungen erneut an:
+Bearbeiten Sie `var.local.env` und erstellen Sie die Container neu:
 
-```bash
-echo "FORCE_RECONFIG=true" >> variables_data/var.env
-docker compose restart gromox-core
-```
-
-:::caution
-Bei einer Neukonfiguration wird das gesamte Setup erneut durchgeführt, wodurch die
-**optionalen** Datenbanken (Chat, Dateien, Büro, Archiv) möglicherweise gelöscht und neu angelegt werden. Die zentrale gromox-Datenbank
-bleibt dabei erhalten.
-:::
-
-### Sicherung
-
-Sichern Sie die Datenbank und die Datenvolumes, zum Beispiel:
-
-```bash
-docker run --rm -v gromox_mysql_data:/data -v "$(pwd)/backup:/backup" \
-  busybox tar czf /backup/gromox-db.tar.gz /data
-docker run --rm -v gromox:/data -v "$(pwd)/backup:/backup" \
-  busybox tar czf /backup/gromox-data.tar.gz /data
-docker run --rm -v gromox_config:/data -v "$(pwd)/backup:/backup" \
-  busybox tar czf /backup/gromox-config.tar.gz /data
-```
-
-### Aktualisierung
-
-```bash
-git pull
-docker compose build
+```sh
 docker compose up -d
 ```
 
-:::danger[Durch das Zurücksetzen werden Daten gelöscht]
-`docker compose down -v` löscht die Container **sowie alle Volumes** – alle
-Postfächer und Datenbanken gehen verloren. Verwenden Sie diese Option nur, wenn Sie bewusst einen Neuanfang starten möchten.
+Aus der Umgebung abgeleitete Einstellungen (Hostnamen, Feature-Schalter sowie
+Einstellungen von nginx, Postfix, Gromox und Files) werden bei jedem Start
+angewendet, ebenso die Passwörter der rspamd-Weboberfläche (`ADMIN_PASS`) und der
+Archive-Konten `admin@local` und `auditor@local`. Die Passwörter des
+grommunio-Benutzers `admin` sowie der Chat- und Files-Administratoren werden nur
+einmal gesetzt. Um das Passwort von `admin` auf `ADMIN_PASS` zurückzusetzen, setzen Sie
+`FORCE_RECONFIG=true`, führen `docker compose up -d` aus und entfernen die
+Einstellung anschließend wieder.
+
+### Datensicherung
+
+Sichern Sie die Datenbanken per Dump und archivieren Sie die Daten-Volumes:
+
+```sh
+mkdir -p backup
+
+for db in gromox-db chat-db files-db office-db archive-db; do
+  docker exec $db sh -c 'mariadb-dump --all-databases -uroot -p"$MARIADB_ROOT_PASSWORD"' > backup/$db.sql
+done
+
+for v in gromox gromox_config cert_data grommunio_admin_config grommunio_admin_license \
+         files_data archive_data grommunio_chat_config grommunio_chat_data redis_data; do
+  docker run --rm -v grommunio_$v:/data -v "$(pwd)/backup:/backup" busybox \
+    tar czf /backup/$v.tar.gz /data
+done
+
+tar czf backup/letsencrypt.tar.gz gromox_letsencrypt/
+```
+
+Hängen Sie auf Hosts mit SELinux `:z` an den `/backup`-Mount an. Das Volume
+`archive_data` enthält den Verschlüsselungsschlüssel des Archivs: Ohne ihn lassen
+sich archivierte E-Mails nicht lesen. Konsistente Sicherungen und die
+Wiederherstellung einzelner Postfächer beschreibt
+[Sicherung und Wiederherstellung](/guides/backup-restore/).
+
+### Aktualisierung
+
+Mit lokal gebauten Images:
+
+```sh
+git pull
+docker compose build --pull
+docker compose up -d
+```
+
+Mit Images von `container.grommunio.com` passen Sie beim Wechsel auf ein neues
+Release den Tag in `docker-compose.yml` an und führen dann aus:
+
+```sh
+docker compose pull
+docker compose up -d
+```
+
+Schema-Upgrades laufen beim Start automatisch: das Gromox-Schema über
+`gromox-http`, grommunio Files über `occ upgrade`, MariaDB über
+`MARIADB_AUTO_UPGRADE`.
+
+:::caution[Aktualisierung von früheren Container-Versionen]
+In früheren Versionen des Projekts wurde die versionierte `var.env` direkt
+bearbeitet und nach `variables_data/var.env` kopiert; Archivspeicher und
+-schlüssel, Files-Daten und Chat-Uploads lagen innerhalb der Container statt auf
+Volumes. Folgen Sie vor dem Update einer solchen Bereitstellung dem Abschnitt
+„Upgrading from the previous container layout“ in der
+[README des Projekts](https://github.com/grommunio/gromox-container#upgrading-from-the-previous-container-layout).
 :::
+
+### Zurücksetzen
+
+```sh
+docker compose down -v
+docker compose up -d
+```
+
+:::danger[Alle Daten gehen verloren]
+`docker compose down -v` entfernt die Container und sämtliche Volumes,
+einschließlich aller Postfächer und Datenbanken.
+:::
+
+## Images selbst bauen
+
+`docker compose build` baut die Images aus den grommunio-Community-Paketen.
+`tools/publish-images.sh` baut die drei Images für einen Kanal und überträgt sie in
+Ihre eigene Registry, signiert mit Ihrem eigenen cosign-Schlüssel:
+
+```sh
+cosign generate-key-pair
+COSIGN_KEY=cosign.key COSIGN_PASSWORD=... \
+  tools/publish-images.sh -r registry.example.com -c community
+tools/publish-images.sh -r registry.example.com --no-sign   # push unsigned
+tools/publish-images.sh -n -c community                      # build only
+```
+
+| Option | Wirkung |
+| --- | --- |
+| `-c community\|supported` | Paketkanal |
+| `-r REGISTRY` | Ziel-Registry |
+| `-t TAG` | Release-Tag (Standard: die `appVersion` des Helm-Charts) |
+| `-b BUILD_ID` | Build-Suffix des eindeutigen Tags `<TAG>-<BUILD_ID>` (Standard: UTC-Datum und -Uhrzeit, `YYYYMMDDhhmm`) |
+| `-n` | Nur bauen, nicht übertragen |
+| `--no-sign` | Ohne cosign-Signatur übertragen |
+| `--no-cache` | Alle Layer neu bauen, um aktualisierte Pakete zu übernehmen |
+| `--latest` | Zusätzlich den Tag `latest` setzen |
+| `core archive office` | Zu bauende Komponenten (Standard: alle drei) |
+
+Builds des Kanals `supported` benötigen die Subscription-Zugangsdaten im
+zypper-Credentials-Format. Sie werden als BuildKit-Secret übergeben und nicht im
+Image gespeichert:
+
+```sh
+printf 'username=%s\npassword=%s\n' '<subscription user>' '<subscription password>' \
+  > supported.credentials
+SUPPORTED_CREDENTIALS=$PWD/supported.credentials \
+  tools/publish-images.sh -r registry.example.com -c supported
+```
 
 ## Sicherheit
 
-Die Container-Images wenden standardmäßig die aktuelle TLS-Sicherheitshärtung an:
+- Die Dienstcontainer laufen ohne privilegierten Modus und ohne zusätzliche
+  Capabilities; alle von außerhalb eines Containers erreichbaren Listener
+  verwenden Ports oberhalb von 1024.
+- Images von `container.grommunio.com` sind mit cosign signiert und auf bekannte
+  Schwachstellen gescannt; die Registry liefert ausschließlich signierte Images
+  aus. Siehe [Container-Registry](/admin/container_registry/).
+- Postfix (25, 465, 587) deaktiviert SSLv2, SSLv3, TLS 1.0 und TLS 1.1 und schließt
+  `aNULL, eNULL, EXP, MD5, RC4, DES, 3DES, DHE, EDH, kDHE, kEDH, ADH` aus. Der
+  DHE-Schlüsselaustausch über endliche Körper ist ausgeschlossen; ECDHE-Suites mit
+  Forward Secrecy bleiben verfügbar.
+- Gromox http, imap und pop3 verwenden `tls_min_proto = tls1.2`. TLS 1.2 bleibt
+  für Mail-Clients aktiviert, die TLS 1.3 nicht unterstützen.
+- Postfix vertraut (`mynetworks`) nur Loopback und dem Compose-Netzwerk, nicht
+  jedoch den Netzwerk-Gateways, über die Docker Verbindungen vom Host weiterleitet.
+  Alle anderen Clients müssen sich authentifizieren, um E-Mails weiterzuleiten.
+- Das Setup-Protokoll ist nur für root lesbar.
 
-- **Postfix** (25/587): Die veralteten Verschlüsselungsalgorithmen und die der **DH-Familie** werden ausgeschlossen
-  (`aNULL, eNULL, EXP, MD5, RC4, DES, 3DES, DHE, EDH, kDHE, kEDH, ADH`), während die
-  Forward-Secret-**ECDHE**-Suiten beibehalten werden (`smtpd_tls_eecdh_grade = strong`);
-  SSLv2/SSLv3 und TLS 1.0/1.1 sind deaktiviert. Durch den Ausschluss ausschließlich der DH-Familie wird
-  CVE-2002-20001 (ein Denial-of-Service-Angriff beim reinen DHE-Schlüsselaustausch) gemindert, ohne dabei
-  die Forward-Secrecy zu beeinträchtigen.
-- **Gromox** http / imap / pop3: `tls_min_proto = tls1.2` — SSLv3 und TLS 1.0/1.1
-  sind deaktiviert, wobei TLS 1.2 die Mindestversion darstellt. (993/995 sind clientseitig ohne
-  vorangeschaltetem Proxy; daher würde eine Mindestanforderung von TLS 1.3 E-Mail-Clients ausschließen, die nur TLS 1.2 unterstützen, wie
-  ältere Thunderbird-, Mobil- und Outlook-Versionen.)
-- Alle Container laufen **ohne Sonderrechte**.
-
-Für die Produktion sollten Sie die Bereitstellung zusätzlich hinter einer Firewall platzieren,
-Let's Encrypt oder Ihre eigenen, von einer Zertifizierungsstelle signierten Zertifikate verwenden und die Images auf dem neuesten Stand halten.
+Ändern Sie alle Standardpasswörter, beschränken Sie den Zugriff auf den
+Admin-UI-Port 8443 und verwenden Sie im Produktivbetrieb Let's Encrypt oder ein
+Zertifikat Ihrer eigenen CA.
 
 ## Fehlerbehebung
 
-```bash
-docker compose ps              # container + database health
-docker compose logs gromox-core
-# a service stuck in FATAL — read its error log:
-docker exec gromox-core cat /var/log/supervisor-<service>-err.log
-```
+| Symptom | Prüfung |
+| --- | --- |
+| Container startet während des ersten Starts neu | `docker compose logs gromox-core`. Der Entrypoint beendet sich, wenn die Datenbank nicht erreichbar ist oder eine erforderliche Variable (`FQDN`, `DOMAIN`, Passwörter) fehlt. `docker compose ps` zeigt, ob die Datenbanken `healthy` sind. |
+| Ein Dienst ist im Zustand `FATAL` | `docker exec gromox-core cat /var/log/supervisor-<service>-err.log` |
+| `/files` oder `/archive` liefert 502 | gromox-core leitet diese Pfade an die anderen Container weiter. Prüfen Sie, ob gromox-office und gromox-archive `healthy` sind und die `ENABLE_*`-Schalter einheitlich gesetzt sind. |
+| Chat startet nicht | Chat läuft nur mit `ENABLE_CHAT=true` und einer vorhandenen `CHAT_CONFIG`: `docker exec gromox-core supervisorctl status grommunio-chat` |
+| gromox-archive verweigert den Start | Die Archivdatenbank verweist auf E-Mails, das Volume enthält jedoch keinen Verschlüsselungsschlüssel. Stellen Sie den Schlüssel wieder her oder setzen Sie `ARCHIVE_NEW_KEY=true`, um einen neuen Archivspeicher zu beginnen. |
+| Let's-Encrypt-Zertifikat fehlt | Port 80 muss aus dem Internet erreichbar sein und `FQDN` auf den Host auflösen. Bis certbot erfolgreich ist, wird das Zertifikat der integrierten CA verwendet. |
+| Ein Dienst nimmt keine Verbindungen an | `docker exec gromox-core ss -tlnp` listet die Listener in gromox-core auf. nginx lauscht auf 8081, 8443, 9443 und intern auf 8080. |
 
-Häufige Ursachen: ein fehlendes `FQDN`/`DOMAIN` in `var.env` (Postfix schlägt fehl), fehlendes
-`OFFICE_MYSQL_*` (Dokumentendienst schlägt fehl) oder grommunio Files lehnt ein
-selbstsigniertes Zertifikat ab – verwenden Sie Let's Encrypt oder fügen Sie den Host zu den vertrauenswürdigen
-Domänen von „Files“ hinzu. Weitere Informationen finden Sie im
-[README-Abschnitt zur Fehlerbehebung](https://github.com/grommunio/gromox-container#troubleshooting)
-des Projekts.
+Die Admin UI zeigt Fetchmail-Einstellungen an, fetchmail ist im Image jedoch nicht
+installiert; diese Einstellungen sind wirkungslos.

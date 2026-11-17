@@ -9,6 +9,10 @@ When `grommunio-setup` finishes, the appliance is configured but empty: no mail 
 
 The installation itself is documented elsewhere and is not repeated here: downloading the ISO and sizing the machine in the [Quickstart](/admin/quickstart/), the console user interface and every dialog of the setup wizard in [Guided Installation](/admin/installation/). If the wizard did not complete, fix that first (the log is `/var/log/grommunio-setup.log`).
 
+:::note[Container and Kubernetes deployments]
+For a deployment with [Docker Compose](/admin/container_core/) or the [Helm chart](/admin/kubernetes/), the domain, user, DNS, DKIM and mail-flow checks (steps 3 to 7) apply; run the commands inside the core container. Service checks, updates and maintenance differ, see [Container and Kubernetes deployments](#container-and-kubernetes-deployments).
+:::
+
 ## How it fits together
 
 A grommunio appliance is a set of cooperating services. After setup, all of them should be running; the checks in this guide follow the path a message takes through them.
@@ -307,6 +311,23 @@ Work from the symptom to the cause: check the service state, read the relevant j
 - Monitoring: service state, queue length, disk usage of `/var/lib/gromox`, certificate expiry and the DMARC aggregate reports are the minimum set to watch.
 - Firewall: `firewalld` on the appliance opens every service port after setup. Keep the Admin ports (8080/8443) restricted to administrative networks, on the host firewall (`firewall-cmd --remove-port=8080/tcp --zone=public --permanent`, then `firewall-cmd --reload`, once you have confirmed that 8443 works) and on the perimeter, and expose only 25, 80, 443, 587 and the IMAP/POP3 ports you need.
 
+## Container and Kubernetes deployments
+
+The examples use the Compose container names and, for Kubernetes, the release and namespace `grommunio`. Commands from steps 3 to 7 run inside the core container, for example `docker exec -it gromox-core grommunio-admin passwd alice@example.com` or `kubectl -n grommunio exec -it grommunio-core-0 -- grommunio-admin passwd alice@example.com`.
+
+| Step | Difference |
+| --- | --- |
+| 1. Services and ports | There is no systemd in the containers; supervisord runs the services. Check them with `docker compose ps` and `docker exec gromox-core supervisorctl status` (likewise `gromox-office`, `gromox-archive`), or with `kubectl -n grommunio get pods` and `kubectl -n grommunio exec grommunio-core-0 -- supervisorctl status`. With the Helm chart, `helm test grommunio -n grommunio` checks the endpoints, the Admin API login and relaying. Inside the container, the services listen on ports above 1024 (2525, 8443, 2993, ...), see [Ports](/admin/container_core/#ports). Repositories, host name, time synchronization and the firewall belong to the host or the cluster, not to the container. |
+| 2. Admin UI | With Docker Compose, the Admin UI is on `https://<FQDN>:8443/`. With the Helm chart, it is not exposed outside the cluster by default, see [Kubernetes](/admin/kubernetes/#quick-start). The `admin` password is `ADMIN_PASS`. Change it there (`var.local.env` or the chart Secret) and apply it with `FORCE_RECONFIG=true` or `maintenance.forceReconfig: true` for one start; a password set only with `grommunio-admin passwd` is reset to `ADMIN_PASS` by the next forced reconfiguration. |
+| 4. Local test mail | `sendmail`, `postqueue -p` and `gromox-mailq` work inside gromox-core. Instead of `journalctl`, read `/var/log/supervisor-postfix.log` and `/var/log/supervisor-gromox-delivery.log` in gromox-core (Docker Compose) or the pod log (`kubectl -n grommunio logs grommunio-core-0`). |
+| 5. DNS | The records are the same; for Kubernetes, see [DNS records](/admin/kubernetes/#dns-records). |
+| 6. DKIM | Run the `mkdir`, `cp`, `chown` and `chmod` commands inside gromox-core; `/var/lib/grommunio-antispam` is on a volume and keeps the key. Skip `postconf -e` and the Postfix restart: the setting would be lost when the container is recreated. Mail from grommunio Web, Outlook and ActiveSync reaches Postfix over SMTP in the container and passes the milter anyway. |
+| 7. Mail flow | Applies; use the container logs as in step 4. |
+| 8. Updates | Update by pulling new images ([Docker Compose](/admin/container_core/#updating), [Helm chart](/admin/kubernetes/#upgrades-and-rollbacks)), not with `zypper`. |
+| 8. Backup | See [Backup and restore](/guides/backup-restore/#container-and-kubernetes-deployments). |
+| 8. gromox-cleaner | Not a timer: gromox-core runs the same purge daily at 03:30 via cron, enabled by default, with the retention from `softdelete_purgetime` (default `30d`). |
+| Certificates | With Let's Encrypt (`SSL_INSTALL_TYPE=2`, Docker Compose only), gromox-core renews the certificate itself. In Kubernetes, use cert-manager, see [Kubernetes](/admin/kubernetes/#tls). |
+
 ## Related pages
 
 - [Quickstart](/admin/quickstart/)
@@ -319,3 +340,5 @@ Work from the symptom to the cause: check the service state, read the relevant j
 - [Backup and restore](/guides/backup-restore/)
 - [AutoDiscover](/kb/autodiscover/)
 - [Mailbox maintenance](/kb/mailbox_maint/)
+- [Container installation](/admin/container_core/)
+- [Kubernetes](/admin/kubernetes/)

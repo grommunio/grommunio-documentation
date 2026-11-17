@@ -150,7 +150,7 @@ With grommunio 2025.01.1, components no longer require direct I/O access to mail
 - Improved high availability: Nodes can be distributed across different locations without centralized storage dependencies.
 - Compatibility with modern HA solutions:
 
-This architecture natively supports cloud-native environments such as Kubernetes, other containerized environments, and various replication techniques for failover scenarios.
+This architecture natively supports cloud-native environments such as [Kubernetes](/admin/kubernetes/), other containerized environments, and various replication techniques for failover scenarios.
 
 From a configuration standpoint, share-nothing clusters remain identical to shared-storage setups, except that nodes do not need access to each other’s mailboxes. Production deployments may benefit from additional replication techniques for high availability.
 

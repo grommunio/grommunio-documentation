@@ -39,6 +39,9 @@ mv new.db exchange.sqlite3
 systemctl restart gromox-http
 ```
 
+In the gromox-core container, use `supervisorctl stop gromox-http` and
+`supervisorctl start gromox-http` instead of `systemctl`.
+
 We turn off foreign keys (FK) here temporarily because recovery can process tables in an order that is not supported by FK constraints.
 
 (There is also an alternate command for `.recover`:)

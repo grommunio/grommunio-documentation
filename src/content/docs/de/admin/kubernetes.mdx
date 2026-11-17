@@ -1,0 +1,898 @@
+---
+title: Kubernetes (Helm-Chart)
+description: Bereitstellung von grommunio auf Kubernetes mit dem offiziellen Helm-Chart auf Basis der gromox-container-Images. Behandelt werden Veröffentlichung der Dienste, TLS, Datenbank, Secrets, Speicher, Network Policies, Datensicherung, Upgrades, Migration von Docker Compose und das Sicherheitsmodell.
+sidebar:
+  order: 51
+---
+
+import { Steps } from '@astrojs/starlight/components';
+
+Das grommunio-Helm-Chart stellt grommunio auf Kubernetes bereit. Es verwendet dieselben
+Images wie die [Docker-Compose-Bereitstellung](/admin/container_core/)
+(`gromox-core`, `gromox-archive`, `gromox-office`); einige vom Chart gesetzte
+Umgebungsvariablen schalten sie in den Kubernetes-Modus. Alles, was unter Docker
+Compose über `var.env` konfiguriert wird, legen Sie hier über die Chart-Values fest.
+
+| | |
+| --- | --- |
+| Chart | `oci://container.grommunio.com/community/charts/grommunio` |
+| Chart-Version | `0.2.0` |
+| grommunio-Version (`appVersion`) | `2026.11` |
+| Quelle | `charts/grommunio` im [gromox-container-Repository](https://github.com/grommunio/gromox-container) |
+
+:::note[Vollständige Values-Referenz]
+Diese Seite beschreibt die Bereitstellung und die gebräuchlichsten Einstellungen. Jede
+Option ist in der `values.yaml` des Charts dokumentiert, die Helm mit folgendem Befehl ausgibt:
+
+```bash
+helm show values oci://container.grommunio.com/community/charts/grommunio --version 0.2.0
+```
+
+Im Quellverzeichnis enthält `docs/` die ausführlichen Dokumente zu Upgrade, Datensicherung,
+Migration und Sicherheit, `examples/` enthält fertige Values-Dateien.
+:::
+
+## Was bereitgestellt wird
+
+Jede Komponente läuft als StatefulSet mit genau einem Replikat. Mit dem Release-Namen
+`grommunio`:
+
+| Pod | Image | Inhalt |
+| --- | --- | --- |
+| `grommunio-core-0` | `gromox-core` | nginx, Postfix, Gromox (MAPI/HTTP, IMAP, POP3, Zustellung, midb, zcore, event), Admin API und Admin UI, grommunio Web, Exchange ActiveSync, CalDAV/CardDAV, rspamd, Redis, saslauthd, cron, optional Chat |
+| `grommunio-archive-0` | `gromox-archive` | grommunio Archive, Sphinx-Volltextsuche, Weboberfläche |
+| `grommunio-office-0` | `gromox-office` | grommunio Files und grommunio Office (Document Server), RabbitMQ, Redis |
+| `grommunio-mariadb-0` | `mariadb` | eine mitgelieferte MariaDB mit den fünf Datenbanken (optional, siehe [Datenbank](#datenbank)) |
+
+Chat, Files, Office und Archive sind standardmäßig aktiviert und lassen sich unter
+`features.*` einzeln abschalten; `examples/values-core-only.yaml` stellt nur Mail und
+Groupware bereit.
+
+Allen Objekten wird der Release-Name vorangestellt (`grommunio-core-0`,
+`grommunio-secrets`, …). Enthält der Release-Name nicht „grommunio“, lautet das Präfix
+`<release>-grommunio`. Die Befehle auf dieser Seite verwenden den Release-Namen
+`grommunio` und den Namespace `grommunio`; `helm get notes grommunio -n grommunio`
+gibt die genauen Namen Ihrer Installation aus.
+
+## Voraussetzungen
+
+- Kubernetes 1.28 oder neuer, Helm 3.12 oder neuer.
+- Eine StorageClass, die `ReadWriteOnce`-Volumes bereitstellt. `ReadWriteMany` wird nicht
+  benötigt.
+- Eine IP-Adresse für die Mail- und Web-Ports: eine LoadBalancer-Implementierung
+  (Cloud-Anbieter, MetalLB, kube-vip) oder eine Knotenadresse, die als `externalIPs`
+  verwendet wird.
+- Etwa 2 CPUs und 7 GiB Arbeitsspeicher an Resource Requests bei aktivierten Funktionen
+  (siehe `core.resources`, `office.resources`, `archive.resources`,
+  `mariadb.resources`).
+- Optional: cert-manager für öffentlich vertrauenswürdige Zertifikate, ein
+  Ingress-Controller für HTTP(S).
+
+## Schnellstart
+
+<Steps>
+
+1. **Legen Sie eine Values-Datei an** mit dem öffentlichen Hostnamen und der Mail-Domäne:
+
+   ```bash
+   cat > my-values.yaml <<'EOF'
+   grommunio:
+     fqdn: mail.example.com
+     domain: example.com
+   EOF
+   ```
+
+   Ergänzen Sie die unten beschriebenen Einstellungen für Veröffentlichung, TLS und
+   Speicher, bevor Sie die Installation produktiv nutzen.
+
+2. **Installieren Sie das Chart:**
+
+   ```bash
+   helm install grommunio oci://container.grommunio.com/community/charts/grommunio \
+     --version 0.2.0 \
+     --namespace grommunio --create-namespace \
+     -f my-values.yaml --wait --timeout 25m
+   ```
+
+   Der erste Start dauert mehrere Minuten (Initialisierung der Datenbank, Installation
+   des Zertifikats, Installation von Files). Kein Schritt des Erststarts läuft als
+   `post-*`-Hook, `--wait` kann also bedenkenlos verwendet werden. Den Fortschritt
+   verfolgen Sie mit:
+
+   ```bash
+   kubectl -n grommunio get pods -l app.kubernetes.io/instance=grommunio -w
+   kubectl -n grommunio logs -f grommunio-core-0
+   ```
+
+3. **Lesen Sie die Installationshinweise.** Sie zeigen die Adresse für DNS, den Zugang
+   zur Admin UI, wie Sie das Admin-Passwort auslesen und – bei aktiviertem Archiv – wie
+   Sie den Archiv-Verschlüsselungsschlüssel exportieren:
+
+   ```bash
+   helm get notes grommunio -n grommunio
+   ```
+
+4. **Sichern Sie den Archiv-Verschlüsselungsschlüssel und die Secrets** sofort, siehe
+   [Datensicherung](#datensicherung).
+
+5. **Prüfen Sie die Bereitstellung:**
+
+   ```bash
+   helm test grommunio -n grommunio
+   ```
+
+6. **Melden Sie sich an der Admin UI an** als `admin` und legen Sie die Domäne und die
+   Benutzer an. Das Passwort ist im Secret `grommunio-secrets` gespeichert:
+
+   ```bash
+   kubectl -n grommunio get secret grommunio-secrets \
+     -o jsonpath='{.data.ADMIN_PASS}' | base64 -d; echo
+   ```
+
+   Standardmäßig ist die Admin UI außerhalb des Clusters nicht erreichbar; greifen Sie
+   über ein Port-Forwarding darauf zu und öffnen Sie `https://localhost:8443/`:
+
+   ```bash
+   kubectl -n grommunio port-forward svc/grommunio-core-admin 8443:8443
+   ```
+
+</Steps>
+
+### DNS-Einträge
+
+Lassen Sie die folgenden Einträge auf die veröffentlichte IP-Adresse zeigen:
+
+```
+mail.example.com.          A/AAAA  <ip>
+autodiscover.example.com.  A/AAAA  <ip>
+example.com.               MX 10   mail.example.com.
+```
+
+Bei einem Service vom Typ `LoadBalancer` lesen Sie die Adresse so aus:
+
+```bash
+kubectl -n grommunio get svc grommunio-core \
+  -o jsonpath='{.status.loadBalancer.ingress[0].ip}{.status.loadBalancer.ingress[0].hostname}'
+```
+
+## Editionen und Zugangsdaten für die Registry
+
+Alle Images und das Chart werden über die grommunio-Container-Registry
+`container.grommunio.com` bereitgestellt:
+
+| Pfad | Zugriff | Inhalt |
+| --- | --- | --- |
+| `community/gromox-{core,archive,office}` | öffentlich, ohne Anmeldung | gebaut aus den grommunio-Community-Paketen |
+| `supported/gromox-{core,archive,office}` | Subskriptionskunden | gebaut aus den grommunio-Supported-Paketen |
+| `community/mariadb` | öffentlich | Spiegel von `docker.io/library/mariadb:11.8` |
+| `community/charts/grommunio` | öffentlich | das Helm-Chart (OCI) |
+
+`global.edition` (`community` oder `supported`) wählt den Image-Pfad. Standard ist die
+Community-Edition.
+
+Image-Tags:
+
+| Tag | Bedeutung |
+| --- | --- |
+| `2026.11` (die `appVersion`) | neuester Build dieses Releases; wandert mit jedem Rebuild mit |
+| `2026.11-<YYYYMMDDhhmm>` | ein bestimmter Build |
+| `latest` | neuester Build |
+
+Die Registry hält die letzten 14 Builds jedes Images vor. Für reproduzierbare
+Bereitstellungen pinnen Sie einen Digest mit `image.<component>.digest` (`core`, `archive`,
+`office`, `mariadb`) und legen eine Kopie in Ihrer eigenen Registry ab, wenn Sie einen
+Build länger benötigen.
+
+### Supported-Edition
+
+Subskriptionskunden erhalten mit ihrer Subskription einen Robot-Account, der nur Pull
+erlaubt (Format des Benutzernamens `robot$supported+<customer>`). Empfohlen ist, das
+Pull-Secret selbst anzulegen, damit das Passwort nicht im Helm-Release gespeichert wird:
+
+```bash
+kubectl -n grommunio create secret docker-registry grommunio-registry \
+  --docker-server=container.grommunio.com \
+  --docker-username='robot$supported+customer-1234' --docker-password='<secret>'
+```
+
+```yaml
+global:
+  edition: supported
+  imagePullSecrets: [grommunio-registry]
+```
+
+Alternativ übergeben Sie die Zugangsdaten in den Values. Das Chart legt dann das
+Pull-Secret `grommunio-registry` an und verwendet es in jedem Pod:
+
+```yaml
+global:
+  edition: supported
+  imageCredentials:
+    username: robot$supported+customer-1234
+    password: "<secret>"
+```
+
+Der Wechsel einer bestehenden Installation zwischen den Editionen ist ein normales
+`helm upgrade`; das Datenformat ist identisch.
+
+### Signaturen und Spiegel
+
+Die Images, der MariaDB-Spiegel und das Chart sind mit cosign signiert. Prüfen Sie sie
+mit dem öffentlichen Schlüssel `cosign.pub` aus dem
+[gromox-container-Repository](https://github.com/grommunio/gromox-container):
+
+```bash
+cosign verify --key cosign.pub container.grommunio.com/community/gromox-core:2026.11
+cosign verify --key cosign.pub container.grommunio.com/community/charts/grommunio:0.2.0
+```
+
+Im Cluster können Kyverno `verifyImages` oder der Sigstore policy-controller die
+Signaturen erzwingen. Fingerabdruck des Schlüssels und Beispiel-Policies finden Sie auf
+der Seite [Container-Registry](/admin/container_registry/#signature-verification).
+
+Für Air-Gapped-Cluster spiegeln Sie die Images (zum Beispiel mit
+`skopeo copy --all`) und setzen `global.imageRegistry` auf Ihre Registry, etwa
+`registry.example.com:5000`. Siehe
+[Spiegeln in die eigene Registry](/admin/container_registry/#mirroring-into-your-own-registry).
+
+## Veröffentlichung der Dienste
+
+Das Chart legt drei Services für den Core-Pod an:
+
+| Service | Zweck | Standard |
+| --- | --- | --- |
+| `grommunio-core` | öffentliche Ports 25, 80, 443, 465, 587, 143, 993, 110, 995 (und 8443 mit `service.core.ports.admin.enabled`) | `LoadBalancer`, `externalTrafficPolicy: Local` |
+| `grommunio-core-admin` | Admin UI und rspamd-Oberfläche (Port 8443) | `ClusterIP` |
+| `grommunio-core-internal` | genutzt von Archive und Office (interner SMTP-Relay, HTTPS-Hairpin); Ingress-Backend | `ClusterIP` |
+
+`externalTrafficPolicy: Local` erhält die Client-Adresse für Postfix, rspamd und die
+Logs; bei nur einem Endpunkt entsteht keine ungleiche Lastverteilung. Setzen Sie den Wert
+auf `Cluster` für Load Balancer, die keine Health Checks gegen Knoten ausführen können.
+
+Um die Admin UI von außerhalb des Clusters zu erreichen, verwenden Sie eine der folgenden
+Möglichkeiten:
+
+- `service.admin.type` (zum Beispiel `LoadBalancer`, optional mit
+  `service.admin.loadBalancerSourceRanges`),
+- `ingress.admin.enabled` mit `ingress.admin.host` (erfordert `ingress.enabled`, siehe
+  [Ingress für HTTP(S)](#ingress-für-https)),
+- `service.core.ports.admin.enabled: true`, um Port 8443 wie unter Docker Compose auf
+  der öffentlichen IP zu veröffentlichen.
+
+### LoadBalancer
+
+Der Standard. Ein Cloud-Anbieter, MetalLB oder kube-vip vergibt die Adresse.
+`service.core.loadBalancerIP`, `loadBalancerClass`, `loadBalancerSourceRanges`
+und `annotations` werden an den Service durchgereicht.
+
+### Bare Metal und k3s ohne Load Balancer
+
+Veröffentlichen Sie die Ports mit `externalIPs` auf einer Adresse eines Knotens.
+kube-proxy beantwortet Anfragen an diese Adresse auf dem Knoten, auf dem der Pod läuft;
+Dienste des Hosts auf anderen Adressen sind nicht betroffen.
+
+```yaml
+service:
+  core:
+    type: ClusterIP
+    externalIPs: [203.0.113.10]
+    externalTrafficPolicy: Local
+```
+
+`helm install --wait` blockiert mit dieser Konfiguration nicht, während ein Service vom
+Typ `LoadBalancer` ohne Controller nie bereit wird. Ein vollständiges Beispiel ist
+`examples/values-k3s-externalip.yaml`.
+
+### Ingress für HTTP(S)
+
+```yaml
+ingress:
+  enabled: true
+  className: nginx
+  controller: nginx          # nginx | traefik | haproxy | none
+  realIpFrom:
+    - 10.42.0.0/16           # addresses of the ingress controller
+networkPolicy:
+  ingressController:         # selects the ingress controller pods
+    namespaceSelector:
+      matchLabels: { kubernetes.io/metadata.name: ingress-nginx }
+tls:
+  mode: certManager
+  certManager:
+    issuerRef: { name: letsencrypt, kind: ClusterIssuer }
+```
+
+Bei aktiviertem Ingress gilt:
+
+- Die Ports 80 und 443 werden aus dem öffentlichen Service entfernt; die Mail-Ports
+  bleiben dort.
+- Das Ingress-Backend spricht HTTPS: Der nginx im Core-Pod terminiert TLS mit demselben
+  Zertifikat, und `ingress.controller` wählt die passenden Annotations für die erneute
+  Verschlüsselung.
+- Der nginx im Core-Pod vertraut `X-Forwarded-For` nur von `ingress.realIpFrom`
+  (Pflichtangabe; halten Sie den Bereich so eng wie möglich).
+- Mit `networkPolicy.enabled` (Standard) muss `networkPolicy.ingressController` den
+  Controller auswählen (`namespaceSelector` und/oder `podSelector`); nur die ausgewählten
+  Pods erreichen das HTTPS-Backend. Fehlt die Angabe, verweigert das Chart das Rendern.
+
+:::caution
+Fügen Sie dem Ingress keine cert-manager-Annotations hinzu. Das Zertifikat wird über das
+chart-eigene `Certificate`-Objekt verwaltet; der ingress-shim von cert-manager würde um
+dasselbe Secret konkurrieren.
+:::
+
+Ein vollständiges Beispiel ist `examples/values-ingress-certmanager.yaml`.
+
+## TLS
+
+Das Zertifikat liegt immer in einem Secret vom Typ `kubernetes.io/tls`, das in alle drei
+Anwendungs-Pods eingebunden wird. Erneuerungen werden in den Containern innerhalb von etwa
+einer Minute übernommen, ohne Neustart.
+
+| `tls.mode` | Quelle des Zertifikats |
+| --- | --- |
+| `selfSigned` (Standard) | Das Chart erzeugt eine CA und ein Zertifikat für `fqdn` und `autodiscover.<domain>` (zuzüglich `tls.extraDnsNames`). Beide Secrets bleiben über Upgrades und Deinstallation hinweg erhalten. Das Zertifikat wird von der CA neu ausgestellt, wenn sich seine Namen ändern oder es innerhalb von 30 Tagen abläuft (geprüft bei jedem `helm upgrade`). |
+| `certManager` | Das Chart erzeugt ein cert-manager-`Certificate` für `tls.certManager.issuerRef`. HTTP-01 erfordert `ingress.enabled`; DNS-01 funktioniert ohne Ingress. Das `ca.crt` eines Issuers mit privater CA wird in den Pods automatisch als vertrauenswürdig eingestuft. |
+| `existingSecret` | Ein beliebiges, von Ihnen verwaltetes Secret (`tls.crt` mit der vollständigen Kette, `tls.key`, optional `ca.crt`), angegeben in `tls.existingSecret`. |
+
+Bei `selfSigned` installieren Sie die CA auf den Clients:
+
+```bash
+kubectl -n grommunio get secret grommunio-ca \
+  -o jsonpath='{.data.ca\.crt}' | base64 -d > grommunio-ca.crt
+```
+
+Let's Encrypt über certbot im Container (`SSL_INSTALL_TYPE=2` unter Docker Compose) steht
+auf Kubernetes nicht zur Verfügung; verwenden Sie stattdessen cert-manager.
+
+Um ein neues selbstsigniertes Zertifikat zu erzwingen, löschen Sie das Secret
+`grommunio-tls` und führen `helm upgrade` aus. Um auch die CA zu erneuern, löschen Sie
+`grommunio-ca` und `grommunio-tls`; die Clients müssen anschließend das neue `ca.crt`
+importieren.
+
+## Datenbank
+
+Standardmäßig stellt das Chart eine MariaDB
+(`container.grommunio.com/community/mariadb:11.8`) mit den fünf Datenbanken
+`grommunio`, `grochat`, `grofiles`, `groffice` und `groarchive` bereit, die beim ersten
+Start von einem Init-Skript angelegt werden. Ihre Dimensionierung legen Sie über
+`mariadb.persistence`, `mariadb.resources` und `mariadb.config` (`innodbBufferPoolSize`,
+`maxConnections`, `extra`) fest.
+
+Ein `pre-upgrade`-Job (`db-sync`) hält die Datenbankbenutzer und ihre Passwörter mit dem
+Chart-Secret synchron. Er lässt ein Upgrade nie wegen eines Datenbankausfalls scheitern;
+`dbSync.waitSeconds` begrenzt, wie lange er wartet.
+
+### Externe Datenbank
+
+```yaml
+mariadb:
+  enabled: false
+externalDatabase:
+  host: mariadb.example.internal
+  port: 3306
+  manage: true                 # create databases and users with the admin credentials
+  adminSecret: my-db-root      # Secret with key MYSQL_ROOT_PASS
+  adminUser: root
+  core:    { database: grommunio,  user: grommunio }
+  chat:    { database: grochat,    user: grochat }
+  files:   { database: grofiles,   user: grofiles }
+  office:  { database: groffice,   user: groffice }
+  archive: { database: groarchive, user: groarchive }
+```
+
+Mit `manage: true` legt der Job `db-sync` die Datenbanken und Benutzer bei Installation und
+Upgrade an. Mit `manage: false` legen Sie sie selbst mit den Passwörtern aus dem
+Chart-Secret an. Der externe Server muss MariaDB 10.6 oder neuer mit `utf8mb4` ausführen.
+Ein vollständiges Beispiel ist `examples/values-external-db.yaml`.
+
+## Secrets
+
+Alle Passwörter liegen in einem einzigen Secret, `grommunio-secrets`. Es wird bei der
+ersten Installation erzeugt und trägt `helm.sh/resource-policy: keep`, übersteht also
+`helm uninstall`. Jeder Container erhält nur die Schlüssel, die er benötigt.
+
+Die Schlüssel lauten `ADMIN_PASS`, `CHAT_ADMIN_PASS`, `FILES_ADMIN_PASS`,
+`ARCHIVE_ADMIN_PASS`, `ARCHIVE_AUDIT_PASS`, `MYSQL_PASS`, `CHAT_MYSQL_PASS`,
+`FILES_MYSQL_PASS`, `OFFICE_MYSQL_PASS`, `ARCHIVE_MYSQL_PASS`,
+`OFFICE_JWT_SECRET` und `KEYCLOAK_CLIENT_SECRET`. Für jeden Schlüssel verwendet das Chart
+in dieser Reihenfolge: `secrets.existingSecret`, `secrets.values.<KEY>`, den bereits im
+Cluster gespeicherten Wert, einen Zufallswert.
+
+```yaml
+secrets:
+  existingSecret: my-grommunio-secrets
+# or
+secrets:
+  values:
+    ADMIN_PASS: "..."
+```
+
+Das MariaDB-Root-Passwort liegt in einem separaten Secret (`grommunio-mariadb` oder
+`mariadb.existingRootSecret`).
+
+:::caution[GitOps und helm template]
+`helm template`, Argo CD und Flux können keine Objekte im Cluster nachschlagen. Verwenden
+Sie mit diesen Werkzeugen `secrets.existingSecret` (oder `secrets.values`) sowie
+`tls.mode: certManager` oder `existingSecret`. Andernfalls erzeugt jedes Rendern neue
+Passwörter und eine neue CA.
+:::
+
+Die Container lesen die Passwörter nur beim Start. Nachdem Sie Passwörter in einem
+`existingSecret` geändert haben, ändern Sie `secrets.existingSecretVersion` (beliebige
+Zeichenkette), damit die Pods mit den neuen Werten neu starten.
+
+### Passwörter ändern
+
+Setzen Sie die neuen Werte in `secrets.values` oder in Ihrem `existingSecret` und führen
+Sie `helm upgrade` aus. `db-sync` aktualisiert die Datenbankbenutzer, bevor die Pods neu
+starten; rechnen Sie daher während des Rollouts mit Verbindungsfehlern. Ausnahmen:
+
+- Das grommunio-Admin-Passwort wird nur übernommen, wenn für ein Upgrade
+  `maintenance.forceReconfig: true` gesetzt ist; entfernen Sie die Einstellung
+  danach wieder.
+- Admin-Passwörter für Chat und Files von bereits bestehenden Konten ändert das Chart
+  nicht.
+- Das Root-Passwort der mitgelieferten MariaDB lässt sich nicht über das Chart rotieren.
+  Ändern Sie es mit `ALTER USER` und passen Sie das Secret `grommunio-mariadb` von Hand an.
+
+## Speicher
+
+| PVC | Pod | Inhalt | Standardgröße |
+| --- | --- | --- | --- |
+| `data-grommunio-core-0` | core | Postfächer (`/var/lib/gromox`) | 50Gi |
+| `state-grommunio-core-0` | core | Admin API, Antispam, DAV, Sitzungen und Index von grommunio Web, Chat-Uploads, Redis, Postfix-Spool | 20Gi |
+| `config-grommunio-core-0` | core | `/etc/gromox`, JWT-Schlüssel der Admin API, Lizenz, Chat-Konfiguration | 1Gi |
+| `data-grommunio-archive-0` | archive | archivierte Mails, Suchindex, Verschlüsselungsschlüssel | 100Gi |
+| `files-grommunio-office-0` | office | Files-Konfiguration und Benutzerdaten | 50Gi |
+| `data-grommunio-mariadb-0` | mariadb | Datenbanken | 20Gi |
+
+Größen und Klassen legen Sie unter `persistence.*` und `mariadb.persistence` fest;
+`global.storageClass` setzt eine Standardklasse für alle PVCs. Das Postfach-Volume
+enthält SQLite-Datenbanken und profitiert von Speicher mit hohen IOPS.
+`persistence.<pod>.<volume>.existingClaim` bindet stattdessen einen bestehenden PVC ein,
+etwa für Wiederherstellungen und Migrationen. Alle StatefulSets behalten ihre PVCs, wenn
+sie gelöscht werden.
+
+:::caution[Größen werden bei der Erstellung festgelegt]
+Die `volumeClaimTemplates` eines StatefulSets sind unveränderlich. Eine Änderung von
+`size`, `storageClass`, `annotations` oder der Wechsel zu `existingClaim` bei einem
+laufenden Release lässt `helm upgrade` mit „updates to statefulset spec for fields
+other than … are forbidden“ scheitern. Legen Sie Größen und Klassen vor der ersten
+Installation fest.
+:::
+
+So vergrößern Sie ein Volume auf einer StorageClass mit `allowVolumeExpansion`:
+
+<Steps>
+
+1. Vergrößern Sie den PVC:
+
+   ```bash
+   kubectl -n grommunio patch pvc data-grommunio-core-0 \
+     -p '{"spec":{"resources":{"requests":{"storage":"100Gi"}}}}'
+   ```
+
+2. Tragen Sie dieselbe Größe in Ihre Values-Datei ein.
+
+3. Löschen Sie das StatefulSet, ohne seinen Pod und seine PVCs zu löschen, und führen Sie
+   anschließend das Upgrade aus. Helm legt das StatefulSet mit dem neuen Template neu an:
+
+   ```bash
+   kubectl -n grommunio delete statefulset grommunio-core --cascade=orphan
+   helm upgrade grommunio oci://container.grommunio.com/community/charts/grommunio \
+     --version 0.2.0 -n grommunio -f my-values.yaml --wait --timeout 25m
+   ```
+
+</Steps>
+
+Ein Wechsel der StorageClass oder zu einem `existingClaim` folgt demselben Vorgehen mit
+`--cascade=orphan`; die Daten selbst müssen separat kopiert oder wiederhergestellt werden.
+
+## Network Policies und Mail-Relay
+
+Postfix vertraut auf den öffentlichen Ports unabhängig von `externalTrafficPolicy` nur
+Loopback; nichts innerhalb des Clusters kann ohne Authentifizierung relayen, und Source-NAT
+durch kube-proxy kann den Server nicht zum offenen Relay machen.
+`network.postfixMynetworks` fügt vertrauenswürdige Netze hinzu, doch alles, was dort
+eingetragen ist, darf ohne Authentifizierung relayen; lassen Sie den Wert leer.
+
+Archive und Files versenden Mails über einen eigenen internen Listener
+(`network.internalRelay.port`, Standard 2526), der nie veröffentlicht wird und nur Mails
+für gehostete Domänen annimmt. Damit Files Freigabebenachrichtigungen an externe Empfänger
+senden kann, setzen Sie `network.internalRelay.allowExternalRecipients: true`; dies setzt
+`networkPolicy.enabled` voraus.
+
+NetworkPolicies sind standardmäßig aktiviert (`networkPolicy.enabled`). Sie erlauben:
+
+- die öffentlichen Ports aus `networkPolicy.core.allowedSourceRanges` (Standard: jede
+  Adresse),
+- den Admin-Port aus dem Namespace des Releases und aus `networkPolicy.admin.from`
+  (oder von jeder Quelle mit `networkPolicy.admin.allowAll`),
+- Archive und Office nur vom Core-Pod,
+- MariaDB nur von den Pods des Releases,
+- den internen Relay nur von Pods mit dem Label `grommunio.io/relay-client`.
+
+Egress-Regeln sind optional (`networkPolicy.egress.enabled`,
+`networkPolicy.egress.extraCIDRs`). Ob die Policies durchgesetzt werden, hängt vom
+CNI-Plugin ab; k3s setzt sie standardmäßig durch.
+
+:::note
+Verkehr von `kubectl port-forward` geht vom Knoten aus. Wendet Ihr CNI NetworkPolicies
+darauf an, fügen Sie den Adressbereich der Knoten zu `networkPolicy.admin.from` hinzu, um
+die Admin UI über ein Port-Forwarding zu erreichen.
+:::
+
+Ausgehende Mails werden standardmäßig direkt zugestellt; setzen Sie `grommunio.relayhost`
+(`[host]:port`), um einen Smarthost zu verwenden. Auf reinen IPv4-Clustern setzen Sie
+`network.ipv6: false`.
+
+## Datensicherung
+
+Folgendes muss gesichert werden:
+
+| Element | Ort | Grund |
+| --- | --- | --- |
+| Archiv-Verschlüsselungsschlüssel | `/var/lib/grommunio-archive/grommunio-archive.key` auf `data-grommunio-archive-0` | ohne ihn sind archivierte Mails nicht lesbar; er wird nie neu erzeugt |
+| Secrets `grommunio-secrets`, `grommunio-mariadb`, `grommunio-ca`, `grommunio-tls` | Kubernetes | in den Datenbanken hinterlegte Passwörter, Admin-Passwort, JWT-Secret für Files/Office, CA und Zertifikat |
+| `config-grommunio-core-0` | PVC | JWT-Signaturschlüssel der Admin API, X.500-Organisations-ID, Lizenz |
+| `data-grommunio-core-0` | PVC | Postfächer (SQLite und Anhänge) |
+| `state-grommunio-core-0` | PVC | DAV-Synchronisationsstatus, Suchindex von grommunio Web, Chat-Uploads, rspamd-Statistiken, Postfix-Warteschlange |
+| `data-grommunio-archive-0` | PVC | Archivspeicher und Index |
+| `files-grommunio-office-0` | PVC | Benutzerdaten und Konfiguration von Files |
+| `data-grommunio-mariadb-0` oder logische Dumps | PVC / Backup-PVC | die fünf Datenbanken |
+
+:::danger[Exportieren Sie Archivschlüssel und Secrets nach der ersten Installation]
+Ohne den Archiv-Verschlüsselungsschlüssel lassen sich archivierte Mails nicht lesen.
+
+```bash
+kubectl -n grommunio exec grommunio-archive-0 -- \
+  cat /var/lib/grommunio-archive/grommunio-archive.key > grommunio-archive.key
+kubectl -n grommunio get secret -l app.kubernetes.io/instance=grommunio -o json \
+  | jq 'del(.items[].metadata.resourceVersion, .items[].metadata.uid, .items[].metadata.creationTimestamp, .items[].metadata.managedFields)' \
+  > grommunio-secrets.json
+```
+
+Der `jq`-Filter entfernt serverseitige Metadaten, damit sich die Secrets in einem anderen
+Cluster anwenden lassen. Bewahren Sie beide Dateien an einem sicheren Ort auf.
+:::
+
+### Datenbank-Dumps
+
+Das Chart kann alle Datenbanken zeitgesteuert in einen PVC sichern:
+
+```yaml
+backup:
+  enabled: true
+  schedule: "0 2 * * *"
+  retentionDays: 14
+  persistence: { size: 20Gi }
+```
+
+Die Dumps werden als `<stamp>/<database>.sql.gz` in den PVC `grommunio-backup`
+geschrieben, der bei der Deinstallation erhalten bleibt. Mit `backup.initialDump`
+(standardmäßig aktiv) läuft nach jeder Installation und jedem Upgrade zusätzlich ein
+einmaliger Dump. Einen Dump starten Sie manuell mit:
+
+```bash
+kubectl -n grommunio create job --from=cronjob/grommunio-backup manual-$(date +%s)
+```
+
+Kopieren Sie die Dumps mit `kubectl cp` aus einem Pod, der den PVC einbindet, oder sichern
+Sie den PVC mit Ihren Volume-Werkzeugen.
+
+### Volumes
+
+Sichern Sie die PVCs mit CSI-Volume-Snapshots oder Velero (mit File-System-Backup für
+Speicher ohne Snapshot-Unterstützung). Die SQLite-Datenbanken der Postfächer sind
+konsistent, wenn der Core-Pod gestoppt ist. Für eine Offline-Sicherung:
+
+```bash
+kubectl -n grommunio scale statefulset grommunio-core --replicas=0
+# snapshot or copy data-grommunio-core-0, state-grommunio-core-0, config-grommunio-core-0
+kubectl -n grommunio scale statefulset grommunio-core --replicas=1
+```
+
+Ein Snapshot im laufenden Betrieb ist in der Regel akzeptabel, da SQLite absturzsicher
+ist, kann aber die Änderungen der letzten Sekunden verlieren.
+
+### Wiederherstellung in einem neuen Cluster
+
+<Steps>
+
+1. Legen Sie den Namespace an und stellen Sie die Secrets aus der Sicherung unter neuen
+   Namen wieder her (zum Beispiel `restored-secrets`, `restored-mariadb-root`,
+   `restored-tls`). Verweisen Sie das Chart mit `secrets.existingSecret`,
+   `mariadb.existingRootSecret` sowie `tls.mode: existingSecret` mit
+   `tls.existingSecret` darauf. Um sie unter den chart-eigenen Namen neu anzulegen, sind
+   die Helm-Ownership-Annotations und das Label `app.kubernetes.io/managed-by: Helm`
+   erforderlich, angepasst an das neue Release und den neuen Namespace.
+
+2. Legen Sie PVCs aus den Snapshots an und verweisen Sie das Chart darauf:
+
+   ```yaml
+   persistence:
+     core:
+       data:   { existingClaim: restored-core-data }
+       state:  { existingClaim: restored-core-state }
+       config: { existingClaim: restored-core-config }
+     archive:
+       data:   { existingClaim: restored-archive-data }
+     office:
+       files:  { existingClaim: restored-office-files }
+   mariadb:
+     persistence: { existingClaim: restored-mariadb-data }
+   ```
+
+   Bei logischen Dumps lassen Sie das Chart stattdessen eine leere MariaDB anlegen,
+   importieren die Dumps nach der Installation (`kubectl exec grommunio-mariadb-0 -- mariadb …`)
+   und starten die Anwendungs-Pods neu.
+
+3. Wird das Daten-Volume des Archivs leer wiederhergestellt, die Datenbank aber nicht,
+   stellen Sie den Schlüssel über ein Secret bereit (Schlüssel `grommunio-archive.key`):
+
+   ```yaml
+   features:
+     archive:
+       encryptionKey:
+         existingSecret: grommunio-archive-key
+   ```
+
+   Der Container installiert den Schlüssel auf einem frischen Volume und verweigert den
+   Start, wenn bereits ein anderer Schlüssel vorhanden ist.
+
+4. Führen Sie `helm install` mit denselben Values aus. Die `.setup`-Markierungen auf dem
+   Config-Volume verhindern eine erneute Initialisierung.
+
+</Steps>
+
+Die Sicherungskonzepte, die für jede grommunio-Installation gelten, finden Sie unter
+[Sicherung und Wiederherstellung](/guides/backup-restore/).
+
+## Upgrades und Rollbacks
+
+<Steps>
+
+1. Ist `backup.enabled` gesetzt, sichern Sie zuerst die Datenbanken:
+
+   ```bash
+   kubectl -n grommunio create job --from=cronjob/grommunio-backup pre-upgrade-$(date +%s)
+   ```
+
+2. Führen Sie das Upgrade aus:
+
+   ```bash
+   helm upgrade grommunio oci://container.grommunio.com/community/charts/grommunio \
+     --version <new> -n grommunio -f my-values.yaml --wait --timeout 25m
+   ```
+
+</Steps>
+
+Während des Upgrades:
+
+1. Der `pre-upgrade`-Job `db-sync` stellt sicher, dass die Datenbankbenutzer existieren
+   und die Passwörter aus dem Chart-Secret tragen (mitgelieferte MariaDB oder externe
+   Datenbank mit `externalDatabase.manage: true`).
+2. Jedes StatefulSet ersetzt seinen einzigen Pod, wenn sich sein Template geändert hat
+   (Image, Umgebung, Prüfsumme des Secrets). Rechnen Sie mit 1 bis 3 Minuten Ausfallzeit
+   für Core und jeweils etwa einer Minute für Archive und Office.
+3. Beim Start wenden die Container ihre Konfiguration aus der Umgebung erneut an und
+   führen die Schema-Upgrades von Gromox, Files und MariaDB aus.
+
+Die Chart-Version erhöht ihre Minor-Nummer bei neuen Images (`appVersion`) und ihre
+Major-Nummer bei inkompatiblen Änderungen der Values. Inkompatible Änderungen sind in
+`docs/UPGRADING.md` des Charts aufgeführt.
+
+:::caution[Upgrade auf Chart 0.2.0]
+Chart 0.2.0 bezieht die Images standardmäßig von `container.grommunio.com`, leitet das
+Repository aus `global.edition` ab (`image.<component>.repository: ""`) und bezieht
+MariaDB aus dem Spiegel `community/mariadb`. Wenn Sie weiterhin aus einer anderen
+Registry beziehen möchten, setzen Sie `global.imageRegistry` und die Werte
+`image.*.repository` explizit.
+:::
+
+### Hängende Rollouts
+
+Ein StatefulSet ersetzt keinen Pod, der nicht Ready ist, etwa weil sein Image nicht
+abgerufen werden kann. Korrigieren Sie die Values, führen Sie `helm upgrade` aus und
+löschen Sie anschließend einmalig den fehlerhaften Pod, hier den MariaDB-Pod:
+
+```bash
+kubectl -n grommunio delete pod grommunio-mariadb-0
+```
+
+### Rollback
+
+`helm rollback` stellt die vorherigen Images und die vorherige Konfiguration wieder her.
+Änderungen am Datenbankschema sind nicht umkehrbar: Wenn Sie über eine grommunio-Version
+hinweg zurückrollen, die das Schema geändert hat, stellen Sie zuerst die Datenbanken aus
+dem Dump vor dem Upgrade wieder her.
+
+## Migration von Docker Compose
+
+Die Container sind dieselben und speichern ihre Daten unter denselben Pfaden. Bei einer
+Migration werden die Docker-Volumes in die PVCs des Charts kopiert und die
+Datenbank-Dumps importiert.
+
+<Steps>
+
+1. **Übertragen Sie `var.env`** (und `var.local.env`) in Values:
+
+   | `var.env` | Values |
+   | --- | --- |
+   | `FQDN`, `DOMAIN`, `TIMEZONE`, `RELAYHOST`, `INDEX_SCHEDULE`, `X500` | `grommunio.*` |
+   | `ENABLE_CHAT/FILES/OFFICE/ARCHIVE`, `ARCHIVE_*`, `ENABLE_KEYCLOAK`, `KEYCLOAK_*` | `features.*` |
+   | `ADMIN_PASS`, `*_ADMIN_PASS`, `*_MYSQL_PASS`, `KEYCLOAK_CLIENT_SECRET` | `secrets.values.*` oder `secrets.existingSecret` |
+   | `*_MYSQL_HOST/USER/DB` | mitgelieferte MariaDB (`externalDatabase.<component>.database/user` für die Namen) oder `externalDatabase.*` |
+   | `SSL_INSTALL_TYPE`, `SSL_BUNDLE`, `SSL_KEY` | `tls.mode` (`existingSecret` mit Ihrem aktuellen Zertifikat oder `certManager`) |
+   | `TRUSTED_PROXIES` | `network.trustedProxyCIDRs` |
+
+   Verwenden Sie die bisherigen Passwörter: Sie sind in den Datenbanken hinterlegt.
+   Übernehmen Sie außerdem das JWT-Secret von Office nach
+   `secrets.values.OFFICE_JWT_SECRET`, damit bestehende Verknüpfungen zwischen Files und
+   Office weiterhin funktionieren:
+
+   ```bash
+   docker exec gromox-office cat /var/lib/grommunio-office/.jwt_secret
+   ```
+
+2. **Stoppen Sie den Compose-Stack und sichern Sie die Datenbanken:**
+
+   ```bash
+   docker compose stop gromox-core gromox-archive gromox-office
+   for db in gromox-db chat-db files-db office-db archive-db; do
+     docker exec $db sh -c 'mariadb-dump --single-transaction -uroot -p"$MARIADB_ROOT_PASSWORD" "$MARIADB_DATABASE"' | gzip > $db.sql.gz
+   done
+   ```
+
+3. **Installieren Sie das Chart und stoppen Sie anschließend die Anwendungs-Pods.** Der
+   erste Start legt die PVCs und leere Datenbanken an; deren Inhalt wird in den nächsten
+   Schritten ersetzt.
+
+   ```bash
+   helm install grommunio oci://container.grommunio.com/community/charts/grommunio \
+     --version 0.2.0 -n grommunio --create-namespace -f my-values.yaml --wait --timeout 25m
+   kubectl -n grommunio scale statefulset grommunio-core grommunio-archive grommunio-office --replicas=0
+   ```
+
+4. **Importieren Sie die Datenbanken** nach `grommunio`, `grochat`, `grofiles`,
+   `groffice` und `groarchive`:
+
+   ```bash
+   zcat gromox-db.sql.gz | kubectl -n grommunio exec -i grommunio-mariadb-0 -- \
+     sh -c 'mariadb -uroot -p"$MARIADB_ROOT_PASSWORD" grommunio'
+   ```
+
+   Wiederholen Sie dies für `chat-db` → `grochat`, `files-db` → `grofiles`,
+   `office-db` → `groffice` und `archive-db` → `groarchive`.
+
+5. **Kopieren Sie die Volumes.** Starten Sie einen Hilfs-Pod, der den Ziel-PVC einbindet
+   (das Core-Image eignet sich dafür), und übertragen Sie jedes Docker-Volume in den
+   passenden Pfad. Die Zuordnung von Volumes zu PVCs ist in
+   `docs/MIGRATION-FROM-COMPOSE.md` des Charts aufgeführt. Beispiel für den DAV-Status:
+
+   ```bash
+   kubectl -n grommunio run copy --image=container.grommunio.com/community/gromox-core:2026.11 --restart=Never \
+     --overrides='{"spec":{"containers":[{"name":"copy","image":"container.grommunio.com/community/gromox-core:2026.11","command":["sleep","3600"],"volumeMounts":[{"name":"v","mountPath":"/target"}]}],"volumes":[{"name":"v","persistentVolumeClaim":{"claimName":"state-grommunio-core-0"}}]}}'
+   docker run --rm -v grommunio_grommunio_dav:/src:ro alpine tar -C /src -cf - . \
+     | kubectl -n grommunio exec -i copy -- sh -c 'rm -rf /target/dav/* && tar -C /target/dav -xf -'
+   kubectl -n grommunio delete pod copy
+   ```
+
+   `tar` erhält die Besitzverhältnisse; die Benutzer-IDs sind in beiden Bereitstellungen
+   identisch. Kopieren Sie `cert_data`, `gromox_letsencrypt`, `opensuse_data` und
+   `gromox_services` nicht.
+
+6. **Starten Sie die Anwendungs-Pods:**
+
+   ```bash
+   kubectl -n grommunio scale statefulset grommunio-core grommunio-archive grommunio-office --replicas=1
+   ```
+
+   Die `.setup`-Markierungsdateien auf dem Config-Volume überspringen die einmalige
+   Initialisierung. Stellen Sie die DNS-Einträge auf die neue Adresse um und führen Sie
+   `helm test grommunio -n grommunio` aus.
+
+</Steps>
+
+## Sicherheitsmodell
+
+Die drei Anwendungscontainer führen supervisord als root aus; die einzelnen Dienste
+wechseln auf ihre eigenen Benutzer. Der Security Context der Container lautet:
+
+```yaml
+runAsUser: 0
+allowPrivilegeEscalation: false
+seccompProfile: { type: RuntimeDefault }
+capabilities:
+  drop: [ALL]
+  add: [CHOWN, DAC_OVERRIDE, FOWNER, FSETID, SETUID, SETGID, SETPCAP, KILL, AUDIT_WRITE]
+```
+
+| Capability | Verwendet für |
+| --- | --- |
+| `SETUID`, `SETGID`, `SETPCAP` | Rechteabgabe der Dienste; `su`/`sudo` in Init-Skripten und Cron-Jobs |
+| `CHOWN`, `FOWNER`, `FSETID`, `DAC_OVERRIDE` | Befüllen von Volumes, Korrigieren der Besitzverhältnisse persistenter Daten, Lesen dienst-eigener Dateien durch Root-Prozesse |
+| `KILL` | Signale von supervisord an Programme, die unter anderen Benutzern laufen |
+| `AUDIT_WRITE` | Schreiben von Audit-Einträgen durch PAM (`su`, `sudo`, saslauthd) |
+
+`NET_BIND_SERVICE` wird nicht benötigt, da jeder Listener in den Containern einen Port
+oberhalb von 1024 verwendet. Die Pods nutzen keine Host-Namespaces, keine
+`hostPath`-Volumes und keinen privilegierten Modus. Das entspricht der Stufe `baseline`
+der Pod Security Standards; MariaDB, die Jobs `db-sync` und Backup sowie der
+`helm test`-Pod erfüllen `restricted`. Um `baseline` zu erzwingen und bei allem zu warnen,
+was nicht `restricted` entspricht:
+
+```bash
+kubectl label ns grommunio pod-security.kubernetes.io/enforce=baseline \
+  pod-security.kubernetes.io/warn=restricted pod-security.kubernetes.io/audit=restricted
+```
+
+`podSecurity.hostUsers: false` führt die Anwendungs-Pods in einem User Namespace aus,
+sodass root im Container auf dem Knoten keine Privilegien hat. Dies erfordert
+Kubernetes 1.33 oder neuer sowie eine Container-Runtime und einen CSI-Treiber mit
+Unterstützung für idmapped Mounts. Unter OpenShift benötigen die Anwendungs-Pods die
+SCC `anyuid`.
+
+Umgang mit Secrets:
+
+- Das MariaDB-Root-Passwort wird nur in den MariaDB-Pod sowie in die Jobs `db-sync` und
+  Backup eingebunden. Der Core-Pod erhält es nur mit `maintenance.clearDbs: true`.
+- Die Container entfernen vor dem Start von supervisord alle geheimen Variablen aus der
+  Umgebung, sodass die Dienstprozesse sie nicht mitführen.
+- Die Installationshinweise (`helm get notes`) geben Befehle zum Auslesen der Secrets
+  aus, niemals die Werte selbst.
+
+Lieferkette: Die Images werden auf Basis von openSUSE Leap 16 aus den grommunio-Community-
+bzw. Supported-Paketen gebaut und in der Registry auf Schwachstellen gescannt. Images,
+MariaDB-Spiegel und Chart sind signiert (siehe
+[Signaturen und Spiegel](#signaturen-und-spiegel)). Die Pull-Zugangsdaten der
+Supported-Edition sind kundenspezifische Robot-Accounts mit reinem Pull-Recht und
+Ablaufdatum.
+
+## Betrieb
+
+- **Logs.** Jedes von supervisord verwaltete Programm schreibt auf die Standardausgabe
+  des Pods:
+
+  ```bash
+  kubectl -n grommunio logs -f grommunio-core-0
+  ```
+
+- **Dienststatus und Werkzeuge.** Die üblichen Befehle funktionieren wie unter Docker
+  Compose innerhalb der Pods:
+
+  ```bash
+  kubectl -n grommunio exec grommunio-core-0 -- supervisorctl status
+  kubectl -n grommunio exec grommunio-core-0 -- postqueue -p
+  ```
+
+  `grommunio-admin` steht im Core-Pod auf dieselbe Weise zur Verfügung.
+
+- **Tests.** `helm test grommunio -n grommunio` prüft die Bereitstellung aus einem
+  Test-Pod heraus; `helm test grommunio -n grommunio --logs` zeigt dessen
+  Ausgabe.
+
+- **Wartungsschalter.** `maintenance.forceReconfig`, `maintenance.clearDbs` und
+  `maintenance.archiveNewKey` sind einmalige Schalter: setzen, Upgrade ausführen, wieder
+  entfernen.
+
+- **Deinstallation.** `helm uninstall` lässt die PVCs, die erzeugten Secrets und den
+  Backup-PVC bestehen.
+
+:::danger
+`maintenance.clearDbs: true` löscht die Core-Datenbank beim nächsten Start des Core-Pods
+und legt sie neu an.
+:::
+
+## Einschränkungen
+
+- Ein Replikat pro Komponente: Gromox speichert die Postfächer in SQLite-Dateien. Ein
+  Neustart oder das Leeren eines Knotens (Drain) bedeutet einige Minuten Ausfallzeit.
+  Ein Aktiv/Passiv-Failover beruht auf dem Speicher (einem `ReadWriteOnce`-Netzwerk-Volume)
+  und der Behandlung heruntergefahrener Knoten durch den Cluster.
+- Die Anwendungscontainer laufen als root mit reduziertem Capability-Set (Pod Security
+  `baseline`).
+- Let's Encrypt im Container steht nicht zur Verfügung; verwenden Sie cert-manager.
+- In dieser Version gibt es kein PROXY-Protokoll, keine TLS-Verbindung zur Datenbank und
+  keine Unterstützung für reine IPv6-Cluster.

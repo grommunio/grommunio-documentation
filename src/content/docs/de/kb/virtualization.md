@@ -18,3 +18,20 @@ sidebar:
 - Rufen Sie mit F2 das Startmenü auf.
 - Der EFI-GOP-Treiber unterstützt eine Vielzahl von Auflösungen von 640×480 bis 7680×4320.
 - Die Standardauflösung der Firmware beträgt 1024×768.
+
+## Container und Kubernetes
+
+Statt in einer virtuellen Maschine lässt sich grommunio auch in Containern
+betreiben: mit den Images `gromox-core`, `gromox-archive` und `gromox-office` von
+`container.grommunio.com` und MariaDB in separaten Containern. Die Dienstcontainer
+benötigen keinen privilegierten Modus und keine spezielle Laufzeitumgebung.
+
+- Docker Compose auf einem einzelnen Host: mindestens 4 GB RAM für gromox-core,
+  8 GB mit grommunio Office. Siehe [Container-Installation](/admin/container_core/).
+- Kubernetes mit dem Helm-Chart: etwa 2 CPUs und 7 GiB Arbeitsspeicher an Resource
+  Requests bei aktivierten Funktionen sowie eine StorageClass mit `ReadWriteOnce`-Volumes.
+  Jede Komponente läuft mit genau einem Replikat, da Gromox die Postfächer in
+  SQLite-Dateien speichert. Siehe [Kubernetes](/admin/kubernetes/).
+
+Images, Editionen und Signaturprüfung sind unter
+[Container-Registry](/admin/container_registry/) beschrieben.

@@ -66,6 +66,8 @@ systemctl status grommunio-certbot-renew.timer
 
 ## Updating grommunio
 
+The following sections apply to the appliance and to package-based installations. Container and Kubernetes deployments are not updated with `zypper`: they are updated by pulling new images, which contain the updated packages, and recreating the containers. Database schema upgrades run automatically when the containers start. See [Updating](/admin/container_core/#updating) for Docker Compose and [Upgrades and rollbacks](/admin/kubernetes/#upgrades-and-rollbacks) for the Helm chart.
+
 ### Package Updates
 
 During every installation of grommunio Appliance, it attempts to connect to the community repository of grommunio. This way, community updates are directly available to community users and can update the Appliance accordingly. Furthermore, grommunio provides the operating system repositories which provide state-of-the-art packages with latest updates available to the Linux operating system based on openSUSE Leap, a binary compatible distribution of SUSE Linux Enterprise Server.
@@ -183,6 +185,8 @@ With the snapshot mechanism provided by the storage provider, snapshots can be e
 ``` bash
 # systemctl restart gromox-http gromox-midb gromox-zcore
 ```
+
+In container and Kubernetes deployments, the directories listed below are stored on volumes and the databases run in separate MariaDB containers. Back up database dumps and the volumes, together with `var.local.env` (Docker Compose) or your values file (Helm chart): everything that is not on a volume is regenerated from these settings when a container starts. The archive encryption key must be part of the backup, and on Kubernetes also the Secrets created by the chart. See [Backup](/admin/container_core/#backup) for Docker Compose and [Backups](/admin/kubernetes/#backups) for the Helm chart.
 
 :::tip[Step-by-step procedures]
 The [Backup and restore guide](/guides/backup-restore/) turns the artefact list below into a runbook: building a checksummed logical backup set, a full disaster-recovery rehearsal onto a fresh appliance, and restoring a single mailbox into the same or a different mailbox with the Gromox mailbox transfer tools.

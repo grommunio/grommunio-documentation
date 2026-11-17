@@ -16,3 +16,10 @@ PASSWORD="YourNewPassword"
 NEWPASS=$(printf 'password = "%s";\n' $(rspamadm pw -p "${PASSWORD}"))
 sed -i -n -e '/^password/!p;$a \'"$NEWPASS" /etc/grommunio-antispam/local.d/worker-controller.inc
 ```
+
+:::note[Containers]
+The container images rewrite this file from `ADMIN_PASS` on every start, so
+manual changes are lost. Change `ADMIN_PASS` instead, see
+[Container installation](/admin/container_core/#changing-the-configuration) or
+[Kubernetes](/admin/kubernetes/#changing-passwords).
+:::

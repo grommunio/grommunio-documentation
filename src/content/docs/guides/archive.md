@@ -88,6 +88,26 @@ select the Archive feature. Use those steps to verify or adjust the result,
 or to install Archive manually on a system that was not set up with the
 wizard. In the container deployment the same components are enabled with
 `ENABLE_ARCHIVE=true`, see [Container deployment](/admin/container_core/).
+With the Helm chart, Archive is controlled by `features.archive.enabled`
+(enabled by default), see [Kubernetes](/admin/kubernetes/).
+
+:::caution[Archive encryption key on Kubernetes]
+The chart keeps the encryption key on the archive data volume
+(`data-<release>-archive-0`, file
+`/var/lib/grommunio-archive/grommunio-archive.key`). It is never
+regenerated, and archived mail is unreadable without it. Export it right
+after the first install:
+
+```bash
+kubectl -n grommunio exec grommunio-archive-0 -- cat /var/lib/grommunio-archive/grommunio-archive.key > grommunio-archive.key
+```
+
+To restore or migrate onto an empty archive volume, store the key in a
+Secret under the key `grommunio-archive.key` and reference it with
+`features.archive.encryptionKey.existingSecret`. The container installs it
+on a fresh volume and refuses to start if it differs from a key already
+present.
+:::
 
 ## Prerequisites
 
@@ -676,4 +696,5 @@ the verification checklist.
 - [Post-installation guide](/guides/post-install/)
 - [High availability: Postfix integration](/admin/high-availability/)
 - [Container deployment](/admin/container_core/)
+- [Kubernetes](/admin/kubernetes/)
 - [imap(8gx)](/man/imap-8gx/)

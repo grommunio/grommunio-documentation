@@ -66,6 +66,8 @@ systemctl status grommunio-certbot-renew.timer
 
 ## Aktualisierung von grommunio
 
+Die folgenden Abschnitte gelten für die Appliance und für paketbasierte Installationen. Container- und Kubernetes-Bereitstellungen werden nicht mit `zypper` aktualisiert, sondern indem Sie neue Images beziehen, die die aktualisierten Pakete enthalten, und die Container neu erstellen. Upgrades des Datenbankschemas laufen beim Start der Container automatisch. Siehe [Aktualisierung](/admin/container_core/#updating) für Docker Compose und [Upgrades und Rollbacks](/admin/kubernetes/#upgrades-and-rollbacks) für das Helm-Chart.
+
 ### Paket-Updates
 
 Bei jeder Installation von grommunio Appliance wird versucht, eine Verbindung zum Community-Repository von grommunio herzustellen. Auf diese Weise stehen Community-Updates den Community-Nutzern direkt zur Verfügung, und sie können Appliance entsprechend aktualisieren. Darüber hinaus stellt grommunio die Betriebssystem-Repositorys bereit, die modernste Pakete mit den neuesten Updates für das Betriebssystem Linux bereitstellen, das auf openSUSE Leap basiert – einer binärkompatiblen Distribution von SUSE Linux Enterprise Server.
@@ -184,6 +186,8 @@ Mithilfe des vom Speicheranbieter bereitgestellten Snapshot-Mechanismus lassen s
 # systemctl restart gromox-http
 # systemctl restart gromox-midb
 ```
+
+In Container- und Kubernetes-Bereitstellungen liegen die unten aufgeführten Verzeichnisse auf Volumes, und die Datenbanken laufen in separaten MariaDB-Containern. Sichern Sie Datenbank-Dumps und die Volumes zusammen mit `var.local.env` (Docker Compose) bzw. Ihrer Values-Datei (Helm-Chart): Alles, was nicht auf einem Volume liegt, wird beim Start eines Containers aus diesen Einstellungen neu erzeugt. Der Verschlüsselungsschlüssel des Archivs muss Teil der Sicherung sein, unter Kubernetes außerdem die vom Chart erstellten Secrets. Siehe [Datensicherung](/admin/container_core/#backup) für Docker Compose und [Datensicherung](/admin/kubernetes/#backups) für das Helm-Chart.
 
 Um Ihre grommunio-Installation zu sichern, sind (standardmäßig) die folgenden Sicherungselemente relevant:
 

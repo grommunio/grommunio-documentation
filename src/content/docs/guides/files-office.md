@@ -10,6 +10,10 @@ grommunio Files adds file storage, WebDAV access, sharing and a web interface to
 
 This guide installs both components on an existing grommunio Appliance, connects Files to the grommunio user base, wires Files to Office, activates the Files integration in grommunio Web and validates the result with real file and document workflows. At the end, users log in to Files with their grommunio credentials, upload and share files, and open DOCX, XLSX and PPTX files in the browser from Files and from grommunio Web.
 
+:::note[Container and Kubernetes deployments]
+In the container deployment, Files and Office run in the `gromox-office` container (pod `grommunio-office-0` with the Helm chart). They are switched on with `ENABLE_FILES` and `ENABLE_OFFICE` in `var.local.env` ([Docker Compose](/admin/container_core/#optional-components)) or with `features.files.enabled` and `features.office.enabled` ([Helm chart](/admin/kubernetes/)); both are enabled by default. The container carries out steps 2 to 8 on start, so the package installation steps do not apply. The remaining differences are listed in [Container and Kubernetes deployments](#container-and-kubernetes-deployments).
+:::
+
 ## How it fits together
 
 grommunio Files is a Nextcloud-based PHP application. It runs under PHP-FPM as the system user `grofiles` in its own pool (`grommunio-files-pool`, socket `/run/php-fpm/php-grommunio-files-fpm.sock`), is published by nginx under `/files/` on the groupware FQDN through the shipped location `/usr/share/grommunio-common/nginx/locations.d/grommunio-files.conf`, stores metadata in the MariaDB database `grofiles` and user data below `/var/lib/grommunio-files/data`. Redis (`redis@grommunio.service`, bound to `127.0.0.1:6379`) provides the distributed file locking and the local cache. The timer `grommunio-files-cron.timer` runs the Nextcloud background jobs (`cron.php`) every five minutes.
@@ -560,6 +564,28 @@ sudo -u grofiles ./occ maintenance:repair
 
 **Monitoring.** Alert on `systemctl --failed`, on the `grommunio-files-cron.timer` not firing, on `/office/healthcheck` returning anything other than `true`, and on disk usage of `/var/lib/grommunio-files/data`. The Files administration overview lists background job status, missing indices and security warnings after each update.
 
+## Container and Kubernetes deployments
+
+The `gromox-office` container applies the following settings from the environment on every start: the Files and Office databases, `trusted_domains` (`FQDN`, `DOMAIN` and `mail.DOMAIN`), the `user_external` backend against `https://<FQDN>/dav`, the Files background job (cron, every five minutes), the Office database settings and the JWT-signed connection between Files and Office. The nginx in gromox-core proxies `/files/` and `/office/` to the office container, and the `fileWebAddress` link of the Admin UI is set automatically. Settings made with `occ` for these keys are overwritten on the next start.
+
+The examples use the Compose container names and, for Kubernetes, the release and namespace `grommunio`. Run `occ` as `grofiles` inside the office container:
+
+```bash
+docker exec gromox-office sudo -u grofiles php /usr/share/grommunio-files/occ status
+kubectl -n grommunio exec grommunio-office-0 -- sudo -u grofiles php /usr/share/grommunio-files/occ status
+```
+
+| Topic | Difference |
+|---|---|
+| Steps 2 to 8 | Done by the container. Use the checks in these steps to verify the result. |
+| Step 9 | `/etc/grommunio-web/config-files.php` is in gromox-core (`docker exec gromox-core grep ...`). The container does not change it, and `/etc/grommunio-web` is not on a volume: edits are lost when the container is recreated. Mount your own copy of the file into gromox-core instead (`docker-compose.override.yml`, or `core.extraVolumes` and `core.extraVolumeMounts` in the chart). |
+| Step 10 | The adaptor script needs grommunio-auth on the same host and does not apply. Register the provider with the manual `occ user_oidc:provider` command, run inside the office container. The provider is stored in the Files database and survives restarts. |
+| Step 11 and checklist | Instead of `systemctl`, check the programs with `docker exec gromox-office supervisorctl status` or `kubectl -n grommunio exec grommunio-office-0 -- supervisorctl status` (`nginx`, `php-fpm`, `redis`, `rabbitmq`, `ds-docservice`, `ds-converter`, `crond`). The route checks with `curl` apply unchanged. With the Helm chart, `helm test grommunio -n grommunio` checks `/files/status.php` and `/office/healthcheck`. |
+| Fonts | The font and theme lists are generated on the first start of each new container, which delays that start. `ds-fontgen` is not used. |
+| Updates | Update by pulling new images ([Docker Compose](/admin/container_core/#updating), [Helm chart](/admin/kubernetes/#upgrades-and-rollbacks)). `occ upgrade` and `occ maintenance:mode --off` run on every start; `default.json` is regenerated, so there is no `.rpmnew` to merge. |
+| Logs | `files.log` is in the office container. With the Helm chart, the other programs log to the pod log (`kubectl -n grommunio logs grommunio-office-0`). |
+| Backup | The Files data and `config.php` are on the `files_data` volume, the Office JWT secret on `office_data`, plus the `files-db` and `office-db` databases. See [Backup and restore](/guides/backup-restore/#container-and-kubernetes-deployments). |
+
 ## Related pages
 
 - [Files in grommunio Web](/web/files/) - enabling the plugin and adding an account as a user
@@ -570,3 +596,4 @@ sudo -u grofiles ./occ maintenance:repair
 - [Backup and restore](/guides/backup-restore/)
 - [grommunio-admin user](/cli/grommunio-admin/user/) - setting privileges from the command line
 - [High availability](/admin/high-availability/) - load balancer routes for `/files` and `/office`
+- [Container installation](/admin/container_core/) and [Kubernetes](/admin/kubernetes/) - container deployments

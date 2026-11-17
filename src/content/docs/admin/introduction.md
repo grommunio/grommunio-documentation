@@ -25,6 +25,8 @@ grommunio delivers a fully-featured communication solution which covers all aspe
 
 grommunio is shipped as an integrated software appliance for deployment on target systems by combining an embedded, optimized operating system, based on openSUSE. While grommunio is also shipping software repositories for major Linux platforms, the software appliance allows quick deployment on a variety of platforms, including bare metal and virtualized environments.
 
+grommunio is also shipped as container images, which run on a single host with [Docker Compose](/admin/container_core/) or on [Kubernetes](/admin/kubernetes/) with the grommunio Helm chart. The images and the chart are signed and published on the [grommunio container registry](/admin/container_registry/).
+
 ## Architecture
 
 grommunio's software component stack is modular and consists of the following main components:
@@ -70,7 +72,7 @@ As a reference, the components of software products forked as part of the grommu
 - grommunio-archive is a fork of Piler with authentication and integration enhancements (<https://www.mailpiler.org/>)
 - grommunio-antispam is a fork of rspamd with integration enhancements (<https://rspamd.com/>)
 
-grommunio maintains and integrates these software solutions with the delivery targets offered by grommunio, such as software appliance and well-packaged software components available for all major Linux distributions. All these components are fully supported by grommunio based on the respective subscription level.
+grommunio maintains and integrates these software solutions with the delivery targets offered by grommunio, such as the software appliance, container images, the Helm chart for Kubernetes and well-packaged software components available for all major Linux distributions. All these components are fully supported by grommunio based on the respective subscription level.
 
 In case an environment or similar installation exists, these components can be integrated on an interface level. Note that grommunio can not support installations not packaged by grommunio. However, if existing enterprise installations are available, the integration of these systems is possible with the correct configuration in place. grommunio subscriptions deliver support for integrations with these enterprise variants or even - based on the interfaces available - alternative solutions.
 

@@ -18,6 +18,29 @@ safely, how to train it without degrading it, and which parts of its state you
 must back up. At the end you have a filter whose behaviour you can explain from
 its history and logs instead of adjusting thresholds blindly.
 
+:::note[Container and Kubernetes deployments]
+With [Docker Compose](/admin/container_core/) or the
+[Helm chart](/admin/kubernetes/), grommunio-antispam runs in gromox-core.
+The checks and the Rspamd configuration on this page apply, with these
+differences:
+
+- Run the commands inside the core container (`docker exec gromox-core ...`,
+  `kubectl -n grommunio exec grommunio-core-0 -- ...`) and use
+  `supervisorctl status` or `supervisorctl restart grommunio-antispam`
+  instead of `systemctl`.
+- The web interface password is `ADMIN_PASS`. gromox-core rewrites
+  `worker-controller.inc` on every start, so a password reset as described in
+  the knowledge base does not last; change `ADMIN_PASS` instead.
+- Only `/var/lib/grommunio-antispam` and the Redis data are on volumes.
+  Changes under `/etc/grommunio-antispam/local.d/` (thresholds, multimap
+  configuration) are lost when the container is recreated. Mount your own
+  files into gromox-core (`docker-compose.override.yml`, or
+  `core.extraVolumes` and `core.extraVolumeMounts` in the chart). The map
+  files from step 8 are below `/var/lib/grommunio-antispam` and persist.
+- Junk folder learning (`grommunio-spam-run.sh`) runs daily at 04:40 by
+  cron and is enabled by default; there is no `grommunio-spam-run.timer`.
+:::
+
 ## How it fits together
 
 Rspamd is a modular filter. Each check (SPF, DKIM, DMARC, DNS blocklists, Bayes,
