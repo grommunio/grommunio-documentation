@@ -19,7 +19,7 @@ Die Registry enthält ein Projekt pro Edition:
 | --- | --- | --- |
 | `community/gromox-core`, `community/gromox-archive`, `community/gromox-office` | öffentlich, anonymer Pull | aus den grommunio-Community-Paketen erstellt |
 | `supported/gromox-core`, `supported/gromox-archive`, `supported/gromox-office` | Kunden mit grommunio-Subskription | aus den grommunio-Supported-Paketen erstellt |
-| `community/mariadb` | öffentlich, anonymer Pull | Spiegel von `docker.io/library/mariadb:11.8`, wird vom Helm-Chart verwendet |
+| `community/mariadb` | öffentlich, anonymer Pull | offizielles `docker.io/library/mariadb:11.8` mit aktuellen Sicherheitsupdates, täglich neu gebaut, wird vom Helm-Chart verwendet |
 | `community/charts/grommunio` | öffentlich, anonymer Pull | Helm-Chart (OCI-Artefakt) |
 
 Die drei Images sind:
@@ -149,12 +149,12 @@ Ein selbst angelegtes Secret, das Sie in `global.imagePullSecrets` angeben, häl
 es aus dem Release heraus.
 :::
 
-Das Chart selbst und der MariaDB-Spiegel bleiben für beide Editionen im
+Das Chart selbst und das MariaDB-Image bleiben für beide Editionen im
 öffentlichen Projekt `community/`.
 
 ## Signaturprüfung
 
-Alle Images, der MariaDB-Spiegel und das Helm-Chart sind mit
+Alle Images, das MariaDB-Image und das Helm-Chart sind mit
 [cosign](https://docs.sigstore.dev/cosign/) signiert. Die Registry liefert keine
 unsignierten Images aus. Die Signaturen werden zusätzlich im öffentlichen
 Sigstore-Transparenzprotokoll (Rekor) erfasst.

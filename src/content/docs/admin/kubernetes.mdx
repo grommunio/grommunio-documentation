@@ -162,7 +162,7 @@ All images and the chart are served by the grommunio container registry
 | --- | --- | --- |
 | `community/gromox-{core,archive,office}` | public, no login | built from the grommunio community packages |
 | `supported/gromox-{core,archive,office}` | subscription customers | built from the grommunio supported packages |
-| `community/mariadb` | public | mirror of `docker.io/library/mariadb:11.8` |
+| `community/mariadb` | public | official `docker.io/library/mariadb:11.8` with current security updates, rebuilt daily |
 | `community/charts/grommunio` | public | the Helm chart (OCI) |
 
 `global.edition` (`community` or `supported`) selects the image path. The
@@ -216,7 +216,7 @@ Switching an existing installation between editions is a normal
 
 ### Signatures and mirrors
 
-The images, the MariaDB mirror and the chart are signed with cosign. Verify
+The images, the MariaDB image and the chart are signed with cosign. Verify
 them with the public key `cosign.pub` from the
 [gromox-container repository](https://github.com/grommunio/gromox-container):
 
@@ -685,7 +685,7 @@ are listed in `docs/UPGRADING.md` of the chart.
 Chart 0.2.0 pulls the images from `container.grommunio.com` by default,
 derives the repository from `global.edition`
 (`image.<component>.repository: ""`) and takes MariaDB from the
-`community/mariadb` mirror. To keep pulling from another registry, set
+`community/mariadb` image. To keep pulling from another registry, set
 `global.imageRegistry` and the `image.*.repository` values explicitly.
 :::
 
@@ -841,7 +841,7 @@ Secrets handling:
 
 Supply chain: the images are built on openSUSE Leap 16 from the grommunio
 community or supported packages and scanned for vulnerabilities in the
-registry. Images, the MariaDB mirror and the chart are signed (see
+registry. Images, the MariaDB image and the chart are signed (see
 [Signatures and mirrors](#signatures-and-mirrors)). Supported-edition pull
 credentials are the customer's subscription credentials, limited to pull and
 valid while the subscription is active.

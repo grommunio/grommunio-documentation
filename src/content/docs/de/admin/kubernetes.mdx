@@ -164,7 +164,7 @@ Alle Images und das Chart werden über die grommunio-Container-Registry
 | --- | --- | --- |
 | `community/gromox-{core,archive,office}` | öffentlich, ohne Anmeldung | gebaut aus den grommunio-Community-Paketen |
 | `supported/gromox-{core,archive,office}` | Subskriptionskunden | gebaut aus den grommunio-Supported-Paketen |
-| `community/mariadb` | öffentlich | Spiegel von `docker.io/library/mariadb:11.8` |
+| `community/mariadb` | öffentlich | offizielles `docker.io/library/mariadb:11.8` mit aktuellen Sicherheitsupdates, täglich neu gebaut |
 | `community/charts/grommunio` | öffentlich | das Helm-Chart (OCI) |
 
 `global.edition` (`community` oder `supported`) wählt den Image-Pfad. Standard ist die
@@ -217,7 +217,7 @@ Der Wechsel einer bestehenden Installation zwischen den Editionen ist ein normal
 
 ### Signaturen und Spiegel
 
-Die Images, der MariaDB-Spiegel und das Chart sind mit cosign signiert. Prüfen Sie sie
+Die Images, das MariaDB-Image und das Chart sind mit cosign signiert. Prüfen Sie sie
 mit dem öffentlichen Schlüssel `cosign.pub` aus dem
 [gromox-container-Repository](https://github.com/grommunio/gromox-container):
 
@@ -686,7 +686,7 @@ Major-Nummer bei inkompatiblen Änderungen der Values. Inkompatible Änderungen 
 :::caution[Upgrade auf Chart 0.2.0]
 Chart 0.2.0 bezieht die Images standardmäßig von `container.grommunio.com`, leitet das
 Repository aus `global.edition` ab (`image.<component>.repository: ""`) und bezieht
-MariaDB aus dem Spiegel `community/mariadb`. Wenn Sie weiterhin aus einer anderen
+MariaDB aus dem Image `community/mariadb`. Wenn Sie weiterhin aus einer anderen
 Registry beziehen möchten, setzen Sie `global.imageRegistry` und die Werte
 `image.*.repository` explizit.
 :::
@@ -845,7 +845,7 @@ Umgang mit Secrets:
 
 Lieferkette: Die Images werden auf Basis von openSUSE Leap 16 aus den grommunio-Community-
 bzw. Supported-Paketen gebaut und in der Registry auf Schwachstellen gescannt. Images,
-MariaDB-Spiegel und Chart sind signiert (siehe
+MariaDB-Image und Chart sind signiert (siehe
 [Signaturen und Spiegel](#signaturen-und-spiegel)). Die Pull-Zugangsdaten der
 Supported-Edition sind die Subskriptions-Zugangsdaten des Kunden, beschränkt auf
 Pull und gültig, solange die Subskription aktiv ist.
